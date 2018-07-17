@@ -40,6 +40,7 @@
 		public static var LAPINBEAU:Object = new LapinbeauBusts();
 		public static var LILIRURU:Object = new LiliRuruBusts();
 		public static var MANIACPAINT:Object = new ManiacPaintBusts();
+		public static var MYBUSTS:Object = new MyBusts();
 		public static var NUBATTORI:Object = new NuBattoriBusts();
 		public static var PEEKAY:Object = new PeeKayBusts();
 		public static var RENEZUO:Object = new RenezuoBusts();

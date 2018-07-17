@@ -223,3 +223,7 @@ RECOVER_*
 **.sublime-project
 
 libraries/flash.swc
+bat/Packager.bat
+todo.txt
+bat/SetupSDK.bat
+bat/Packager.bat

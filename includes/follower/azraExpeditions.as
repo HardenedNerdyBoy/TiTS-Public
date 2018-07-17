@@ -678,6 +678,9 @@ public function actualMotherHuskIntro():void
 	showAzra();
 	showName("HUNTING\nMOTHERHUSKS");
 	//set location a new location
+	moveTo("250");
+	clearOutput();
+	clearMenu();
 
 	output("As you journey closer to the motherhusk deposit, you note that the terrain is changing. The mountains of garbage are higher, and their sides are smoother, almost as if all the usable handholds have been cut away. Azra’s coordinates lead you into a valley between two of the higher mounds, sloping down to a makeshift structure composed of hastily-welded starship hulls. A squat, raskvel-sized security door is placed in the very center, flanked by what looks like a simple intercom.");
 
@@ -876,7 +879,10 @@ public function bruteForceTheDoor():void
 //[Next] - use the following text for all intros
 public function brokeIntoRaskDoor():void
 {
+	moveTo("BROOD_DEN");
 	clearOutput();
+	clearMenu();
+	
 	showAzra();
 	showName("\nBUNKER");
 
@@ -1680,6 +1686,7 @@ public function actualSydianTrapQueenIntro():void
 	clearOutput();
 	showAzra();
 	showName("HUNTING\nSHROOMS");
+	moveTo("210");
 	output("Out in the bright tarkus sunlight once more, Azra takes a minute to direct you toward the next bio-cache. <i>“Once we climb out of this depression, take a left and press forward for 437 meters. The orbital scan places our targets amongst several spires of oxidized ferrite.”</i> She sighs. <i>“With how today is going, I expect we’ll find a sydian present.”</i>");
 	output("\n\nYou nod, and together you and the suula scientist set off toward the next prize. It takes you all of ten minutes to reach it.");
 	processTime(10);
