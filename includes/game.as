@@ -3614,6 +3614,7 @@ public function processTime(deltaT:uint, doOut:Boolean = true):void
 		processVenusPitcherEvents(deltaT, doOut, totalDays);
 		processRaskvelEvents(deltaT, doOut, totalDays);
 		processMyrPregEvents(deltaT, doOut, totalDays);
+		processRaskvelBroodmotherPregEvents(totalDays);
 		thollumYardMushroomGrow();
 		laneHandleCredits(totalDays);
 		updateBothriocAddiction(totalDays);
@@ -4433,6 +4434,21 @@ public function processMyrPregEvents(deltaT:uint, doOut:Boolean, totalDays:uint)
 	if(flags["BRIHA_LATEST_SPAWN_AGE"] != undefined) flags["BRIHA_LATEST_SPAWN_AGE"] += totalDays;
 	if(flags["BRIHA_SECOND_OLDEST_SPAWN_AGE"] != undefined) flags["BRIHA_SECOND_OLDEST_SPAWN_AGE"] += totalDays;
 	if(flags["BRIHA_OLDEST_SPAWN_AGE"] != undefined) flags["BRIHA_OLDEST_SPAWN_AGE"] += totalDays;
+}
+
+public function processRaskvelBroodmotherPregEvents(totalDays:uint):void
+{
+	if((flags["PREG_RASK_RETURNED_IMPREGNATED_YOURS"] = true) && flags["PREG_RASK_RETURNED_LASTIMPREGNATED"] >= (GetGameTimestamp() / 1440) - 4)
+	{
+		broodBirthMessage();
+	}
+}
+
+private function broodBirthMessage():void
+{
+	var numBirthed:int = flags["PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN"];
+	AddLogEvent("Your codex beeps. You look at it to find a video of the Raskval broodmother giving birth with a comment saying <i>“Hnghh, I've just finished pushing out our bab" + (numBirthed > 1 ? "ies”</i>. <b>The raskvel broodmother has given birth to " + numBirthed + " of your children.</b> <i>“They grow up quite quickly, so if you see any Raskvel out there with big cocks or nice fertile pussys, they're probably ours!”</i>" : "y”</i>. <b>The raskvel broodmother has given birth to your child. <i>“They grow up quite quickly, so if you see any Raskvel out there with big cocks or nice fertile pussys, they're probably ours!”</i>"));
+	flags["PREG_RASK_RETURNED_IMPREGNATED_YOURS"] = false;
 }
 
 public function processEmmyEvents(deltaT:uint, doOut:Boolean, totalDays:uint):void

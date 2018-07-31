@@ -8,22 +8,52 @@ package classes.Resources.Busts
 		
 		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl0.png", mimeType = "image/png")]
 		public var Bust_PREGRASK_LVL0:Class;
+		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl0_treated.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL0_TREATED:Class;
+		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl0_futa.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL0_FUTA:Class;
+		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl0_treated_futa.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL0_TREATED_FUTA:Class;
 		
 		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl1.png", mimeType = "image/png")]
 		public var Bust_PREGRASK_LVL1:Class;
+		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl1_treated.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL1_TREATED:Class;
+		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl1_futa.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL1_FUTA:Class;
+		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl1_treated_futa.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL1_TREATED_FUTA:Class;
 		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl1_t60.png", mimeType = "image/png")]
 		public var Bust_PREGRASK_LVL1_T60:Class;
+		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl1_t60_treated.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL1_T60_TREATED:Class;
+		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl1_t60_futa.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL1_T60_FUTA:Class;
+		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl1_t60_treated_futa.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL1_T60_TREATED_FUTA:Class;
 		
 		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl2.png", mimeType = "image/png")]
 		public var Bust_PREGRASK_LVL2:Class;
 		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl2_treated.png", mimeType = "image/png")]
 		public var Bust_PREGRASK_LVL2_TREATED:Class;
+		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl2_futa.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL2_FUTA:Class;
+		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl2_treated_futa.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL2_TREATED_FUTA:Class;
 		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl2_t60.png", mimeType = "image/png")]
 		public var Bust_PREGRASK_LVL2_T60:Class;
+		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl2_t60_futa.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL2_T60_FUTA:Class;
+		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl2_t60_treated_futa.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL2_T60_TREATED_FUTA:Class;
 		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl2_t60_treated.png", mimeType = "image/png")]
-		public var Bust_PREGRASK_LVL2_T60_TREATED:Class;
+		public var Bust_PREGRASK_LVL2_T60_T60_TREATED:Class;
 		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl2_t70.png", mimeType = "image/png")]
 		public var Bust_PREGRASK_LVL2_T70:Class;
+		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl2_t70_futa.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL2_T70_FUTA:Class;
+		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl2_t70_treated_futa.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL2_T70_TREATED_FUTA:Class;
 		[Embed(source = "../../../assets/images/npcs/MY_EDITS_RENAME/broodmother_lvl2_t70_treated.png", mimeType = "image/png")]
 		public var Bust_PREGRASK_LVL2_T70_TREATED:Class;
 		
