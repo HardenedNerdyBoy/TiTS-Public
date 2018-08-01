@@ -3,16 +3,7 @@ import classes.Items.Drinks.RaskvelBroodmotherMilkBottle;
 import classes.Items.Drinks.RaskvelBroodmotherMilkBucket;
 // Functions for non-event RaskvelBroodmother, i.e returning to her if you ended on good terms
 //
-// Libido levels:
-// 0: Depressed - Before she gets fucked/motherhusks again
-// 1: Frustrated, wants to pump out babies - Base nonpreg state
-// 2: Frustrated, wants to pump out even more babies - Base preg state
-// Loud and sensitive below here
-// 3: A tease, wants babies and cock
-// 4: A tease, slightly beggy, has babies, wants her puss pleasured
-// 5: A tease, very beggy/broken, constantly pumping out babies, is dripping and wants more
-//
-// Only does vaginal stuff if 0-1, more sensitive at higher levels and more open
+// TODO: Explain levels 
 	
 
 public function showPregRaskReturn():void
