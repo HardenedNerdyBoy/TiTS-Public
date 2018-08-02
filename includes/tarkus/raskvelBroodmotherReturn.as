@@ -165,7 +165,7 @@ public function approachBroodmother():void
 	
 	output(randomBodyPartArray[rand(randomBodyPartArray.length)] + ".");
 	
-	if (pc.libido() >= 70 || pc.lust() >= 50)
+	if ((pc.libido() >= 70 || pc.lust() >= 50) && lvl >= 2)
 	{
 		pc.lust(40);
 		output("\nYou're having a hard time focusing on anything but the Raskvels glowing form, her body ");
@@ -223,6 +223,20 @@ public function approachBroodmother():void
 	{
 		addDisabledButton(2, "Sex", "Have fun with her", "You're not turned on enough for this");
 	}
+	
+	if ((pc.isBimbo() || (StatTracking.getStat("pregnancy/total births") >= 10)) && (getLastImpregnated() != 0)) //If a bimbo or really like getting knocked up
+	{
+		addButton(3, "Join", joinBroodmother, undefined, "Join", "Ask to live with her and live her lifestyle.");
+	}
+	else if (getLastImpregnated() == 0)
+	{
+		addDisabledButton(3, "Join", "Join", "You don't even know what she does here anymore.");
+	}
+	else
+	{
+		addDisabledButton(3, "Join", "Join", "You don't think her lifestyle would suit you. That and it'd really get in the way of your mission.");
+	}
+	
 	addButton(13, "Give item", giveBroodMotherItem, undefined, "Give item", "Give her something other than you.");	
 }
 
@@ -1039,6 +1053,35 @@ public function talkBroodmother_AskPast():void
 	}
 	
 	addButton(0,"Return",talkBroodmother);
+}
+
+public function joinBroodmother():void{
+	clearMenu();
+	clearOutput();
+	showPregRaskReturn();
+	
+	const JOINED_BABIES:int = 0;
+	const JOINED_COCK:int = 1;
+	var reason:int;
+	if (pc.isBimbo()){
+		reason = JOINED_COCK;
+	}
+	else
+	{
+		reason = JOINED_BABIES;
+	}
+	
+	// Asking and explaining why you want to join her
+	output("<i>“Heyy, can I join you?”</i> you ask hopefully. <i>“Haha, of course you can”</i> she cackles in response <i>“But why?”</i>. ");
+	if (reason == JOINED_COCK){output("<i>“Well, watching you lying in here, getting fucked day in day out by random peeps. It looks real hot!”</i> you giggle. <i>“I want a piece of the pie!”</i>"); }
+	else {output("<i>“Well, watching you lying in here, getting knocked up day in day out by random peeps and then having loads of babies. I want that!”</i> you shout."); }
+	// Her agreeing
+	output(" <i>“I know what you mean, it's a pretty good life”</i> she giggles. <i>“Alright [pc.name]. Sit down over there and I'll let whoever comes around know they're to bring some friends.”</i>");
+	// Timeskip, getting fucked loving it
+	output("\n\n<b>6 MONTHS LATER</b>\n\n");
+	// Pick random known npc that sees you that's mischevous, rival/verusha/drbadger/petr+goldi/kiro
+	
+	kGAMECLASS.badEnd("GAME OVER");
 }
 
 //SEX----------------------------------------------------------------------------
