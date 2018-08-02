@@ -495,13 +495,13 @@ public function giveBroodMotherItem():void
 	}
 	else
 	{
-		if (!isBroodmotherFuta())
-		{
-			addDisabledButton(currentButtonIndex, "Throbb", "You don't have any");
-		}
-		else if (isBroodmotherBroken())
+		if (isBroodmotherBroken())
 		{
 			addDisabledButton(currentButtonIndex, "Throbb", "She's not happy enough to accept this");
+		}
+		else if (!isBroodmotherFuta())
+		{
+			addDisabledButton(currentButtonIndex, "Throbb", "You don't have any");
 		}
 		currentButtonIndex++;
 	}
@@ -1103,14 +1103,7 @@ public function broodMotherSexOpts():void
 	}
 	else
 	{
-		if (lvl >= 2)
-		{
-			addDisabledButton(buttonNum,"Face Ride","Face Ride","You need a vagina to rub on her face for this.");
-		}
-		else
-		{
-			addDisabledButton(buttonNum,"Face Ride","Face Ride","You need a vagina to rub on her face for this and she must want to bother with anything but cock.");
-		}
+		addDisabledButton(buttonNum,"Face Ride","Face Ride","You need a vagina to rub on her face for this.");
 		buttonNum++;
 	}
 	
@@ -1132,11 +1125,11 @@ public function broodMotherSexOpts():void
 	{
 		if (pc.biggestVaginalCapacity() >= getBroodmotherFutaCockSize())
 		{
-			addButton(buttonNum, "Ride her cock", "vagina" , rideBroodmotherReturnFuta);
+			addButton(buttonNum, "Ride her cock", rideBroodmotherReturnFuta, "vagina");
 		}
 		else if (pc.analCapacity() >= getBroodmotherFutaCockSize())
 		{
-			addButton(buttonNum, "Ride her cock", "anus" , rideBroodmotherReturnFuta);
+			addButton(buttonNum, "Ride her cock", rideBroodmotherReturnFuta, "anus");
 		}
 		else
 		{
@@ -1153,6 +1146,7 @@ public function broodMotherSexOpts():void
 public function rideBroodmotherReturnFuta(inWhat:String):void
 {
 	clearOutput();
+	clearMenu();
 	showPregRaskReturn();
 	var lvl:int = getBroodmotherImpregnationLevel();
 	
@@ -1160,24 +1154,24 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 	// 600@3 , 450@2, 300@1, 250@0
 	if (pc.isSubby())
 	{
-		output("<i>“I was thinking mistress, couldn't that " + (getBroodmotherFutaCockSize() >= 450 ? "big cock" : "cock") + " of yours do with some service?”</i> you ask, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "dropping your [pc.crotchcovers], " : "") + "presenting her with your " + pc.vaginaDescript(pc.biggestVaginaIndex()) + ".") : (" bending over" + (pc.isCrotchExposed() ? " pulling down your [pc.assCovers]" : "") + " and presenting her with your [pc.asshole]")));
+		output("<i>“I was thinking mistress, couldn't that " + (getBroodmotherFutaCockSize() >= 450 ? "big cock" : "cock") + " of yours do with some service?”</i> you ask, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "dropping your [pc.crotchcovers], " : "") + "presenting her with your " + pc.vaginaDescript(pc.biggestVaginaIndex())) : (" bending over" + (pc.isCrotchExposed() ? " pulling down your [pc.assCovers]" : "") + " and presenting her with your [pc.asshole]")));
 		
 	}
 	else if (pc.isBimbo())
 	{
-		output("<i>“I was thinking, wouldn't it be totally awesome if that " + (getBroodmotherFutaCockSize() >= 450 ? "big cock" : "cock") + " of yours saw some sexy sex too!?”</i> you ask, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "pulling down your [pc.crotchcovers], " : "") + "presenting her with your " + pc.vaginaDescript(pc.biggestVaginaIndex()) + ".") : (" bending over" + (pc.isCrotchExposed() ? " tugging down your [pc.assCovers]" : "") + " and presenting her with your [pc.asshole]")));
+		output("<i>“I was thinking, wouldn't it be totally awesome if that " + (getBroodmotherFutaCockSize() >= 450 ? "big cock" : "cock") + " of yours saw some sexy sex too!?”</i> you ask, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "pulling down your [pc.crotchcovers], " : "") + "presenting her with your " + pc.vaginaDescript(pc.biggestVaginaIndex())) : (" bending over" + (pc.isCrotchExposed() ? " tugging down your [pc.assCovers]" : "") + " and presenting her with your [pc.asshole]")));
 	}
 	else if (pc.isBro())
 	{
-		output("<i>“Uhh I was just thinking, whilst your pussy is totally cool and all, shouldn't your " + (getBroodmotherFutaCockSize() >= 450 ? "big dick" : "dick") + " see some action too?”</i> you ask, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "pulling down your [pc.crotchcovers] and" : "") + "grabbing your " + pc.vaginaDescript(pc.biggestVaginaIndex()) + ".") : (" bending over" + (pc.isCrotchExposed() ? " tugging down your [pc.assCovers]" : "") + " and presenting her with your [pc.asshole], one hand on your butt")));
+		output("<i>“Uhh I was just thinking, whilst your pussy is totally cool and all, shouldn't your " + (getBroodmotherFutaCockSize() >= 450 ? "big dick" : "dick") + " see some action too?”</i> you ask, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "pulling down your [pc.crotchcovers] and" : "") + "grabbing your " + pc.vaginaDescript(pc.biggestVaginaIndex())) : (" bending over" + (pc.isCrotchExposed() ? " tugging down your [pc.assCovers]" : "") + " and presenting her with your [pc.asshole], one hand on your butt")));
 	}
 	else if (pc.isMischievous())
 	{
-		output("<i>“Well, obviously your " + (getBroodmotherFutaCockSize() >= 450 ? "big juicy cock" : "juicy cock") + " needs some action too”</i> you state, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "pulling down your [pc.crotchcovers]," : "") + " drawing her attention to your " + pc.vaginaDescript(pc.biggestVaginaIndex()) + ".") : (" bending over" + (pc.isCrotchExposed() ? " tugging down your [pc.assCovers]" : "") + " and slapping your ass, showing off your [pc.asshole]")));
+		output("<i>“Well, obviously your " + (getBroodmotherFutaCockSize() >= 450 ? "big juicy cock" : "juicy cock") + " needs some action too”</i> you state, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "pulling down your [pc.crotchcovers]," : "") + " drawing her attention to your " + pc.vaginaDescript(pc.biggestVaginaIndex())) : (" bending over" + (pc.isCrotchExposed() ? " tugging down your [pc.assCovers]" : "") + " and slapping your ass, showing off your [pc.asshole]")));
 	}
 	else
 	{
-		output("<i>“Well, I was just thinking, it's about time that " + (getBroodmotherFutaCockSize() >= 450 ? "big juicy cock" : "juicy cock") + " of yours got some attention”</i> you state, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "pulling down your [pc.crotchcovers]," : "") + " drawing her attention to your " + pc.vaginaDescript(pc.biggestVaginaIndex()) + ".") : (" bending over" + (pc.isCrotchExposed() ? " tugging down your [pc.assCovers]" : "") + " and presenting your [pc.asshole]")));
+		output("<i>“Well, I was just thinking, it's about time that " + (getBroodmotherFutaCockSize() >= 450 ? "big juicy cock" : "juicy cock") + " of yours got some attention”</i> you state, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "pulling down your [pc.crotchcovers]," : "") + " drawing her attention to your " + pc.vaginaDescript(pc.biggestVaginaIndex())) : (" bending over" + (pc.isCrotchExposed() ? " tugging down your [pc.assCovers]" : "") + " and presenting your [pc.asshole]")));
 	}	
 	output(".\nIn reaction the broodmothers eyes widen and she licks her lips, her cock extending further from its slit and hardening with a jolt. ");
 	
@@ -1210,7 +1204,7 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 		output("She sits down on the ground, ");
 		if (lvl != 0)
 		{
-			output("her");
+			output("her ");
 			if (getBroodmotherThickness() > 60)
 			{
 				if (getBroodmotherThickness() < 70)
@@ -1261,21 +1255,13 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 	{
 		output("sits and ");
 	}
-	output("stares, mesmerized, with her dick in her hands. <i>“Mmmm come to mama”</i>. ");
-	if (!pc.isCrotchExposed())
-	{
-		output("You shake off your [pc.crotchcovers] and saunter backwords towards her, ");
-	}
-	else
-	{
-		output("You keep backing up, nearing her, ");
-	}
+	output("stares, mesmerized, with her dick in her hands. <i>“Mmmm come to mama”</i>. You saunter backwords towards her, ");
 	if (pc.hasTail()){output("swishing your tail from side to side. You begin");}
 	if (inWhat == "vagina")
 	{
 		output("slapping your pussy as you approach");
-		var wetnessVag:int = pc.vaginas[pc.biggestVaginaIndex()].wetnessRaw;
-		switch (wetness)
+		var wetnessVag:int = pc.vaginas[pc.biggestVaginaIndex()].wetness();
+		switch (wetnessVag)
 		{
 			case 0, 1, 2:
 				output(", the sound of it reverberating around the tin-can room.");
@@ -1286,7 +1272,7 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 			case 4:
 				output(", the sounds of the wet impacts reverberating around the room.");
 				break;
-			case 5:
+			default:
 				output(", the sounds of the sodden impacts reverberating around the room, like someone jumping in a puddle.");
 				break;
 		}
@@ -1294,8 +1280,8 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 	else //anus
 	{
 		output("spreading your buttcheeks and slapping your");
-		var wetnessButt:int = pc.asshole.wetnessRaw;
-		switch (wetness)
+		var wetnessButt:int = pc.ass.wetness();
+		switch (wetnessButt)
 		{
 			case 0, 1, 2:
 				output(" butthole as you approach.");
@@ -1306,7 +1292,7 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 			case 4:
 				output(" slimy butthole as you approach, the sound of your hand hitting your moist backdoor reverberating around the room.");
 				break;
-			case 5:
+			default:
 				output(" soaking butthole as you approach, the sound of your hand slapping against your wet backdoor reverberating around the room, like someone jumping in a puddle.");
 				break;
 		}
@@ -1321,7 +1307,7 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 		output("\nYou back up a little further and bounce against her stomach. ");
 	}
 	
-	output("You feel her rock hard cock pressing against your [pc.crotch] as you've found yourself straddling it. You hold the end of her shaft and rub your" + (!pc.isCrotchExposed() ? " [pc.crotchcovers] covered [pc.crotch] along her length" : "self along her length") + ", causing her to moan and sweat, as you grind against her. ");
+	output("You feel her rock hard cock pressing against your crotch as you've found yourself straddling it. You hold the end of her shaft and rub yourself along her length, causing her to moan and sweat, as you grind against her. ");
 	if (pc.isSubby())
 	{
 		output("<i>“Are you enjoying that mistress? Do you like it when I do this?”</i> you ask. <i>“Mmm fuck yeah”</i> she moans ");
@@ -1361,8 +1347,8 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 	{
 		output("<i>“I'm gonna fuck that butthole of yours and fill you with cum”</i> she groans into your ear. ");
 	}
-	output("You're pulled backwards her until " + (lvl >= 3 ? "you bounce against her big soft belly. " : "you're flat against her. "));
-	output("You lean forward until her " + (getBroodmotherFutaCockSize() >= 450 ? "thick scimitar-like cock" : "curved raskvel cock") + ", is level with your entrance. You put your arms behind you and her long fingers clamp around your wrists. You rock backwards");
+	output("\nYou're pulled backwards until " + (lvl >= 3 ? "you bounce against her big soft belly" : "you're flat against her"));
+	output(", the " + (getBroodmotherFutaCockSize() >= 450 ? "thick scimitar-like cock" : "curved raskvel cock") + " level with your entrance. You put your arms behind you and her long fingers clamp around your wrists. You rock backwards");
 	if (inWhat == "vagina")
 	{
 		if ((pc.looseness(pc.biggestVaginaIndex()) >= 3))
@@ -1371,7 +1357,7 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 		}
 		else
 		{
-			output(", moaning as her tip pushes against your [pc.vagina " + pc.biggestVaginaIndex() + "] entrance. ");
+			output(", moaning as her tip pushes against your [pc.vagina " + pc.biggestVaginaIndex() + "]. ");
 		}
 	}
 	else
@@ -1479,8 +1465,8 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 	}
 	else
 	{
-		output("Each quick, deep" + ((pc.ass.wetness >= 3) ? ", squelching " : " ") + "thrust makes you squeal in delight as her warm cock tunnels through you, ");
-		if (pc.ass.looseness < 2)
+		output("Each quick, deep" + ((pc.ass.wetness() >= 3) ? ", squelching " : " ") + "thrust makes you squeal in delight as her warm cock tunnels through you, ");
+		if (pc.ass.looseness() < 2)
 		{
 			output("holding your butthole wide,");
 		}
@@ -1493,10 +1479,10 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 	output("You");
 	if (pc.hasTits() && pc.biggestTitSize() >= 4)
 	{
-		output("r [pc.tits] shake below you as the 'mamas assault on your " + (inWhat == 'vagina' ? 'pussy' : 'ass') + "continues");
+		output("r [pc.tits] shake below you as the 'mamas assault on your " + (inWhat == 'vagina' ? 'pussy' : 'ass') + " continues");
 		if (pc.isLactating() && pc.milkFullness > 50 && pc.milkMultiplier >= 65)
 		{
-			output(" [pc.milk] flying from them as you're shaken back and forth");
+			output(",[pc.milk] flying from them as you're shaken back and forth");
 		}
 		output(".");
 	}
@@ -1526,12 +1512,12 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 	}
 	else
 	{
-		output("<i>“Oh-uhh, f-u-u-uck. [pc.name] your " + ((pc.ass.looseness < 2) ? "tight" : "loose") + " butthole feels so fucking good”</i> she pants from behind you. At this rate I'm going to b-burst!");
+		output("<i>“Oh-uhh, f-u-u-uck. [pc.name] your " + ((pc.ass.looseness() < 2) ? "tight" : "loose") + " butthole feels so fucking good”</i> she pants from behind you. At this rate I'm going to b-burst!");
 	}
 
 	if (pc.isSubby())
 	{
-		output("<i>“Let me be your cumdump mistress”</i> you moan as her cock quivers inside you. " (inWhat == 'vagina' ? "<i>“Fill my pussy with your babies”</i>." : "<i>“Please, cum in my ass as much as you can”</i>."));
+		output("<i>“Let me be your cumdump mistress”</i> you moan as her cock quivers inside you. " + (inWhat == 'vagina' ? "<i>“Fill my pussy with your babies”</i>." : "<i>“Please, cum in my ass as much as you can”</i>."));
 	}
 	else if (pc.isBimbo())
 	{
@@ -1552,11 +1538,11 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 
 	if (isBroodmotherTreated())
 	{
-		output("\n<i>“MOOOOoo!”</i> she cries. You feel her cock pulse and flare inside you and not a second later you feel hot creaminess firing deep inside you. Spurt after spurt fires into you, splashing against your " + (inWhat == 'vagina' ? "cervix" : "prostate") + ". After several long, pleasureable seconds, you slide yourself off of her limpening cock with a squelch, cum drooling from your " + (inWhat == 'vagina' ? "slit" : "ass") + " as you do. ");
+		output("\n<i>“MOOOOoo!”</i> she cries. You feel her cock pulse and flare  and not a second later hot creaminess is firing deep inside you. Spurt after spurt fires into you, splashing against your " + (inWhat == 'vagina' ? "cervix" : "prostate") + ". After several long, pleasureable seconds, you slide yourself off of her limpening cock with a squelch, cum drooling from your " + (inWhat == 'vagina' ? "slit" : "ass") + " as you do. ");
 	}
 	else
 	{
-		output("\n<i>“A-aah, I'm cumming!”</i> she cries. You feel her cock pulse and flare inside you and not a second later you feel hot creaminess firing deep inside you. Spurt after spurt fires into you, splashing against your " + (inWhat == 'vagina' ? "cervix" : "prostate") + ". After several long, pleasureable seconds, you slide yourself off of her limpening cock with a squelch, cum dripping from your " + (inWhat == 'vagina' ? "slit" : "ass") + " as you do. ");
+		output("\n<i>“A-aah, I'm cumming!”</i> she cries. You feel her cock pulse and flare and not a second later hot creaminess is firing deep inside you. Spurt after spurt fires into you, splashing against your " + (inWhat == 'vagina' ? "cervix" : "prostate") + ". After several long, pleasureable seconds, you slide yourself off of her limpening cock with a squelch, cum dripping from your " + (inWhat == 'vagina' ? "slit" : "ass") + " as you do. ");
 	}
 
 	if (pc.inHeat() && inWhat == 'vagina')
@@ -1565,7 +1551,7 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 	}
 	if (pc.isSubby())
 	{
-		output("<i>“That was great mistress. Let me know if you need servicing again.”</i> you moan, [pc.tounge] hanging from your mouth."));
+		output("<i>“That was great mistress. Let me know if you need servicing again.”</i> you moan, [pc.tongue] hanging from your mouth.");
 	}
 	else if (pc.isBimbo())
 	{
@@ -1590,7 +1576,7 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 	}
 	pc.orgasm(); //Well you didn't, but doesn't matter had sex.
 	processTime(30);
-	clearMenu();
+	addButton(0,"Next",denInside);	
 }
 
 public function getBroodmotherFutaCockSize():int 
@@ -1611,10 +1597,13 @@ public function getBroodmotherFutaCockSize():int
 		case 3,4,5:
 			return 600;
 			break;
+		default:
+			return 600;
+			break;
 	}
 }
 
-public function getBroodmotherFutaCockDesc():string 
+public function getBroodmotherFutaCockDesc():String 
 {
 	var lvl:int = getBroodmotherImpregnationLevel();
 	
@@ -1632,6 +1621,8 @@ public function getBroodmotherFutaCockDesc():string
 		case 3,4,5:
 			return "forearm sized, thick, blue, curved cock";
 			break;
+		default:
+			return "big curved cock"
 	}
 }
 
