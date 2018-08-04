@@ -39,31 +39,6 @@ public function showPregRaskReturn():void
 			break;
 	}
 	
-	var t:int = getBroodmotherThickness();
-	if (t >= 60)
-	{
-		if (t < 70)
-		{
-			bustStr += "_T60";
-		}
-		else if (t < 80)
-		{
-			bustStr += "_T70";
-		}
-		else if (t < 90)
-		{
-			bustStr += "_T80";
-		}
-		else if (t < 100)
-		{
-			bustStr += "_T90";
-		}
-		else
-		{
-			bustStr += "_T100";
-		}
-	}
-	
 	if (isBroodmotherTreated())
 	{
 		bustStr += "_TREATED";
@@ -328,26 +303,6 @@ public function broodMotherAppearance():void
 	}
 	
 	output("\nBelow her ");
-	if (getBroodmotherThickness() < 60)
-	{
-		output("");
-	}
-	else if (getBroodmotherThickness() >= 60 && getBroodmotherThickness() < 70)
-	{
-		output("fat, ");
-	}
-	else if (getBroodmotherThickness() >= 70 && getBroodmotherThickness() < 80)
-	{
-		output("plump, ");
-	}
-	else if (getBroodmotherThickness() >= 80 && getBroodmotherThickness() < 90)
-	{
-		output("jiggling, ");
-	}
-	else if (getBroodmotherThickness() >= 90)
-	{
-		output("extra thick, jiggly, ");
-	}
 	switch(lvl)
 	{
 		case 0: 
@@ -379,10 +334,6 @@ public function broodMotherAppearance():void
 	
 	output("her ")
 	
-	if (getBroodmotherThickness() >= 60)
-	{
-		output("plump, ");
-	}
 	if (isBroodmotherTreated())
 	{
 		output("soaking wet, ");
@@ -488,18 +439,6 @@ public function giveBroodMotherItem():void
 			}
 			currentButtonIndex++;
 		}
-	}
-	
-	// Food
-	if (hasValidFood())
-	{
-		addButton(currentButtonIndex, "Food", giveBroodmotherFoodMenu);
-		currentButtonIndex++;
-	}
-	else
-	{
-		addDisabledButton(currentButtonIndex, "Food", "You don't have any");
-		currentButtonIndex++;
 	}
 	
 	if (pc.hasItemByClass(Throbb) && !isBroodmotherFuta() && !isBroodmotherBroken())
@@ -717,7 +656,6 @@ public function giveTreatment_3():void
 	clearOutput();
 	
 	pc.lust(10);
-	addBroodmotherThickness(-5);
 	pc.destroyItemByClass(Treatment, 1);
 	flags["PREG_RASK_RETURNED_BODYTYPE"].push("TREATED");
 	
@@ -774,168 +712,6 @@ public function giveTreatment_3():void
 	}
 	
 	addButton(0,"Continue",giveBroodMotherItem);
-}
-
-public function hasValidFood():Boolean
-{
-	return pc.hasItemType(GLOBAL.FOOD);
-}
-
-public function giveBroodmotherFoodMenu():void
-{
-	clearMenu();
-	clearOutput();
-	
-	output("Choose something to feed her.");
-	
-	var giveItem:String = "";
-	var btnSlot:int = 0;
-	var foodList:Array = []; // To avoid dupes of the same food item.
-	
-	for(var i:int = 0; i < pc.inventory.length; i ++)
-	{
-		if (btnSlot >= 14 && (btnSlot + 1) % 15 == 0)
-		{
-			addButton(btnSlot, "Back", giveBroodMotherItem);
-			btnSlot++;
-		}
-		if (pc.inventory[i].type == GLOBAL.FOOD && pc.inventory[i].quantity >= 1 && foodList.indexOf(pc.inventory[i].shortName) == -1)
-		{
-			if (pc.inventory[i] is BBQToGo) giveItem = "Give bbq";
-			else if (pc.inventory[i] is MyrNectar) giveItem = "Give nectar";
-			else if (pc.inventory[i] is Kalocrunch) giveItem = "Give kalocrunch";
-			else if ((pc.inventory[i] is LargeEgg) || (pc.inventory[i].longName.indexOf("large") != -1 && pc.inventory[i].longName.indexOf("egg"))) giveItem = "Give large egg";
-			else if (pc.inventory[i] is MhengaMango) giveItem = "Give mango";
-			else if (pc.inventory[i] is PexigaSaliva) giveItem = "Give saliva";
-			else if ((pc.inventory[i] is SmallEgg) || (pc.inventory[i].longName.indexOf("small") != -1 && pc.inventory[i].longName.indexOf("egg"))) giveItem = "Give small egg";
-			else if (pc.inventory[i] is ZilHoney) giveItem = "Give zil honey";
-			else giveItem = "Give other food";
-			
-			addButton(btnSlot, (pc.inventory[i].shortName + " x" + pc.inventory[i].quantity), broodmotherEatFood, [giveItem, pc.inventory[i]], StringUtil.toDisplayCase(pc.inventory[i].longName), pc.inventory[i].tooltip);
-			foodList.push(pc.inventory[i].shortName);
-			btnSlot++;
-		}
-		if (foodList.length > 14 && (i + 1) == pc.inventory.length)
-		{
-			while((btnSlot + 1) % 15 != 0) { btnSlot++; }
-			addButton(btnSlot, "Back", giveBroodMotherItem);
-		}
-	}
-	
-	addButton(14, "Back", giveBroodMotherItem);
-}
-
-public function broodmotherEatFood(args:Array):void
-{
-	clearMenu();
-	clearOutput();
-		
-	if (getBroodmotherThickness() >= (50 + (getBroodmotherImpregnationLevel() * 10)))
-	{
-		output("<i>“Naah, my belly's full”</i> the broodmother says, rejecting the food you offer her.");		
-		addButton(0,"Continue",giveBroodmotherFoodMenu);
-	}
-	else
-	{
-		var food:String = args[0];
-		var item:ItemSlotClass = args[1];
-		
-		output((rand(1) == 1 ? "She" : "The " + ((getBroodmotherImpregnationLevel() > 1 ? "" : "former ") + "broodmother ")));
-		
-		switch(food)
-		{
-			case "Give bbq":
-				output("tears open the to-go box, and before you know it, there’s nothing left but bones, the food swallowed ");
-				break;
-			case "Give nectart":
-				output("grabs the thermos of myr nectar and tilts it back, dripping the nectar onto her long tounge. You watch as it slides down ");
-				if (pc.libido() >= 70 || pc.lust() >= 50)
-				{
-					output("suggestively, ");
-					pc.libido(5);
-				}
-				break;
-			case "Give kalocrunch":
-				output("eats through the kalocrunch bar, crumbs dropping onto ");
-				if (getBroodmotherImpregnationLevel() <= 1)
-				{
-					output("the floor ");
-				}
-				else
-				{
-					output("her swollen teats and stomach ");
-				}
-				output("and the bar ");
-				break;
-			case "Give large egg":
-				output("winds it's long tounge around the egg and quickly retracts it, swallowing it ");
-				break;
-			case "Give mango":
-				output("bites down onto the mango");
-				if (pc.libido() >= 70 || pc.lust() >= 50)
-				{
-					output(", spraying juice across her ");
-					if (getBroodmotherImpregnationLevel() > 1 || getBroodmotherThickness() > 60)
-					{
-						output("swollen ");
-					}
-					output("breasts");
-					pc.libido(5);
-				}
-				output("She swallows the mango ");
-				break;
-			case "Give saliva":
-				output("pours the sweet pexiga saliva onto her long tounge ");
-				if (pc.libido() >= 70 || pc.lust() >= 50)
-				{
-					output("suggestively, ");
-					pc.libido(5);
-				}
-				output("and swallows it, the saliva sliding down ");
-				break;
-			case "Give small egg":
-				output("pulls the egg into her mouth with her tounge and drops it ");
-				break;
-			case "Give zil honey":
-				output("grabs the visal of honey and tilts it back, dripping it onto her long tounge. You watch as it slides down ");
-				if (pc.libido() >= 70 || pc.lust() >= 50)
-				{
-					output("suggestively, ");
-					pc.libido(5);
-				}
-				break;
-			default:
-				output("swallows the " + item.longName + " you've presented her with ");
-				break;
-		}
-		output("into her ");
-		if (getBroodmotherImpregnationLevel() > 1)
-		{
-			switch(getBroodmotherImpregnationLevel())
-			{
-				case 3:
-					output("swollen, ");
-					break;
-				case 4:
-					output("gigantic, ");
-					break;
-				case 5:
-					output("collosal, ");
-					break;	
-			}
-			if (getBroodmotherThickness() > 60)
-			{
-				output("fat, ");
-			}
-			output("pregnant ");
-		}
-		output("stomach.");
-		pc.destroyItemByReference(item);
-		
-		addBroodmotherThickness(4);
-		
-		addButton(0,"Continue",giveBroodmotherFoodMenu);
-	}
 }
 
 //TALK---------------------------------------------------------------------------
@@ -1071,6 +847,31 @@ public function joinBroodmother():void{
 		reason = JOINED_BABIES;
 	}
 	
+	// Setup for descriptions
+	pc.removeAll();
+	var vaginas:int = pc.totalVaginas();
+	var rows:int = pc.bRows();
+	for (var i:Number=0; i<vaginas-1;i++){ 
+		pc.vaginas[i].loosenessRaw += 5;
+		pc.loadInCunt(chars["RASKVEL_MALE"], i);
+	}
+	pc.lust(pc.lustMax());
+	pc.bellyRatingRaw += 50;
+	for (var i:Number=0; i<rows-1;i++)//breastrows
+	{
+		pc.breastrows[i].breastratingraw += 25;
+		pc.breastRows[i].nippleWidthRatio += 3;
+	}
+	pc.buttRatingRaw += 20;
+	pc.hipRatingRaw += 20;
+	pc.ass.loosenessRaw = 6;
+	if (!pc.isLactating())
+	{
+		pc.milkMultiplier = 100;
+		pc.milkFullness = 100;
+	}
+	processTime(60*24*30);
+		
 	// Asking and explaining why you want to join her
 	output("<i>“Heyy, can I join you?”</i> you ask hopefully. <i>“Haha, of course you can”</i> she cackles in response <i>“But why?”</i>. ");
 	if (reason == JOINED_COCK){output("<i>“Well, watching you lying in here, getting fucked day in day out by random peeps. It looks real hot!”</i> you giggle. <i>“I want a piece of the pie!”</i>"); }
@@ -1079,8 +880,228 @@ public function joinBroodmother():void{
 	output(" <i>“I know what you mean, it's a pretty good life”</i> she giggles. <i>“Alright [pc.name]. Sit down over there and I'll let whoever comes around know they're to bring some friends.”</i>");
 	// Timeskip, getting fucked loving it
 	output("\n\n<b>6 MONTHS LATER</b>\n\n");
-	// Pick random known npc that sees you that's mischevous, rival/verusha/drbadger/petr+goldi/kiro
+	output("Your body clock jolts you awake. Your guests will be here any minute. You roll to the side, atop your cum-stained bedframe to check that your fuck-buddy's awake - she can't miss this. <i>“Hey hon', ready to go again? They'll be here soon”</i>. She giggles in response. <i>“Of course [pc.name]. Like, even before we were this well known, I'd never miss a breeding session!”</i>. ");
+	output("You snort. <i>“As if I'd ever let you anyways”</i>. Suddenly you hear the clanging of feet on metal and a beeping from the computer. Silouhettes of different shapes and sized fill the door and bustle into the hull. Your guests have arrived. All manner of Tarkus creature bursts in, ready to fill you up. Groups of Raskvel, gabilani, sydians, lapinaras, various colored goo-people, all saunter in to have some fun with you and your pal. You're in heaven. There's definitely some of your favorites amongst them. ");
+	output("<i>“Don't be shy guys”</i> you giggle, seperating your [pc.thighs], giving them all a view of your [pc.vaginas]. <i>“I'll make sure you each get to cum in me”.</i>\n\n");
+	output("The usual gang of Raskval approach you first. <i>“Hey slut”</i> the biggest one grunts with a smirk. <i>“I know we were here a couple of hours ago but the boys and I are feeling rather pent up again”</i>. <i>Lucky me”</i> you giggle. <i>“Why don't you guys go first then. Everyone else, keep yourselves nice and ready and I'll be ready for your cummies real soon!”</i> ");
 	
+	// Work gangbang bit in here
+	// Warm them up
+	output("The various aliens form an organised queue infront of the assignment screen, patient because they know what they'll get next will be good. <i>“I hope I get her”</i> you hear a burly looking Sydian say. <i>“That bitch will let you do anything" + (reason = JOINED_BABIES ? " aslong as you cum in her":"") + "”</i>. He's not wrong. A small group walk in the direction of the other broodmother whilst the gang of Raskvel make their way towards you. ");
+	output(" <i>“Why don't you boys come over here and I'll.. warm you up”</i> you say, licking your [pc.lips]. <i>“Sounds good”</i> they cackle in unison as they line up infront of you. Starting from the left, you warm them up. First you run your hand along their smooth mounds, stroking them sensually until their cocks emerge from their slits. You then unfurl your [pc.tongue] from your mouth and rock yourself forward into range of their burgeoning cocks. You grasp at each of their violet, expanding cocks in turn and slather your tounge along them, taking in each of their individual tastes and differences in shape, as they expand in reaction to your wet strokes. You can't wait to feel them all inside you. ");
+	
+	output("\nAs you finish warming up the third one , the largest of the three moves to your ");
+	if (pc.hasVagina())
+	{
+		output(pc.vaginaDescript(pc.biggestVaginaIndex()) + ".");
+		output(" With your experienced " + (reason == JOINED_COCK ? "cock-devouring" : "baby-making") + " pussy more than well equipped to accomodate him, his forearm sized raskvel cock thrusts deep into your cavernous fuck-hole, his tip slamming against your cervix.");
+	}
+	else
+	{
+		output("behind. He jerks your [pc.buttcheeks] apart and thrusts his forearm sized raskvel cock deep into your [pc.asshole].");
+	}
+	
+	output("\nThe second raskvel stays at your front, grabbing ");
+	output((pc.hasHair() ? "hold of your [pc.hair]" : "hold of your head") + ", shifting your head so your lips push against his meat. <i>“Ooh aren't you feisty today”</i> you giggle into his tip, kissing it as you do. You slides your lips over his tip, running your tounge around its opening before sliding his hard thick lavendar cock deep into your throat, sloppily slathering it with your saliva as it slides, as you're well known for. ");
+	
+	//Butthole's free, vag in use
+	if (pc.hasVagina())
+	{
+		output("The third, now ready to go, grabs hold of a side of your [pc.belly] and hoists himself up ontop of you. His feet shuffle about ontop of you before he kneels on your lower back. Getting the idea, you angle your [pc.ass] slightly and the raskvel jerks apart your [pc.buttcheeks] before thrusting his dick deep into your [pc.asshole], slamming against your cervix as he hits depth.");		
+	}
+	else //No hole
+	{
+		output("With nowhere to go, you guess the third has no way to cum inside you. But being covered in cum like the slut you are is almost as good! You rub your hands along your motherly " + (pc.isTreated() ? "teats" : "tits") + "slathering your hands in your [pc.milk] before grabbing hold of his hard, pulsating cock. You run your hand along his manhood, coating it [pc.milkColor].");
+	}
+	
+	output("\n\nYou breath feircly through your nose as things get more intense - the bulging cocks pound you with increasing speed slamming quickly against the bottoms of each orifice" + (pc.hasVagina() ? "." : " and you jerk the ballooning cock in your hand more vigorously."));
+	if (pc.hasVagina())
+	{
+		output(" <i>“Mmmm, fuck yeah, your pussy's so juicy”</i> the big raskvel moans, his bulging Raskvel cum-pouch slapping against your belly as his rock-hard fuckrod pummels your dripping fuckhole. <i>“Oh-o-ohh stars, harder, fill me up with your cum”</i> you mumble through your cock filled mouth.");
+	}
+	else
+	{
+		output(" <i>“Mmmm, fuck yeah, your fat ass feels so good”</i> the big raskvel moans, his bulging Raskvel cum-pouch slapping against your [pc.buttcheeks] as his rock-hard fuckrod pummels your slickened fuckhole. <i>“Oh-o-ohh stars, harder, fill me up with your cum”</i> you mumble through your cock filled mouth.");
+	}
+	
+	output("\nTheir movements get faster and their cocks bigger. The pleasure you feel from their cocks being buried in your");
+	
+	if (pc.hasVagina()){output(" holes and mouth"); }
+	else{output(" butthole and mouth"); }
+	
+	output(" is overwhelming. ");
+	if (pc.hasCock())
+	{
+		output("You're loving every minute of it - your [pc.cock] is about to burst from all they're giving you.");	
+	}
+	else
+	{
+		output("You're loving every minute of it - girlcum pouring from your [pc.vaginas] down your [pc.belly] from all they're giving you.");	
+	}
+	
+	output(" But seemingly you're pretty overwhelming too.");
+	
+	if (pc.hasVagina())
+	{
+		output("You feel the boiling dicks in your fuck-holes stiffen and throb against eachother through the thin wall between your backdoor and asshole. <i>“Mmm come on boys, fill me up!”</i> you cackle as with each pulsation cum flys from their cocks, shooting against your insides, flooding deeper and deeper into you.");
+		output("As they do this, the Raskvel at your front lets out a long moan and his milky cum fires against the back of your throat, flooding your airways, your nose filled with the scent of his cum inside you.");
+	}
+	else
+	{
+		output("You feel the boiling dick in your fuck-hole stiffen and throb against the walls, with each pulsation firing hot cum into the walls of your rectum, filling you with raskvel cum.");
+		output("As this happens, the Raskvel at your front lets out a long moan and his milky cum fires against the back of your throat, flooding your airways, your nose filled with the scent of his cum inside you.");
+		output("The reddened, pre-cum tipped, veiny dick in your hand, finally erupts and fires its hot bounty all over your saliva-drenched face and [pc.chest].");
+	}
+	if (pc.hasCock())
+	{
+		if (pc.hasCocks() > 1)
+		{
+			output(" As they release their cum, your [pc.cocks] throb uncontrollably and with a moan, ");
+			if (cummed < 5)
+			{
+				output("your cocks twitch and wobble, beads of cum dripping out the ends onto the floor below.");
+			}
+			else if (cummed < 50)
+			{
+				output("your cocks twitch and fire several shorts spurts of cum onto the floor below.");
+			}
+			else if (cummed < 200)
+			{
+				output("your cocks twitch and several intense bursts of cum fire from each one onto the floor below.");
+			}
+			else if (cummed < 1000)
+			{
+				output("your cocks twitch and several intense bursts of cum spurt from each one, firing onto the floor one after the other until they stop, with a puddle of your [pc.cum] left on the floor below.");
+			}
+			else if (cummed < 3000)
+			{
+				output("your cocks erupt, [pc.cum] pouring out in waves of [pc.cumcolor], splashing against the floor below, the drains filling with it until the intensity lowers and with one last twitch, your flow stops.");
+			}
+			else
+			{
+				output("your cocks erupt, [pc.cum] pouring out like a [pc.cumcolor] tsunami, splashing against the floor below until there's no floor left and your cum is just splashing against more of your cum, the drains unable to contain the contents of your [pc.balls].");
+			}
+		}
+		else
+		{
+			output(" As they release their cum, your [pc.cock] throbs uncontrollably and with a moan,");
+			if (cummed < 5)
+			{
+				output("your cock twitches and wobbles, beads of cum dripping out the end onto the floor below.");
+			}
+			else if (cummed < 50)
+			{
+				output("your cock twitches and fires several shorts spurts of cum onto the floor below.");
+			}
+			else if (cummed < 200)
+			{
+				output("your cock twitches and several intense bursts of cum fire from it's tip onto the floor below.");
+			}
+			else if (cummed < 1000)
+			{
+				output("your cock twitches and several intense bursts of cum spurt from the end, firing onto the floor in bursts, until a puddle of your [pc.cum] is left on the floor below.");
+			}
+			else if (cummed < 3000)
+			{
+				output("your cock erupts, [pc.cum] pouring out in waves of [pc.cumcolor], splashing against the floor below, the drains filling with it until the intensity lowers and with one last twitch, your flow stops.");
+			}
+			else
+			{
+				output("your cock erupts, [pc.cum] pouring out like a [pc.cumcolor] tsunami, splashing against the floor below until there's no floor left and your cum is just splashing against more of your cum, the drains unable to contain the contents of your [pc.balls].");
+			}
+		}
+	}
+	output("\n\n You swallow the last of the load in your mouth, licking your lips as you do so. <i>“Mmm that was great boys. I hope you come back soon”</i>. <i>“Mmm, we will”</i> the Raskval respond, cocks wiggling and dripping cum as they scurry back between the crowd. ");	
+	
+	// Introduce random known npc that sees you that's mischevous, rival/verusha/drbadger/petr+goldi/kiro. 
+	output("<i>“Alright, which of you lucky fellas wants a go on me next?”</i> you slur into the crowd, cum still dripping from you.");
+	
+	var npcRandom:int = rand(4);
+	switch (npcRandom)
+	{
+		case 0: //Rival
+			output("A voice shouts from the crowd. <i>“Oh cousin, there you are. Being a slut as always I see”</i>.");
+			break;
+		case 1: //Verusha
+			if (flags["MET_VERUSHA"])
+			{
+				output("A voice shouts from the crowd. <i>“Is this where I left my cum rag? Seems filthier than I left it”</i>.");
+			}
+			else
+			{
+				output("<i>“I could give you what you need, if I'm not too much for you to handle”</i>.");
+			}
+			output("");
+			break;
+		case 2: //Dr.Badger
+			if (flags["MET_DR_BADGER"])
+			{
+				if (flags["BADGER_QUEST"] != -3)
+				{
+					if (flags["DR_BADGER_BIMBOED_PC"] != undefined)
+					{
+						output("<i>“Of course I'll help you out, my pet”</i> a voice growls from the crowd.");
+					}
+					else
+					{
+						output("<i>“Well, you're not a fit for my experiments any more, you're way too far gone. But I do have something that would be a good fit for you”</i>.");
+					}
+				}
+				else
+				{
+					output("<i>“Oh for sure, I do! Pick me, pick me!”</i> a voice shouts enthusiastically from the crowd.");
+				}
+			}
+			else
+			{
+				output("<i>“Well, I'm sure that's all you're still good for”</i> a voice howls from the crowd.");
+			}
+			break;
+		case 3: //Petr+Goldi
+			output("<i>“Sounds like a job for us”</i> two voices snicker from the crowd.");
+			break;
+		case 4: //Kiro
+			if (flags["KIRO_BAR_MET"])
+			{
+				output("<i>“Sure, why not. Not like I've been able to for months [pc.name].”</i>");
+			}
+			else
+			{
+				output("<i>“Thought you'd never ask, angel. If you can handle all this, of course.”</i>");
+			}
+			break;
+		
+	}
+	
+	addButton(0,"Continue",joinBroodmother_2,{npcRandom,reason});
+}
+
+public function joinBroodmother_2(bonusChar:int, reason:int):void{
+	//They tease you and fuck you a bit, before demeaning you.	
+	if (bonusChar == 0) //rival
+	{
+		
+	}
+	else if (bonusChar == 1) //verusha
+	{
+		
+	}
+	else if (bonusChar == 2) //badger
+	{
+		
+	}
+	else if (bonusChar == 3) //petr+goldi
+	{
+		
+	}
+	else if (bonusChar == 4) //kiro
+	{
+		
+	}
+	addButton(0,"Continue",joinBroodmother_gameOver);
+}
+
+public function joinBroodmother_gameOver():void{
 	kGAMECLASS.badEnd("GAME OVER");
 }
 
@@ -1221,25 +1242,6 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 	if (lvl >= 3)
 	{
 		output("She rolls off of her supportive structure and onto the cum-coated floor, tail wagging and turns to face you. With great effort she rolls herself backwards, swinging her ");
-		if (getBroodmotherThickness() > 60)
-		{
-			if (getBroodmotherThickness() < 70)
-			{
-				output("fat, ");
-			}
-			else if (getBroodmotherThickness() < 80)
-			{
-				output("jiggling, ");
-			}
-			else if (getBroodmotherThickness() < 90)
-			{
-				output("gelatine-like, ");
-			}
-			else 
-			{
-				output("ssbbw-tier, ");
-			}
-		}
 		output("baby-laiden belly up before it bounces back to the ground. She wraps her arms around it as best she can and holds it slightly off the floor, her cock springing out from underneath as it's given room to breath, so she is lying at a slight incline with her cock free to see and use. ");
 	}
 	else
@@ -1248,26 +1250,7 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 		if (lvl != 0)
 		{
 			output("her ");
-			if (getBroodmotherThickness() > 60)
-			{
-				if (getBroodmotherThickness() < 70)
-				{
-					output("round, ");
-				}
-				else if (getBroodmotherThickness() < 80)
-				{
-					output("fat, ");
-				}
-				else if (getBroodmotherThickness() < 90)
-				{
-					output("gelatine-like, ");
-				}
-				else 
-				{
-					output("ssbbw-tier, ");
-				}
-			}
-			if (lvl == 2)
+			if (lvl >= 2)
 			{
 				output("baby-laiden ");
 			}
@@ -1783,25 +1766,6 @@ public function milkBroodmotherReturn():void
 	{
 		output("You kneel down and swing your backpack onto the ground. <b>You pull out your JoyCo Magic-Milker 7</b> the cups dangling limply. You hold the glittering orb out so that it'll recoginize its user and push the button.\n");
 		output("The milkers hatch whirrs open and four additional cups emerge to target the udders along the broodmothers ");
-		if (getBroodmotherThickness() > 60)
-		{
-			if (getBroodmotherThickness() < 70)
-			{
-				output("fat, ");
-			}
-			else if (getBroodmotherThickness() < 80)
-			{
-				output("jiggling, ");
-			}
-			else if (getBroodmotherThickness() < 90)
-			{
-				output("gelatine-like, ");
-			}
-			else 
-			{
-				output("ssbbw-tier, ");
-			}
-		}
 		if (getBroodmotherImpregnationLevel() > 1)
 		{
 			switch(getBroodmotherImpregnationLevel())
@@ -1823,7 +1787,7 @@ public function milkBroodmotherReturn():void
 		//After belly-descript
 		output("You bring the cups towards each of her udders in turn. They automatically expand to fit the mama's gun-barrel like nipples as they get near before latching themselves onto her pink milk mounds with a pop, the broodmother moaning and mooing as they do. ");
 		output("Sitting back, you watch as the milker does its thing. A look of surprise washes over the milky raskvels face as out of the centre of each cup, grows long, slim brown phalli with pinpoint holes at the ends and press against the openings of her nipples. Her look quickly changes and she moos loudly as the protrustions thrust forward, spearing her fuckable nipples. ");
-		output("With the cups now forming vacuums, they hiss warmly and inside the transparent plastic her teats moisten and bulge. You hear whirring from the machine as the base of the protrusions begin to judder, vibrating deep inside the broodmothers pink mounds, causing her to moan " + (getBroodmotherThickness() >= 60 ? "and jiggle " : "") + "uncontrollably, milk filling the gaps around the brown rods like lube. ");
+		output("With the cups now forming vacuums, they hiss warmly and inside the transparent plastic her teats moisten and bulge. You hear whirring from the machine as the base of the protrusions begin to judder, vibrating deep inside the broodmothers pink mounds, causing her to moan uncontrollably, milk filling the gaps around the brown rods like lube. ");
 		output("On the outside, the cups begin tugging at her flesh as the machine, having sufficiently teased her starts vacuuming inside and out. Her pink udders redden and bulge as they're pulled towards the cups, milk bursting from her teats. She moos, sweating as the pressure amps up and the cups expand, pulling her udders to new sizes as they darken and bulge further, the protrusions vibrating and sucking inside her widened nipples. The broodmothers eyes have rolled back in her head as she " + (lvl >= 3 ? "lies above you" : "stands vacantly infront of you") + ", tounge dangling, having given in completely to the milking.\n");
 		output("At this you grab the bucket and open a hatch on the milker, accessing the output hose and place it into the bucket, as you expect her boobgasm real soon. You were right.\n");
 		switch (lvl)
@@ -1865,7 +1829,7 @@ public function milkBroodmotherReturn():void
 	{
 		output("You wipe your [pc.hands] over some of her leaking bounty and rub it along the lengths of her long fuckable nipples. \n");
 		output("She moos and moans " + (lvl >= 3 ? "above you" : "infront of you") + ", tounge dangling from her mouth as you tug on her gun barrel length nipples, occasionally stopping at the top to jam your thumbs into them. With each tug milk dribbles from the ends. ");
-		output("You speed up. The broodmothers eyes roll back in her head as she sweats " + (getBroodmotherThickness() >= 60 ? "and jiggles " : "") + "uncontrollably, from the intensity, her breast-teats reddening and milk bubbling and frothing at the tips. You get more agressive, tugging her nipples, causing her to gasp in pain and pleasure. You continue, tugging her long hollow nipples, her pliable flesh being squeezed and stretched in your hands, small spurts flying from the tips as you do.");
+		output("You speed up. The broodmothers eyes roll back in her head as she sweats uncontrollably, from the intensity, her breast-teats reddening and milk bubbling and frothing at the tips. You get more agressive, tugging her nipples, causing her to gasp in pain and pleasure. You continue, tugging her long hollow nipples, her pliable flesh being squeezed and stretched in your hands, small spurts flying from the tips as you do.");
 		output("Her moaning becomes more frequent as she shakes in your hands, her soft fleshy udders tight in your hands. <i>“It's comOO”</i> she gasps and with that you push fingers into her nipples. Her");
 		switch (lvl)
 		{
@@ -1956,26 +1920,6 @@ public function hyperRaskFun_Return():void
 	if(!pc.isCrotchExposed())
 	{
 		output("The second you begin to unwrap your concealed cock, the raskvel’s eyes go wide. She leans closer, as much as her");
-		if (getBroodmotherThickness() < 60)
-		{
-			output("");
-		}
-		else if (getBroodmotherThickness() >= 60 && getBroodmotherThickness() < 70)
-		{
-			output("fat, ");
-		}
-		else if (getBroodmotherThickness() >= 70 && getBroodmotherThickness() < 80)
-		{
-			output("plump, ");
-		}
-		else if (getBroodmotherThickness() >= 80 && getBroodmotherThickness() < 90)
-		{
-			output("jiggling, ");
-		}
-		else if (getBroodmotherThickness() >= 90)
-		{
-			output("extra thick, jiggly, ");
-		}
 		
 		switch (lvl)
 		{
@@ -2083,28 +2027,7 @@ public function hyperRaskFun_Return():void
 	else
 	{
 		output("The second you bring your proudly-displayed member toward the pregnant raskvel, her eyes go wide. She leans closer, as much as her"); 
-		
-		if (getBroodmotherThickness() < 60)
-		{
-			output("");
-		}
-		else if (getBroodmotherThickness() >= 60 && getBroodmotherThickness() < 70)
-		{
-			output("fat, ");
-		}
-		else if (getBroodmotherThickness() >= 70 && getBroodmotherThickness() < 80)
-		{
-			output("plump, ");
-		}
-		else if (getBroodmotherThickness() >= 80 && getBroodmotherThickness() < 90)
-		{
-			output("jiggling, ");
-		}
-		else if (getBroodmotherThickness() >= 90)
-		{
-			output("extra thick, jiggly, ");
-		}
-		
+				
 		switch (lvl)
 		{
 			case 0:				
@@ -2262,7 +2185,7 @@ public function hyperRaskFun_Return():void
 	else if(pc.isBimbo()) output("Like, O-M-G that would amazalicious!”</i> you cheerily exclaim, happy to feed her all the dick she could ever want.");
 	else output("Just stop teasing me, and you can do whatever you want with the cum,”</i> you implore, hips shuddering. Her fingers are too damned good at their job.");
 
-	output("\n\nThe raskvel giggles. <i>“" + pc.mf("You boys are so easy.","A few strokes to the dick, and you get so generous.") + " Don’t worry. If there’s one thing I know, it’s how to make a cock feel good. Well, that and how to remodulate an ionic conductor for usage in a particle cannon, but getting knocked up is wayyy more fun!”</i> She’s back on your [pc.cock] as soon as you finish, pulling it - and you - closer so that she can recline. So positioned, the pregnant raskvel is able to grind you against her " + (getBroodmotherThickness() >=70 ? "plump" : "") +  (lvl <=1 ? " stomach" : " belly") + " and " + (lvl <=1 ? " rub your collosal fuck-rod against her " : "thread you through her ") + (isBroodmotherTreated() ? "breast-udders" :"tits") + ", smearing your ");
+	output("\n\nThe raskvel giggles. <i>“" + pc.mf("You boys are so easy.","A few strokes to the dick, and you get so generous.") + " Don’t worry. If there’s one thing I know, it’s how to make a cock feel good. Well, that and how to remodulate an ionic conductor for usage in a particle cannon, but getting knocked up is wayyy more fun!”</i> She’s back on your [pc.cock] as soon as you finish, pulling it - and you - closer so that she can recline. So positioned, the pregnant raskvel is able to grind you against her " +  (lvl <=1 ? " stomach" : " belly") + " and " + (lvl <=1 ? " rub your collosal fuck-rod against her " : "thread you through her ") + (isBroodmotherTreated() ? "breast-udders" :"tits") + ", smearing your ");
 	if(pc.cumQ() < 500) output("oozing");
 	else if(pc.cumQ() < 1000) output("streaming");
 	else output("all but gushing");
@@ -2488,35 +2411,13 @@ public function fuckDatRaskipoo_Return():void
 	
 	output("\n\n<i>“...Maybe you’re just afraid of a little raskvel pussy. Like you know you’ll be lining up at my door day after day once you taste it,”</i> the sultry tart suggests.");
 	output("\n\nGrabbing her ");
-	
-	//thickness
-	if (getBroodmotherThickness() < 60)
-	{
-		output("");
-	}
-	else if (getBroodmotherThickness() >= 60 && getBroodmotherThickness() < 70)
-	{
-		output("fat");
-	}
-	else if (getBroodmotherThickness() >= 70 && getBroodmotherThickness() < 80)
-	{
-		output("plump");
-	}
-	else if (getBroodmotherThickness() >= 80 && getBroodmotherThickness() < 90)
-	{
-		output("jiggling");
-	}
-	else if (getBroodmotherThickness() >= 90)
-	{
-		output("bbw-tier");
-	}
-	
+		
 	if (lvl >= 2)
 	{
-		output(",pregnant");
+		output("pregnant ");
 	}
 	
-	output(" belly to brace yourself, you thrust inside. ");
+	output("belly to brace yourself, you thrust inside. ");
 	if(pc.cockVolume(x) < 300) output("Her pussy parts easily around your [pc.cock " + x + "], and her diatribe cuts off with a high-pitched squeak of pleasure.");
 	else if(pc.cockVolume(x) < 500) output("Her pussy reluctantly parts for your [pc.cock " + x + "], clutching it tightly as her diatribe cuts off with a high-pitched squeak of pleasure.");
 	else output("Her pussy strains to accept your girthy tool, its thick lips stretched wide enough to pass an egg. A high-pitched wail of pleasure interrupts the little slut’s diatribe at the penetration. Evidently she’s a fan of pushing herself to the absolute limit.");
@@ -3435,31 +3336,6 @@ public function getLastImpregnated():int
 	return flags["PREG_RASK_RETURNED_LASTIMPREGNATED"];
 }
 
-public function getBroodmotherThickness():int
-{
-	return flags["PREG_RASK_RETURNED_THICKNESS"];
-}
-
-public function addBroodmotherThickness(increaseBy:int):void
-{
-	if ((getBroodmotherThickness() + increaseBy) > (50 + (getBroodmotherImpregnationLevel() * 10)))
-	{
-		flags["PREG_RASK_RETURNED_THICKNESS"] = (50 + (getBroodmotherImpregnationLevel() * 10));
-	}
-	else if ((getBroodmotherThickness() + increaseBy) > 100)
-	{
-		flags["PREG_RASK_RETURNED_THICKNESS"] = 100;
-	}
-	else if ((getBroodmotherThickness() + increaseBy) < 0)
-	{
-		flags["PREG_RASK_RETURNED_THICKNESS"] = 0;
-	}
-	else
-	{
-		flags["PREG_RASK_RETURNED_THICKNESS"] += increaseBy;
-	}	
-}
-
 public function setupBroodmother():void
 {
 	if (flags["PREG_RASK_RETURNED_BODYTYPE"] == undefined)
@@ -3477,10 +3353,6 @@ public function setupBroodmother():void
 	if (flags["PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN"] == undefined)
 	{
 		flags["PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN"] = 0;
-	}
-	if (flags["PREG_RASK_RETURNED_THICKNESS"] == undefined)
-	{
-		flags["PREG_RASK_RETURNED_THICKNESS"] = 0;
 	}
 	if (flags["PREG_RASK_RETURNED_BROKEN"] == undefined)
 	{
