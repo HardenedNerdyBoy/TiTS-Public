@@ -1,41 +1,33 @@
 import classes.ItemSlotClass;
 import classes.Items.Drinks.RaskvelBroodmotherMilkBottle;
 import classes.Items.Drinks.RaskvelBroodmotherMilkBucket;
+import classes.kGAMECLASS;
 // Functions for non-event RaskvelBroodmother, i.e returning to her if you ended on good terms
 //
 // TODO: Explain levels 
-	
 
-public function showPregRaskReturn():void
+public function getPregRaskReturn_BustName():String 
 {
 	var bustStr:String = "PREGRASK_";
-	var nameStr:String = "";
-	
 	switch (getBroodmotherImpregnationLevel())
 	{
 		case 0:
 			bustStr += "LVL0";
-			nameStr = "FORMER\nBROODMOTHER";
 			break;
 		case 1:
 			bustStr += "LVL1";
-			nameStr = "RASKVEL\nBROODMOTHER";
 			break;
 		case 2:
 			bustStr += "LVL2";
-			nameStr = "PREGNANT\nBROODMOTHER";
 			break;
 		case 3:
 			bustStr += "LVL3";
-			nameStr = "PREGNANT\nBROODMOTHER";
 			break;
 		case 4:
 			bustStr += "LVL4";
-			nameStr = "PREGNANT\nBROODMOTHER";
 			break;
 		case 5:
 			bustStr += "LVL5";
-			nameStr = "PREGNANT\nBROODMOTHER";
 			break;
 	}
 	
@@ -47,18 +39,21 @@ public function showPregRaskReturn():void
 	{
 		bustStr += "_FUTA";
 	}
-	
-	showBust(bustStr);
-	showName(nameStr);
+	return bustStr;
+}
+
+public function showPregRaskReturn():void
+{	
+	showBust(getPregRaskReturn_BustName());
+	showName("RASKVEL\nBROODMOTHER");
 }
 
 public function approachBroodmother():void
 {
 	showPregRaskReturn();
-	author("Other");
-	
 	clearMenu();
 	clearOutput();
+	author("HNB");
 	
 	var lvl:int = getBroodmotherImpregnationLevel();
 	
@@ -219,6 +214,7 @@ public function broodMotherAppearance():void
 {
 	clearOutput();
 	clearMenu();
+	author("HNB");
 	
 	var lvl:int = getBroodmotherImpregnationLevel();
 	
@@ -380,6 +376,7 @@ public function giveBroodMotherItem():void
 {	
 	clearMenu();
 	clearOutput();
+	author("HNB");
 	
 	var isSlut:Boolean = ((pc.isTreated() && pc.isBimbo()) || pc.isBimbo() || pc.isBro() || pc.isDependant(Creature.DEPENDANT_CUM) || (pc.libido() >= 50 && pc.lust() >= 33) || pc.lust() > 66);
 	
@@ -466,6 +463,7 @@ public function giveThrobb():void
 {
 	clearMenu();
 	clearOutput();
+	author("HNB");
 	
 	if (getBroodmotherImpregnationLevel() == 1)
 	{
@@ -526,6 +524,7 @@ public function giveMotherhusk():void
 {
 	clearMenu();
 	clearOutput();
+	author("HNB");
 	
 	if (getBroodmotherImpregnationLevel() == 0)
 	{
@@ -535,6 +534,7 @@ public function giveMotherhusk():void
 	pc.destroyItemByClass(Motherhusk, 1);
 	addButton(0, "Continue", giveBroodMotherItem);
 	fixBroodmother();
+	flags["PREG_RASK_RETURNED_FRIENDLINESS"] += 10;
 	showPregRaskReturn();
 }
 
@@ -542,6 +542,8 @@ public function giveTreatment():void
 {
 	clearMenu();
 	clearOutput();
+	author("HNB");
+	
 	output("As you take a treatment medipen of your backpack, the raskvel asks you what it is.\n<i>“Oh this thing”</i>, you exclaim. <i>“This thing is the best thing ever! It'll make you a really great mommy and it makes sex so good.”</i>\n\n")
 	var lvl: int = getBroodmotherImpregnationLevel();
 	if (lvl >= 2)
@@ -582,6 +584,7 @@ public function giveTreatment_2():void
 	clearMenu();
 	clearOutput();
 	clearBust();
+	author("HNB");
 	showName("BROOD\nDEN")
 	
 	output("<b>One week later..</b>\n\n");
@@ -654,6 +657,7 @@ public function giveTreatment_3():void
 {
 	clearMenu();
 	clearOutput();
+	author("HNB");
 	
 	pc.lust(10);
 	pc.destroyItemByClass(Treatment, 1);
@@ -710,7 +714,7 @@ public function giveTreatment_3():void
 	{
 		output(" you say, trying your best not to rub your [pc.crotch]" + (pc.isCrotchExposed() ? "" : "through your [pc.underGarments]") + ".");
 	}
-	
+	flags["PREG_RASK_RETURNED_FRIENDLINESS"] += 4;
 	addButton(0,"Continue",giveBroodMotherItem);
 }
 
@@ -719,10 +723,9 @@ public function giveTreatment_3():void
 public function talkBroodmother():void
 {
 	showPregRaskReturn();
-	author("Other");
-	
 	clearMenu();
 	clearOutput();
+	author("HNB");
 	
 	var lvl:int = getBroodmotherImpregnationLevel();
 	
@@ -744,6 +747,7 @@ public function talkBroodmother_AskWhatDo():void
 {	
 	clearMenu();
 	clearOutput();
+	author("HNB");
 	
 	var lvl:int = getBroodmotherImpregnationLevel();
 	
@@ -813,6 +817,7 @@ public function talkBroodmother_AskPast():void
 {	
 	clearMenu();
 	clearOutput();
+	author("HNB");
 	
 	var lvl:int = getBroodmotherImpregnationLevel();
 	
@@ -834,7 +839,9 @@ public function talkBroodmother_AskPast():void
 public function joinBroodmother():void{
 	clearMenu();
 	clearOutput();
-	showPregRaskReturn();
+	author("HNB");
+	
+	showBust(getPregRaskReturn_BustName(),"JOIN_BROODMOTHER_GANG");
 	
 	const JOINED_BABIES:int = 0;
 	const JOINED_COCK:int = 1;
@@ -857,9 +864,9 @@ public function joinBroodmother():void{
 	}
 	pc.lust(pc.lustMax());
 	pc.bellyRatingRaw += 50;
-	for (var i:Number=0; i<rows-1;i++)//breastrows
+	for (var j:Number=0; j<rows-1;j++)//breastrows
 	{
-		pc.breastrows[i].breastratingraw += 25;
+		pc.breastRows[i].breastratingraw += 25;
 		pc.breastRows[i].nippleWidthRatio += 3;
 	}
 	pc.buttRatingRaw += 20;
@@ -870,6 +877,7 @@ public function joinBroodmother():void{
 		pc.milkMultiplier = 100;
 		pc.milkFullness = 100;
 	}
+	pc.willpower(-50);
 	processTime(60*24*30);
 		
 	// Asking and explaining why you want to join her
@@ -883,11 +891,26 @@ public function joinBroodmother():void{
 	output("Your body clock jolts you awake. Your guests will be here any minute. You roll to the side, atop your cum-stained bedframe to check that your fuck-buddy's awake - she can't miss this. <i>“Hey hon', ready to go again? They'll be here soon”</i>. She giggles in response. <i>“Of course [pc.name]. Like, even before we were this well known, I'd never miss a breeding session!”</i>. ");
 	output("You snort. <i>“As if I'd ever let you anyways”</i>. Suddenly you hear the clanging of feet on metal and a beeping from the computer. Silouhettes of different shapes and sized fill the door and bustle into the hull. Your guests have arrived. All manner of Tarkus creature bursts in, ready to fill you up. Groups of Raskvel, gabilani, sydians, lapinaras, various colored goo-people, all saunter in to have some fun with you and your pal. You're in heaven. There's definitely some of your favorites amongst them. ");
 	output("<i>“Don't be shy guys”</i> you giggle, seperating your [pc.thighs], giving them all a view of your [pc.vaginas]. <i>“I'll make sure you each get to cum in me”.</i>\n\n");
+	
+	addButton(0,"Continue",joinBroodmother_2,reason);
+}
+
+public function joinBroodmother_2(reason:int):void
+{
+	clearMenu();
+	
+	showBust("RASKVEL_GANG_NUDE","JOIN_BROODMOTHER_GANG");
+	showName("RASKVEL\nGANG");
+	author("HNB");
+	
+	const JOINED_BABIES:int = 0;
+	const JOINED_COCK:int = 1;
+	
 	output("The usual gang of Raskval approach you first. <i>“Hey slut”</i> the biggest one grunts with a smirk. <i>“I know we were here a couple of hours ago but the boys and I are feeling rather pent up again”</i>. <i>Lucky me”</i> you giggle. <i>“Why don't you guys go first then. Everyone else, keep yourselves nice and ready and I'll be ready for your cummies real soon!”</i> ");
 	
 	// Work gangbang bit in here
 	// Warm them up
-	output("The various aliens form an organised queue infront of the assignment screen, patient because they know what they'll get next will be good. <i>“I hope I get her”</i> you hear a burly looking Sydian say. <i>“That bitch will let you do anything" + (reason = JOINED_BABIES ? " aslong as you cum in her":"") + "”</i>. He's not wrong. A small group walk in the direction of the other broodmother whilst the gang of Raskvel make their way towards you. ");
+	output("The various aliens form an organised queue infront of the assignment screen, patient because they know what they'll get next will be good. <i>“I hope I get her”</i> you hear a burly looking Sydian say. <i>“That bitch will let you do anything" + (reason == JOINED_BABIES ? " aslong as you cum in her":"") + "”</i>. He's not wrong. A small group walk in the direction of the other broodmother whilst the gang of Raskvel make their way towards you. ");
 	output(" <i>“Why don't you boys come over here and I'll.. warm you up”</i> you say, licking your [pc.lips]. <i>“Sounds good”</i> they cackle in unison as they line up infront of you. Starting from the left, you warm them up. First you run your hand along their smooth mounds, stroking them sensually until their cocks emerge from their slits. You then unfurl your [pc.tongue] from your mouth and rock yourself forward into range of their burgeoning cocks. You grasp at each of their violet, expanding cocks in turn and slather your tounge along them, taking in each of their individual tastes and differences in shape, as they expand in reaction to your wet strokes. You can't wait to feel them all inside you. ");
 	
 	output("\nAs you finish warming up the third one , the largest of the three moves to your ");
@@ -954,6 +977,8 @@ public function joinBroodmother():void{
 	}
 	if (pc.hasCock())
 	{
+		var cummed:Number = pc.cumQ(); //for futa
+		
 		if (pc.hasCocks() > 1)
 		{
 			output(" As they release their cum, your [pc.cocks] throb uncontrollably and with a moan, ");
@@ -975,11 +1000,11 @@ public function joinBroodmother():void{
 			}
 			else if (cummed < 3000)
 			{
-				output("your cocks erupt, [pc.cum] pouring out in waves of [pc.cumcolor], splashing against the floor below, the drains filling with it until the intensity lowers and with one last twitch, your flow stops.");
+				output("your cocks erupt, [pc.cum] pouring out in waves of [pc.cumColor], splashing against the floor below, the drains filling with it until the intensity lowers and with one last twitch, your flow stops.");
 			}
 			else
 			{
-				output("your cocks erupt, [pc.cum] pouring out like a [pc.cumcolor] tsunami, splashing against the floor below until there's no floor left and your cum is just splashing against more of your cum, the drains unable to contain the contents of your [pc.balls].");
+				output("your cocks erupt, [pc.cum] pouring out like a [pc.cumColor] tsunami, splashing against the floor below until there's no floor left and your cum is just splashing against more of your cum, the drains unable to contain the contents of your [pc.balls].");
 			}
 		}
 		else
@@ -1003,11 +1028,11 @@ public function joinBroodmother():void{
 			}
 			else if (cummed < 3000)
 			{
-				output("your cock erupts, [pc.cum] pouring out in waves of [pc.cumcolor], splashing against the floor below, the drains filling with it until the intensity lowers and with one last twitch, your flow stops.");
+				output("your cock erupts, [pc.cum] pouring out in waves of [pc.cumColor], splashing against the floor below, the drains filling with it until the intensity lowers and with one last twitch, your flow stops.");
 			}
 			else
 			{
-				output("your cock erupts, [pc.cum] pouring out like a [pc.cumcolor] tsunami, splashing against the floor below until there's no floor left and your cum is just splashing against more of your cum, the drains unable to contain the contents of your [pc.balls].");
+				output("your cock erupts, [pc.cum] pouring out like a [pc.cumColor] tsunami, splashing against the floor below until there's no floor left and your cum is just splashing against more of your cum, the drains unable to contain the contents of your [pc.balls].");
 			}
 		}
 	}
@@ -1015,104 +1040,60 @@ public function joinBroodmother():void{
 	
 	// Introduce random known npc that sees you that's mischevous, rival/verusha/drbadger/petr+goldi/kiro. 
 	output("<i>“Alright, which of you lucky fellas wants a go on me next?”</i> you slur into the crowd, cum still dripping from you.");
-	
-	var npcRandom:int = rand(4);
-	switch (npcRandom)
-	{
-		case 0: //Rival
-			output("A voice shouts from the crowd. <i>“Oh cousin, there you are. Being a slut as always I see”</i>.");
-			break;
-		case 1: //Verusha
-			if (flags["MET_VERUSHA"])
-			{
-				output("A voice shouts from the crowd. <i>“Is this where I left my cum rag? Seems filthier than I left it”</i>.");
-			}
-			else
-			{
-				output("<i>“I could give you what you need, if I'm not too much for you to handle”</i>.");
-			}
-			output("");
-			break;
-		case 2: //Dr.Badger
-			if (flags["MET_DR_BADGER"])
-			{
-				if (flags["BADGER_QUEST"] != -3)
-				{
-					if (flags["DR_BADGER_BIMBOED_PC"] != undefined)
-					{
-						output("<i>“Of course I'll help you out, my pet”</i> a voice growls from the crowd.");
-					}
-					else
-					{
-						output("<i>“Well, you're not a fit for my experiments any more, you're way too far gone. But I do have something that would be a good fit for you”</i>.");
-					}
-				}
-				else
-				{
-					output("<i>“Oh for sure, I do! Pick me, pick me!”</i> a voice shouts enthusiastically from the crowd.");
-				}
-			}
-			else
-			{
-				output("<i>“Well, I'm sure that's all you're still good for”</i> a voice howls from the crowd.");
-			}
-			break;
-		case 3: //Petr+Goldi
-			output("<i>“Sounds like a job for us”</i> two voices snicker from the crowd.");
-			break;
-		case 4: //Kiro
-			if (flags["KIRO_BAR_MET"])
-			{
-				output("<i>“Sure, why not. Not like I've been able to for months [pc.name].”</i>");
-			}
-			else
-			{
-				output("<i>“Thought you'd never ask, angel. If you can handle all this, of course.”</i>");
-			}
-			break;
-		
-	}
-	
-	addButton(0,"Continue",joinBroodmother_2,{npcRandom,reason});
+	output(" A voice shouts from the crowd. <i>“Well, [pc.name], I’d like to say I’m surprised to see you here like this but I'm really not”</i>. Dane, the Ausur bodyguard shoves his way through the protesting crowd, your rival in tow, a smirk across [rival.hisHer] face.\n");	
+
+	pc.orgasm();
+	pc.orgasm();	
+	addButton(0,"Continue",joinBroodmother_3,reason);
 }
 
-public function joinBroodmother_2(bonusChar:int, reason:int):void{
-	//They tease you and fuck you a bit, before demeaning you.	
-	if (bonusChar == 0) //rival
+public function joinBroodmother_3(reason:int):void
+{
+	kGAMECLASS.showRival();
+	clearMenu();
+	author("HNB");
+	const JOINED_BABIES:int = 0;
+	const JOINED_COCK:int = 1;
+	
+	output(kGAMECLASS.chars["RIVAL"].mf("<i>“Omigod heyyy! Didn't know you felt that way. I'm totes up for it if you are!”</i>", "<i>“Oh hey babe! Didn't know ya had a dick!”</i>") + "\n");
+	output("She cackles. <i>“Oh no, don't get the wrong idea. I'd never bang a hussy like you. I just came here because I heard someone, that sounded like you, was out here being an absolute cumdump and I wanted to see if it was you.”</i>\n");
+	if (reason == JOINED_BABIES)
 	{
-		
+		output("<i>“Oh. So you're not here to knock me up?”</i> you cry, pouting.\n");
 	}
-	else if (bonusChar == 1) //verusha
+	else
 	{
-		
+		output("<i>“Oh. So you're not here to fuuuuck?”</i> you cry, pouting.\n");
 	}
-	else if (bonusChar == 2) //badger
-	{
-		
-	}
-	else if (bonusChar == 3) //petr+goldi
-	{
-		
-	}
-	else if (bonusChar == 4) //kiro
-	{
-		
-	}
-	addButton(0,"Continue",joinBroodmother_gameOver);
+	output(kGAMECLASS.chars["RIVAL"].mf("<i>“Ahaha! Is that all you think about? ", "<i>“What?! Ahahaa, no, I don't even have a dick. ") + "Besides, I've got the next probe to go after.”</i>\n");
+	output("<i>“Huh? No, who cares about those things”</i> you murmur, put off that your cousin's come here to waste your time that could be spent fucking more members of the growing crowd. <i>“Next!”</i> you shout into the crowd.\n");
+	output("<i>“Ahahah, well then, looks like I've got no competition now. Alright, cya later slut”</i> " + kGAMECLASS.chars["RIVAL"].mf("Jack","Jill") + " cackles, walking back amongst the crowd, guard-dog in tow.\n\n");
+	
+	addButton(0,"Continue",joinBroodmother_4,reason);
 }
 
-public function joinBroodmother_gameOver():void{
-	kGAMECLASS.badEnd("GAME OVER");
+public function joinBroodmother_4(reason:int):void
+{
+	const JOINED_BABIES:int = 0;
+	const JOINED_COCK:int = 1;
+	clearMenu();
+	author("HNB");
+	kGAMECLASS.currentLocation = "GAME OVER";
+	kGAMECLASS.generateMap();
+	kGAMECLASS.showLocationName();
+	
+	output("<i>“Stars, what was " + kGAMECLASS.chars["RIVAL"].mf("his", "her") +" problem”</i> your fellow broodmother shouts from across the room.\n");
+	output("<i>“Oh, who cares. Have you seen the " + (reason == JOINED_BABIES ? "balls on that guy? I bet he could give me sextuplets." : "cock on that guy? Fuck, I want some of that!") + "”</i>\n");
+	kGAMECLASS.badEnd("GAME OVER");	
 }
 
 //SEX----------------------------------------------------------------------------
 
 public function broodMotherSexOpts():void
-{
-	author("Other");
-	
+{	
 	clearMenu();
 	clearOutput();
+	author("HNB");
 	
 	if (lvl < 2 && !pc.hasCock())
 	{
@@ -1171,14 +1152,19 @@ public function broodMotherSexOpts():void
 		buttonNum++;
 	}
 	
-	if (isBroodmotherTreated() && flags["PREG_RASK_RETURNED_LASTMILKED"] != int(GetGameTimestamp() / 1440))
+	if (isBroodmotherTreated() && flags["PREG_RASK_RETURNED_LASTMILKED"] != int(GetGameTimestamp() / 1440) && flags["PREG_RASK_RETURNED_CUMSTORAGE_VOLUMECAP"] != 0)
 	{
 		addButton(buttonNum, "Milk her", milkBroodmotherReturn);
 		buttonNum++;
 	}
 	else
 	{
-		if (isBroodmotherTreated() && flags["PREG_RASK_RETURNED_LASTMILKED"] == int(GetGameTimestamp() / 1440))
+		if (flags["PREG_RASK_RETURNED_CUMSTORAGE_VOLUMECAP"] == 0)
+		{
+			addDisabledButton(buttonNum, "Milk her", "Milk her", "There aren't any buckets left!");
+			buttonNum++;
+		}
+		else if (isBroodmotherTreated() && flags["PREG_RASK_RETURNED_LASTMILKED"] == int(GetGameTimestamp() / 1440) )
 		{
 			addDisabledButton(buttonNum, "Milk her", "Milk her", "You've done that too recently! She'll be dry as a bone, give her some time to recharge.");
 			buttonNum++;
@@ -1211,6 +1197,7 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 {
 	clearOutput();
 	clearMenu();
+	author("HNB");
 	showPregRaskReturn();
 	var lvl:int = getBroodmotherImpregnationLevel();
 	
@@ -1564,11 +1551,11 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 
 	if (isBroodmotherTreated())
 	{
-		output("\n<i>“MOOOOoo!”</i> she cries. You feel her cock pulse and flare  and not a second later hot creaminess is firing deep inside you. Spurt after spurt fires into you, splashing against your " + (inWhat == 'vagina' ? "cervix" : "prostate") + ". After several long, pleasureable seconds, you slide yourself off of her limpening cock with a squelch, cum drooling from your " + (inWhat == 'vagina' ? "slit" : "ass") + " as you do. ");
+		output("\n<i>“MOOOOoo!”</i> she cries. You feel her cock pulse and flare  and not a second later hot creaminess is firing deep inside you. Spurt after spurt fires into you, splashing against your " + (inWhat == 'vagina' ? "cervix" : "glands") + ". After several long, pleasureable seconds, you slide yourself off of her limpening cock with a squelch, cum drooling from your " + (inWhat == 'vagina' ? "slit" : "ass") + " as you do. ");
 	}
 	else
 	{
-		output("\n<i>“A-aah, I'm cumming!”</i> she cries. You feel her cock pulse and flare and not a second later hot creaminess is firing deep inside you. Spurt after spurt fires into you, splashing against your " + (inWhat == 'vagina' ? "cervix" : "prostate") + ". After several long, pleasureable seconds, you slide yourself off of her limpening cock with a squelch, cum dripping from your " + (inWhat == 'vagina' ? "slit" : "ass") + " as you do. ");
+		output("\n<i>“A-aah, I'm cumming!”</i> she cries. You feel her cock pulse and flare and not a second later hot creaminess is firing deep inside you. Spurt after spurt fires into you, splashing against your " + (inWhat == 'vagina' ? "cervix" : "glands") + ". After several long, pleasureable seconds, you slide yourself off of her limpening cock with a squelch, cum dripping from your " + (inWhat == 'vagina' ? "slit" : "ass") + " as you do. ");
 	}
 
 	if (pc.inHeat() && inWhat == 'vagina')
@@ -1601,6 +1588,7 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 		pc.loadInAss(chars["RASKVEL_MALE"]);
 	}
 	pc.orgasm(); //Well you didn't, but doesn't matter had sex.
+	flags["PREG_RASK_RETURNED_FRIENDLINESS"] += 1;
 	processTime(30);
 	addButton(0,"Next",denInside);	
 }
@@ -1656,6 +1644,8 @@ public function milkBroodmotherReturn():void
 {
 	clearOutput();
 	showPregRaskReturn();
+	clearMenu();
+	author("HNB");
 	var lvl:int = getBroodmotherImpregnationLevel();
 	var loot:Array = new Array();
 	var buckets:RaskvelBroodmotherMilkBucket = new RaskvelBroodmotherMilkBucket();
@@ -1664,16 +1654,94 @@ public function milkBroodmotherReturn():void
 	bottles.quantity = 0;
 	
 	output("<i>“You still got those buckets for filling with cum?”</i> you ask the broodmother. ");
+	var cap:int = getBroodmotherCumCap()/1000;
+	var bucketsUsed:int = Math.ceil(getBroodmotherCumStoredVolume() / 1000);
 	if (isBroodmotherBroken())
 	{
-		output("<i>“There's loads left. I think they're in the storage closet over there, why?”</i>\n");
+		if (cap == 1)
+		{
+			if (bucketsUsed == cap)
+			{
+				output("<i>“Just the one, over there by the console. Ya' might have to store the contents somewhere though. Why?”</i>\n");
+			}
+			else
+			{
+				output("<i>“Just the one, over there by the console, why?”</i>\n");
+			}
+		}
+		else if (cap <= 5)
+		{
+			if (bucketsUsed == cap)
+			{
+				output("<i>“Sure there's a few, over there by the console. Ya' might have to store the contents somewhere though. Why?”</i>\n");
+			}
+			else
+			{
+				output("<i>“Sure there's a few, over there by the console. Why?”</i>\n");
+			}
+		}
+		else
+		{
+			if (bucketsUsed == cap)
+			{
+				output("<i>“Sure there's loads, over there by the console. Ya' might have to store the contents somewhere though. Why?”</i>\n");
+			}
+			else
+			{
+				output("<i>“Sure there's loads, over there by the console. Why?”</i>\n");
+			}
+		}
 	}
 	else
 	{
-		output("<i>“Of course, I always make sure to have some spare for any guests”</i> she cackles. <i>“They're over in that storage closet, why do you ask?”</i>\n");
+		if (cap == 1)
+		{
+			if (bucketsUsed == cap)
+			{
+				output("<i>“Just the one, over there by the console. Ya' might have to store the contents somewhere though. Why?”</i>\n");
+			}
+			else
+			{
+				output("<i>“Just the one, over there by the console, why?”</i>\n");
+			}
+		}
+		else
+		{
+			if (bucketsUsed == cap)
+			{
+				output("<i>“Of course, although you might have to store the conents somewhere though, my guests've filled them all up”</i> she cackles. <i>“They're over 'der by the console”</i>\n");
+			}
+			else
+			{
+				output("<i>“Of course, I always make sure to have some spare for any guests”</i> she cackles. <i>“They're over 'der by the console”</i>\n");
+			}
+		}
 	}
 	
-	output("You walk over to the storage closet, pick out a stack of buckets and carry them back over to ");
+	if (cap == 1)
+	{
+		if (bucketsUsed == cap)
+		{
+			output("You walk over to the console, pick up the bucket and carry it to the ships cantene. Strutting over to the sink, you push the plug in and pour the goopy contents into it, to be stored. You then carry it back over to ");
+		}
+		else 
+		{
+			output("You walk over to the console, pick up the bucket and carry it back over to ");
+		}
+	}
+	else
+	{
+		if (bucketsUsed == cap)
+		{
+			output("You walk over to the console, pick up a stack of buckets and bring the contents to the ships cantene. Strutting over to the sink, you push the plug in and pour the goopy contents into it, to be stored. You then carry the stack back over to ");
+		}
+		else 
+		{
+			output("You walk over to the console, pick out a stack of buckets and carry them back over to ");
+		}
+	}
+	
+	
 	if (lvl <= 1)
 	{
 		output(" where she's standing. ");
@@ -1738,7 +1806,14 @@ public function milkBroodmotherReturn():void
 	}
 	
 	//Grabbing and massaging breasts, small beads
-	output("\nYou take one bucket from the top of the stack and clank it down on the floor infront of her. Standing, you reach forward and sink your fingers into her ");
+	if (cap == 1)
+	{
+		output("\nYou grab the bucket and clank it down on the floor infront of her. Standing up, you reach forward and sink your fingers into her ");
+	}
+	else 
+	{
+		output("\nYou take one bucket from the top of the stack and clank it down on the floor infront of her. Standing up, you reach forward and sink your fingers into her ");
+	}
 	switch (lvl)
 	{
 		case 0:
@@ -1789,7 +1864,7 @@ public function milkBroodmotherReturn():void
 		output("Sitting back, you watch as the milker does its thing. A look of surprise washes over the milky raskvels face as out of the centre of each cup, grows long, slim brown phalli with pinpoint holes at the ends and press against the openings of her nipples. Her look quickly changes and she moos loudly as the protrustions thrust forward, spearing her fuckable nipples. ");
 		output("With the cups now forming vacuums, they hiss warmly and inside the transparent plastic her teats moisten and bulge. You hear whirring from the machine as the base of the protrusions begin to judder, vibrating deep inside the broodmothers pink mounds, causing her to moan uncontrollably, milk filling the gaps around the brown rods like lube. ");
 		output("On the outside, the cups begin tugging at her flesh as the machine, having sufficiently teased her starts vacuuming inside and out. Her pink udders redden and bulge as they're pulled towards the cups, milk bursting from her teats. She moos, sweating as the pressure amps up and the cups expand, pulling her udders to new sizes as they darken and bulge further, the protrusions vibrating and sucking inside her widened nipples. The broodmothers eyes have rolled back in her head as she " + (lvl >= 3 ? "lies above you" : "stands vacantly infront of you") + ", tounge dangling, having given in completely to the milking.\n");
-		output("At this you grab the bucket and open a hatch on the milker, accessing the output hose and place it into the bucket, as you expect her boobgasm real soon. You were right.\n");
+		output("At this you grab " + ((cap == 1) ? "the" : "a") + " bucket and open a hatch on the milker, accessing the output hose and place it into the bucket, as you expect her boobgasm real soon. You were right.\n");
 		switch (lvl)
 		{
 			case 0:
@@ -1813,14 +1888,31 @@ public function milkBroodmotherReturn():void
 				output("\nYou thank her, putting a lid over the bucket and lifting it into your backpack.");
 				break;
 			case 4:
-				output("She shudders and moans infront of you, squeezing her bountiful breasts when with a loud <i>“MOOOO!”</i> her collosal red udders explode! The nozzles cut out immediately as they're drowned by her flow and the transparent cups turn completely white as milk floods them, pouring down the tube, the device sucking it as fast as it can. Her foaming mother-milk fills the tube, hastily pouring into the bucket below. She continues to moan as her swollen udders press against the cups, milk seeping through any space it can find, her fuckable nipples squased flat against the sides. continue to release their bounty. Milk wont stop flowing and you hastily pull the bucket out of the way, milk sloshing over the sides onto the floor and manage to drop another one into place before the tube pours too much of her bounty onto the floor. The height of the milk in the cups decrease and her nipples palpitate, squirting their last out. She finally stops, having filled one and a half buckets.");
-				buckets.quantity = 1;
-				bottles.quantity = 1;
+				output("She shudders and moans infront of you, squeezing her bountiful breasts when with a loud <i>“MOOOO!”</i> her collosal red udders explode! The nozzles cut out immediately as they're drowned by her flow and the transparent cups turn completely white as milk floods them, pouring down the tube, the device sucking it as fast as it can. Her foaming mother-milk fills the tube, hastily pouring into the bucket below. She continues to moan as her swollen udders press against the cups, milk seeping through any space it can find, her fuckable nipples squased flat against the sides. continue to release their bounty. Milk wont stop flowing and you hastily pull the bucket out of the way, milk sloshing over the sides onto the floor");
+				if (cap == 1)
+				{
+					output("and with nothing to contain it all in, her bounty pours onto the floor. The height of the milk in the cups decrease and her nipples palpitate, as the last of it unloads onto the floor. She finally stops, having filled one bucket.");
+					buckets.quantity = 1;
+				}
+				else
+				{
+					output("and manage to drop another one into place before the tube pours too much of her bounty onto the floor. The height of the milk in the cups decrease and her nipples palpitate, squirting their last out. She finally stops, having filled one and a half buckets.");
+					buckets.quantity = 1;
+					bottles.quantity = 1;					
+				}
 				output("\nYou thank her, pouring her plentiful bounty into containers and placing them in your backpack.");
 				break;
 			case 5: 
-				output("She shudders and moans infront of you, massaging her massive motherly breasts when with a loud <i>“MOOOO!”</i> her bursting red udders explode! The nozzles cut out immediately as they're drowned by her flow and the transparent cups turn completely white as milk floods them, pouring down the tube, the device sucking it as fast as it can. But it can't keep up and with a beep, the cups pop off her udders and the milker clatters to the ground. As she laughs between moaning and mooing, you grab another 5 buckets and position them hastily beneath each leaking udder. Her bounty pours into each bucket from each convulsing nipple, clanging against the bottom before splashing against more of her milk. <i>“Oh fuc-MOOO”</i> she moans as her flow increases, milk now pouring in waves from her collosal teats, splashing rapidly into the bucket like a quick running tap. Milk wont stop flowing and you're worried 1 bucket for each nipple won't be enough. The flow continues and you see the foaming milk rising to the sides close to overflowing. Thankfully, her milkflow cuts out and with a last spurt she stops, as six buckets lie beneath her, drips of overflow running down the sides");
-				buckets.quantity = 6;
+				output("She shudders and moans infront of you, massaging her massive motherly breasts when with a loud <i>“MOOOO!”</i> her bursting red udders explode! The nozzles cut out immediately as they're drowned by her flow and the transparent cups turn completely white as milk floods them, pouring down the tube, the device sucking it as fast as it can. But it can't keep up and with a beep, the cups pop off her udders and the milker clatters to the ground. As she laughs between moaning and mooing, you grab ");
+				output("as many buckets as you have and position them hastily beneath as many udders as possible. Her bounty pours into each bucket from each convulsing nipple, clanging against the bottom before splashing against more of her milk. <i>“Oh fuc-MOOO”</i> she moans as her flow increases, milk now pouring in waves from her collosal teats, splashing rapidly into the bucket like a quick running tap. Milk wont stop flowing and you're worried you wont be able to catch it all. The flow continues and you see the foaming milk rising to the sides close to overflowing. Thankfully, her milkflow cuts out and with a last spurt she stops, as the buckets lie beneath her, drips of overflow running down the sides.");
+				if ((cap - bucketsUsed) >= 6)
+				{
+					buckets.quantity = 6;
+				}
+				else
+				{
+					buckets.quantity = (cap - bucketsUsed);
+				}
 				output("\nYou thank her, putting lids on each bucket of her overwhelming output and heaving them into your backpack.");
 				break;
 		}
@@ -1857,7 +1949,7 @@ public function milkBroodmotherReturn():void
 		{
 			case 0:
 				output("She shudders and moans infront of you as her swollen teats burst with a loud <i>“MOOOO!”</i>. Her milk flys into the air, like cum from a used dick and you catch it in the bucket, foaming, forming a small puddle in the bottom of the bucket.");
-				output("\nThere's not enough to collect and you leave the bucket on the floor for her to use.");
+				output("\nThere's not enough to collect and you leave the bucket on the floor.");
 				break;
 			case 1: 
 				output("She shudders and moans infront of you as her swollen teats burst with a loud <i>“MOOOO!”</i>. Squirts of milk fly through the air, like cum from a dick. Milk squirts into the bucket in your hands, foaming, filling the base of the bucket with her milk.");
@@ -1880,8 +1972,17 @@ public function milkBroodmotherReturn():void
 				output("\nYou thank her, putting a lid on the bucket and placing it into in your backpack.");
 				break;
 			case 5: 
-				output("She shudders and moans infront of you, massaging her massive motherly breasts when with a loud <i>“MOOOO!”</i> her bursting red udders explode! Milk pours out like a waterfall from her breasts, sloshing into the bucket in your hand. The weight of the bucket is quickly increasing as her bounty pours into the bucket in your hand and you quickly have to swap it for an empty one. Milk floods from each convulsing nipple, clanging against the bottom before splashing against more of her milk. <i>“Oh fuc-MOOO”</i> she moans as her flow increases, milk now pouring in waves from her collosal teats, splashing rapidly into the bucket like a quick running tap. Milk wont stop flowing and you're worried 2 buckets wont even be enough. The flow continues and you see the foaming milk rising to the sides close to overflowing. Thankfully, her milkflow cuts out and with a last spurt she stops, drips of overflow running down the sides");
-				buckets.quantity = 2;
+				output("She shudders and moans infront of you, massaging her massive motherly breasts when with a loud <i>“MOOOO!”</i> her bursting red udders explode! Milk pours out like a waterfall from her breasts, sloshing into the bucket in your hand. The weight of the bucket is quickly increasing as her bounty pours into the bucket in your hand and you quickly have to ");
+				if (cap == 1)
+				{
+					output("drop it to the floor. Milk continues floods from each convulsing nipple, splashing against the floor. <i>“Oh fuc-MOOO”</i> she moans as her flow increases, milk now pouring in waves from her collosal teats, pouring against the already existing puddle of milk on the floor, like water from a tap into a sink. The flow slows and with a last spurt she stops, with a drip.");
+					buckets.quantity = 1;
+				}
+				else
+				{
+					output("swap it for an empty one. Milk floods from each convulsing nipple, clanging against the bottom before splashing against more of her milk. <i>“Oh fuc-MOOO”</i> she moans as her flow increases, milk now pouring in waves from her collosal teats, splashing rapidly into the bucket like a quick running tap. Milk wont stop flowing and you're worried 2 buckets wont even be enough. The flow continues and you see the foaming milk rising to the sides close to overflowing. Thankfully, her milkflow cuts out and with a last spurt she stops, drips of overflow running down the sides.");
+					buckets.quantity = 2;				
+				}
 				output("\nYou thank her, putting lids on each bucket of her overwhelming output and heaving them into your backpack.");
 				break;
 		}
@@ -1891,6 +1992,11 @@ public function milkBroodmotherReturn():void
 	if (buckets.quantity > 0)
 	{
 		loot.push(buckets);
+		flags["PREG_RASK_RETURNED_CUMSTORAGE_VOLUMECAP"] -= (buckets.quantity * 1000);
+		if (bucketsUsed > (cap - buckets.quantity))
+		{
+			dumpStoredCum(flags["PREG_RASK_RETURNED_CUMSTORAGE"] - flags["PREG_RASK_RETURNED_CUMSTORAGE_VOLUMECAP"]);
+		}
 	}
 	if (bottles.quantity > 0)
 	{
@@ -1900,8 +2006,7 @@ public function milkBroodmotherReturn():void
 	
 	// Milked flag
 	flags["PREG_RASK_RETURNED_LASTMILKED"] = int(GetGameTimestamp() / 1440);
-	
-	clearMenu();
+	flags["PREG_RASK_RETURNED_FRIENDLINESS"] += 1;
 	addButton(0,"Next",denInside);
 }
 
@@ -1913,6 +2018,8 @@ public function hyperRaskFun_Return():void
 {
 	clearOutput();
 	showPregRaskReturn();
+	clearMenu();
+	//Mostly from azraExpeditions.as , author unknown
 	var x:int = pc.biggestCockIndex();
 	var lvl:int = getBroodmotherImpregnationLevel();
 
@@ -2237,7 +2344,7 @@ public function hyperRaskFun_Return():void
 		{
 			output("\n\nA powerful, condom-breaking squirt sprays out of your oversized organ. The gravid-girl cries out, struggling to hold onto your pulsating cock as her pussy struggles to contain your heated flow, ribbons of [pc.cumNoun] dripping from your tip, coating her hands, stomach and thighs. Droplets of her girlcum dribble through your load, her eyes rolling back in her head but still she moans, imploring you to give her more.");
 			output("\n\nEvery time your [pc.cockNoun " + x + "] shoots a flood of [pc.cumNoun] through its urethra, you can feel her weight increasing, her belly filling with your load, pushing her down harder against your tip. Squirts of girlcum hit your [pc.feet] as she bounces in place, making her tight snatch pump your [pc.cock " + x + "] harder, squeezing even more of your potent fluids into her, as her belly bloats further.");
-			output("\n\n<i>“Holey fucking condoms, that’s a lotta jizz!”</i> the raskvel squeaks, gushing again. <i>“I'm definitely preggers now, " + pc.mf("stud","slut") + "!”</i> She lifts herself off and slides down your soaked shaft, giving you a good look at her [pc.cumColor]-painted groin and sloshing belly. Streams of [pc.cumVisc] [pc.cumNoun] hang from her outer lips, and she’s constantly stroking her cum-covered belly in arousal. <i>“I bet that much will give me loads of your kids. My current record is fifteen.”</i> She tries to smile but she's still so lost in what just happened.");
+			output("\n\n<i>“Holy fucking condoms, that’s a lotta jizz!”</i> the raskvel squeaks, gushing again. <i>“I'm definitely preggers now, " + pc.mf("stud","slut") + "!”</i> She lifts herself off and slides down your soaked shaft, giving you a good look at her [pc.cumColor]-painted groin and sloshing belly. Streams of [pc.cumVisc] [pc.cumNoun] hang from her outer lips, and she’s constantly stroking her cum-covered belly in arousal. <i>“I bet that much will give me loads of your kids. My current record is fifteen.”</i> She tries to smile but she's still so lost in what just happened.");
 		}
 		else if(cummed < 3000)
 		{
@@ -2365,7 +2472,7 @@ public function hyperRaskFun_Return():void
 		processTime(20);
 		pc.orgasm();
 		pc.orgasm();
-		clearMenu();
+		flags["PREG_RASK_RETURNED_FRIENDLINESS"] += 5;
 		addButton(0,"Next",denInside);
 	}
 }
@@ -2375,6 +2482,9 @@ public function hyperRaskFun_Return():void
 public function fuckDatRaskipoo_Return():void
 {
 	clearOutput();
+	clearMenu();
+	//Unknown author, taken mostly from azraexpeditions.as but there was no author there.
+	
 	var x:int = pc.cockThatFits(700);
 	var lvl:int = getBroodmotherImpregnationLevel();
 	var isSlut:Boolean = ((pc.isTreated() && pc.isBimbo()) || pc.isBimbo() || pc.isBro() || pc.isDependant(Creature.DEPENDANT_CUM) || (pc.libido() >= 50 && pc.lust() >= 33) || pc.lust() > 66);
@@ -2443,7 +2553,7 @@ public function fuckDatRaskipoo_Return():void
 	output("\n\nShe’s smiling saucily, " + (isBroodmotherFuta() ? "her ball-pouch bouncing against her stomach with each thrust, " : "") + " her tail lashing back and forth. It ");
 	if(pc.balls > 1) output("cradles your balls, then wraps around them with surprising tenderness. The warm cocoon of scaly flesh makes it seem almost too easy to spill your load.");
 	else if(pc.hasVagina()) output("teasingly wanders over your slit, then slips inside. The slippery scales inside you make it almost too easy to spill your load.");
-	else output("slips back to tease your [pc.asshole]. At first, it’s playfully circling, but after a particularly forceful thrust on your part, she slides it in. The pressure on your prostate makes it seem almost too easy to spill your load.");
+	else output("slips back to tease your [pc.asshole]. At first, it’s playfully circling, but after a particularly forceful thrust on your part, she slides it in. The pressure on your gland makes it seem almost too easy to spill your load.");
 	output(" One errant thought and you’ll be giving her an enormous, cunt-bathing creampie.");
 
 	if (lvl >= 2)
@@ -2494,7 +2604,7 @@ public function fuckDatRaskipoo_Return():void
 
 	processTime(30);
 	pc.orgasm();
-	clearMenu();
+	flags["PREG_RASK_RETURNED_FRIENDLINESS"] += 5;
 	addButton(0,"Next",cumInsideBroodmother,cummies);
 }
 
@@ -2502,6 +2612,7 @@ public function cumInsideBroodmother(cummies:int):void
 {
 	clearOutput();
 	clearMenu();
+	author("HNB");
 	var result:Boolean = impregnateBroodmother(true, cummies);
 	
 	if (result)
@@ -2531,7 +2642,9 @@ public function cumInsideBroodmother(cummies:int):void
 public function faceRideTheRaskPreg_Return():void
 {
 	clearOutput();
-	showPregRask();
+	showPregRaskReturn();
+	clearMenu();
+	//Mostly taken from azraExpeditions.as , author unknown
 	var lvl:int = getBroodmotherImpregnationLevel();
 	var isSlut:Boolean = ((pc.isTreated() && pc.isBimbo()) || pc.isBimbo() || pc.isBro() || pc.isDependant(Creature.DEPENDANT_CUM) || (pc.libido() >= 50 && pc.lust() >= 33) || pc.lust() > 66);
 	
@@ -2619,7 +2732,7 @@ public function faceRideTheRaskPreg_Return():void
 	output("\n\nThe raskvel broodmother, pats her tummy. Did it get bigger? It definitely looks bigger... <i>“Mmm... that was fun. Not as fun as birth, mind you, but fun.”</i> She burps, and the scent of pussy in the air grows a little stronger.");
 	processTime(30);
 	pc.orgasm();
-	clearMenu();
+	
 	addButton(0,"Next",denInside);
 }
 
@@ -2628,10 +2741,24 @@ public function denInside():Boolean
 	clearMenu();
 	clearOutput();
 	clearBust();
-	author("Other");
+	author("HNB");
 	showName("BROOD\nDEN");
 	
-	output("The den is large, well lit and devoid of the rust you've seen on the rest of the planet. Flickering monitors line one side of the room.\nSeveral supports lie in the centre of the room and " + (getBroodmotherImpregnationLevel() > 1 ? "atop them lies ":"slouched next to them, "))
+	output("The den is large, well lit and devoid of the rust you've seen on the rest of the planet. Flickering monitors line of the walls and beneath them a shiny console, ");
+	var cap:int = getBroodmotherCumCap();
+	if (cap == 1000)
+	{
+		output("below which lies a single bucket");
+	}
+	else if (cap <= 5000)
+	{
+		output("below which several buckets are dotted about");
+	}
+	else 
+	{
+		output("below which, a large array of buckets are scattered, leaving little room to sit down");
+	}
+	output(".\nSeveral supportive structures lie in the centre of the room and " + (getBroodmotherImpregnationLevel() > 1 ? "atop them lies ":"slouched next to them, "));
 	if (pc.isBimbo() && getBroodmotherImpregnationLevel() > 1) output("your big round fun buddy, ");
 	
 	var lvl:int = getBroodmotherImpregnationLevel();
@@ -2650,7 +2777,6 @@ public function denInside():Boolean
 				if (hours % 7 == 0)
 				{
 					output("the Raskvel Broodmother, who whilst not quite as active as she used to be, is fucking a fellow raskvel, his purple cock pouch-deep in her.");
-					if (rand(3) == 0){impregnateBroodmother(false,200); }
 				}
 				else
 				{
@@ -2765,6 +2891,8 @@ public function denInside():Boolean
 		addButton(0, "Broodmother", approachBroodmother);
 	}
 	
+	addButton(1,"Buckets",cumStorageMenu);
+	
 	if (getBroodmotherImpregnationLevel() == 0){addDisabledButton(13, "Rest", "Probably best not to close your eyes around someone who's only enjoyment you've taken away.");}
 	else{addButton(13, "Rest", denRest); }
 	
@@ -2773,10 +2901,291 @@ public function denInside():Boolean
 	
 }
 
+public function cumStorageMenu():void
+{
+	clearMenu();
+	clearOutput();
+	author("HNB");
+	
+	output("You walk over to the console and sneak a peak underneath.\n\nIgnoring the ");
+	if (isBroodmotherFuta())
+	{
+		output("semen and ");
+	}
+	var count:int = getBroodmotherCumStoredVolume();
+	var cap:int = getBroodmotherCumCap();
+	output("juices splattered across the underside of the desk, you spot " + (cap/1000) + (cap <= 1000 ? " bucket" : " buckets") + " sitting on the floor. ");
+	
+	if (cap == 1000)
+	{
+		if (count == 0)
+		{
+			output("It's completely empty.");
+		}
+		else if (count <= 50)
+		{
+			output("A small pool of mixed man-goop sits in the bottom of it, contrasting against the metallic surface.");
+		}
+		else if (count <= 250)
+		{
+			output("A pool of mixed man-goop lines the bottom quarter of it.");
+		}
+		else if (count <= 500)
+		{
+			output("It's half full of dick-juice.");
+		}
+		else if (count <= 750)
+		{
+			output("Before you even near it, you can see it's almost three-quarters full of cum.");
+		}
+		else if (count < 1000)
+		{
+			output("Before you even near it, you can see it's nearly full of goopy cum from many different creatures.");
+		}
+		else
+		{
+			output("Thick cum trickles down the side of it as it's been completely filled.");
+		}
+	}
+	else
+	{
+		if (count == 0)
+		{
+			output("They're all completely empty.");
+		}
+		else if (count <= (cap / 5))
+		{
+			output("Man-goop has been spread evenly amongst each bucket, forming small pools of different thicknesses and colors at the bottom of each.");
+		}
+		else if (count <= (cap / 4))
+		{
+			output("Man-goop has been spread evenly amongst each bucket, filling the bottom quarter of each with cum of different thicknesses and colors.");
+		}
+		else if (count <= (cap / 3))
+		{
+			output("Man-juice has been poured into each, shared evenly amongst each bucket, to the point that each is nearly half full of goop of different thicknesses and colors.");
+		}
+		else if (count <= (cap / 2))
+		{
+			output("Man-juice has been poured into each, shared evenly amongst each bucket, to the point that each is half full of goop of different thicknesses and colors.");
+		}
+		else if (count < (cap / 1))
+		{
+			output("Man-juice has been poured into each, shared evenly amongst each bucket, to the point that each is nearly filled to the brim with a goopy mixture of different thicknesses and colors.");
+		}
+		else 
+		{
+			output("Cum of different thicknesses and colors is spilling over the sides of each and every single bucket.");
+		}
+	}
+	
+	showBucketBust();
+	
+	if (pc.hasItemByClass(RaskvelBroodmotherEmptyBucket))
+	{
+		addButton(0, "Add buckets", addBuckets);
+	}
+	else
+	{
+		addDisabledButton(0, "Add buckets", "You don't have any");
+	}
+	
+	if (pc.hasVagina() && !pc.isPregnant() && flags["PREG_RASK_RETURNED_FRIENDLINESS"] >= 35 && pc.hasPerk("Breed Hungry") && getBroodmotherCumStoredVolume() > 0)
+	{
+		addButton(0, "Use a bucket", useBucket);
+	}
+	else 
+	{
+		if (!pc.hasPerk("Breed Hungry"))
+		{
+			addDisabledButton(0, "Use a bucket", "Breed hungry" , "You'd have to really like breeding to want to pour old cum into yourself.");
+		}
+		else if (flags["PREG_RASK_RETURNED_FRIENDLINESS"] < 35)
+		{
+			addDisabledButton(0, "Use a bucket", "Friendliness", "You're not friendly enough with the Broodmother for her to let you just use one of her buckets.");
+		}
+		else if (pc.isPregnant())
+		{
+			addDisabledButton(0, "Use a bucket", "Already pregnant.","You're already pregnant.");
+		}
+	}
+	addButton(14, "Back", denInside);
+}
+
+public function useBucket():void{
+	clearMenu();
+	clearOutput();
+	author("HNB");
+	showBucketBust();
+	
+	var count:int = getBroodmotherCumStoredVolume();
+	var cap:int = getBroodmotherCumCap();
+	
+	//TODO: IMPLEMENT WITH DIALOGUE, ASSUMED HASVAGINA, FRIENDLY AND NOT PREGNANT
+	output("You grab " + (cap > 1000 ? "one of the buckets" : "the bucket") + " and turn your head towards the broodmother. <i>“Hey, seeing as we're friends and all, could I have this? I just really need to get knocked up right now.”</i>\n");
+	output("A knowing grin spreads across her face. <i>“Ughh, I know how you feel. All I can ever think about is pushing babies out and if that's not 'appening it drives me bonkers!”</i>. Her smile then drops as a thought crosses her mind. <i>“But if you're 'aving it, that means I can't”</i>\n");
+	if (pc.isSubby())
+	{
+		output("<i>“Pleaaase mistress”</i> you beg. <i>“I'm certain men will come from all over to refill it within a matter of minutes. You can surely spare some for little ol' me.”</i>");
+	}
+	else if (pc.isBimbo())
+	{
+		output("<i>“Pretty pweaaase”</i> you beg. <i>I'll totes pay you back! I just want the cummies!</i>");
+	}
+	else if (pc.isMischievous())
+	{
+		output("<i>“Oh alright. I was going to go outside and find some nice big, virile men to refill it with afterwards but if you don't want that, that's fine.”</i>");
+	}
+	else
+	{
+		output("<i>“Pleeease. I can make it worth your while later” you say</i> ");
+		if (pc.hasCock())
+		{
+			if (!pc.isCrotchExposed())
+			{
+				output("stroking your bulge.");
+			}
+			else
+			{
+				output("shaking your [pc.cock] hypnotizingly.");
+			}
+		}
+		else 
+		{
+			output("licking your lips.");
+		}
+	}
+	output("\n<i>“Oh, go on then”</i> she laughs, persauded. <i>“Pour away!”</i>\n\n");
+	
+	output("As you hear her invitation, you place the ");
+	if (count <= (cap / 5)) //Small pool
+	{
+		output("barely-filled");
+	}
+	else if (count <= (cap / 3)) //Third
+	{
+		output("slightly-filled");
+	}
+	else if (count <= (cap / 2)) //Half
+	{
+		output("almost half-filled");
+	}
+	else if (count < (cap / 1)) //Almost full
+	{
+		output("nearly full");
+	}
+	else //Full
+	{
+		output("filled");
+	}
+	output("bucket on the ground.  and lie down on the floor. You spread your legs apart and " + (pc.isCrotchExposed() ? "scrunch your legs up" : "open up your [pc.crotchcovers] before scrunching your legs up") + ", lifting your [pc.thighs] off the ground. You grab hold of the bucket by it's rim" + ((cap >= (count * 0.8)) ? ", your fingers plunging into the gooey jizm as you do," : "") + " before dragging it close between your legs.\n");	
+	//Unless we're gaping we need to open up
+	if (pc.vaginas[pc.biggestVaginaIndex()].loosenessRaw < 3.5)
+	{
+		output("You take your left hand off the bucket and move it to your exposed [pc.vagina " + pc.biggestVaginaIndex() + "]. With two fingers you push the lips of your pussy apart, ready to recieve the buckets thick contents. You ");
+	}
+	else 
+	{
+		output("Already more than loose enough for pouring, you ");
+	}
+	output("lift the bucket slightly on one side and tilt it towards you.\n");
+	
+	var amountInBucket:int = count / (cap / 1000);
+	// If capacity is less then it'll get a bit spilly
+	if (pc.biggestVaginalCapacity() >= amountInBucket)
+	{
+		if (amountInBucket <= 100)
+		{
+			output("The small puddle of thick white cum begins crawling down the inside of the bucket. In anticipation you press the cold metal rim against your labia and soon the collected load pours over the rim, into your waiting lower-mouth, coating the insides white as your semen-hungry snatch convulses, pulling the cum deeper in.");
+		}
+		else if (amountInBucket <= 250)
+		{
+			output("The pool of thick white cum piles up on one side of the bucket and begins it's descent towards you. In anticipation you press the cold metal rim against your labia and soon the collected load nears the rim. The initial portion pours over in a small steady stream, the thick load pouring deep into the center of your awaiting recepticle. Your semen-hungry snatch convulses, pulling the cum deeper in as a higher volume joins it, the cum now tipping over the side in a heavy stream like a waterfall before cutting out.");
+		}
+		else 
+		{
+			output("The heavy lake of thick white cum piles up on one side of the bucket and quickly begins sliding down the side. You quickly press the cold metal rim against your labia, ready to recieve the large incoming load. The initial portion pours over the rim in a fat wave, coating your labia in a wave of cum with a large amount dropping into your awaiting baby-hole which convulses in response, pulling the cum deeper in. Wave after wave drops out, dollops of cum slapping against cum as they pour into your pussy with a splashing sound, your cervix trying it's best to let it all through. The white waves slowly thin and stop, a small stream pouring in as the levels in your hole slowly drain.");
+		}
+	}
+	else
+	{
+		if (amountInBucket <= 100)
+		{
+			output("The small puddle of thick white cum begins crawling down the inside of the bucket. In anticipation you press the cold metal rim against your labia and soon the collected load pours over the rim, flooding your tiny snatch with cum, a small amount trickling out coating your labia.");
+		}
+		else if (amountInBucket <= 250)
+		{
+			output("The pool of thick white cum piles up on one side of the bucket and begins it's descent towards you. In anticipation you press the cold metal rim against your labia and soon the collected load nears the rim. The initial portion pours over in a small steady stream, the thick load pouring deep into the center of your awaiting recepticle. Your semen-hungry snatch convulses, pulling the cum deeper in. The volume of cum pouring out increases, now tipping over the side in a heavy stream like a waterfall and your pussy can't take it in fast enough. Cum layers ontop of your entrance and overflows, coating your [pc.crotch] white and sliding between your buttocks. You find yourself lying there, empty bucket in hand, a pool of cum between your legs.");
+		}
+		else 
+		{
+			output("The heavy lake of thick white cum piles up on one side of the bucket and quickly begins sliding down the side. You quickly press the cold metal rim against your labia, ready to recieve the large incoming load. The initial portion pours over the rim in a fat wave, coating your labia in a wave of cum with a large amount dropping into your awaiting baby-hole which convulses in response, pulling the cum deeper in. Wave after wave drops out, dollops of cum slapping against cum as they pour into your pussy with a splashing sound, your cervix trying it's best to let it all through. But it can't and soon with nowhere to go, the cum-waves splash against your cum-pool of a pussy and go everywhere. They splash against your [pc.belly]. They pour out, covering your labia white. They pour down between your legs and into your buttcrack. They coat your [pc.thighs]. Wave after wave comes until you find yourself covered under the stuff from the waste down, holding an empty bucket in the air.");
+		}
+	}
+	
+	//Try knock up. We haven't got any function that takes vol into account, so we'll just roll once and then once more for every 250
+	dumpStoredCum(amountInBucket);
+	var numberOfLoads:int = 1 + (Math.floor(amountInBucket / 250));
+	for (var i:int = 0; i < numberOfLoads; i++)
+	{
+		var creatureCum:int = rand(2);
+		switch (creatureCum)
+		{
+			case 0:
+				pc.loadInCunt(chars["RASKVEL_MALE"],pc.vaginas[pc.biggestVaginaIndex()]);
+				break;
+			case 1:
+				pc.loadInCunt(chars["LAPINARA_FEMALE"],pc.vaginas[pc.biggestVaginaIndex()]);
+				break;
+			case 2: 
+				pc.loadInCunt(chars["SYDIAN_MALE"],pc.vaginas[pc.biggestVaginaIndex()]);
+				break;
+		}
+	}
+	addButton(0, "Next", cumStorageMenu);
+}
+
+public function showBucketBust():void{
+	var count:int = getBroodmotherCumStoredVolume();
+	var cap:int = getBroodmotherCumCap();
+	
+	if (cap == 1000)
+	{
+		if (count < (cap * 0.75))
+		{
+			showBust("CUMBUCKET_1_1");
+		}
+		else if (count < cap)
+		{
+			showBust("CUMBUCKET_1_2");
+		}
+		else 
+		{
+			showBust("CUMBUCKET_1_3");
+		}
+	}
+	else
+	{
+		if (count < (cap * 0.75))
+		{
+			showBust("CUMBUCKET_2_1");
+		}
+		else if (count < cap)
+		{
+			showBust("CUMBUCKET_2_2");
+		}
+		else 
+		{
+			showBust("CUMBUCKET_2_3");
+		}
+	}
+}
+
 public function denRest():void
 {
 	clearMenu();
 	clearOutput();
+	author("HNB");
 	
 	if (pc.hasStatusEffect("Bulky Belly"))
 	{
@@ -2793,6 +3202,7 @@ public function denRest():void
 public function denRestEnd():void
 {
 	clearMenu();
+	author("HNB");
 	
 	if (pc.hasStatusEffect("Bulky Belly") && getBroodmotherImpregnationLevel() >= 3 && rand(3) == 2)
 	{
@@ -2818,6 +3228,7 @@ public function denRestMistaken():void
 	clearOutput();
 	showBust("RASKVEL_GANG_NUDE");
 	showName("RASKVEL\nGANG");
+	author("HNB");
 	
 	var consent:Boolean = false;
 	var stretched:Boolean = false;
@@ -3175,11 +3586,11 @@ public function denRestMistaken():void
 				}
 				else if (cummed < 3000)
 				{
-					output("your cocks erupt, [pc.cum] pouring out in waves of [pc.cumcolor], splashing against the floor below, the drains filling with it until the intensity lowers and with one last twitch, your flow stops.");
+					output("your cocks erupt, [pc.cum] pouring out in waves of [pc.cumColor], splashing against the floor below, the drains filling with it until the intensity lowers and with one last twitch, your flow stops.");
 				}
 				else
 				{
-					output("your cocks erupt, [pc.cum] pouring out like a [pc.cumcolor] tsunami, splashing against the floor below until there's no floor left and your cum is just splashing against more of your cum, the drains unable to contain the contents of your [pc.balls].");
+					output("your cocks erupt, [pc.cum] pouring out like a [pc.cumColor] tsunami, splashing against the floor below until there's no floor left and your cum is just splashing against more of your cum, the drains unable to contain the contents of your [pc.balls].");
 				}
 			}
 			else
@@ -3203,11 +3614,11 @@ public function denRestMistaken():void
 				}
 				else if (cummed < 3000)
 				{
-					output("your cock erupts, [pc.cum] pouring out in waves of [pc.cumcolor], splashing against the floor below, the drains filling with it until the intensity lowers and with one last twitch, your flow stops.");
+					output("your cock erupts, [pc.cum] pouring out in waves of [pc.cumColor], splashing against the floor below, the drains filling with it until the intensity lowers and with one last twitch, your flow stops.");
 				}
 				else
 				{
-					output("your cock erupts, [pc.cum] pouring out like a [pc.cumcolor] tsunami, splashing against the floor below until there's no floor left and your cum is just splashing against more of your cum, the drains unable to contain the contents of your [pc.balls].");
+					output("your cock erupts, [pc.cum] pouring out like a [pc.cumColor] tsunami, splashing against the floor below until there's no floor left and your cum is just splashing against more of your cum, the drains unable to contain the contents of your [pc.balls].");
 				}
 			}
 		}
@@ -3251,11 +3662,11 @@ public function denRestMistaken():void
 				}
 				else if (cummed < 3000)
 				{
-					output("your cocks jerk back, pushed to the edge despite your retaliations, [pc.cum] pouring out in waves of [pc.cumcolor], splashing against the floor below, the drains filling with it until the intensity lowers and with one last twitch, your flow stops.");
+					output("your cocks jerk back, pushed to the edge despite your retaliations, [pc.cum] pouring out in waves of [pc.cumColor], splashing against the floor below, the drains filling with it until the intensity lowers and with one last twitch, your flow stops.");
 				}
 				else
 				{
-					output("your cocks jerk back, pushed to the edge despite your retaliations, [pc.cum] pouring out like a [pc.cumcolor] tsunami, splashing against the floor below until there's no floor left and your cum is just splashing against more of your cum, the drains unable to contain the contents of your [pc.balls].");
+					output("your cocks jerk back, pushed to the edge despite your retaliations, [pc.cum] pouring out like a [pc.cumColor] tsunami, splashing against the floor below until there's no floor left and your cum is just splashing against more of your cum, the drains unable to contain the contents of your [pc.balls].");
 				}
 			}
 			else
@@ -3279,11 +3690,11 @@ public function denRestMistaken():void
 				}
 				else if (cummed < 3000)
 				{
-					output("your cock jerks back, pushed to the edge despite your retaliations, [pc.cum] pouring out in waves of [pc.cumcolor], splashing against the floor below, the drains filling with it until the intensity lowers and with one last twitch, your flow stops.");
+					output("your cock jerks back, pushed to the edge despite your retaliations, [pc.cum] pouring out in waves of [pc.cumColor], splashing against the floor below, the drains filling with it until the intensity lowers and with one last twitch, your flow stops.");
 				}
 				else
 				{
-					output("your cock jerks back, pushed to the edge despite your retaliations, [pc.cum] pouring out like a [pc.cumcolor] tsunami, splashing against the floor below until there's no floor left and your cum is just splashing against more of your cum, the drains unable to contain the contents of your [pc.balls].");
+					output("your cock jerks back, pushed to the edge despite your retaliations, [pc.cum] pouring out like a [pc.cumColor] tsunami, splashing against the floor below until there's no floor left and your cum is just splashing against more of your cum, the drains unable to contain the contents of your [pc.balls].");
 				}
 			}
 		}
@@ -3317,6 +3728,7 @@ public function denRestMistaken_Untie():void
 	clearMenu();
 	clearOutput();
 	showPregRaskReturn();
+	author("HNB");
 	
 	output("After 40 minutes of waiting the Broodmother shoots awake from her slumber and notices you tied up. She waddles over and cackles <i>“Ahaha, looks like you got my wakeup call instead. It's a shame but seeing you like this makes it worth it”</i> before freeing you from your binds.");
 	addButton(0, "Next", mainGameMenu);
@@ -3338,6 +3750,10 @@ public function getLastImpregnated():int
 
 public function setupBroodmother():void
 {
+	if (flags["PREG_RASK_RETURNED"] == undefined)
+	{
+		flags["PREG_RASK_RETURNED"] = true;
+	}
 	if (flags["PREG_RASK_RETURNED_BODYTYPE"] == undefined)
 	{
 		flags["PREG_RASK_RETURNED_BODYTYPE"] = []; // Can add FUTA, TREATED
@@ -3362,6 +3778,27 @@ public function setupBroodmother():void
 	{
 		flags["PREG_RASK_RETURNED_LASTMILKED"] = 0;
 	}
+	if (flags["PREG_RASK_RETURNED_FRIENDLINESS"] == undefined)
+	{
+		flags["PREG_RASK_RETURNED_FRIENDLINESS"] = 0;
+	}
+	if (flags["PREG_RASK_RETURNED_BABIES"] == undefined)
+	{
+		flags["PREG_RASK_RETURNED_BABIES"] = 0;
+	}
+	if (flags["PREG_RASK_RETURNED_CUMSTORAGE"] == undefined)
+	{
+		flags["PREG_RASK_RETURNED_CUMSTORAGE"] = new Array();
+	}
+	if (flags["PREG_RASK_RETURNED_CUMSTORAGE_VOLUMECAP"] == undefined)
+	{
+		flags["PREG_RASK_RETURNED_CUMSTORAGE_VOLUMECAP"] = 1000;
+	}
+}
+
+public function getBroodmotherFriendliness():int 
+{
+	return flags["PREG_RASK_RETURNED_FRIENDLINESS"];
 }
 
 public function getBroodmotherImpregnationLevel():int
@@ -3398,31 +3835,31 @@ public function impregnateBroodmother(players:Boolean, cumQ:int):Boolean
 		}
 		else if (cumQ < 50)
 		{
-			chance = 20; //1 in 100
+			chance = 20; //1 in 20
 			maxBabies = 1;
 			minBabies = 1;
 		}
 		else if (cumQ < 200)
 		{
-			chance = 8; //1 in 100
+			chance = 8; //1 in 8
 			maxBabies = 2;
 			minBabies = 1;
 		}
 		else if (cumQ < 1000)
 		{
-			chance = 3; //1 in 100
+			chance = 3; //1 in 3
 			maxBabies = 6;
 			minBabies = 3;
 		}
 		else if (cumQ < 3000)
 		{
-			chance = 1; //1 in 100
+			chance = 1; //1 in 1
 			maxBabies = 12;
 			minBabies = 5;
 		}
 		else
 		{
-			chance = 1; //1 in 100
+			chance = 1; //1 in 1
 			maxBabies = 25;
 			minBabies = 10;
 		}
@@ -3436,6 +3873,7 @@ public function impregnateBroodmother(players:Boolean, cumQ:int):Boolean
 			}
 			flags["PREG_RASK_RETURNED_LASTIMPREGNATED_YOURS"] = players;
 			flags["PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN"] = (Math.floor(Math.random() * (maxBabies - minBabies + 1)) + minBabies);
+			flags["PREG_RASK_RETURNED_BABIES"] += 1;
 			return true;
 		}
 		else
@@ -3445,6 +3883,25 @@ public function impregnateBroodmother(players:Boolean, cumQ:int):Boolean
 	}
 	else 
 	{
+		var cumStored:int = getBroodmotherCumStoredVolume();
+		var cap:int = getBroodmotherCumCap();
+		// Let her store it if she's got enough volume left
+		if (cumStored < cap)
+		{
+			var cumMap:Object = new Object();
+			if (cumStored + cumQ >= cap)
+			{
+				cumMap.players = players;
+				cumMap.cumQ = (cap - cumStored);
+				flags["PREG_RASK_RETURNED_CUMSTORAGE"].push(cumMap);
+			}
+			else
+			{
+				cumMap.players = players;
+				cumMap.cumQ = cumQ;
+				flags["PREG_RASK_RETURNED_CUMSTORAGE"].push(cumMap);
+			}
+		}
 		return false;
 	}
 }
@@ -3471,7 +3928,8 @@ public function isBroodmotherTreated():Boolean
 
 
 public function denEntry():void
-{	
+{
+	author("HNB");
 	if (denEntryAvailable())
 	{
 		setupBroodmother();
@@ -3488,7 +3946,7 @@ public function denEntryIntercom():void
 {
 	clearOutput();
 	clearMenu();
-	author("Other");
+	author("HNB");
 
 	output("You approach the glowing breen button and hold it down.\n");
 	
@@ -3596,7 +4054,7 @@ public function denEntryIntercom():void
 public function denLeave():void
 {
 	clearOutput();
-	author("Other");
+	author("HNB");
 
 	var lvl:int = getBroodmotherImpregnationLevel();
 
@@ -3644,7 +4102,7 @@ public function denEntryLeave():void
 {
 	clearOutput();
 	clearMenu();
-	author("Other");
+	author("HNB");
 
 	output("You turn your back to the door and step between the orange walls once more.");
 
@@ -3652,4 +4110,86 @@ public function denEntryLeave():void
 
 	clearMenu();
 	addButton(0, "Next", move, "249");
-}
+}
+
+public function getBroodmotherCumCap():int
+{
+	return flags["PREG_RASK_RETURNED_CUMSTORAGE_VOLUMECAP"];
+}
+
+public function getBroodmotherCumStoredVolume():int 
+{
+	var cumStorage:Array = flags["PREG_RASK_RETURNED_CUMSTORAGE"];
+	var totalVol:int = 0;
+	for (var i:int = 0; i < cumStorage.length; i++ )
+	{
+		totalVol += cumStorage[i].cumQ;
+	}
+	return totalVol;
+}
+
+public function dumpStoredCum(toRemove:int):void 
+{
+	var cumStorage:Array = flags["PREG_RASK_RETURNED_CUMSTORAGE"];
+	var removed:int = 0;
+	for (var i:int = 0; i < cumStorage.length; i++ )
+	{
+		if (removed == toRemove)
+		{
+			break;
+		}
+		
+		// If removing this one would put removed over toRemove , only remove enough
+		if ((removed + cumStorage[i].cumQ) >= toRemove)
+		{
+			cumStorage[i].cumQ = cumStorage[i].cumQ - (toRemove - removed)
+			removed = toRemove;
+		}
+		// Otherwise remove it completely
+		else 
+		{
+			removed += cumStorage[i].cumQ;
+			cumStorage.removeAt(i);
+		}
+	}
+	flags["PREG_RASK_RETURNED_CUMSTORAGE"] = cumStorage;
+}
+
+public function addBuckets():void 
+{
+	clearMenu();
+	clearOutput();
+	author("HNB");
+	showBucketBust();
+	
+	output("How many?");
+	
+	var number:int = pc.numberOfItemByClass(RaskvelBroodmotherEmptyBucket);
+	
+	for (var i:int = 1; ((i <= number) && (i < 14)); i++)
+	{
+		addButton(i-1,"x"+i,addBuckets_Number,i);
+	}
+	
+	addButton(14,"Back",cumStorageMenu);
+}
+
+public function addBuckets_Number(number:int):void 
+{
+	clearMenu();
+	clearOutput();
+	author("HNB");
+	
+	if (number == 1){
+		output("You place the bucket next to the other" + ((flags["PREG_RASK_RETURNED_CUMSTORAGE_VOLUMECAP"] == 1000) ? " one" : "s") + ".");
+	}
+	else{
+		output("You place the buckets in a stack, alongside the other" + ((flags["PREG_RASK_RETURNED_CUMSTORAGE_VOLUMECAP"] == 1000) ? " one" : "s") + ".");
+	}
+	
+	pc.destroyItemByClass(RaskvelBroodmotherEmptyBucket,number);
+	flags["PREG_RASK_RETURNED_CUMSTORAGE_VOLUMECAP"] += number * 1000;
+	
+	processTime(1);
+	addButton(0,"Next",mainGameMenu);
+}

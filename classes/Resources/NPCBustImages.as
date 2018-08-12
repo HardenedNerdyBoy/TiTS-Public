@@ -33,6 +33,7 @@
 		public static var FUBMISTRESS:Object = new FubMistressBusts();
 		public static var GATS:Object = new GatsBusts();
 		public static var GATSOLD:Object = new GatsOldBusts();
+		public static var HNB:Object = new HNBBusts();
 		public static var JACQUES:Object = new JacquesBusts();
 		public static var JAMESAB:Object = new JamesABBusts();
 		public static var JAYECHO:Object = new JayEchoBusts();
@@ -40,7 +41,6 @@
 		public static var LAPINBEAU:Object = new LapinbeauBusts();
 		public static var LILIRURU:Object = new LiliRuruBusts();
 		public static var MANIACPAINT:Object = new ManiacPaintBusts();
-		public static var MYBUSTS:Object = new MyBusts();
 		public static var NUBATTORI:Object = new NuBattoriBusts();
 		public static var PEEKAY:Object = new PeeKayBusts();
 		public static var RENEZUO:Object = new RenezuoBusts();

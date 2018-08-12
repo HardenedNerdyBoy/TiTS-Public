@@ -9,6 +9,7 @@
 	import classes.StringUtil;
 	import classes.Engine.Interfaces.*;
 	import classes.Engine.Combat.inCombat;
+	import classes.Items.Miscellaneous.RaskvelBroodmotherEmptyBucket;
 	
 	public class RaskvelBroodmotherMilkBucket extends ItemSlotClass
 	{
@@ -84,6 +85,14 @@
 				if (healing > 0) kGAMECLASS.output(" (<b>+" + healing + " Energy</b>)");
 				if(lust > 0) kGAMECLASS.output(" (<b>+" + lust + " Lust</b>)");
 			}
+			
+			//Give us the empty buckets back			
+			var bucketsReturned:RaskvelBroodmotherEmptyBucket = new RaskvelBroodmotherEmptyBucket();
+			var itemsToGet:Array = new Array();
+			bucketsReturned.quantity = 1;
+			itemsToGet.push(bucketsReturned);
+			kGAMECLASS.itemCollect(itemsToGet);
+			
 			target.lust(lust);
 			target.energy(healing);
 			return false;

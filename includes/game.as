@@ -4516,9 +4516,35 @@ public function processMyrPregEvents(deltaT:uint, doOut:Boolean, totalDays:uint)
 
 public function processRaskvelBroodmotherPregEvents(totalDays:uint):void
 {
+	// Check for her birthing your children
 	if((flags["PREG_RASK_RETURNED_IMPREGNATED_YOURS"] = true) && flags["PREG_RASK_RETURNED_LASTIMPREGNATED"] >= (GetGameTimestamp() / 1440) - 4)
 	{
 		broodBirthMessage();
+	}
+	
+	// Give her her other pregnancy attempts. Fucks a rando every 7,6,5,4,3 based on old lvls.
+	if (getBroodmotherImpregnationLevel() != 0)
+	{
+		var loops:int = 0;
+		var creature:Creature = new RaskvelMale();
+		while (loops < (Math.floor(24 / getBroodmotherImpregnationLevel())))
+		{
+			impregnateBroodmother(false, creature.cumQualityRaw);
+			loops += 1;
+		}
+	}
+	// Otherwise have her use up her cum storage until pregnant or out of cum
+	else
+	{
+		var cumStorage:Array = flags["PREG_RASK_RETURNED_CUMSTORAGE"];
+		while ((getBroodmotherImpregnationLevel() == 0) && (cumStorage.length != 0))
+		{
+			var cum:Object = cumStorage.shift();
+			var players:Boolean = cum.players;
+			var cumQ:int = cum.cumQ;
+			impregnateBroodmother(players, cumQ);
+		}
+		flags["PREG_RASK_RETURNED_CUMSTORAGE"] = cumStorage;
 	}
 }
 

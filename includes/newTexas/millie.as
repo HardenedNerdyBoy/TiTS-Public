@@ -127,7 +127,28 @@ public function millieMenu():void
 		}
 		else addDisabledButton(4,"Fuck Millie","Fuck Millie","You need a penis in order to fuck Millie.");
 	}
-	else addDisabledButton(4,"Fuck Millie","Fuck Millie","You aren’t aroused enough to fuck Millie.");
+	else addDisabledButton(4, "Fuck Millie", "Fuck Millie", "You aren’t aroused enough to fuck Millie.");
+	
+	if (flags["PREG_RASK_RETURNED"] == true)
+	{
+		if (flags["PREG_RASK_RETURNED_BUCKETSBOUGHTMILLIE"] == undefined)
+		{
+			flags["PREG_RASK_RETURNED_BUCKETSBOUGHTMILLIE"] = 0;
+		}
+		
+		if (flags["PREG_RASK_RETURNED_BUCKETSBOUGHTMILLIE"] == 15)
+		{
+			addDisabledButton(5, "Buy buckets", "Buy some buckets", "She doesn't have any left.");
+		}
+		else
+		{
+			addButton(5, "Buy buckets", buyBuckets);
+		}
+	}
+	else
+	{
+		addDisabledButton(5, "Buy buckets", "Buy some buckets", "You can't think of anything you need them for.");
+	}
 	addButton(14,"Back",leaveMillieFirstTime);
 }
 
@@ -1268,5 +1289,73 @@ public function millieSoloMilkerMishapEpilogue(lacBoosted:Boolean):void
 	flags["MEGA_MILKED"] = 1;
 	processTime(5);
 	clearMenu();
+	addButton(0,"Next",mainGameMenu);
+}
+
+public function buyBuckets():void
+{
+	clearOutput();
+	clearMenu();
+	author("HNB");
+	showName("\nMILLIE");
+	showBust("MILLIE");
+	
+	var bought:int = flags["PREG_RASK_RETURNED_BUCKETSBOUGHTMILLIE"];
+	
+	output("<i>“Not this time. I was actually wondering if you had any spare milking buckets.”</i>\n");
+	output("<i>“Oh”</i>. She rolls her eyes as the topic shifts from what she had in mind. ");
+	
+	var cap:int = flags["PREG_RASK_RETURNED_CUMSTORAGE_VOLUMECAP"];
+	if (bought == 0)
+	{
+		output("<i>“Well. Sure there's a few that can *a-hem* afford to go missing. For the right price.”</i>");
+	}
+	else 
+	{
+		output("<i>“Well, Sure thing, I can sell you some more. You'll have to make it up to me though.”</i>");
+	}
+	
+	for (var i:int = 1; i < 4; i++)
+	{
+		if (bought + i <= 15)
+		{
+			if (pc.credits >= (i * 100))
+			{
+				addButton(i - 1, "Buy x" + i, buyBuckets_Buy, i, "Buy x" + i, "Buy " + i + " bucket" + ((i > 1) ? "s" : "") + ". " + (i * 100) + " credits.");
+			}
+			else
+			{
+				addDisabledButton(i - 1, "Buy x" + i, "Buy x" + i, "You can't afford that many. Costs" + (i * 100) + " credits.");
+			}
+		}
+		else
+		{
+			addDisabledButton(i - 1, "Buy x" + i, "Buy x" + i, "There aren't that many in stock.");
+		}
+	}
+	
+	addButton(14,"Back",mainGameMenu);
+}
+
+public function buyBuckets_Buy(buckets:int):void
+{
+	clearOutput();
+	clearMenu();
+	author("HNB");
+	showName("\nMILLIE");
+	showBust("MILLIE");
+	
+	output("<i>“I'll take " + buckets + ".”</i> you say, handing her the credits.\n");
+	output("<i>“Pleasure, as always”</i> she moans, swinging her giant mammaries as she pulls the bucket" + ((buckets > 1) ? "s" : "") +" from the floor behind her and hands " + ((buckets > 1) ? "them" : "it") + " to you.\n");
+	
+	pc.credits -= (buckets * 100);
+	var items:RaskvelBroodmotherEmptyBucket = new RaskvelBroodmotherEmptyBucket();
+	var loot:Array = new Array();
+	items.quantity = buckets;
+	loot.push(items);
+	itemCollect(loot);
+	flags["PREG_RASK_RETURNED_BUCKETSBOUGHTMILLIE"] += buckets;
+	
+	processTime(1);
 	addButton(0,"Next",mainGameMenu);
 }
