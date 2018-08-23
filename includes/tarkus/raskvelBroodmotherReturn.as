@@ -3,6 +3,7 @@ import classes.ItemSlotClass;
 import classes.Items.Drinks.RaskvelBroodmotherMilkBottle;
 import classes.Items.Drinks.RaskvelBroodmotherMilkBucket;
 import classes.kGAMECLASS;
+import classes.Engine.Utility.rand;
 // Functions for non-event RaskvelBroodmother, i.e returning to her if you ended on good terms
 //
 // TODO: Explain levels 
@@ -24,10 +25,23 @@ public function getPregRaskReturn_BustName():String
 	return bustStr;
 }
 
+public function getPregRaskReturn_Name():String 
+{
+	var nameStr:String = "";
+	
+	if (isBroodmotherTreated())
+	{
+		nameStr += "PREGNANT\n";
+	}
+	nameStr += "RASKVEL\nBROODMOTHER";
+	
+	return nameStr;
+}
+
 public function showPregRaskReturn():void
 {	
 	showBust(getPregRaskReturn_BustName());
-	showName("RASKVEL\nBROODMOTHER");
+	showName(getPregRaskReturn_Name());
 }
 
 public function approachBroodmother():void
@@ -38,90 +52,92 @@ public function approachBroodmother():void
 	author("HNB");
 	
 	var lvl:int = getBroodmotherLevel();
+	var randInt:int = 0;
 	
 	addButton(0, "Appearance", broodMotherAppearance);
 	addButton(1, "Talk", talkBroodmother, undefined, "Talk", "Have a conversation with her..");
 	addButton(14, "Leave", mainGameMenu);
-	
-	var approachDialogue:Vector.<String> = new <String>[];
-	
+		
 	if (lvl == 0)
 	{
-		approachDialogue.push("You approach the frustrated looking pruple raskvel. As you near she cries in your direction.\n<i>“You did this! When are you going to take responsibility!”</i>");
+		output("You approach the frustrated looking pruple raskvel. As you near she cries in your direction.\n<i>“You did this! When are you going to take responsibility!”</i>");
 	}
 	else if (lvl == 1)
 	{
-		approachDialogue.push("You approach the plumpening, purple broodmother. As you near she smiles at you, licking her lips.\n<i>“Mmm, I'm feeling a bit better now. How can I repay you..”</i>");
+		output("You approach the plumpening, purple broodmother. As you near she smiles at you, licking her lips.\n<i>“Mmm, I'm feeling a bit better now. How can I repay you..”</i>");
 	}
 	else if (lvl == 2)
 	{
 		output("You approach the ballooning, purple broodmother. Clutching her stomach she turns towards you, with a rowdy look on her face.\n");
-		approachDialogue.push("<i>“Mmm, I'm doing much better now. How will I ever repay you..”</i> she says, licking her lips.");
+		output("<i>“Mmm, I'm doing much better now. How will I ever repay you..”</i> she says, licking her lips.");
 	}
 	else if (lvl == 3)
 	{
 		output("You approach the ballooning, purple broodmother. Clutching her stomach she turns towards you, her gargantuan tits flopping to the side as she does. With a rowdy look on her face she moans towards you.\n");
-		approachDialogue.push("<i>“Mmm, I'm doing great, I'm so full. I feel like I'm leaking a bit but I can't see past this big belly of mine. You should have a look.”</i>");
+		output("<i>“Mmm, I'm doing great, I'm so full. I feel like I'm leaking a bit but I can't see past this big belly of mine. You should have a look.”</i>");
 	}
 	else if (lvl == 4)
 	{
 		output("You approach the big, purple broodmother. Held to the ground by her ballooning paunch she rotates slightly on the slick ground below her and twists around to face you. She moans at you.\n");
-		approachDialogue.push("<i>“I can't reach around, I'm so big. I don't know what I'd do if some brave adventurer just trotted in and started fucking my pussy!”</i>");
-		if (isBroodmotherFuta()){
-			approachDialogue.push("<i>“I can't reach around, I'm so big. I don't know what I'd do if someone just trotted in and started playing with my cock!”</i>");
+		
+		randInt = rand(1);
+		if (randInt == 0 && isBroodmotherFuta()){
+			output("<i>“I can't reach around, I'm so big. I don't know what I'd do if someone just trotted in and started playing with my cock!”</i>");
 		}
-		if (isBroodmotherTreated()){
-			approachDialogue.push("<i>“I can't reach around, I'm so big. I don't know what I'd do if someone just trotted in and started milking my teats for all they're worth!”</i>");
+		else if (randInt == 1 && isBroodmotherTreated()){
+			output("<i>“I can't reach around, I'm so big. I don't know what I'd do if someone just trotted in and started milking my teats for all they're worth!”</i>");
+		}
+		else {
+			output("<i>“I can't reach around, I'm so big. I don't know what I'd do if some brave adventurer just trotted in and started fucking my pussy!”</i>");
 		}
 	}
 	else if (lvl == 5)
 	{
 		output("You approach the big, purple broodmother. Held to the ground by her gargantuan paunch she rotates slightly on the cum-soaked ground below her and twists around to face you. She flicks her tail around and stretches open her gaping, cum-soaked vagina before moaning at you, tounge hanging from her mouth.\n");
-		if (pc.hasCock())
+		
+		randInt = rand(2);
+		if (pc.hasCock() && randInt == 0)
 		{
-			var txt5cock:String = "<i>“I've got room for more. ";
+			output("<i>“I've got room for more. ");
 			if (pc.isCrotchExposed())
 			{
-				txt5cock.append("How about you let " + (pc.hasCocks() ? "those cocks" : "that cock") + " out and fill me with your cum!");
+				output("How about you let " + (pc.hasCocks() ? "those cocks" : "that cock") + " out and fill me with your cum!”</i>");
 			}
 			else
 			{
-				txt5cock.append("How about you bring " + (pc.hasCocks() ? "those cocks" : "that cock") + " over here and fill me with your cum!");
+				output("How about you bring " + (pc.hasCocks() ? "those cocks" : "that cock") + " over here and fill me with your cum!”</i>");
 			}
-			txt5cock.append("”</i>");
-			approachDialogue.push(txt5cock);
 		}
-		if (isBroodmotherFuta()){
-			approachDialogue.push("<i>“I'm feeling pretty full. How about you come over here and play with my cock!”</i>");
+		else if (isBroodmotherFuta()  && randInt == 1){
+			output("<i>“I'm feeling pretty full. How about you come over here and play with my cock!”</i>");
 		}
-		if (isBroodmotherTreated()){
-			approachDialogue.push("<i>“I'm feeling pretty full. How about you come over here and milk my tits dry!”</i>");
+		else if (isBroodmotherTreated()  && randInt == 2){
+			output("<i>“I'm feeling pretty full. How about you come over here and milk my tits dry!”</i>");
 		}
-		approachDialogue.push("<i>“Mmm, how 'bout you get over here and we have some fun?”</i>")
+		else{
+			output("<i>“Mmm, how 'bout you get over here and we have some fun?”</i>")
+		}
 	}
 	else if (lvl == 6)
 	{
-		var txt6puss:String = ""
-		txt6puss.append("You approach the writing covered, used broodmother. Held to the ground by her gargantuan paunch she rotates slightly on the cum-covered ground below her and twists around to face you. She flicks her tail and stretches open her gaping cum-soaked vagina before moaning at you through her plump lips.\n");
-		if (pc.hasCock())
-		{
-			txt6puss.append("<i>“Oh fuck, you're back! Please, get back there and stuff " + (pc.hasCocks() ? "those cocks" : "that cock") + " in my slutty pussy! Fill me with your cum!”</i>");
-		}
-		else
-		{
-			txt6puss.append("<i>“Oh fuck, you're back! I need you to play with my pussy, I need it! Use me like the slut I am!”</i>")
-		}
-		approachDialogue.push(txt6puss);
+		randInt = rand(4);
 		
-		approachDialogue.push("You approach the writing covered, used broodmother. Held to the ground by her gargantuan paunch she rotates slightly on the cum-covered ground below her and twists around to face you. Licking her plump lips, she moans.\n<i>“Oh fuck. You're back! How about you get closer and I'll suck ya dick!”</i>");
-		if (isBroodmotherFuta()){
-			approachDialogue.push("You approach the writing covered, used broodmother. Held to the ground by her gargantuan paunch she rotates slightly on the cum-covered ground below her and twists around to face you. Licking her plump lips, she moans.\n<i>“Oh fuck. You're back! It feels so tingley, I need you to get back thee and fuck my slutty dick!”</i>");
+		if (pc.hasCock() && randInt == 0){
+			output("You approach the writing covered, used broodmother. Held to the ground by her gargantuan paunch she rotates slightly on the cum-covered ground below her and twists around to face you. She flicks her tail and stretches open her gaping cum-soaked vagina before moaning at you through her plump lips.\n<i>“Oh fuck, you're back! Please, get back there and stuff " + (pc.hasCocks() ? "those cocks" : "that cock") + " in my slutty pussy! Fill me with your cum!”</i>");
 		}
-		if (isBroodmotherTreated()){
-			approachDialogue.push("You approach the writing covered, used broodmother. Held to the ground by her gargantuan paunch she rotates slightly on the cum-covered ground below her and twists around to face you. Twisting her fat teats in her hand she gasps.\n<i>“Oh fuck. You're back! They're so full! Please, come over and milk my titties before I burst!”</i>");
+		else if (pc.hasCock() && randInt == 1){
+			output("You approach the writing covered, used broodmother. Held to the ground by her gargantuan paunch she rotates slightly on the cum-covered ground below her and twists around to face you. Licking her plump lips, she moans.\n<i>“Oh fuck. You're back! How about you get closer and I'll suck ya dick!”</i>");
+		}
+		else if (isBroodmotherFuta() && randInt == 3){
+			output("You approach the writing covered, used broodmother. Held to the ground by her gargantuan paunch she rotates slightly on the cum-covered ground below her and twists around to face you. Licking her plump lips, she moans.\n<i>“Oh fuck. You're back! It feels so tingley, I need you to get back thee and fuck my slutty dick!”</i>");
+		}
+		else if (isBroodmotherTreated() && randInt == 4){
+			output("You approach the writing covered, used broodmother. Held to the ground by her gargantuan paunch she rotates slightly on the cum-covered ground below her and twists around to face you. Twisting her fat teats in her hand she gasps.\n<i>“Oh fuck. You're back! They're so full! Please, come over and milk my titties before I burst!”</i>");
+		}
+		else{
+			output("You approach the writing covered, used broodmother. Held to the ground by her gargantuan paunch she rotates slightly on the cum-covered ground below her and twists around to face you. She flicks her tail and stretches open her gaping cum-soaked vagina before moaning at you through her plump lips.\n<i>“Oh fuck, you're back! I need you to play with my pussy, I need it! Use me like the slut I am!”</i>");
 		}
 	}	
-	output(approachDialogue[rand(approachDialogue.length - 1)]);
 	
 	// LUSTY THOUGHTS
 	if ((pc.libido() >= 70 || pc.lust() >= 50) && lvl >= 2)
@@ -540,27 +556,30 @@ public function broodMotherAppearance():void
 	if (isBroodmotherFuta())
 	{
 		output("Because of your help previously, ");
-		case 0:
-			output("a mound has formed on the broodmothers " + (isBroodmotherTreated() ? "hairy " : "") + "crotch, a dagger-like, blue cock jutting out from it and a small round cum-pouch dangling below.\n");
-			break;
-		case 1: 
-			output("a mound has formed on the broodmothers " + (isBroodmotherTreated() ? "hairy " : "") + "crotch, causing a dagger-like, blue cock to follow the curve of her belly, a small round cum-pouch dangling below.\n");
-			break;
-		case 2: 
-			output("a curvy, blue cock juts out from the dark" + (isBroodmotherTreated() ? ", hairy " : " ") + "space below her stomach, a small round cum-pouch dangling below.\n");
-			break;
-		case 3: 
-			output("a hard, curvy, blue cock is lifting up her belly like a tentpole, a small round cum-pouch dangling below.\n");
-			break;
-		case 4: 
-			output("a large, curved blue cock is resting on her belly, having jutted out from a mound on her " + (isBroodmotherTreated() ? "hairy crotch, a hairy cumpouch sitting beneath it, like a throne.\n" : "crotch, a throne-like cumpouch sitting beneath it.\n"));
-			break;
-		case 5: 
-			output("a blue, forearm-length cock is resting, cum-stained on her belly, having jutted out from a mound on her " + (isBroodmotherTreated() ? "hairy crotch, a hairy cumpouch sitting beneath it, like a throne.\n" : "crotch, a throne-like cumpouch sitting beneath it.\n"));
-			break;
-		case 6: 
-			output("a thick, veiny, forearm-length cock is resting, cum-stained on her belly, having jutted out from a mound on her " + (isBroodmotherTreated() ? "hairy crotch, a hairy cumpouch sitting beneath it, like a throne.\n" : "crotch, a throne-like cumpouch sitting beneath it.\n"));
-			break;
+		switch(lvl)
+		{
+			case 0:
+				output("a mound has formed on the broodmothers " + (isBroodmotherTreated() ? "hairy " : "") + "crotch, a dagger-like, blue cock jutting out from it and a small round cum-pouch dangling below.\n");
+				break;
+			case 1: 
+				output("a mound has formed on the broodmothers " + (isBroodmotherTreated() ? "hairy " : "") + "crotch, causing a dagger-like, blue cock to follow the curve of her belly, a small round cum-pouch dangling below.\n");
+				break;
+			case 2: 
+				output("a curvy, blue cock juts out from the dark" + (isBroodmotherTreated() ? ", hairy " : " ") + "space below her stomach, a small round cum-pouch dangling below.\n");
+				break;
+			case 3: 
+				output("a hard, curvy, blue cock is lifting up her belly like a tentpole, a small round cum-pouch dangling below.\n");
+				break;
+			case 4: 
+				output("a large, curved blue cock is resting on her belly, having jutted out from a mound on her " + (isBroodmotherTreated() ? "hairy crotch, a hairy cumpouch sitting beneath it, like a throne.\n" : "crotch, a throne-like cumpouch sitting beneath it.\n"));
+				break;
+			case 5: 
+				output("a blue, forearm-length cock is resting, cum-stained on her belly, having jutted out from a mound on her " + (isBroodmotherTreated() ? "hairy crotch, a hairy cumpouch sitting beneath it, like a throne.\n" : "crotch, a throne-like cumpouch sitting beneath it.\n"));
+				break;
+			case 6: 
+				output("a thick, veiny, forearm-length cock is resting, cum-stained on her belly, having jutted out from a mound on her " + (isBroodmotherTreated() ? "hairy crotch, a hairy cumpouch sitting beneath it, like a throne.\n" : "crotch, a throne-like cumpouch sitting beneath it.\n"));
+				break;
+		}
 	}
 	
 	//Puss
@@ -600,7 +619,7 @@ public function giveBroodMotherItem():void
 	clearMenu();
 	clearOutput();
 	author("HNB");
-	
+	var lvl:int = getBroodmotherLevel();
 	var isSlut:Boolean = ((pc.isTreated() && pc.isBimbo()) || pc.isBimbo() || pc.isBro() || pc.isDependant(Creature.DEPENDANT_CUM) || (pc.libido() >= 50 && pc.lust() >= 33) || pc.lust() > 66);
 	
 	output("You rummage in your inventory, looking for something to ");
@@ -617,22 +636,29 @@ public function giveBroodMotherItem():void
 	var currentButtonIndex:int = 0;
 	
 	// Motherhusk
-	if (pc.hasItemByClass(Motherhusk) && isBroodmotherBroken())
+	if (pc.hasItemByClass(Motherhusk,10) && lvl == 0)
 	{
-		addButton(currentButtonIndex, "Motherhusk", giveMotherhusk);
+		addButton(currentButtonIndex, "Motherhusks", giveMotherhusk);
 		currentButtonIndex++;
 	}
 	else
 	{
-		if (isBroodmotherBroken())
+		if (lvl == 0)
 		{
-			addDisabledButton(currentButtonIndex, "Motherhusk", "You don't have any");
+			if (!pc.hasItemByClass(Motherhusk))
+			{
+				addDisabledButton(currentButtonIndex, "Motherhusks", "You don't have any.");
+			}
+			else (!pc.hasItemByClass(Motherhusk, 10))
+			{
+				addDisabledButton(currentButtonIndex, "Motherhusks", "You don't have enough. You'd need about 20.");
+			}
 			currentButtonIndex++;
 		}
 	}
 	
 	// You'd have to be a slut and like the treatment to risk breaking the law by giving her treatment
-	if (pc.hasItemByClass(Treatment) && !isBroodmotherTreated() && isSlut && pc.isTreated() && !isBroodmotherBroken())
+	if (pc.hasItemByClass(Treatment) && !isBroodmotherTreated() && isSlut && pc.isTreated())
 	{
 		addButton(currentButtonIndex, "Treatment", giveTreatment);
 		currentButtonIndex++;
@@ -644,10 +670,6 @@ public function giveBroodMotherItem():void
 			if (!pc.hasItemByClass(Treatment))
 			{
 				addDisabledButton(currentButtonIndex, "Treatment", "You don't have any");
-			}
-			else if (isBroodmotherBroken())
-			{
-				addDisabledButton(currentButtonIndex, "Treatment", "She's not happy enough to accept this");
 			}
 			else if (isSlut)
 			{
@@ -661,18 +683,14 @@ public function giveBroodMotherItem():void
 		}
 	}
 	
-	if (pc.hasItemByClass(Throbb) && !isBroodmotherFuta() && !isBroodmotherBroken())
+	if (pc.hasItemByClass(Throbb) && !isBroodmotherFuta())
 	{
 		addButton(currentButtonIndex, "Throbb", giveThrobb);
 		currentButtonIndex++;
 	}
 	else
 	{
-		if (isBroodmotherBroken())
-		{
-			addDisabledButton(currentButtonIndex, "Throbb", "She's not happy enough to accept this");
-		}
-		else if (!isBroodmotherFuta())
+		if (!isBroodmotherFuta())
 		{
 			addDisabledButton(currentButtonIndex, "Throbb", "You don't have any");
 		}
@@ -792,11 +810,10 @@ public function giveMotherhusk():void
 	output("<i>“[pc.name]”</i>.");
 	output("<i>“Thanks, [pc.name]”</i>.");
 	
-	pc.destroyItemByClass(Motherhusk, 1);
+	pc.destroyItemByClass(Motherhusk, 10);
 	addButton(0, "Continue", giveBroodMotherItem);
-	fixBroodmother();
 	flags["PREG_RASK_RETURNED_FRIENDLINESS"] += 10;
-	flags["PREG_RASK_RETURNED_LVLPOINTS"] += 5;
+	flags["PREG_RASK_RETURNED_LVLPOINTS"] += 20;
 	showPregRaskReturn();
 }
 
@@ -1030,7 +1047,9 @@ public function talkBroodmother():void
 	clearOutput();
 	author("HNB");
 	
-	if (isBroodmotherBroken())
+	var lvl:int = getBroodmotherLevel();
+	
+	if (lvl == 0)
 	{
 		output("<i>“What do you want?”</i> she shouts, angrily.");
 	}
@@ -3059,16 +3078,29 @@ public function faceRideTheRaskPreg_Return():void
 	}
 	else if (lvl <= 6)
 	{
-		output("\n\n<i>“Mmmm... come here then, I'll eat you out until you're juices are dripping off my chin!”</i> the " + (isBroodmotherPregnant() ? "pregnant" : "bloated") + " raskvel induces. ");
+		output("\n\n<i>“Mmmm... come here then, I'll eat you out until your juices are dripping off my chin!”</i> ");
 	}
 	
 	output("Her eyes are wide and lustily locked on your slit");
 	if(pc.totalVaginas() > 1) output("s");
-	output(". It’d take a boy, dribbling cum and begging to fuck, to distract her for how she stares. She wants the pussy, and she wants it bad. " + (isBroodmotherFuta() ? "It's taking all her willpower not to rest her belly on your back and start plowing into you with her big blue cock. " : "") + "Rocking forward, the lizard-girl strains to plant a kiss on your mound, but her pregnant bulk drags her right back, forcing her to settle down on her fattened haunches with an annoyed wobble. <i>“...Please? I can’t reach.”</i> She looks up imploringly, tugging her " + (isBroodmotherTreated() ? "milky teats" : "nipples") + " as much for show as for her own pleasure.");
-
-	output("\n\nYou ");
-	if(pc.tallness < 5*12) output("step to the side and carefully climb up onto her sleeping struts. It’s the only way you’ll get your cunt at the right level with how short you both are.");
-	else output("take a step closer.");
+	output(". It’d take a boy, dribbling cum and begging to fuck, to distract her for how she stares. She wants the pussy, and she wants it bad. " + (isBroodmotherFuta() ? "It's taking all her willpower not to " + (lvl >= 2 ? "rest her belly on your back and start plowing into you with her big blue cock." : "bend you over and start plowing you with her big blue cock.") + " " : ""));
+	
+	if (lvl >= 2)
+	{
+		output("Rocking forward, the lizard-girl strains to plant a kiss on your mound, but her bulk drags her right back, forcing her to settle down on her fattened haunches with an annoyed wobble. <i>“...Please? I can’t reach.”</i> She looks up imploringly, tugging her " + (isBroodmotherTreated() ? "milky teats" : "nipples") + " as much for show as for her own pleasure.");
+	
+		output("\n\nYou ");
+		if(pc.tallness < 5*12) output("step to the side and carefully climb up onto her sleeping struts. It’s the only way you’ll get your cunt at the right level with how short you both are.");
+		else output("take a step closer.");
+	}
+	else 
+	{
+		if(pc.tallness < 7*12) output("She rocks forward, ");
+		else output("She stands on the balls of her feet to bring her lips level with yours and rocks her head forward, ");
+		
+		output("planting several kisses across your mound. You feel her soft lips caress against your [pc.crotch] and her sun-colored eyes stare into yours between each kiss, imploringly, tugging her " + (isBroodmotherTreated() ? "teats" : "nipples") + " as much for teasing as for her own pleasure.");
+	}
+	
 	output(" The violet lizard-girl smiles eagerly. Then, too fast to be seen, she worms her tongue into your [pc.vagina]. One moment, you’re inching your hips closer. The next, a thick spear of oral flesh is wriggling inside your most sensitive place. It’s a disproportionately large thing too - nearly six inches long and fat enough around to shame a few of the galaxy’s bigger races.");
 
 	output("\n\nA sigh of delight slips from your mouth as your hips instinctively push back, pressing your lips to hers, [pc.oneClit] booping her on the nose. Your pregnant pussy-licker takes your vocalizations as encouragement and places her hands ");
@@ -3135,113 +3167,133 @@ public function denInside():Boolean
 	author("HNB");
 	showName("BROOD\nDEN");
 	
+	var lvl:int = getBroodmotherLevel();
+	
 	output("The den is large, well lit and devoid of the rust you've seen on the rest of the planet. Flickering monitors line of the walls and beneath them a shiny console, ");
 	var cap:int = getBroodmotherCumCap();
 	if (cap == 1000)
 	{
-		output("below which lies a single bucket");
+		output("below which lies a single bucket.\n");
 	}
 	else if (cap <= 5000)
 	{
-		output("below which several buckets are dotted about");
+		output("below which several buckets are dotted about.\n");
 	}
 	else 
 	{
-		output("below which, a large array of buckets are scattered, leaving little room to sit down");
+		output("below which, a large array of buckets are scattered, leaving little room to sit down.\n");
 	}
-	output(".\nSeveral supportive structures lie in the centre of the room and " + (getBroodmotherLevel() > 1 ? "atop them lies ":"slouched next to them, "));
-	if (pc.isBimbo() && getBroodmotherLevel() > 1) output("your big round fun buddy, ");
 	
-	var lvl:int = getBroodmotherLevel();
+	output("Several make-shift supportive structures lie in the centre of the room, welded together from pipes from when the ship was more functional. ");
+	
+	if (lvl <= 1)
+	{
+		output("Slouched next to them is ");
+	} 
+	else if (lvl <= 3)
+	{
+		output("Sitting next to them is ");
+	}
+	else 
+	{
+		output("Lying atop them is ");
+	}
+	
+	if (pc.isBimbo() && lvl > 1) output("your short round fun buddy, ");
 	if (hours < 4 || hours > 22)
 	{
-		output("the Raskvel Broodmother, snoring away, resting from the days activities.");
+		output("the Raskvel Broodmother, snoring away" + (lvl <= 1 ? "." : ", resting from the days' activities."));
 	}
 	else
 	{
 		switch (lvl)
 		{
 			case 0:
-				output("the Raskvel Broodmother, her expression gloomy and her body lacking its previous glow.");
+				output("the Raskvel Broodmother, her expression a mixture of sadness and frustration. Her belly has completely flattened out and all her features that you enjoyed before completely wethered away.");
+				if (flags["PREG_RASK_RETURNED_BEFORE"] == undefined)
+				{
+					output("\nTaking the motherhusks from her has had quite the effect on her. She clearly has not been pregnant for some time and she's much less cocky than before. The den looks significantly less used than before too, with no cum-puddles in sight.");
+					flags["PREG_RASK_RETURNED_BEFORE"] = true;
+				}
 				break;
 			case 1:
 				if (hours % 7 == 0)
 				{
-					output("the Raskvel Broodmother, who whilst not quite as active as she used to be, is fucking a fellow raskvel, his purple cock pouch-deep in her.");
+					output("the Raskvel Broodmother, who's getting back on the horse. Or Raskvel. She's bent over holding onto one of the pipes for support, a fellow Raskvel pouch-deep in her.");
 				}
 				else
 				{
-					output("the Raskvel Broodmother. Her expression is one of frustration but her feathery hair has regained its shine.");
+					output("the Raskvel Broodmother, who's looking cheery compared to before. A smile beams, her belly is looking slightly more rounded and her hair has regained some of it's shininess. ");
 				}
 				break;
 			case 2:
 				if (hours % 6 == 0)
 				{
-					output("the Raskvel Broodmother, who's clearly beginning to regain her libido as she's getting double teamed by 2 young Raskvel males.");
+					output("the Raskvel Broodmother. You hear her before you see her, as muffled moaning and grunting echoes throughout the room. " + ((pc.isTreated() && pc.isBimbo()) || pc.isBimbo() || pc.isBro() || pc.isDependant(Creature.DEPENDANT_CUM) || (pc.libido() >= 50 && pc.lust() >= 33) || pc.lust() > 66 ? "<i>“That's more like it!”</i>" : "<i>“She's clearly beginning to regain her libido”</i>") + " you think to yourself, as you see that she's sandwiched between two Raskvels, getting pushed to and fro between them.");
 				}
 				else
 				{
-					output("the Raskvel Broodmother, her face filled with exasperation and her bulbous figure glowing.");
+					output("the Raskvel Broodmother, a lascivious expression on her face as she stares in your direction, her bulbous figure glowing.");
 				}
 				break;
 			case 3:
 				if (hours % 5 == 0)
 				{
-					output("the Raskvel Broodmother, who's almost back to how she used to be with a group of " + (rand(1) == 1 ? "Raskvel males" : "Sydian males") + " taking turns fucking her.");
+					output("the Raskvel Broodmother. You hear her before you see her, as muffled moaning and grunting echoes throughout the room, along with a variety of squelching sounds. " + ((pc.isTreated() && pc.isBimbo()) || pc.isBimbo() || pc.isBro() || pc.isDependant(Creature.DEPENDANT_CUM) || (pc.libido() >= 50 && pc.lust() >= 33) || pc.lust() > 66 ? "<i>“That's more like it!”</i>" : "<i>“She's clearly beginning to regain her libido”</i>") + " you think to yourself, as you see that she's having fun with a small gang of Raskvel underneath the supports.");
 				}
 				else
 				{
-					output("the Raskvel Broodmother, held down by her ever ballooning paunch, tounge dangling from her mouth.");
+					output("the Raskvel Broodmother, a lascivious expression on her face as she stares in your direction, her bulbous figure glowing.");
 				}
 				break;
 			case 4:
 				if (hours % 4 == 0)
 				{
-					output("the Raskvel Broodmother, who's libido is back to normal, as a group of " + (rand(1) == 1 ? "Raskvel men and women" : "Sydian men and women") + " are all trying to fuck the heavily pregnant Raskvel at once.");
+					output("the Raskvel Broodmother, who's having fun with a group of " + (rand(1) == 1 ? "Raskvel men and women" : "Sydian men and women") + ", who are all barging eachother, trying to get in on the action.");
 				}
 				else
 				{
-					output("the Raskvel Broodmother, pinned by her gargantuan stomach and breasts. As she notices you looking at her, she spreads her legs slightly wider giving you a view of her gaping pussy.");
+					output("the Raskvel Broodmother, pinned to her supports by her dis-proportionate paunch. As she notices you looking at her, she runs the tip of her long tounge around her lips.");
 				}
 				break;
 			case 5:
 				if (hours % 3 == 0)
 				{
-					output("the Raskvel Broodmother, who's libido is at it's limit, as a large crowd of aliens of various races are all pushing eachother around, competing to fuck the heavily pregnant Raskvel as she touches herself and begs for them.");
+					output("the Raskvel Broodmother, a large group of various races all crowded around her, competing to fuck the incapacitated Raskvel as she touches herself and begs for them.");
 				}
 				else
 				{
-					output("the ballooning Raskvel Broodmother, who rubs her lactating nipples as she catches sight of you. Saliva drips from her tounge, as she's lost in sexual thoughts.");
+					output("the incapacitated Raskvel Broodmother, whom, as she sees you, flicks her tail around to further present you with her gaping pussy, cum drooling from it as she does.");
+				}
+				break;
+			case 6:
+				if (hours % 2 == 0)
+				{
+					output("the Raskvel Broodmother, a large group of various races all crowded around her, competing to fuck the incapacitated Raskvel as she touches herself and begs for them.");
+				}
+				else
+				{
+					output("the incapacitated Raskvel Broodmother, whom, as she sees you, flicks her tail around to further present you with her gaping pussy, cum drooling from it as she does.");
 				}
 				break;
 		}
 	}
-	if (flags["PREG_RASK_RETURNED_BEFORE"] == undefined)
-	{
-		output("\nTaking the motherhusks from her has had quite the effect on her. She clearly has not been pregnant for some time and she's much less cocky than before. The den looks significantly less used than before too, with no cum-puddles in sight.");
-	}
-	flags["PREG_RASK_RETURNED_BEFORE"] = true;
 	
-	switch (lvl)
+	if (lvl <= 2 && lvl != 0)
 	{
-		case 1:
-			output("\nDrains line the floor beneath her, collecting any overflow from her breeding sessions.");
-			break;
-		case 2:
-			output("\nDrains line the floor beneath her, collecting any overflow from her breeding sessions.");
-			break;
-		case 3:
-			output("\nDrains line the floor beneath her, collecting the substantial overflow from her breeding sessions.");
-			break;
-		case 4:
-			output("\nDrains line the floor beneath her. They're beggining to become blocked by the excessive overflow from her breeding sessions.");
-			break;
-		case 5:
-			output("\nThe drains beneath her are completely blocked by the excessive overflow from her non-stop breeding sessions.");
-			break;				
+		output("\nDrains line the floor beneath her, collecting any overflow from her breeding sessions.");
+	}
+	else if (lvl <= 4)
+	{
+		output("\nDrains line the floor beneath her, collecting the substantial overflow from her breeding sessions.");
+	}
+	else 
+	{
+		output("\nDrains line the floor beneath her. They're struggling to battle the excessive overflow from her frequent breeding sessions, cum from male and female genitals alike struggling to be sucked away.");
 	}
 	
-	if (lvl >= 2)
+	//If she getting fucked and you're horny, you're jelly
+	if ((hours % (8 - lvl)) == 0 && lvl != 0)
 	{
 		if (pc.libido() >= 70 || pc.lust() >= 50)
 		{
@@ -3249,28 +3301,24 @@ public function denInside():Boolean
 			{
 				if (pc.isBimbo())
 				{
-					output("\nYou wish you were stuck up there, being pumped full of cum all day!");
+					output("\nYou wish you were stuck in here, being pumped full of cum all day!\n");
 				}
 				else
 				{
-					output("\nIt makes you a little envious.");
+					output("\nIt makes you a little envious.\n");
 				}
 			}
 			else
 			{
-				output("\nMaybe you'll block them some more..");
+				output("\nMaybe you'll block them some more..\n");
 			}
-			
 		}
+		
 		else if (pc.isBimbo())
 		{
-			output("\nYou're totally jealous.");
+			output("\nYou're totally jealous.\n");
 		}
-	}
-	output("\n");
-	
-	if ((hours % (8 - lvl)) == 0 && lvl != 0)
-	{
+		
 		addDisabledButton(0, "Broodmother", "She looks busy");
 	}
 	else if (hours < 4 || hours > 22)
@@ -3284,7 +3332,7 @@ public function denInside():Boolean
 	
 	addButton(1,"Buckets",cumStorageMenu);
 	
-	if (getBroodmotherLevel() == 0){addDisabledButton(13, "Rest", "Probably best not to close your eyes around someone who's only enjoyment you've taken away.");}
+	if (getBroodmotherLevel() == 0){addDisabledButton(13, "Rest", "Probably best not to close your eyes around someone who's only joy in life you've taken away.");}
 	else{addButton(13, "Rest", denRest); }
 	
 	addButton(14, "Leave", denLeave);
@@ -3383,11 +3431,26 @@ public function cumStorageMenu():void
 	
 	if (pc.hasVagina() && !pc.isPregnant() && flags["PREG_RASK_RETURNED_FRIENDLINESS"] >= 35 && pc.hasPerk("Breed Hungry") && getBroodmotherCumStoredVolume() > 0)
 	{
-		addButton(0, "Use a bucket", useBucket);
+		if (hours > 4 || hours < 22)
+		{
+			addButton(0, "Use a bucket", useBucket);
+		}
+		else if ((hours < 4 || hours > 22) && pc.isMischievous())
+		{
+			addButton(0, "Steal a bucket", stealBucket);
+		}
 	}
 	else 
 	{
-		if (!pc.hasPerk("Breed Hungry"))
+		if (!pc.hasVagina())
+		{
+			addDisabledButton(0, "Use a bucket", "Breed hungry" , "You need a vagina for this.");
+		}
+		else if ((hours < 4 || hours > 22) && !pc.isMischievous())
+		{
+			addDisabledButton(0, "Use a bucket", "Breed hungry" , "You feel the need to ask her first before using her cum but she's asleep.");
+		}
+		else if (!pc.hasPerk("Breed Hungry"))
 		{
 			addDisabledButton(0, "Use a bucket", "Breed hungry" , "You'd have to really like breeding to want to pour old cum into yourself.");
 		}
@@ -3536,6 +3599,132 @@ public function useBucket():void{
 	addButton(0, "Next", cumStorageMenu);
 }
 
+public function stealBucket():void{
+	clearMenu();
+	clearOutput();
+	author("HNB");
+	showBucketBust();
+	
+	var count:int = getBroodmotherCumStoredVolume();
+	var cap:int = getBroodmotherCumCap();
+	
+	var success:Boolean = false;
+	if ((15 - pc.reflexes()) < 0)
+	{
+		success = true;
+	}
+	else 
+	{
+		success = (rand(15 - pc.reflexes()) == 0);
+	}
+	
+	if (!success)
+	{
+		output("You go to grab " + (cap > 1000 ? "one of the buckets" : "the bucket") + " and turn your head towards the broodmother.\n\n");
+		
+		output("She doesn't seem to have heard you. Comfortable with the fact you're not going to get caught, you place the ");
+		if (count <= (cap / 5)) //Small pool
+		{
+			output("barely-filled");
+		}
+		else if (count <= (cap / 3)) //Third
+		{
+			output("slightly-filled");
+		}
+		else if (count <= (cap / 2)) //Half
+		{
+			output("almost half-filled");
+		}
+		else if (count < (cap / 1)) //Almost full
+		{
+			output("nearly full");
+		}
+		else //Full
+		{
+			output("filled");
+		}
+		output("bucket on the ground.  and lie down on the floor. You spread your legs apart and " + (pc.isCrotchExposed() ? "scrunch your legs up" : "open up your [pc.crotchcovers] before scrunching your legs up") + ", lifting your [pc.thighs] off the ground. You grab hold of the bucket by it's rim" + ((cap >= (count * 0.8)) ? ", your fingers plunging into the gooey jizm as you do," : "") + " before dragging it close between your legs.\n");	
+		//Unless we're gaping we need to open up
+		if (pc.vaginas[pc.biggestVaginaIndex()].loosenessRaw < 3.5)
+		{
+			output("You take your left hand off the bucket and move it to your exposed [pc.vagina " + pc.biggestVaginaIndex() + "]. With two fingers you push the lips of your pussy apart, ready to recieve the buckets thick contents. You ");
+		}
+		else 
+		{
+			output("Already more than loose enough for pouring, you ");
+		}
+		output("lift the bucket slightly on one side and tilt it towards you.\n");
+		
+		var amountInBucket:int = count / (cap / 1000);
+		// If capacity is less then it'll get a bit spilly
+		if (pc.biggestVaginalCapacity() >= amountInBucket)
+		{
+			if (amountInBucket <= 100)
+			{
+				output("The small puddle of thick white cum begins crawling down the inside of the bucket. In anticipation you press the cold metal rim against your labia and soon the collected load pours over the rim, into your waiting lower-mouth, coating the insides white as your semen-hungry snatch convulses, pulling the cum deeper in.");
+			}
+			else if (amountInBucket <= 250)
+			{
+				output("The pool of thick white cum piles up on one side of the bucket and begins it's descent towards you. In anticipation you press the cold metal rim against your labia and soon the collected load nears the rim. The initial portion pours over in a small steady stream, the thick load pouring deep into the center of your awaiting recepticle. Your semen-hungry snatch convulses, pulling the cum deeper in as a higher volume joins it, the cum now tipping over the side in a heavy stream like a waterfall before cutting out.");
+			}
+			else 
+			{
+				output("The heavy lake of thick white cum piles up on one side of the bucket and quickly begins sliding down the side. You quickly press the cold metal rim against your labia, ready to recieve the large incoming load. The initial portion pours over the rim in a fat wave, coating your labia in a wave of cum with a large amount dropping into your awaiting baby-hole which convulses in response, pulling the cum deeper in. Wave after wave drops out, dollops of cum slapping against cum as they pour into your pussy with a splashing sound, your cervix trying it's best to let it all through. The white waves slowly thin and stop, a small stream pouring in as the levels in your hole slowly drain.");
+			}
+		}
+		else
+		{
+			if (amountInBucket <= 100)
+			{
+				output("The small puddle of thick white cum begins crawling down the inside of the bucket. In anticipation you press the cold metal rim against your labia and soon the collected load pours over the rim, flooding your tiny snatch with cum, a small amount trickling out coating your labia.");
+			}
+			else if (amountInBucket <= 250)
+			{
+				output("The pool of thick white cum piles up on one side of the bucket and begins it's descent towards you. In anticipation you press the cold metal rim against your labia and soon the collected load nears the rim. The initial portion pours over in a small steady stream, the thick load pouring deep into the center of your awaiting recepticle. Your semen-hungry snatch convulses, pulling the cum deeper in. The volume of cum pouring out increases, now tipping over the side in a heavy stream like a waterfall and your pussy can't take it in fast enough. Cum layers ontop of your entrance and overflows, coating your [pc.crotch] white and sliding between your buttocks. You find yourself lying there, empty bucket in hand, a pool of cum between your legs.");
+			}
+			else 
+			{
+				output("The heavy lake of thick white cum piles up on one side of the bucket and quickly begins sliding down the side. You quickly press the cold metal rim against your labia, ready to recieve the large incoming load. The initial portion pours over the rim in a fat wave, coating your labia in a wave of cum with a large amount dropping into your awaiting baby-hole which convulses in response, pulling the cum deeper in. Wave after wave drops out, dollops of cum slapping against cum as they pour into your pussy with a splashing sound, your cervix trying it's best to let it all through. But it can't and soon with nowhere to go, the cum-waves splash against your cum-pool of a pussy and go everywhere. They splash against your [pc.belly]. They pour out, covering your labia white. They pour down between your legs and into your buttcrack. They coat your [pc.thighs]. Wave after wave comes until you find yourself covered under the stuff from the waste down, holding an empty bucket in the air.");
+			}
+		}
+		
+		//Try knock up. We haven't got any function that takes vol into account, so we'll just roll once and then once more for every 250
+		dumpStoredCum(amountInBucket);
+		var numberOfLoads:int = 1 + (Math.floor(amountInBucket / 250));
+		for (var i:int = 0; i < numberOfLoads; i++)
+		{
+			var creatureCum:int = rand(2);
+			switch (creatureCum)
+			{
+				case 0:
+					pc.loadInCunt(chars["RASKVEL_MALE"],pc.vaginas[pc.biggestVaginaIndex()]);
+					break;
+				case 1:
+					pc.loadInCunt(chars["LAPINARA_FEMALE"],pc.vaginas[pc.biggestVaginaIndex()]);
+					break;
+				case 2: 
+					pc.loadInCunt(chars["SYDIAN_MALE"],pc.vaginas[pc.biggestVaginaIndex()]);
+					break;
+			}
+		}
+	}
+	else 
+	{
+		output("You go to grab " + (cap > 1000 ? "one of the buckets" : "the bucket") + ". As you shift it, it scrapes against the ground and the sound echoes throughout the room.\n\n");
+		output("<i>“Oy!”</i> a grumpy sounding voice shouts from behind you. You turn your head over your shoulder to face the broodmother, staring at you angrily, feathers dropped across her half closed eyes. <i>“Put. That. Down.”</i>");
+		output("\nYou drop the bucket in place and as you do her eyes close again.");
+		if (flags["PREG_RASK_RETURNED_FRIENDLINESS"] < 10)
+		{
+			flags["PREG_RASK_RETURNED_FRIENDLINESS"] = 0;
+		}
+		else 
+		{
+			flags["PREG_RASK_RETURNED_FRIENDLINESS"] -= 10;
+		}
+	}
+	addButton(0, "Next", cumStorageMenu);
+}
+
 public function showBucketBust():void{
 	var count:int = getBroodmotherCumStoredVolume();
 	var cap:int = getBroodmotherCumCap();
@@ -3595,7 +3784,7 @@ public function denRestEnd():void
 	clearMenu();
 	author("HNB");
 	
-	if (pc.hasStatusEffect("Bulky Belly") && getBroodmotherLevel() >= 3 && rand(3) == 2)
+	if (pc.hasStatusEffect("Bulky Belly") && getBroodmotherLevel() >= 2 && rand(3) == 0)
 	{
 		processTime(2*60);
 		sleepHeal();
@@ -4121,7 +4310,9 @@ public function denRestMistaken_Untie():void
 	showPregRaskReturn();
 	author("HNB");
 	
-	output("After 40 minutes of waiting the Broodmother shoots awake from her slumber and notices you tied up. She waddles over and cackles <i>“Ahaha, looks like you got my wakeup call instead. It's a shame but seeing you like this makes it worth it”</i> before freeing you from your binds.");
+	var lvl:int = getBroodmotherLevel();
+	
+	output("After 40 minutes of waiting the Broodmother shoots awake from her slumber and notices you tied up. She " + (lvl <= 3 ? "waddles" : "rolls") + " over and cackles <i>“Ahaha, looks like you got my wakeup call instead. It's a shame but seeing you like this makes it worth it”</i> before freeing you from your binds.");
 	addButton(0, "Next", mainGameMenu);
 }
 
@@ -4129,9 +4320,11 @@ public function denRestMistaken_Untie():void
 
 public function denEntryAvailable():Boolean
 {
-	if (flags["AZRA_TARKUSED"] == undefined) return false;
-	if (flags["AZRA_TARKUSED"] == 1) return true;
-	return false;
+	if (flags["AZRA_TARKUSED"] == undefined || flags["AZRA_TARKUS_SKIP"])
+	{
+		return false;
+	}
+	return true;
 }
 
 public function getLastImpregnated():int
@@ -4165,10 +4358,6 @@ public function setupBroodmother():void
 	{
 		flags["PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN"] = 0;
 	}
-	if (flags["PREG_RASK_RETURNED_BROKEN"] == undefined)
-	{
-		flags["PREG_RASK_RETURNED_BROKEN"] = true;
-	}
 	if (flags["PREG_RASK_RETURNED_LASTMILKED"] == undefined)
 	{
 		flags["PREG_RASK_RETURNED_LASTMILKED"] = 0;
@@ -4199,13 +4388,8 @@ public function getBroodmotherFriendliness():int
 public function getBroodmotherLevel():int
 {
 	// If she hasn't been fixed through a motherhusk or dick
-	if (flags["PREG_RASK_RETURNED_BROKEN"] == true)
-	{
-		return 0;
-	}
-	
-	var lvl:int = Math.floor((20 + flags["PREG_RASK_RETURNED_LVLPOINTS"]) / 20)
-	if (lvl > 6)
+	var lvl:int = Math.floor(flags["PREG_RASK_RETURNED_LVLPOINTS"] / 20);
+	if (lvl > 6) //If above what we've programmed for, return maxlvl
 	{
 		return 6;
 	}
@@ -4265,10 +4449,6 @@ public function impregnateBroodmother(players:Boolean, cumQ:int):Boolean
 		if (rand(chance) == 0)
 		{
 			flags["PREG_RASK_RETURNED_LASTIMPREGNATED"] = int(GetGameTimestamp() / 1440);
-			if (flags["PREG_RASK_RETURNED_BROKEN"] == true) 
-			{
-				flags["PREG_RASK_RETURNED_BROKEN"] = false;
-			}
 			flags["PREG_RASK_RETURNED_LASTIMPREGNATED_YOURS"] = players;
 			flags["PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN"] = (Math.floor(Math.random() * (maxBabies - minBabies + 1)) + minBabies);
 			return true;
@@ -4303,16 +4483,6 @@ public function impregnateBroodmother(players:Boolean, cumQ:int):Boolean
 	}
 }
 
-public function isBroodmotherBroken():Boolean
-{
-	return flags["PREG_RASK_RETURNED_BROKEN"];
-}
-
-public function fixBroodmother():void
-{
-	flags["PREG_RASK_RETURNED_BROKEN"] = false;
-}
-
 public function isBroodmotherFuta():Boolean
 {
 	return flags["PREG_RASK_RETURNED_BODYTYPE"].indexOf("FUTA") != -1;
@@ -4329,8 +4499,6 @@ public function denEntry():void
 	author("HNB");
 	if (denEntryAvailable())
 	{
-		setupBroodmother();
-		
 		addButton(0, "Use intercom", denEntryIntercom);
 	}
 	else
@@ -4349,7 +4517,7 @@ public function denEntryIntercom():void
 	
 	if (hours < 4 || hours > 22)
 	{
-		output("You announce yourself, but there's no response.");
+		output("You announce yourself and wait. But there's no response.");
 		clearMenu();
 		addButton(0, "Next", mainGameMenu);
 	}
@@ -4357,6 +4525,8 @@ public function denEntryIntercom():void
 	{
 		if (flags["PREG_RASK_RETURNED_BEFORE"] == undefined)
 		{
+			setupBroodmother();
+			
 			if (flags["PREG_RASK_GUARD_RESULT"] == 3 && pc.isBimbo())
 			{
 				output("<i>“Heyyy, it's Miss Superpuss”</i> you shout excitedly into the intercom, recalling when you and your bestie Azra met the Broodmother when looking for those sweet sweet Motherhusks.");
@@ -4366,81 +4536,56 @@ public function denEntryIntercom():void
 				output("<i>“Hi, it's " + pc.mf("Mr.","Ms.") + " Steele”</i>, you announce to the intercom, recalling when you last left here with Azra.\n");
 			}
 			
-			output("<i>“Oh, it's you”</i>, a voice spiritlessly says from the intercom. <i>“Come in if you must but I wont forgive you for what you've taken from me." + (flags["RASKDOOR_BROKE"] == 1 ? " Just move past the door and put it back afterwards - I could do without the sunlight.”</i>\nAs the intercom cuts out you shift the broken security door out of the way, step into the den and slide the door back across the entrance." : "”</i> As the intercom cuts out the door opens inviting you in. You step in and the door slides shut behind you, sealing all natural light out of the room."));
+			output("<i>“Oh! It's you!”</i>, a voice angrily shouts from the intercom. <i>“Come in if you must but I wont forgive you for what you've taken from me." + (flags["RASKDOOR_BROKE"] == 1 ? " Just move past the door and put it back afterwards - I could do without the sunlight.”</i>\nAs the intercom cuts out you shift the broken security door out of the way, step into the den and slide the door back across the entrance." : "”</i> As the intercom cuts out the door opens inviting you in. You step in and the door slides shut behind you, sealing all natural light out of the room."));
 		}
 		else
 		{
 			var lvl:int = getBroodmotherLevel();
-			switch (lvl)
+			
+			if (lvl == 0)
 			{
-				case 0:
-					output((rand(1) == 1 ? "<i>“Guess who's back?”</i> you say into the intercom." : "<i>“I'm back”</i> you state to the intercom.") + " <i>“Steele... Whatdyya want?”</i> the Broodmother dejectedly responds in a low murmur " + (flags["RASKDOOR_BROKE"] == 1 ? "as you slide the door out the way of the doorway and enter the den." : " as the doorway beeps open and you step inside."));
-					break;
-				case 1:
-					output((rand(1) == 1 ? "<i>“Guess who's back?”</i> you say into the intercom." : "<i>“I'm back”</i> you state to the intercom.") + " <i>“You again! You better have brought those 'shrooms!”</i> the Broodmother frustratedly responds " + (flags["RASKDOOR_BROKE"] == 1 ? "as you slide the door out the way of the doorway and enter the den." : " as the doorway beeps open and you step inside."));
-					break;
-				case 2:
-					output((rand(1) == 1 ? "<i>“Guess who's back?”</i> you say into the intercom." : "<i>“I'm back”</i> you state to the intercom.") + " <i>“Ah Steele, get in here”</i> the Broodmother shouts in response, excited to be feeling more like her old self. " + (flags["RASKDOOR_BROKE"] == 1 ? "as you slide the door out the way of the doorway and enter the den." : " as the doorway beeps open and you step inside."));
-					break;
-				case 3:
-					output((rand(1) == 1 ? "<i>“Guess who's back?”</i> you say into the intercom." : "<i>“I'm back”</i> you state to the intercom.") + (pc.hasCock() ? " <i>“Ahh Steele, come on in”</i> the Broodmothers lurid voice responds" : " <i>“Ahh Steele, I hope you've brought some cock”</i> the Broodmothers lurid voice responds") + (flags["RASKDOOR_BROKE"] == 1 ? " as you slide the door out the way of the doorway and enter the den." : " as the doorway beeps open and you step inside."));
-					break;
-				case 4:
-					if (pc.hasCock())
-					{
-						output((rand(1) == 1 ? "<i>“Hope you left some room?”</i> you announce to the intercom." : "<i>“Room for one more?”</i> you announce to the intercom.\n"));
-					}
-					else
-					{
-						output((rand(1) == 1 ? "<i>“Up for some fun?” you whisper into the intercom</i>" : "<i>“Ready for more?”</i> you announce through the intercom.\n"));
-					}
-					
-					if (pc.hasCock() && pc.cockTotal() > 1)
-					{
-						output("<i>“Room for your cocks”</i> she moans in response.");
-					}
-					else if (pc.hasCock())
-					{
-						output("<i>“Room for your cock”</i> she moans in response.");
-					}
-					else 
-					{
-						output("<i>“Ah Steele, I was just thinking about you.”</i> she moans in response. <i>“My pussys feeling rather in need of some attention”</i>");
-					}
-					if (pc.libido() >= 70 || pc.lust() >= 50 || pc.isBimbo())
-					{
-						output(" She doesn't have to tell you twice.\n")
-					}
-					output((flags["RASKDOOR_BROKE"] == 1 ? "You slide the door out the way of the doorway and enter the den." : "The doorway beeps open and you step inside."));
-					break;
-				case 5:
-					if (pc.hasCock())
-					{
-						output((rand(1) == 1 ? "<i>“Hope you left some room?”</i> you announce to the intercom." : "<i>“Room for one more?”</i> you announce to the intercom.\n"));
-					}
-					else
-					{
-						output((rand(1) == 1 ? "<i>“Up for some fun?” you whisper into the intercom</i>" : "<i>“Ready for more?”</i> you announce through the intercom.\n"));
-					}
-					
-					if (pc.hasCock())
-					{
-						output("Hurried begging comes from the intercom,<i>“Fuck me over and over Steele, give me your [pc.cocks]”</i>.\n");
-					}
-					else 
-					{
-						output("Exasperated begging comes from the intercom,<i>“Ah Steele, please, pleasure my gaping birth hole”</i>.\n");
-					}
-					if (pc.libido() >= 70 || pc.lust() >= 50 || pc.isBimbo())
-					{
-						output("She doesn't have to tell you twice.\n")
-					}
-					output("You walk through the door, which has now been left ajar for more people to discover her.")
-					if (flags["PREG_RASK_RETURNED_DOORLESS"] == undefined)
-					{
-						flags["PREG_RASK_RETURNED_DOORLESS"] = true;
-					}
-					break;
+				output((rand(1) == 1 ? "<i>“Guess who's back?”</i> you say into the intercom." : "<i>“I'm back”</i> you state to the intercom."));
+				output("\n<i>“...Whatdyya want? Come again to take something else have you?!”</i> the Broodmother shouts back " + (flags["RASKDOOR_BROKE"] == 1 ? "as you slide the door out the way of the doorway and enter the den." : " as the doorway beeps open and you step inside."));
+			}
+			else if (lvl <= 2)
+			{
+				output((rand(1) == 1 ? "<i>“Guess who's back?”</i> you say into the intercom." : "<i>“I'm back”</i> you state to the intercom."));
+				output("\n<i>“Ahh Steele, come on in”</i> the Broodmother squeaks excitedly back "  + (flags["RASKDOOR_BROKE"] == 1 ? "as you slide the door out the way of the doorway and enter the den." : " as the doorway beeps open and you step inside."));
+			}
+			else if (lvl <= 4)
+			{
+				output((rand(1) == 1 ? "<i>“Guess who's back?”</i> you say into the intercom." : "<i>“I'm back”</i> you state to the intercom."));
+				output("\n" + (pc.hasCock() ? " <i>“Ahh Steele, come on in”</i> the Broodmothers lurid voice responds" : " <i>“Ahh Steele, I hope you've brought some cock”</i> the Broodmothers lurid voice responds") + (flags["RASKDOOR_BROKE"] == 1 ? " as you slide the door out the way of the doorway and enter the den." : " as the doorway beeps open and you step inside."));
+			}
+			else if (lvl <= 6)
+			{
+				output("\n");
+				if (pc.hasCock())
+				{
+					output((rand(1) == 1 ? "<i>“Hope you left some room?”</i> you announce to the intercom." : "<i>“Room for one more?”</i> you announce to the intercom.\n"));
+				}
+				else
+				{
+					output((rand(1) == 1 ? "<i>“Up for some fun?” you whisper into the intercom</i>" : "<i>“Ready for more?”</i> you announce through the intercom.\n"));
+				}
+				
+				if (pc.hasCock())
+				{
+					output("Hurried begging comes from the intercom,<i>“Fuck me over and over Steele, give me your [pc.cocks]”</i>.\n");
+				}
+				else 
+				{
+					output("Exasperated begging comes from the intercom,<i>“Ah Steele, please, pleasure my gaping birth hole”</i>.\n");
+				}
+				if (pc.libido() >= 70 || pc.lust() >= 50 || pc.isBimbo())
+				{
+					output("She doesn't have to tell you twice.\n")
+				}
+				output("You walk through the door, which has now been left ajar for more people to discover her.")
+				if (flags["PREG_RASK_RETURNED_DOORLESS"] == undefined)
+				{
+					flags["PREG_RASK_RETURNED_DOORLESS"] = true;
+				}
 			}
 		}
 		clearMenu();
@@ -4455,41 +4600,47 @@ public function denLeave():void
 
 	var lvl:int = getBroodmotherLevel();
 
-	switch (lvl)
+	if (lvl == 0)
 	{
-		case 1:
-			output("<i>“Where ya' going?”</i> the oversized Raskvel murmurs from behind.");
-			break;
-		case 2:
-			output("<i>“Leaving again so soon?”</i> the Broodmother murmurs from behind.");
-			break;
-		case 3:
-			output("<i>“Don't ya want to stay?”</i> the Broodmother murmurs from behind, rubbing her pregnancy-swollen teats.");
-			break;
-		case 4:
-			output("<i>“Are you sure you want to leave?”</i> the Broodmother slurs from behind, spreading her legs.");
-			break;
-		case 5:
-			output("<i>“Don't go, there's room in mah belly”</i> the oversized Raskvel moans from behind, juices dripping from her pussy.");
-			break;
+		output("<i>“Oh what and now you're just going to fuck off without fixing anything?!”</i> the broodmother shouts from behind.");
+	}
+	else if (lvl <= 2)
+	{
+		output("<i>“Leaving again so soon?”</i> the Broodmother murmurs from behind.");
+	}
+	else if (lvl <= 4)
+	{
+		output("<i>“Don't ya want to stay?”</i> the Broodmother murmurs from behind, as you look over your shoulder to see her rubbing her pregnancy-swollen teats.");
+	}
+	else if (lvl <= 6)
+	{
+		output("<i>“Are you sure you want to leave?”</i> the Broodmother slurs from behind, as you look over your shoulder to see her spreading her legs.");
 	}
 	
-	if (lvl >= 3 && (pc.libido() >= 70 || pc.lust() >= 50))
+	if (lvl >= 4)
 	{
-		output("\n\nYou turn as you hear her. <b>You can't turn her down.</b>")
+		if (pc.libido() >= 70 || pc.lust() >= 50)
+		{
+			output("\n\nYou turn as you hear her. <b>You can't turn her down.</b>")
 		clearMenu();
-		addButton(0, "Next", denInside);		
-	}
-	else if (lvl >= 3 && pc.isBimbo())
-	{
-		output("\n\nYou turn as you hear her. <b>You can't turn down a fellow gal in need.</b>")
+		addButton(0, "Next", denInside);
+		}
+		else if (pc.isBimbo())
+		{
+			output("\n\nYou turn as you hear her. <b>You can't turn down a fellow gal in need.</b>")
 		clearMenu();
 		addButton(0, "Next", denInside);	
+		}
+		else 
+		{
+			output("\nYou press the exit button and the door hums open. A second later you step out into the sunlight.");
+			clearMenu();
+			addButton(0, "Next", move, "249");
+		}
 	}
-	else
+	else 
 	{
 		output("\nYou press the exit button and the door hums open. A second later you step out into the sunlight.");
-
 		clearMenu();
 		addButton(0, "Next", move, "249");
 	}
@@ -4501,7 +4652,7 @@ public function denEntryLeave():void
 	clearMenu();
 	author("HNB");
 
-	output("You turn your back to the door and step between the orange walls once more.");
+	output("You turn your back to the door and step between the orange hills once more.");
 
 	processTime(2);
 
