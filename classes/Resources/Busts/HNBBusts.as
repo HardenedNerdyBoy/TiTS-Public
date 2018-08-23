@@ -58,6 +58,15 @@ package classes.Resources.Busts
 		[Embed(source = "../../../assets/images/npcs/HNB/broodmother_edits/broodmother_lvl5_treated_futa.png", mimeType = "image/png")]
 		public var Bust_PREGRASK_LVL5_TREATED_FUTA:Class;
 		
+		[Embed(source = "../../../assets/images/npcs/HNB/broodmother_edits/broodmother_lvl6.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL6:Class;
+		[Embed(source = "../../../assets/images/npcs/HNB/broodmother_edits/broodmother_lvl6_futa.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL6_FUTA:Class;
+		[Embed(source = "../../../assets/images/npcs/HNB/broodmother_edits/broodmother_lvl6_treated.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL6_TREATED:Class;
+		[Embed(source = "../../../assets/images/npcs/HNB/broodmother_edits/broodmother_lvl6_treated_futa.png", mimeType = "image/png")]
+		public var Bust_PREGRASK_LVL6_TREATED_FUTA:Class;
+		
 		[Embed(source = "../../../assets/images/npcs/HNB/cumbucket/bucket_1_1.png", mimeType = "image/png")]
 		public var Bust_CUMBUCKET_1_1:Class;
 		[Embed(source = "../../../assets/images/npcs/HNB/cumbucket/bucket_1_2.png", mimeType = "image/png")]

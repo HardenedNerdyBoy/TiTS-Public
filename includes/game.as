@@ -4517,17 +4517,22 @@ public function processMyrPregEvents(deltaT:uint, doOut:Boolean, totalDays:uint)
 public function processRaskvelBroodmotherPregEvents(totalDays:uint):void
 {
 	// Check for her birthing your children
-	if((flags["PREG_RASK_RETURNED_IMPREGNATED_YOURS"] = true) && flags["PREG_RASK_RETURNED_LASTIMPREGNATED"] >= (GetGameTimestamp() / 1440) - 4)
+	if((flags["PREG_RASK_RETURNED_IMPREGNATED_YOURS"] == true) && flags["PREG_RASK_RETURNED_LASTIMPREGNATED"] >= (GetGameTimestamp() / 1440) - 4)
 	{
+		flags["PREG_RASK_RETURNED_IMPREGNATED_YOURS"] = false;
 		broodBirthMessage();
 	}
+	else if ((flags["PREG_RASK_RETURNED_IMPREGNATED_YOURS"] == false) && flags["PREG_RASK_RETURNED_LASTIMPREGNATED"] >= (GetGameTimestamp() / 1440) - 4)
+	{
+		flags["PREG_RASK_RETURNED_BABIES"] += flags["PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN"];
+	}
 	
-	// Give her her other pregnancy attempts. Fucks a rando every 7,6,5,4,3 based on old lvls.
-	if (getBroodmotherImpregnationLevel() != 0)
+	// Give her her other pregnancy attempts. Fucks a rando multiple times a day based on old lvls.
+	if (getBroodmotherLevel() != 0)
 	{
 		var loops:int = 0;
 		var creature:Creature = new RaskvelMale();
-		while (loops < (Math.floor(24 / getBroodmotherImpregnationLevel())))
+		while (loops < Math.floor(24 / (8 - getBroodmotherLevel())))
 		{
 			impregnateBroodmother(false, creature.cumQualityRaw);
 			loops += 1;
@@ -4537,7 +4542,7 @@ public function processRaskvelBroodmotherPregEvents(totalDays:uint):void
 	else
 	{
 		var cumStorage:Array = flags["PREG_RASK_RETURNED_CUMSTORAGE"];
-		while ((getBroodmotherImpregnationLevel() == 0) && (cumStorage.length != 0))
+		while ((flags["PREG_RASK_RETURNED_LASTIMPREGNATED"] != (GetGameTimestamp() / 1440)) && (cumStorage.length != 0))
 		{
 			var cum:Object = cumStorage.shift();
 			var players:Boolean = cum.players;
@@ -4551,6 +4556,7 @@ public function processRaskvelBroodmotherPregEvents(totalDays:uint):void
 private function broodBirthMessage():void
 {
 	var numBirthed:int = flags["PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN"];
+	flags["PREG_RASK_RETURNED_BABIES"] += numBirthed;
 	AddLogEvent("Your codex beeps. You look at it to find a video of the Raskval broodmother giving birth with a comment saying <i>“Hnghh, I've just finished pushing out our bab" + (numBirthed > 1 ? "ies”</i>. <b>The raskvel broodmother has given birth to " + numBirthed + " of your children.</b> <i>“They grow up quite quickly, so if you see any Raskvel out there with big cocks or nice fertile pussys, they're probably ours!”</i>" : "y”</i>. <b>The raskvel broodmother has given birth to your child. <i>“They grow up quite quickly, so if you see any Raskvel out there with big cocks or nice fertile pussys, they're probably ours!”</i>"));
 	flags["PREG_RASK_RETURNED_IMPREGNATED_YOURS"] = false;
 }
