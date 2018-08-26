@@ -27,15 +27,14 @@ public function getPregRaskReturn_BustName():String
 
 public function getPregRaskReturn_Name():String 
 {
-	var nameStr:String = "";
-	
-	if (isBroodmotherTreated())
+	if (isBroodmotherPregnant())
 	{
-		nameStr += "PREGNANT\n";
+		return "PREGNANT\nBROODMOTHER";
 	}
-	nameStr += "RASKVEL\nBROODMOTHER";
-	
-	return nameStr;
+	else 
+	{
+		return "RASKVEL\nBROODMOTHER";
+	}
 }
 
 public function showPregRaskReturn():void
@@ -289,7 +288,7 @@ public function approachBroodmother():void
 	{
 		addButton(3, "Join", joinBroodmother, undefined, "Join", "Ask to live with her and live her lifestyle.");
 	}
-	else if (pc.isBimbo() || (StatTracking.getStat("pregnancy/total births") >= 10))
+	else if (!pc.isBimbo() || !(StatTracking.getStat("pregnancy/total births") >= 10))
 	{
 		addDisabledButton(3, "Join", "Join", "You don't think her lifestyle would suit you. That and it'd really get in the way of your mission.");
 	}
@@ -636,7 +635,7 @@ public function giveBroodMotherItem():void
 	var currentButtonIndex:int = 0;
 	
 	// Motherhusk
-	if (pc.hasItemByClass(Motherhusk,10) && lvl == 0)
+	if (pc.hasItemByClass(Motherhusk,8) && lvl == 0)
 	{
 		addButton(currentButtonIndex, "Motherhusks", giveMotherhusk);
 		currentButtonIndex++;
@@ -647,11 +646,11 @@ public function giveBroodMotherItem():void
 		{
 			if (!pc.hasItemByClass(Motherhusk))
 			{
-				addDisabledButton(currentButtonIndex, "Motherhusks", "You don't have any.");
+				addDisabledButton(currentButtonIndex, "Motherhusks", "Give motherhusks" , "You don't have any.");
 			}
-			else (!pc.hasItemByClass(Motherhusk, 10))
+			else (!pc.hasItemByClass(Motherhusk, 8))
 			{
-				addDisabledButton(currentButtonIndex, "Motherhusks", "You don't have enough. You'd need about 20.");
+				addDisabledButton(currentButtonIndex, "Motherhusks", "Give motherhusks" , "You'd need at least 8 to help her recover.");
 			}
 			currentButtonIndex++;
 		}
@@ -810,7 +809,7 @@ public function giveMotherhusk():void
 	output("<i>“[pc.name]”</i>.");
 	output("<i>“Thanks, [pc.name]”</i>.");
 	
-	pc.destroyItemByClass(Motherhusk, 10);
+	pc.destroyItemByClass(Motherhusk, 8);
 	addButton(0, "Continue", giveBroodMotherItem);
 	flags["PREG_RASK_RETURNED_FRIENDLINESS"] += 10;
 	flags["PREG_RASK_RETURNED_LVLPOINTS"] += 20;
@@ -2882,7 +2881,7 @@ public function fuckDatRaskipoo_Return():void
 	
 	if(pc.cockVolume(x) < (lvl * 100)) output("Her pussy parts easily around your [pc.cock " + x + "]" + (lvl <= 5 ? ", and her diatribe cuts off with a high-pitched squeak of pleasure." : ", and she lets out a moan of pleasure."));
 	else if(pc.cockVolume(x) < ((lvl * 100) + 200)) output("Her pussy reluctantly parts for your [pc.cock " + x + "], clutching it tightly" + (lvl <= 5 ? " as her diatribe cuts off with a high-pitched squeak of pleasure." : " and she lets out a surprised gasp before exhaling slowly in ecstasy."));
-	else output("Her pussy strains to accept your girthy tool, its thick lips stretched wide enough to pass a" + (lvl <= 4 ? "n egg" : " watermelon") + "." + (lvl <= 5 ? "A high-pitched wail of pleasure interrupts the little slut’s diatribe at the penetration. Evidently she’s a fan of pushing herself to the absolute limit." : "A wail of pleasure echoes around the room at the penetration. Evidently she’s a fan of pushing herself to the absolute limit."));
+	else output("Her pussy strains to accept your girthy tool, its thick lips stretched wide enough to pass a" + (lvl <= 4 ? "n egg" : " watermelon") + "." + (lvl <= 5 ? " A high-pitched wail of pleasure interrupts the little slut’s diatribe at the penetration. Evidently she’s a fan of pushing herself to the absolute limit." : " A wail of pleasure echoes around the room at the penetration. Evidently she’s a fan of pushing herself to the absolute limit."));
 	
 	if (lvl >= 3)
 	{
@@ -3186,13 +3185,9 @@ public function denInside():Boolean
 	
 	output("Several make-shift supportive structures lie in the centre of the room, welded together from pipes from when the ship was more functional. ");
 	
-	if (lvl <= 1)
+	if (lvl <= 3)
 	{
-		output("Slouched next to them is ");
-	} 
-	else if (lvl <= 3)
-	{
-		output("Sitting next to them is ");
+		output("Next to them is ");
 	}
 	else 
 	{
@@ -3206,6 +3201,14 @@ public function denInside():Boolean
 	}
 	else
 	{
+		const EVENT_USINGSTORAGE:Number = 1;
+		const EVENT_JACKING_OFF:Number = 2;
+		const EVENT_FUCKING_RASKVEL:Number = 3;
+		const EVENT_FUCKING_LAPINARA:Number = 4;
+		
+		var whatDoing:Number = flags["PREG_RASK_EVENT_TYPE"];
+		var when:Number = flags["PREG_RASK_EVENT_LASTTIME"] ;
+		
 		switch (lvl)
 		{
 			case 0:
@@ -3217,9 +3220,24 @@ public function denInside():Boolean
 				}
 				break;
 			case 1:
-				if (hours % 7 == 0)
+				if (hours % (8 - lvl) == 0)
 				{
-					output("the Raskvel Broodmother, who's getting back on the horse. Or Raskvel. She's bent over holding onto one of the pipes for support, a fellow Raskvel pouch-deep in her.");
+					if (whatDoing == EVENT_FUCKING_RASKVEL)
+					{
+						output("the Raskvel Broodmother, who's getting back on the horse. Or Raskvel. She's bent over holding onto one of the pipes for support, a fellow Raskvel pouch-deep in her.");
+					}
+					else if (whatDoing == EVENT_FUCKING_LAPINARA)
+					{
+						output("the Raskvel Broodmother, who's getting back on the horse. Or Lapinara. She's bent over holding onto one of the pipes for support, as a hung bunny-girl bounces in and out of her.");
+					}
+					else if (whatDoing == EVENT_USINGSTORAGE)
+					{
+						output("the Raskvel Broodmother, legs in the air, holding a bucket over her snatch, cum drooling from the rim.");
+					}
+					else if (whatDoing == EVENT_JACKING_OFF)
+					{
+						output("the Raskvel Broodmother sitting on the ground, her curvy blue cock grasped in her hands as she teases it, pre-cum dripping from the end and a bucket grasped between her legs.");
+					}
 				}
 				else
 				{
@@ -3227,9 +3245,24 @@ public function denInside():Boolean
 				}
 				break;
 			case 2:
-				if (hours % 6 == 0)
+				if (hours % (8 - lvl) == 0)
 				{
-					output("the Raskvel Broodmother. You hear her before you see her, as muffled moaning and grunting echoes throughout the room. " + ((pc.isTreated() && pc.isBimbo()) || pc.isBimbo() || pc.isBro() || pc.isDependant(Creature.DEPENDANT_CUM) || (pc.libido() >= 50 && pc.lust() >= 33) || pc.lust() > 66 ? "<i>“That's more like it!”</i>" : "<i>“She's clearly beginning to regain her libido”</i>") + " you think to yourself, as you see that she's sandwiched between two Raskvels, getting pushed to and fro between them.");
+					if (whatDoing == EVENT_FUCKING_RASKVEL)
+					{
+						output("the Raskvel Broodmother. You hear her before you see her, as muffled moaning and grunting echoes throughout the room. " + ((pc.isTreated() && pc.isBimbo()) || pc.isBimbo() || pc.isBro() || pc.isDependant(Creature.DEPENDANT_CUM) || (pc.libido() >= 50 && pc.lust() >= 33) || pc.lust() > 66 ? "<i>“That's more like it!”</i>" : "<i>“She's clearly beginning to regain her libido”</i>") + " you think to yourself, as you see that she's sandwiched between two Raskvels, getting pushed to and fro between them.");
+					}
+					else if (whatDoing == EVENT_FUCKING_LAPINARA)
+					{
+						output("the Raskvel Broodmother. You hear her before you see her, as muffled moaning and grunting echoes throughout the room. " + ((pc.isTreated() && pc.isBimbo()) || pc.isBimbo() || pc.isBro() || pc.isDependant(Creature.DEPENDANT_CUM) || (pc.libido() >= 50 && pc.lust() >= 33) || pc.lust() > 66 ? "<i>“That's more like it!”</i>" : "<i>“She's clearly beginning to regain her libido”</i>") + " you think to yourself, as you see that she's sandwiched between two Lapinara, getting bounced between them.");
+					}
+					else if (whatDoing == EVENT_USINGSTORAGE)
+					{
+						output("the Raskvel Broodmother, legs in the air, holding a bucket over her snatch, cum drooling from the rim.");
+					}
+					else if (whatDoing == EVENT_JACKING_OFF)
+					{
+						output("the Raskvel Broodmother sitting on the ground, her curvy blue cock grasped in her hands as she teases it, pre-cum dripping from the end and a bucket grasped between her legs.");
+					}
 				}
 				else
 				{
@@ -3237,9 +3270,24 @@ public function denInside():Boolean
 				}
 				break;
 			case 3:
-				if (hours % 5 == 0)
+				if (hours % (8 - lvl) == 0)
 				{
-					output("the Raskvel Broodmother. You hear her before you see her, as muffled moaning and grunting echoes throughout the room, along with a variety of squelching sounds. " + ((pc.isTreated() && pc.isBimbo()) || pc.isBimbo() || pc.isBro() || pc.isDependant(Creature.DEPENDANT_CUM) || (pc.libido() >= 50 && pc.lust() >= 33) || pc.lust() > 66 ? "<i>“That's more like it!”</i>" : "<i>“She's clearly beginning to regain her libido”</i>") + " you think to yourself, as you see that she's having fun with a small gang of Raskvel underneath the supports.");
+					if (whatDoing == EVENT_FUCKING_RASKVEL)
+					{
+						output("the Raskvel Broodmother. You hear her before you see her, as muffled moaning and grunting echoes throughout the room, along with a variety of squelching sounds. " + ((pc.isTreated() && pc.isBimbo()) || pc.isBimbo() || pc.isBro() || pc.isDependant(Creature.DEPENDANT_CUM) || (pc.libido() >= 50 && pc.lust() >= 33) || pc.lust() > 66 ? "<i>“That's more like it!”</i>" : "<i>“She's clearly beginning to regain her libido”</i>") + " you think to yourself, as you see that she's having fun with a small gang of Raskvel underneath the supports.");
+					}
+					else if (whatDoing == EVENT_FUCKING_RASKVEL)
+					{
+						output("the Raskvel Broodmother. You hear her before you see her, as muffled moaning and grunting echoes throughout the room, along with a variety of squelching sounds. " + ((pc.isTreated() && pc.isBimbo()) || pc.isBimbo() || pc.isBro() || pc.isDependant(Creature.DEPENDANT_CUM) || (pc.libido() >= 50 && pc.lust() >= 33) || pc.lust() > 66 ? "<i>“That's more like it!”</i>" : "<i>“She's clearly beginning to regain her libido”</i>") + " you think to yourself, as you see that she's having fun with a small colony of Lapinara girls.");
+					}
+					else if (whatDoing == EVENT_USINGSTORAGE)
+					{
+						output("the Raskvel Broodmother, legs in the air, holding a bucket over her snatch, cum drooling from the rim.");
+					}
+					else if (whatDoing == EVENT_JACKING_OFF)
+					{
+						output("the Raskvel Broodmother lying on the ground, her curvy blue cock being rubbed between her hands, slapping against her belly as she teases it, pre-cum dripping from the end and a bucket grasped between her thighs.");
+					}
 				}
 				else
 				{
@@ -3247,9 +3295,24 @@ public function denInside():Boolean
 				}
 				break;
 			case 4:
-				if (hours % 4 == 0)
+				if (hours % (8 - lvl) == 0)
 				{
-					output("the Raskvel Broodmother, who's having fun with a group of " + (rand(1) == 1 ? "Raskvel men and women" : "Sydian men and women") + ", who are all barging eachother, trying to get in on the action.");
+					if (whatDoing == EVENT_FUCKING_RASKVEL)
+					{
+						output("the Raskvel Broodmother, who's having fun with a group of Raskvel men and women, who are all barging eachother, trying to get in on the action.");
+					}
+					if (whatDoing == EVENT_FUCKING_LAPINARA)
+					{
+						output("the Raskvel Broodmother, who's having fun with a colony of Lapinara, who are all fighting over her entrances.");
+					}
+					else if (whatDoing == EVENT_USINGSTORAGE)
+					{
+						output("the Raskvel Broodmother, lying upside down on her supports with her legs in the air, holding a bucket over her snatch, cum drooling from the rim.");
+					}
+					else if (whatDoing == EVENT_JACKING_OFF)
+					{
+						output("the Raskvel Broodmother lying on her back, her large blue cock being jerked by her tail, slapping against her belly as she teases it, pre-cum dripping from the end and a bucket grasped between her thighs.");
+					}
 				}
 				else
 				{
@@ -3257,9 +3320,24 @@ public function denInside():Boolean
 				}
 				break;
 			case 5:
-				if (hours % 3 == 0)
+				if (hours % (8 - lvl) == 0)
 				{
-					output("the Raskvel Broodmother, a large group of various races all crowded around her, competing to fuck the incapacitated Raskvel as she touches herself and begs for them.");
+					if (whatDoing == EVENT_FUCKING_RASKVEL)
+					{
+						output("the Raskvel Broodmother, a gang of Raskvel crowded around her, competing to fuck the incapacitated Raskvel as she touches herself and begs for them.");
+					}
+					else if (whatDoing == EVENT_FUCKING_LAPINARA)
+					{
+						output("the Raskvel Broodmother, a den of Lapinara girls crowded around her, competing to fuck the incapacitated Raskvel as she touches herself and begs for their cocks.");
+					}
+					else if (whatDoing == EVENT_USINGSTORAGE)
+					{
+						output("the Raskvel Broodmother, lying upside down on her supports with her legs in the air, holding a bucket over her snatch, cum drooling from the rim.");
+					}
+					else if (whatDoing == EVENT_JACKING_OFF)
+					{
+						output("the Raskvel Broodmother lying on her back, her large blue cock being jerked by her tail, slapping against her belly as she teases it, pre-cum dripping from the end and a bucket grasped between her thighs.");
+					}
 				}
 				else
 				{
@@ -3267,9 +3345,24 @@ public function denInside():Boolean
 				}
 				break;
 			case 6:
-				if (hours % 2 == 0)
+				if (hours % (8 - lvl) == 0)
 				{
-					output("the Raskvel Broodmother, a large group of various races all crowded around her, competing to fuck the incapacitated Raskvel as she touches herself and begs for them.");
+					if (whatDoing == EVENT_FUCKING_RASKVEL)
+					{
+						output("the Raskvel Broodmother, a large group of various races all crowded around her, competing to fuck the incapacitated Raskvel as she touches herself and begs for them.");
+					}
+					else if (whatDoing == EVENT_FUCKING_LAPINARA)
+					{
+						output("the Raskvel Broodmother, a den of Lapinara girls crowded around her, competing to fuck the incapacitated Raskvel as she touches herself and begs for their cocks.");
+					}
+					else if (whatDoing == EVENT_USINGSTORAGE)
+					{
+						output("the Raskvel Broodmother, lying upside down on her supports with her legs in the air, holding a bucket over her snatch, cum drooling from the rim.");
+					}
+					else if (whatDoing == EVENT_JACKING_OFF)
+					{
+						output("the Raskvel Broodmother lying on her back, her large blue cock being jerked by her tail, slapping against her belly as she teases it, pre-cum dripping from the end and a bucket grasped between her thighs.");
+					}
 				}
 				else
 				{
@@ -3279,17 +3372,20 @@ public function denInside():Boolean
 		}
 	}
 	
-	if (lvl <= 2 && lvl != 0)
+	if (lvl != 0)
 	{
-		output("\nDrains line the floor beneath her, collecting any overflow from her breeding sessions.");
-	}
-	else if (lvl <= 4)
-	{
-		output("\nDrains line the floor beneath her, collecting the substantial overflow from her breeding sessions.");
-	}
-	else 
-	{
-		output("\nDrains line the floor beneath her. They're struggling to battle the excessive overflow from her frequent breeding sessions, cum from male and female genitals alike struggling to be sucked away.");
+		if (lvl <= 2)
+		{
+			output("\nDrains line the floor beneath her, collecting any overflow from her breeding sessions.");
+		}
+		else if (lvl <= 4)
+		{
+			output("\nDrains line the floor beneath her, collecting the substantial overflow from her breeding sessions.");
+		}
+		else 
+		{
+			output("\nDrains line the floor beneath her. They're struggling to battle the excessive overflow from her frequent breeding sessions, cum from male and female genitals alike struggling to be sucked away.");
+		}
 	}
 	
 	//If she getting fucked and you're horny, you're jelly
@@ -4378,6 +4474,14 @@ public function setupBroodmother():void
 	{
 		flags["PREG_RASK_RETURNED_CUMSTORAGE_VOLUMECAP"] = 1000;
 	}
+	if (flags["PREG_RASK_EVENT_LASTTIME"] == undefined)
+	{
+		flags["PREG_RASK_EVENT_LASTTIME"] = 0;
+	}
+	if (flags["PREG_RASK_EVENT_TYPE"] == undefined)
+	{
+		flags["PREG_RASK_EVENT_TYPE"] = 0;
+	}
 }
 
 public function getBroodmotherFriendliness():int 
@@ -4513,9 +4617,11 @@ public function denEntryIntercom():void
 	clearMenu();
 	author("HNB");
 
+	var lvl:int = getBroodmotherLevel();
+	
 	output("You approach the glowing breen button and hold it down.\n");
 	
-	if (hours < 4 || hours > 22)
+	if (hours <= 4 || hours >= 22 || (lvl != 0 && ((hours % (8 - lvl)) == 0))) 
 	{
 		output("You announce yourself and wait. But there's no response.");
 		clearMenu();
@@ -4539,9 +4645,7 @@ public function denEntryIntercom():void
 			output("<i>“Oh! It's you!”</i>, a voice angrily shouts from the intercom. <i>“Come in if you must but I wont forgive you for what you've taken from me." + (flags["RASKDOOR_BROKE"] == 1 ? " Just move past the door and put it back afterwards - I could do without the sunlight.”</i>\nAs the intercom cuts out you shift the broken security door out of the way, step into the den and slide the door back across the entrance." : "”</i> As the intercom cuts out the door opens inviting you in. You step in and the door slides shut behind you, sealing all natural light out of the room."));
 		}
 		else
-		{
-			var lvl:int = getBroodmotherLevel();
-			
+		{			
 			if (lvl == 0)
 			{
 				output((rand(1) == 1 ? "<i>“Guess who's back?”</i> you say into the intercom." : "<i>“I'm back”</i> you state to the intercom."));
@@ -4744,7 +4848,7 @@ public function addBuckets_Number(number:int):void
 
 public function isBroodmotherPregnant():Boolean
 {
-	return (getLastImpregnated() < (int(GetGameTimestamp() / 1440) - 4));
+	return (getLastImpregnated() > ((int(GetGameTimestamp() / 1440)) - 4));
 }
 
 public function cumInsideBroodmother(cummies:int):void

@@ -1,4 +1,5 @@
 ﻿import classes.BreastRowClass;
+import classes.Characters.LapinaraFemale;
 import classes.Characters.PlayerCharacter;
 import classes.Creature;
 import classes.GameData.EventContainer;
@@ -3651,7 +3652,7 @@ public function processTime(deltaT:uint, doOut:Boolean = true):void
 	processHardlightAGThongBlurbs(deltaT, doOut);
 	processGastigothPregEvents(deltaT, doOut, totalDays);
 	processFrostwyrmPregEvents(deltaT, doOut, totalDays);
-	
+	processRaskvelBroodmotherIdleEvents(deltaT, doOut, totalDays);	
 	
 	// Per-day events
 	if (totalDays >= 1)
@@ -4526,30 +4527,82 @@ public function processRaskvelBroodmotherPregEvents(totalDays:uint):void
 	{
 		flags["PREG_RASK_RETURNED_BABIES"] += flags["PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN"];
 	}
+}
+
+public function processRaskvelBroodmotherIdleEvents(deltaT:uint, doOut:Boolean, totalDays:uint):void
+{
+	const EVENT_USINGSTORAGE:Number = 1;
+	const EVENT_JACKING_OFF:Number = 2;
+	const EVENT_FUCKING_RASKVEL:Number = 3;
+	const EVENT_FUCKING_LAPINARA:Number = 4;
 	
-	// Give her her other pregnancy attempts. Fucks a rando multiple times a day based on old lvls.
-	if (getBroodmotherLevel() != 0)
+	var newHours:uint = hours + Math.floor(deltaT / 60);
+	var lvl:int = getBroodmotherLevel();
+	
+	// Her random events every 8-lvl if lvl != 0
+	if (lvl != 0 && ((newHours % (8 - lvl)) == 0))
 	{
-		var loops:int = 0;
-		var creature:Creature = new RaskvelMale();
-		while (loops < Math.floor(24 / (8 - getBroodmotherLevel())))
-		{
-			impregnateBroodmother(false, creature.cumQualityRaw);
-			loops += 1;
+		//Need to check whether it's a new 1 hour session since last time
+		if (flags["PREG_RASK_EVENT_LASTTIME"] != newHours)
+		{			
+			// If not pregnant and has spare cum and rand chance
+			if (!isBroodmotherPregnant() && flags["PREG_RASK_RETURNED_CUMSTORAGE"].length > 0 && rand(1))
+			{
+				var cumStorage:Array = flags["PREG_RASK_RETURNED_CUMSTORAGE"];
+				while ((flags["PREG_RASK_RETURNED_LASTIMPREGNATED"] != (GetGameTimestamp() / 1440)) && (cumStorage.length != 0))
+				{
+					var cum:Object = cumStorage.shift();
+					var players:Boolean = cum.players;
+					var cumQ:int = cum.cumQ;
+					impregnateBroodmother(players, cumQ);
+				}
+				flags["PREG_RASK_RETURNED_CUMSTORAGE"] = cumStorage;
+				flags["PREG_RASK_EVENT_TYPE"] = EVENT_USINGSTORAGE;
+			}
+			// Jacking off
+			else if (isBroodmotherFuta() && rand(4))
+			{
+				var cumStored:int = getBroodmotherCumStoredVolume();
+				var cap:int = getBroodmotherCumCap();
+				if (cumStored < cap)
+				{
+					var cumMap:Object = new Object();
+					cumMap.players = false;
+					if (cumStored + (20 * lvl) >= cap)
+					{
+						cumMap.cumQ = (cap - cumStored);
+					}
+					else
+					{
+						cumMap.cumQ = (20 * lvl);
+					}
+					flags["PREG_RASK_RETURNED_CUMSTORAGE"].push(cumMap);
+				}
+				flags["PREG_RASK_EVENT_TYPE"] = EVENT_JACKING_OFF;
+			}
+			// Random fucking , put other creatures and flags in though
+			else
+			{
+				var creature:Creature = null;
+				var creatureRand:int = rand(1);
+				if (creatureRand == 0)
+				{
+					creature = new RaskvelMale();
+					impregnateBroodmother(false, creature.cumQualityRaw);
+					flags["PREG_RASK_EVENT_TYPE"] = EVENT_FUCKING_RASKVEL;
+				}
+				else if (creatureRand == 1)
+				{
+					// Random fucking , put other creatures and flags in though
+					creature = new LapinaraFemale();
+					impregnateBroodmother(false, creature.cumQualityRaw);
+					flags["PREG_RASK_EVENT_TYPE"] = EVENT_FUCKING_LAPINARA;
+				}
+			}
+			
+			//Update the eventtime flag
+			flags["PREG_RASK_EVENT_LASTTIME"] = newHours;
 		}
-	}
-	// Otherwise have her use up her cum storage until pregnant or out of cum
-	else
-	{
-		var cumStorage:Array = flags["PREG_RASK_RETURNED_CUMSTORAGE"];
-		while ((flags["PREG_RASK_RETURNED_LASTIMPREGNATED"] != (GetGameTimestamp() / 1440)) && (cumStorage.length != 0))
-		{
-			var cum:Object = cumStorage.shift();
-			var players:Boolean = cum.players;
-			var cumQ:int = cum.cumQ;
-			impregnateBroodmother(players, cumQ);
-		}
-		flags["PREG_RASK_RETURNED_CUMSTORAGE"] = cumStorage;
 	}
 }
 
