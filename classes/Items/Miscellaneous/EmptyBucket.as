@@ -6,9 +6,9 @@ package classes.Items.Miscellaneous
 	import classes.GameData.TooltipManager;
 	import classes.StringUtil;
 	
-	public class RaskvelBroodmotherEmptyBucket extends ItemSlotClass
+	public class EmptyBucket extends ItemSlotClass
 	{
-		public function RaskvelBroodmotherEmptyBucket()
+		public function EmptyBucket()
 		{
 			this._latestVersion = 1;
 			

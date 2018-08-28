@@ -12,6 +12,7 @@
 	import classes.Items.Apparel.CowPrintBra;
 	import classes.Items.Apparel.CowPrintBikiniBottom;
 	import classes.Items.Apparel.CowPrintPantiesAndGarter;
+	import classes.Items.Apparel.FarmersOveralls;
 	import classes.Items.Miscellaneous.MilkCaramelGushers;
 	import classes.Items.Miscellaneous.MilkmaidsAid;
 	import classes.Items.Miscellaneous.BoobswellPads;
@@ -42,6 +43,7 @@
 			this.inventory.push(new CowPrintBikiniBottom());
 			this.inventory.push(new CowPrintPantiesAndGarter());
 			this.inventory.push(new LightningDuster());
+			this.inventory.push(new FarmersOveralls());
 			this.inventory.push(new MilkCaramelGushers());
 			this.inventory.push(new MilkmaidsAid());
 			this.inventory.push(new Lactaid());

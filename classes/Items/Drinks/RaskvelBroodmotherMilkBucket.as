@@ -9,7 +9,7 @@
 	import classes.StringUtil;
 	import classes.Engine.Interfaces.*;
 	import classes.Engine.Combat.inCombat;
-	import classes.Items.Miscellaneous.RaskvelBroodmotherEmptyBucket;
+	import classes.Items.Miscellaneous.EmptyBucket;
 	
 	public class RaskvelBroodmotherMilkBucket extends ItemSlotClass
 	{
@@ -87,7 +87,7 @@
 			}
 			
 			//Give us the empty buckets back			
-			var bucketsReturned:RaskvelBroodmotherEmptyBucket = new RaskvelBroodmotherEmptyBucket();
+			var bucketsReturned:EmptyBucket = new EmptyBucket();
 			var itemsToGet:Array = new Array();
 			bucketsReturned.quantity = 1;
 			itemsToGet.push(bucketsReturned);

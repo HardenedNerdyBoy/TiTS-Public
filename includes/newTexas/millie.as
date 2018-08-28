@@ -1315,24 +1315,33 @@ public function buyBuckets():void
 		output("<i>“Well, Sure thing, I can sell you some more. You'll have to make it up to me though.”</i>");
 	}
 	
-	for (var i:int = 1; i < 4; i++)
+	if ((pc.inventory.length + 1 <= pc.inventorySlots()) || (pc.hasItemByClass(EmptyBucket) && pc.numberOfItemByClass(EmptyBucket) < 15))
 	{
-		if (bought + i <= 15)
+		for (var i:int = 1; i < 4; i++)
 		{
-			if (pc.credits >= (i * 100))
+			if (bought + i <= 15)
 			{
-				addButton(i - 1, "Buy x" + i, buyBuckets_Buy, i, "Buy x" + i, "Buy " + i + " bucket" + ((i > 1) ? "s" : "") + ". " + (i * 100) + " credits.");
+				if (pc.credits >= (i * 100))
+				{
+					addButton(i - 1, "Buy x" + i, buyBuckets_Buy, i, "Buy x" + i, "Buy " + i + " bucket" + ((i > 1) ? "s" : "") + ". " + (i * 100) + " credits.");
+				}
+				else
+				{
+					addDisabledButton(i - 1, "Buy x" + i, "Buy x" + i, "You can't afford that many. Costs" + (i * 100) + " credits.");
+				}
 			}
 			else
 			{
-				addDisabledButton(i - 1, "Buy x" + i, "Buy x" + i, "You can't afford that many. Costs" + (i * 100) + " credits.");
+				addDisabledButton(i - 1, "Buy x" + i, "Buy x" + i, "There aren't that many in stock.");
 			}
 		}
-		else
-		{
-			addDisabledButton(i - 1, "Buy x" + i, "Buy x" + i, "There aren't that many in stock.");
-		}
 	}
+	else 
+	{
+		addDisabledButton(0, "Buy x1", "Buy x1", "You can't hold any.");
+	}
+		
+	
 	
 	addButton(14,"Back",mainGameMenu);
 }
@@ -1349,7 +1358,7 @@ public function buyBuckets_Buy(buckets:int):void
 	output("<i>“Pleasure, as always”</i> she moans, swinging her giant mammaries as she pulls the bucket" + ((buckets > 1) ? "s" : "") +" from the floor behind her and hands " + ((buckets > 1) ? "them" : "it") + " to you.\n");
 	
 	pc.credits -= (buckets * 100);
-	var items:RaskvelBroodmotherEmptyBucket = new RaskvelBroodmotherEmptyBucket();
+	var items:EmptyBucket = new EmptyBucket();
 	var loot:Array = new Array();
 	items.quantity = buckets;
 	loot.push(items);

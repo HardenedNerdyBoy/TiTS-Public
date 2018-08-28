@@ -1,5 +1,12 @@
 import adobe.utils.CustomActions;
 import classes.ItemSlotClass;
+import classes.Items.Apparel.BusinessClothes;
+import classes.Items.Apparel.ClassySuit;
+import classes.Items.Apparel.FarmersOveralls;
+import classes.Items.Apparel.Harness;
+import classes.Items.Apparel.NurseOutfit;
+import classes.Items.Apparel.SchoolgirlOutfit;
+import classes.Items.Apparel.TeacherOutfit;
 import classes.Items.Drinks.RaskvelBroodmotherMilkBottle;
 import classes.Items.Drinks.RaskvelBroodmotherMilkBucket;
 import classes.kGAMECLASS;
@@ -244,25 +251,25 @@ public function approachBroodmother():void
 		if (pc.hasCock())
 		{
 			output("squeezing your [pc.cocks " + (1 + rand(pc.cocks.length)) + "]");
-			if (pc.isCrotchExposed())
+			if (!pc.isCrotchExposed())
 			{
-				output(" through your [pc.crotchcovers].");
+				output(" through your [pc.crotchCovers]");
 			}
 		}
 		else if (pc.hasVagina())
 		{
 			output("rubbing your [pc.vaginas " + (1 + rand(pc.vaginas.length)) + "]");
-			if (pc.isCrotchExposed())
+			if (!pc.isCrotchExposed())
 			{
-				output(" through your [pc.crotchcovers].");
+				output(" through your [pc.crotchCovers]");
 			}
 		}
 		else
 		{
 			output("rubbing your [pc.crotch]");
-			if (pc.isCrotchExposed())
+			if (!pc.isCrotchExposed())
 			{
-				output(" through your [pc.crotchcovers].");
+				output(" through your [pc.crotchCovers]");
 			}
 		}
 		
@@ -297,8 +304,208 @@ public function approachBroodmother():void
 		addDisabledButton(3, "Join", "Join", "Her current state isn't exactly inspiring. Maybe if she was back to how she was before with Azra..");
 	}
 	
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] == 2)
+	{
+		addButton(4, "Dress up", broodmotherDressup)
+	}
+	
 	// GIVE ITEMS
 	addButton(13, "Give item", giveBroodMotherItem, undefined, "Give item", "Give her something other than you.");	
+}
+
+public function broodmotherDressup():void 
+{
+	clearOutput();
+	clearMenu();
+	author("HNB");
+	
+	if (pc.isBimbo())
+	{
+		output("<i>“Okay honey!”</i> you call to her, rummaging in your backpack. <i>“'Member when we talked about dressup? Well, I've got something for youuu!”</i>\n\n");
+	}
+	else if (pc.isBro() || pc.isAss())
+	{
+		output("<i>“Alright slut”</i> you grunt, rummaging in your backpack. <i>“Remember when we talked about dressing you up? Well, I've got a nice little outfit for you”</i>\n\n");
+	}
+	else if (pc.isSubby())
+	{
+		output("<i>“Okay mistress!”</i> you call to her, rummaging in your backpack. <i>“Remember our conversation about getting you all dressed up? Well, I've got something for you”</i>\n\n");
+	}
+	else
+	{
+		output("<i>“Remember when we were talking about dressing you up?”</i> you ask, rummaging in your backpack. <i>“Well, I've got something for you..”</i>\n\n");
+	}
+	
+	// Gen item menu
+	var buttonIndex:int = 0;
+	
+	var clothesList:Array = new Array();
+	if (pc.hasItemByClass(NurseOutfit)) 
+	{
+		addButton(buttonIndex, "Nurse Outfit", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new NurseOutfit());
+		buttonIndex++;
+	}
+	if (pc.hasItemByClass(MaidOutfit)) 
+	{
+		addButton(buttonIndex, "Maid Outfit", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new MaidOutfit());
+		buttonIndex++;
+	}
+	if (pc.hasItemByClass(SchoolgirlOutfit)) 
+	{
+		addButton(buttonIndex, "Schoolgirl Outfit", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new SchoolgirlOutfit());
+		buttonIndex++;
+	}
+	if (pc.hasItemByClass(Slavesuit)) 
+	{
+		addButton(buttonIndex, "Slave uniform", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new Slavesuit());
+		buttonIndex++;
+	}
+	
+	// These two will have the same bust
+	if (pc.hasItemByClass(BusinessClothes)) 
+	{
+		addButton(buttonIndex, "Business Clothes", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new BusinessClothes());
+		buttonIndex++;
+	}
+	else if (pc.hasItemByClass(ClassySuit))
+	{
+		addButton(buttonIndex, "Business Clothes", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new ClassySuit());
+		buttonIndex++;
+	}
+	
+	if (pc.hasItemByClass(Harness))
+	{
+		addButton(buttonIndex, "Harness", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new Harness());
+		buttonIndex++;
+	}
+	if (pc.hasItemByClass(TeacherOutfit))
+	{
+		addButton(buttonIndex, "Teacher Uniform", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new TeacherOutfit());
+		buttonIndex++;
+	}
+	if (pc.hasItemByClass(FarmersOveralls))
+	{
+		addButton(buttonIndex, "Farmer Overalls", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new FarmersOveralls());
+		buttonIndex++;
+	}
+	
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] != undefined)
+	{
+		addButton(13, "Undress", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), null);
+	}
+	
+	addButton(14, "Back", talkBroodmother);
+}
+
+// This one gone to first if she's wearing stuff
+public function broodmotherDressup_Item(clothing:ItemSlotClass):void
+{
+	clearOutput();
+	clearMenu();
+	author("HNB");
+	
+	var oldItem:ItemSlotClass = flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"];
+	
+	//Descriptor of taking old item off
+	if (oldItem is NurseOutfit) 
+	{
+		output("The broodmother rolls over onto her back for you to unzip her stretched-out red and white nurse outfit and you do. As she rolls back over it, the stephoscope and hat slump to the floor, stretched out to the extent they look less like clothes and more like curtains. You then grasp her jiggling thighs and roll her frilly stockings down, removing them from her.");
+	}
+	if (oldItem is MaidOutfit)
+	{
+		output("The broodmother rolls over onto her back and you untie her apron and undo the buttons of the uniform underneath. As she rolls back over they both slump to the floor, stretched out to the extent they look less like clothes and more like curtains. You then grasp her jiggling thighs and roll her frilly stockings down along with her skirt, and remove them from her.");
+	}
+	if (oldItem is SchoolgirlOutfit)
+	{
+		output("The broodmother rolls over onto her back and you throw aside her low-hanging tie before proceeding to undo her blouse before pulling it off her. As she rolls back over you grab hold of her tartan skirt before pulling it down, removing the outfit from her.");
+	}
+	if (oldItem is Slavesuit)
+	{
+		output("The broodmother rolls over onto her back and you unzip the slave bodysuit, pulling it over her arms before rolling it down her torso. She raises her legs in the air and you are able to yank her legs free, removing the outfit from her.");
+	}
+	if (oldItem is BusinessClothes)
+	{
+		output("The broodmother rolls over onto her back and you undo her suits and blouse before pulling them over her arms freeing her upper body. She raises her legs in the air and you are able to unzip her trousers and yank her legs free, removing the outfit from her.");
+	}
+	if (oldItem is ClassySuit)
+	{
+		output("The broodmother rolls over onto her back and you undo her suits and blouse before pulling them over her arms freeing her upper body. She raises her legs in the air and you are able to unzip her trousers and yank her legs free, removing the outfit from her.");
+	}
+	if (oldItem is Harness)
+	{
+		output("You unfasten the black leather harness and the bonds that form the sexy outfit loosen, freeing her.");
+	}
+	if (oldItem is TeacherOutfit)
+	{
+		output("Remove teacher uniform");
+	}
+	if (oldItem is FarmersOveralls)
+	{
+		output("Remove farmer dungarees");
+	}
+	output("\n\n");
+	flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] = undefined;
+	
+	if (clothing == null)
+	{
+		output("A pile of completely ruined clothes, is left on the floor, stretched out beyond recognision by the broodmothers motherly form. She now lies completely naked, slightly aroused by her exposal.");
+		addButton(0, "Next", approachBroodmother);
+	}
+	else 
+	{
+		output("A pile of completely ruined clothes, is left on the floor, stretched out beyond recognision by the broodmothers motherly form. She now lies naked, ready to don her new outfit.");
+		addButton(0, "Next", broodmotherDressup_Item_2, clothing);
+	}
+	
+}
+
+public function broodmotherDressup_Item_2(clothing:ItemSlotClass):void
+{
+	clearOutput();
+	clearMenu();
+	author("HNB");
+	
+	//New on
+	if (clothing is NurseOutfit) 
+	{
+		output("First you grab the frilly stockings and roll them up her jiggling thighs. Then you place the nurse hat atop her feathery hair and dress her in the main part of the outfit, fastening it before dangling the stephoscope around her neck.");
+	}
+	if (clothing is MaidOutfit)
+	{
+		output("First you grab the frilly stocking and roll them up her jiggling thighs before equipping her with the skirrt. You them grab the blouse before throwing the apron ontop, fastening it.");
+	}
+	if (clothing is SchoolgirlOutfit)
+	{
+		output("First you equip her with the skimpy tartan skirt. Then you fasten the blouse around her mountanous rack before hanging the tie around her neck.");
+	}
+	if (clothing is Slavesuit)
+	{
+		output("You push the slavesuit over her legs and roll it up her body, making sure to fit everything in.");
+	}
+	if (clothing is BusinessClothes)
+	{
+		output("You equip the broodmother with the suit and blouse.");
+	}
+	if (clothing is ClassySuit)
+	{
+		output("You equip the broodmother with the suit and blouse.");
+	}
+	if (clothing is Harness)
+	{
+		output("You wrap the leather harness around her and fasten it.");
+	}
+	if (clothing is TeacherOutfit)
+	{
+		output("Add teacher uniform");
+	}
+	if (clothing is FarmersOveralls)
+	{
+		output("Add farmer overalls");
+	}
+	pc.destroyItemByClass(Class(getDefinitionByName(getQualifiedClassName(clothing)))); //http://www.keendevelopment.ch/getting-the-class-of-an-object-in-as3/ 
+	flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] = clothing;
+	
+	addButton(0, "Next", approachBroodmother);
 }
 
 public function broodMotherAppearance():void
@@ -1059,7 +1266,98 @@ public function talkBroodmother():void
 	
 	addButton(0, "What she does", talkBroodmother_AskWhatDo);
 	addButton(1, "Her past", talkBroodmother_AskPast);
+	
+	if (flags["PREG_RASK_RETURNED_HAVEIMPREGNATED"] == true)
+	{
+		addButton(2, "Nurse babies", talkBroodmother_NurseBabies);
+	}
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] != undefined && flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] == 1)
+	{
+		if (lvl >= 4 && getBroodmotherFriendliness() >= 50)
+		{
+			addButton(3, "Talk dressup", talkBroodmother_DressupFantasy);
+		}
+		else if (lvl < 4)
+		{
+			addDisabledButton(3, "Talk dressup", "Dressup fantasy", "She's not quite big enough for this to be perfect. Yet.");
+		}
+		else if (getBroodmotherFriendliness() < 50)
+		{
+			addDisabledButton(3, "Talk dressup", "Dressup fantasy", "You're not close enough to her yet to reveal this.");
+		}
+	}
+	addButton(4, "TEST", TEST);
 	addButton(14, "Return", approachBroodmother);
+}
+
+public function TEST():void 
+{
+	clearMenu();
+	clearOutput();
+	author("HNB");
+	
+	flags["PREG_RASK_RETURNED_LVLPOINTS"] = 100;
+	flags["PREG_RASK_RETURNED_FRIENDLINESS"] = 100;
+	
+	addButton(14, "Return", approachBroodmother);
+}
+
+// Needs character types put in for pc dialogue
+public function talkBroodmother_DressupFantasy():void
+{
+	clearMenu();
+	clearOutput();
+	author("HNB");
+	
+	if (pc.isSubby())
+	{
+		output("<i>“I was thinking mistress”</i> you say to the broodmother. <i>“When I was looking after you one time, I couldn't help but think about how good you'd look dressed you up in different outfits. With how pregnant you look all the time, you'd spill out of the clothes in the sexiest way.”</i>\n\n");
+	}
+	else if (pc.isBimbo())
+	{
+		output("<i>“Sooo, one time when we were fucking, I was thinking..”</i> you say to the broodmother. <i>“I was thinking about how hot you'd look in some sexy outfits! You're such a big girl, they'd look so skimpy on you! It'd be so HAWT!”</i>\n\n");
+	}
+	else if (pc.isBro() || pc.isAss())
+	{
+		output("<i>“Well”</i> you say to the broodmother. <i>“One time when we were bangin', I was thinking how you'd look in some nice skimpy outfits. You're so big, I'd love to see my little eggslut just spilling out of some clothes.”</i>\n\n");
+	}
+	else
+	{
+		output("<i>“There's something that I'd like you to do”</i> you say to the broodmother. <i>“When we were.. you know.. one time, I was thinking how hot It'd be if I dressed you up in different outfits. You look so pregnant, all the time, that your flesh would just spill out of them in the sexiest way..”</i>\n\n");
+	}
+	
+	output("<i>“Ahaha, really?”</i> she cackles. <i>“I know what you mean though.. that would look pretty hot. And I'm sure loads of folks would love to see me all dressed up, not just you.”</i> She thinks for a moment. <i>“Alright. If you can help me put it on, I'll wear it. Only if it's sexy though!”</i>");
+	
+	flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] = 2;
+	addButton(0, "Next", talkBroodmother);
+}
+
+public function talkBroodmother_NurseBabies():void 
+{
+	clearMenu();
+	clearOutput();
+	author("HNB");
+	
+	//Bringing up you keeping the babies, how they might be better in the nursery than the wasteland 
+	output("<i>“You know, I've been thinking. These babies of ours. Letting them out into the wasteland to fend for themselves isn't the best start in life we could give them. I have a nursery on Tavros, I think they might be better off there.”</i>\n\n");
+	//Her advantages of the wasteland
+	output("<i>“I dunno [pc.name]”</i> she responds, taken aback. <i>“I've been here as long as I can remember and I turned out great. The wasteland will be great for our babies, Raskvel are natural scavengers and around deez parts there's a lot to scavenge. Besides, if they're anything like us, it's not like they'll have any problems starting families to support them.”</i>\n\n");
+	//You say they could be much more
+	output("<i>“It doesn't matter that they'd be alright scavenging. Their lives could be better than that. At my nursery, they'll be garaunteed a good life. They'll be brought up and educated, so that they can be whatever they want. And when they're older, they can still be great mothers and fathers - that won't change! If we let them out into the wasteland, they might be alright but it's not the best start for them”.</i> <i>“Please”</i> you plead <i>“Let's give them the best chance in life”.</i>\n\n");
+	//She thinks, agrees if friendly, otherwise disagrees
+	if (getBroodmotherFriendliness() >= 70)
+	{
+		output("<i>“Alright [pc.name], I suppose that might be better for them”</i> she admits. <i>“I can't do anything about any existing children we might have, I have no idea where they are. But any future children. We'll send to your nursery.”</i>\n\n");
+		output("<i>“Thank you. I'm sure they'll thank you, for making that decision. One day.”</i>");
+		flags["PREG_RASK_RETURNED_NURSEBABIES"] = true;
+	}
+	else 
+	{
+		output("<i>“Sorry [pc.name]”</i> she sighs. <i>“I just don't know if that's the right decision. I was brought up in the wasteland and I'm as happy as can be. I'm sure they will be too.”</i>\n\n");
+		output("<i>“Alright”</i> you respond, dissapointed. There's no point in pushing the issue.");
+	}
+	
+	addButton(0,"Return",talkBroodmother);
 }
 
 public function talkBroodmother_AskWhatDo():void
@@ -1212,7 +1510,7 @@ public function joinBroodmother():void{
 	// Timeskip, getting fucked loving it
 	output("\n\n<b>6 MONTHS LATER</b>\n\n");
 	output("Your body clock jolts you awake. Your guests will be here any minute. You roll to the side, atop your cum-stained bedframe to check that your fuck-buddy's awake - she can't miss this.\n<i>“Hey hon', ready to go again? They'll be here soon”</i>.\nShe giggles in response. <i>“Of course [pc.name]. Like, even before we were this famous, I'd never miss a good fuckin'!”</i>.\n");
-	output("You snort. <i>“As if I'd ever let you anyways”</i>.\n\nSuddenly you hear the clanging of feet on metal and a beeping from the computer. Silhouettes of different shapes and sizes fill the door and bustle into the hull. Your guests have arrived. Groups of Raskvel, gabilani, sydians, lapinaras, various colored goo-people, all saunter in to have some fun with you and your pal. You're in heaven. There's definitely some of your favorites amongst them.\n");
+	output("You snort. <i>“As if I'd ever let you anyways”</i>.\n\nSuddenly you hear the clanging of feet on metal and a beeping from the computer. Silhouettes of different shapes and sizes fill the door and bustle into the hull. Your guests have arrived. Groups of Raskvel, gabilani, lapinaras, various colored goo-people, all saunter in to have some fun with you and your pal. You're in heaven. There's definitely some of your favorites amongst them.\n");
 	output("<i>“Don't be shy guys”</i> you giggle, seperating your [pc.thighs], giving them all a view of your [pc.vaginas]. <i>“I'll make sure you each get to cum in me”.</i>\n\n");
 	
 	addButton(0,"Continue",joinBroodmother_2,reason);
@@ -1233,7 +1531,7 @@ public function joinBroodmother_2(reason:int):void
 	
 	// Work gangbang bit in here
 	// Warm them up
-	output("The various aliens form an organised queue infront of the assignment screen, patient because they know what they'll get next will be good. <i>“I hope I get her”</i> you hear a burly looking Sydian say. <i>“That bitch will let you do anything" + (reason == JOINED_BABIES ? " aslong as you cum in her":"") + "”</i>. He's not wrong. A small group walk in the direction of the other broodmother whilst the gang of Raskvel make their way towards you. ");
+	output("The various aliens form an organised queue infront of the assignment screen, patient because they know what they'll get next will be good. <i>“I hope I get her”</i> you hear a burly looking male say. <i>“That bitch will let you do anything" + (reason == JOINED_BABIES ? " aslong as you cum in her":"") + "”</i>. He's not wrong. A small group walk in the direction of the other broodmother whilst the gang of Raskvel make their way towards you. ");
 	output(" <i>“Why don't you boys come over here and I'll.. warm you up”</i> you say, licking your [pc.lips]. <i>“Sounds good”</i> they cackle in unison as they line up infront of you. Starting from the left, you warm them up. First you run your hand along their smooth mounds, stroking them sensually until their cocks emerge from their slits. You then unfurl your [pc.tongue] from your mouth and rock yourself forward into range of their burgeoning cocks. You grasp at each of their violet, expanding cocks in turn and slather your tounge along them, taking in each of their individual tastes and differences in shape, as they expand in reaction to your wet strokes. You can't wait to feel them all inside you. ");
 	
 	output("\nAs you finish warming up the third one , the largest of the three moves to your ");
@@ -1527,24 +1825,23 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 	// Popping the question
 	if (pc.isSubby())
 	{
-		output("<i>“I was thinking mistress, couldn't that " + (getBroodmotherFutaCockSize() >= 450 ? "big cock" : "cock") + " of yours do with some service?”</i> you ask, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "dropping your [pc.crotchcovers], " : "") + "presenting her with your " + pc.vaginaDescript(pc.biggestVaginaIndex())) : (" bending over" + (pc.isCrotchExposed() ? " pulling down your [pc.assCovers]" : "") + " and presenting her with your [pc.asshole]")));
-		
+		output("<i>“I was thinking mistress, couldn't that " + (getBroodmotherFutaCockSize() >= 450 ? "big cock" : "cock") + " of yours do with some service?”</i> you ask, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "dropping your [pc.crotchCovers], " : "") + "presenting her with your " + pc.vaginaDescript(pc.biggestVaginaIndex())) : (" bending over" + (pc.isCrotchExposed() ? " pulling down your [pc.assCovers]" : "") + " and presenting her with your [pc.asshole]")));	
 	}
 	else if (pc.isBimbo())
 	{
-		output("<i>“I was thinking, wouldn't it be totally awesome if that " + (getBroodmotherFutaCockSize() >= 450 ? "big cock" : "cock") + " of yours saw some sexy sex too!?”</i> you ask, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "pulling down your [pc.crotchcovers], " : "") + "presenting her with your " + pc.vaginaDescript(pc.biggestVaginaIndex())) : (" bending over" + (pc.isCrotchExposed() ? " tugging down your [pc.assCovers]" : "") + " and presenting her with your [pc.asshole]")));
+		output("<i>“I was thinking, wouldn't it be totally awesome if that " + (getBroodmotherFutaCockSize() >= 450 ? "big cock" : "cock") + " of yours saw some sexy sex too!?”</i> you ask, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "pulling down your [pc.crotchCovers], " : "") + "presenting her with your " + pc.vaginaDescript(pc.biggestVaginaIndex())) : (" bending over" + (pc.isCrotchExposed() ? " tugging down your [pc.assCovers]" : "") + " and presenting her with your [pc.asshole]")));
 	}
 	else if (pc.isBro())
 	{
-		output("<i>“Uhh I was just thinking, whilst your pussy is totally cool and all, shouldn't your " + (getBroodmotherFutaCockSize() >= 450 ? "big dick" : "dick") + " see some action too?”</i> you ask, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "pulling down your [pc.crotchcovers] and" : "") + "grabbing your " + pc.vaginaDescript(pc.biggestVaginaIndex())) : (" bending over" + (pc.isCrotchExposed() ? " tugging down your [pc.assCovers]" : "") + " and presenting her with your [pc.asshole], one hand on your butt")));
+		output("<i>“Uhh I was just thinking, whilst your pussy is totally cool and all, shouldn't your " + (getBroodmotherFutaCockSize() >= 450 ? "big dick" : "dick") + " see some action too?”</i> you ask, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "pulling down your [pc.crotchCovers] and" : "") + "grabbing your " + pc.vaginaDescript(pc.biggestVaginaIndex())) : (" bending over" + (pc.isCrotchExposed() ? " tugging down your [pc.assCovers]" : "") + " and presenting her with your [pc.asshole], one hand on your butt")));
 	}
 	else if (pc.isMischievous())
 	{
-		output("<i>“Well, obviously your " + (getBroodmotherFutaCockSize() >= 450 ? "big juicy cock" : "juicy cock") + " needs some action too”</i> you state, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "pulling down your [pc.crotchcovers]," : "") + " drawing her attention to your " + pc.vaginaDescript(pc.biggestVaginaIndex())) : (" bending over" + (pc.isCrotchExposed() ? " tugging down your [pc.assCovers]" : "") + " and slapping your ass, showing off your [pc.asshole]")));
+		output("<i>“Well, obviously your " + (getBroodmotherFutaCockSize() >= 450 ? "big juicy cock" : "juicy cock") + " needs some action too”</i> you state, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "pulling down your [pc.crotchCovers]," : "") + " drawing her attention to your " + pc.vaginaDescript(pc.biggestVaginaIndex())) : (" bending over" + (pc.isCrotchExposed() ? " tugging down your [pc.assCovers]" : "") + " and slapping your ass, showing off your [pc.asshole]")));
 	}
 	else
 	{
-		output("<i>“Well, I was just thinking, it's about time that " + (getBroodmotherFutaCockSize() >= 450 ? "big juicy cock" : "juicy cock") + " of yours got some attention”</i> you state, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "pulling down your [pc.crotchcovers]," : "") + " drawing her attention to your " + pc.vaginaDescript(pc.biggestVaginaIndex())) : (" bending over" + (pc.isCrotchExposed() ? " tugging down your [pc.assCovers]" : "") + " and presenting your [pc.asshole]")));
+		output("<i>“Well, I was just thinking, it's about time that " + (getBroodmotherFutaCockSize() >= 450 ? "big juicy cock" : "juicy cock") + " of yours got some attention”</i> you state, " + (inWhat == "vagina" ? ((pc.isCrotchExposed() ? "pulling down your [pc.crotchCovers]," : "") + " drawing her attention to your " + pc.vaginaDescript(pc.biggestVaginaIndex())) : (" bending over" + (pc.isCrotchExposed() ? " tugging down your [pc.assCovers]" : "") + " and presenting your [pc.asshole]")));
 	}	
 	output(".\nIn reaction the broodmothers eyes widen and she licks her lips, her cock extending further from its slit and hardening with a jolt. ");
 	
@@ -2975,7 +3272,10 @@ public function fuckDatRaskipoo_Return():void
 		}
 	
 		output("\n\n");
-		if(pc.isBro() || pc.libido() >= 75) output("Fuuuck that’s exactly what you want to do. You want to strap her to the wall in your ship and dump endless loads into her, using her as equal parts sex-toy and virility measuring stick. Maybe you might even get her some mods or an exoskeleton to let her get around the ship. In between laying eggs she could dress herself in skimpy slutwear and slowly ruin it as her pregnancy progresses...");
+		if (isSlut){
+			output("Fuuuck that’s exactly what you want to do. You want to strap her to the wall in your ship and dump endless loads into her, using her as equal parts sex-toy and virility measuring stick. Maybe you might even get her some mods or an exoskeleton to let her get around the ship. In between laying eggs she could dress herself in skimpy slutwear and slowly ruin it as her pregnancy progresses...");
+			flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] = 1;
+		}
 		else 
 		{
 			output("You feel like you ought to be a little worried or disgusted about such brazen usage of your sexual fluids, but your body isn’t. Your traitorous rod");
@@ -3003,7 +3303,10 @@ public function fuckDatRaskipoo_Return():void
 		}		
 	
 		output("\n\n");
-		if(isSlut) output("Fuuuck you want that too. You want to dump endless loads into her, using her as equal parts sex-toy and virility measuring stick until she's lying, completely incapacitated in a lake of your cum. Maybe you might even get her some mods or an exoskeleton to get her onto your ship. In between laying eggs she could dress herself in skimpy slutwear and slowly ruin it as her pregnancy progresses...");
+		if (isSlut){
+			output("Fuuuck you want that too. You want to dump endless loads into her, using her as equal parts sex-toy and virility measuring stick until she's lying, completely incapacitated in a lake of your cum. Maybe you might even get her some mods or an exoskeleton to get her onto your ship. In between laying eggs she could dress herself in skimpy slutwear and slowly ruin it as her pregnancy progresses...");
+			flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] = 1;
+		}
 		else 
 		{
 			output("You feel like you ought to be a little concerned about breeding giving this alient creature your babies or perhaps even disgusted, but your body isn’t. Your traitorous rod");
@@ -3168,7 +3471,15 @@ public function denInside():Boolean
 	
 	var lvl:int = getBroodmotherLevel();
 	
-	output("The den is large, well lit and devoid of the rust you've seen on the rest of the planet. Flickering monitors line of the walls and beneath them a shiny console, ");
+	if (lvl >=  5)
+	{
+		output("The den is large and well lit, with " + (hours > 5 && hours < 21 ? "sunlight" : "moonlight") + " streaming in from the outside. The interior is devoid of the rust you've seen on the rest of the planet. Flickering monitors line of the walls and beneath them a shiny console, ");
+	}
+	else 
+	{
+		output("The den is large, well lit and devoid of the rust you've seen on the rest of the planet. Flickering monitors line of the walls and beneath them a shiny console, ");
+	}
+		
 	var cap:int = getBroodmotherCumCap();
 	if (cap == 1000)
 	{
@@ -3199,6 +3510,10 @@ public function denInside():Boolean
 	{
 		output("the Raskvel Broodmother, snoring away" + (lvl <= 1 ? "." : ", resting from the days' activities."));
 	}
+	else if (GetGameTimestamp() < flags["PREG_RASK_RETURNED_LASTIMPREGNATED_RESTING_UNTIL"])
+	{
+		output("the Raskvel Broodmother, lying on her back tounge dangling idly, resting from the hellish pleasure of her childbirth.");
+	}
 	else
 	{
 		const EVENT_USINGSTORAGE:Number = 1;
@@ -3206,8 +3521,8 @@ public function denInside():Boolean
 		const EVENT_FUCKING_RASKVEL:Number = 3;
 		const EVENT_FUCKING_LAPINARA:Number = 4;
 		
-		var whatDoing:Number = flags["PREG_RASK_EVENT_TYPE"];
-		var when:Number = flags["PREG_RASK_EVENT_LASTTIME"] ;
+		var whatDoing:Number = flags["PREG_RASK_RETURNED_EVENT_TYPE"];
+		var when:Number = flags["PREG_RASK_RETURNED_EVENT_LASTTIME"];
 		
 		switch (lvl)
 		{
@@ -3516,7 +3831,7 @@ public function cumStorageMenu():void
 	
 	showBucketBust();
 	
-	if (pc.hasItemByClass(RaskvelBroodmotherEmptyBucket))
+	if (pc.hasItemByClass(EmptyBucket))
 	{
 		addButton(0, "Add buckets", addBuckets);
 	}
@@ -3628,7 +3943,7 @@ public function useBucket():void{
 	{
 		output("filled");
 	}
-	output("bucket on the ground.  and lie down on the floor. You spread your legs apart and " + (pc.isCrotchExposed() ? "scrunch your legs up" : "open up your [pc.crotchcovers] before scrunching your legs up") + ", lifting your [pc.thighs] off the ground. You grab hold of the bucket by it's rim" + ((cap >= (count * 0.8)) ? ", your fingers plunging into the gooey jizm as you do," : "") + " before dragging it close between your legs.\n");	
+	output("bucket on the ground.  and lie down on the floor. You spread your legs apart and " + (pc.isCrotchExposed() ? "scrunch your legs up" : "open up your [pc.crotchCovers] before scrunching your legs up") + ", lifting your [pc.thighs] off the ground. You grab hold of the bucket by it's rim" + ((cap >= (count * 0.8)) ? ", your fingers plunging into the gooey jizm as you do," : "") + " before dragging it close between your legs.\n");	
 	//Unless we're gaping we need to open up
 	if (pc.vaginas[pc.biggestVaginaIndex()].loosenessRaw < 3.5)
 	{
@@ -3678,7 +3993,7 @@ public function useBucket():void{
 	var numberOfLoads:int = 1 + (Math.floor(amountInBucket / 250));
 	for (var i:int = 0; i < numberOfLoads; i++)
 	{
-		var creatureCum:int = rand(2);
+		var creatureCum:int = rand(1);
 		switch (creatureCum)
 		{
 			case 0:
@@ -3686,9 +4001,6 @@ public function useBucket():void{
 				break;
 			case 1:
 				pc.loadInCunt(chars["LAPINARA_FEMALE"],pc.vaginas[pc.biggestVaginaIndex()]);
-				break;
-			case 2: 
-				pc.loadInCunt(chars["SYDIAN_MALE"],pc.vaginas[pc.biggestVaginaIndex()]);
 				break;
 		}
 	}
@@ -3739,7 +4051,7 @@ public function stealBucket():void{
 		{
 			output("filled");
 		}
-		output("bucket on the ground.  and lie down on the floor. You spread your legs apart and " + (pc.isCrotchExposed() ? "scrunch your legs up" : "open up your [pc.crotchcovers] before scrunching your legs up") + ", lifting your [pc.thighs] off the ground. You grab hold of the bucket by it's rim" + ((cap >= (count * 0.8)) ? ", your fingers plunging into the gooey jizm as you do," : "") + " before dragging it close between your legs.\n");	
+		output("bucket on the ground.  and lie down on the floor. You spread your legs apart and " + (pc.isCrotchExposed() ? "scrunch your legs up" : "open up your [pc.crotchCovers] before scrunching your legs up") + ", lifting your [pc.thighs] off the ground. You grab hold of the bucket by it's rim" + ((cap >= (count * 0.8)) ? ", your fingers plunging into the gooey jizm as you do," : "") + " before dragging it close between your legs.\n");	
 		//Unless we're gaping we need to open up
 		if (pc.vaginas[pc.biggestVaginaIndex()].loosenessRaw < 3.5)
 		{
@@ -3789,7 +4101,7 @@ public function stealBucket():void{
 		var numberOfLoads:int = 1 + (Math.floor(amountInBucket / 250));
 		for (var i:int = 0; i < numberOfLoads; i++)
 		{
-			var creatureCum:int = rand(2);
+			var creatureCum:int = rand(1);
 			switch (creatureCum)
 			{
 				case 0:
@@ -3797,9 +4109,6 @@ public function stealBucket():void{
 					break;
 				case 1:
 					pc.loadInCunt(chars["LAPINARA_FEMALE"],pc.vaginas[pc.biggestVaginaIndex()]);
-					break;
-				case 2: 
-					pc.loadInCunt(chars["SYDIAN_MALE"],pc.vaginas[pc.biggestVaginaIndex()]);
 					break;
 			}
 		}
@@ -3880,21 +4189,27 @@ public function denRestEnd():void
 	clearMenu();
 	author("HNB");
 	
+	var daysToBirth:int;
+	var lvl:int = getBroodmotherLevel();
+	if (lvl <= 3) daysToBirth = 4;
+	else if (lvl <= 4) daysToBirth = 3;
+	else daysToBirth = 2;
+	
 	if (pc.hasStatusEffect("Bulky Belly") && getBroodmotherLevel() >= 2 && rand(3) == 0)
 	{
-		processTime(2*60);
 		sleepHeal();
-		
 		output("\n\nYour eyes jerk open as you feel <b>someone rubbing your [pc.belly]!</b>");
 		addButton(0, "Next", denRestMistaken);
+		
+		processTime(2*60);
 	}
 	else
 	{
-		processTime(8*60);
 		sleepHeal();
-		
 		output("\n\nYour eyes flutter open and you " + (pc.hasStatusEffect("Bulky Belly") ? "clamber down from the supports." : "get up from the sofa."));
 		addButton(0, "Next", denInside);
+		
+		processTime(8*60);
 	}
 }
 
@@ -4446,6 +4761,10 @@ public function setupBroodmother():void
 	{
 		flags["PREG_RASK_RETURNED_LASTIMPREGNATED"] = 0;
 	}
+	if (flags["PREG_RASK_RETURNED_ISPREGNANT"] == undefined)
+	{
+		flags["PREG_RASK_RETURNED_ISPREGNANT"] = false;
+	}
 	if (flags["PREG_RASK_RETURNED_LASTIMPREGNATED_YOURS"] == undefined)
 	{
 		flags["PREG_RASK_RETURNED_LASTIMPREGNATED_YOURS"] = false;
@@ -4454,9 +4773,17 @@ public function setupBroodmother():void
 	{
 		flags["PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN"] = 0;
 	}
+	if (flags["PREG_RASK_RETURNED_LASTIMPREGNATED_RESTING_UNTIL"] == undefined)
+	{
+		flags["PREG_RASK_RETURNED_LASTIMPREGNATED_RESTING_UNTIL"] = 0;
+	}
 	if (flags["PREG_RASK_RETURNED_LASTMILKED"] == undefined)
 	{
 		flags["PREG_RASK_RETURNED_LASTMILKED"] = 0;
+	}
+	if (flags["PREG_RASK_RETURNED_HAVEIMPREGNATED"] == undefined)
+	{
+		flags["PREG_RASK_RETURNED_HAVEIMPREGNATED"] = false;
 	}
 	if (flags["PREG_RASK_RETURNED_FRIENDLINESS"] == undefined)
 	{
@@ -4466,6 +4793,10 @@ public function setupBroodmother():void
 	{
 		flags["PREG_RASK_RETURNED_BABIES"] = 0;
 	}
+	if (flags["PREG_RASK_RETURNED_NURSEBABIES"] == undefined)
+	{
+		flags["PREG_RASK_RETURNED_NURSEBABIES"] = false;
+	}
 	if (flags["PREG_RASK_RETURNED_CUMSTORAGE"] == undefined)
 	{
 		flags["PREG_RASK_RETURNED_CUMSTORAGE"] = new Array();
@@ -4474,13 +4805,21 @@ public function setupBroodmother():void
 	{
 		flags["PREG_RASK_RETURNED_CUMSTORAGE_VOLUMECAP"] = 1000;
 	}
-	if (flags["PREG_RASK_EVENT_LASTTIME"] == undefined)
+	if (flags["PREG_RASK_RETURNED_EVENT_LASTTIME"] == undefined)
 	{
-		flags["PREG_RASK_EVENT_LASTTIME"] = 0;
+		flags["PREG_RASK_RETURNED_EVENT_LASTTIME"] = 0;
 	}
-	if (flags["PREG_RASK_EVENT_TYPE"] == undefined)
+	if (flags["PREG_RASK_RETURNED_EVENT_TYPE"] == undefined)
 	{
-		flags["PREG_RASK_EVENT_TYPE"] = 0;
+		flags["PREG_RASK_RETURNED_EVENT_TYPE"] = 0;
+	}
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] == undefined)
+	{
+		flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] = 0;
+	}
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined)
+	{
+		flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] = null;
 	}
 }
 
@@ -4517,19 +4856,19 @@ public function impregnateBroodmother(players:Boolean, cumQ:int):Boolean
 		{
 			chance = 100; //1 in 100
 			maxBabies = 1;
-			minBabies = 1;
+			minBabies = 3;
 		}
 		else if (cumQ < 50)
 		{
 			chance = 20; //1 in 20
 			maxBabies = 1;
-			minBabies = 1;
+			minBabies = 3;
 		}
 		else if (cumQ < 200)
 		{
 			chance = 8; //1 in 8
 			maxBabies = 2;
-			minBabies = 1;
+			minBabies = 3;
 		}
 		else if (cumQ < 1000)
 		{
@@ -4540,13 +4879,13 @@ public function impregnateBroodmother(players:Boolean, cumQ:int):Boolean
 		else if (cumQ < 3000)
 		{
 			chance = 1; //1 in 1
-			maxBabies = 12;
+			maxBabies = 10;
 			minBabies = 5;
 		}
 		else
 		{
 			chance = 1; //1 in 1
-			maxBabies = 25;
+			maxBabies = 10;
 			minBabies = 10;
 		}
 		
@@ -4555,6 +4894,11 @@ public function impregnateBroodmother(players:Boolean, cumQ:int):Boolean
 			flags["PREG_RASK_RETURNED_LASTIMPREGNATED"] = int(GetGameTimestamp() / 1440);
 			flags["PREG_RASK_RETURNED_LASTIMPREGNATED_YOURS"] = players;
 			flags["PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN"] = (Math.floor(Math.random() * (maxBabies - minBabies + 1)) + minBabies);
+			if (flags["PREG_RASK_RETURNED_HAVEIMPREGNATED"] == false)
+			{
+				flags["PREG_RASK_RETURNED_HAVEIMPREGNATED"] = true;
+			}
+			flags["PREG_RASK_RETURNED_ISPREGNANT"] = true;
 			return true;
 		}
 		else
@@ -4621,7 +4965,7 @@ public function denEntryIntercom():void
 	
 	output("You approach the glowing breen button and hold it down.\n");
 	
-	if (hours <= 4 || hours >= 22 || (lvl != 0 && ((hours % (8 - lvl)) == 0))) 
+	if (hours <= 4 || hours >= 22 || (lvl != 0 && ((hours % (8 - lvl)) == 0)) || (flags["PREG_RASK_RETURNED_LASTIMPREGNATED_RESTING_UNTIL"] > GetGameTimestamp())) 
 	{
 		output("You announce yourself and wait. But there's no response.");
 		clearMenu();
@@ -4704,49 +5048,58 @@ public function denLeave():void
 
 	var lvl:int = getBroodmotherLevel();
 
-	if (lvl == 0)
+	if ((hours % (8 - lvl) == 0) || (hours < 4 || hours > 22) || (GetGameTimestamp() < flags["PREG_RASK_RETURNED_LASTIMPREGNATED_RESTING_UNTIL"]))
 	{
-		output("<i>“Oh what and now you're just going to fuck off without fixing anything?!”</i> the broodmother shouts from behind.");
-	}
-	else if (lvl <= 2)
-	{
-		output("<i>“Leaving again so soon?”</i> the Broodmother murmurs from behind.");
-	}
-	else if (lvl <= 4)
-	{
-		output("<i>“Don't ya want to stay?”</i> the Broodmother murmurs from behind, as you look over your shoulder to see her rubbing her pregnancy-swollen teats.");
-	}
-	else if (lvl <= 6)
-	{
-		output("<i>“Are you sure you want to leave?”</i> the Broodmother slurs from behind, as you look over your shoulder to see her spreading her legs.");
-	}
-	
-	if (lvl >= 4)
-	{
-		if (pc.libido() >= 70 || pc.lust() >= 50)
-		{
-			output("\n\nYou turn as you hear her. <b>You can't turn her down.</b>")
+		output("You press the exit button and the door hums open. A second later you step out into the " + ((hours < 4 || hours > 22) ? "moonlight." : "sunlight."));
 		clearMenu();
-		addButton(0, "Next", denInside);
-		}
-		else if (pc.isBimbo())
-		{
-			output("\n\nYou turn as you hear her. <b>You can't turn down a fellow gal in need.</b>")
-		clearMenu();
-		addButton(0, "Next", denInside);	
-		}
-		else 
-		{
-			output("\nYou press the exit button and the door hums open. A second later you step out into the sunlight.");
-			clearMenu();
-			addButton(0, "Next", move, "249");
-		}
+		addButton(0, "Next", move, "249");
 	}
 	else 
 	{
-		output("\nYou press the exit button and the door hums open. A second later you step out into the sunlight.");
-		clearMenu();
-		addButton(0, "Next", move, "249");
+		if (lvl == 0)
+		{
+			output("<i>“Oh what and now you're just going to fuck off without fixing anything?!”</i> the broodmother shouts from behind.");
+		}
+		else if (lvl <= 2)
+		{
+			output("<i>“Leaving again so soon?”</i> the Broodmother murmurs from behind.");
+		}
+		else if (lvl <= 4)
+		{
+			output("<i>“Don't ya want to stay?”</i> the Broodmother murmurs from behind, as you look over your shoulder to see her rubbing her pregnancy-swollen teats.");
+		}
+		else if (lvl <= 6)
+		{
+			output("<i>“Are you sure you want to leave?”</i> the Broodmother slurs from behind, as you look over your shoulder to see her spreading her legs.");
+		}
+		
+		if (lvl >= 4)
+		{
+			if (pc.libido() >= 70 || pc.lust() >= 50)
+			{
+				output("\n\nYou turn around. <b>You can't turn her down.</b>")
+				clearMenu();
+				addButton(0, "Next", denInside);
+			}
+			else if (pc.isBimbo())
+			{
+				output("\n\nYou turn around. <b>You can't turn down a fellow gal in need.</b>")
+				clearMenu();
+				addButton(0, "Next", denInside);	
+			}
+			else 
+			{
+				output("\n\nYou press the exit button and the door hums open. A second later you step out into the " + ((hours < 4 || hours > 22) ? "moonlight." : "sunlight."));
+				clearMenu();
+				addButton(0, "Next", move, "249");
+			}
+		}
+		else 
+		{
+			output("\n\nYou press the exit button and the door hums open. A second later you step out into the " + ((hours < 4 || hours > 22) ? "moonlight." : "sunlight."));
+			clearMenu();
+			addButton(0, "Next", move, "249");
+		}
 	}
 }
 
@@ -4816,7 +5169,7 @@ public function addBuckets():void
 	
 	output("How many?");
 	
-	var number:int = pc.numberOfItemByClass(RaskvelBroodmotherEmptyBucket);
+	var number:int = pc.numberOfItemByClass(EmptyBucket);
 	
 	for (var i:int = 1; ((i <= number) && (i < 14)); i++)
 	{
@@ -4839,7 +5192,7 @@ public function addBuckets_Number(number:int):void
 		output("You place the buckets in a stack, alongside the other" + ((flags["PREG_RASK_RETURNED_CUMSTORAGE_VOLUMECAP"] == 1000) ? " one" : "s") + ".");
 	}
 	
-	pc.destroyItemByClass(RaskvelBroodmotherEmptyBucket,number);
+	pc.destroyItemByClass(EmptyBucket,number);
 	flags["PREG_RASK_RETURNED_CUMSTORAGE_VOLUMECAP"] += number * 1000;
 	
 	processTime(1);
@@ -4848,7 +5201,7 @@ public function addBuckets_Number(number:int):void
 
 public function isBroodmotherPregnant():Boolean
 {
-	return (getLastImpregnated() > ((int(GetGameTimestamp() / 1440)) - 4));
+	return flags["PREG_RASK_RETURNED_ISPREGNANT"];
 }
 
 public function cumInsideBroodmother(cummies:int):void
@@ -4878,4 +5231,49 @@ public function cumInsideBroodmother(cummies:int):void
 	{
 		denInside();
 	}
+}
+
+public function broodmotherBirthScene(numBirthed:int):void 
+{
+	clearOutput();
+	clearMenu();
+	author("HNB");
+	
+	var lvl:int = getBroodmotherLevel();
+	
+	//Offer nursery, doesn't need help
+	output("<i>“Oooh!”</i> the Broodmother groans, her belly shifting. <i>“Looks like our babies coming [pc.name]!”</i>\n\n");
+	output("<i>“Oh shit!”</i> you gasp. <i>“Come on, I'll land the ship out front and we'll get you to the Nursery!”</i>\n\n");
+	output("<i>“Ahaha, no need”</i> she laughs. <i>“This isn't my first Rodeo, I don't need any help”</i>\n\n");
+	
+	//Pushing out of the babies, it's "hellishly pleasurable"
+	output("You stand and watch as she huffs and gasps before her " + (lvl >= 5 ? "already gaping snatch sprays a gush of her lube across the room and, looking between her thick lips, you see her insides filled with a large, emerging egg." : "thick pussy-lips are pushed apart by an emerging egg, a gush of her lube spraying across the room as it does."));	
+	output("<i>“Oh fuUUckkk”</i> the Raskvel moans as the egg slides against the walls of her insides. It turns as it slides further out stirring up her insides, causing her to cry out and shriek in pleasure. <i>“Oh fuck, oh fuck, oh fuck”</i> she pants. It gets pushed out further, emerging soaking from her dripping snatch until it sits in the rim of her taught hole. It wobbles in her gaping hole and then, with a loud pop, drops to the floor, along with a waterfall of girlcum.\n\n");
+	
+	// Managing babies
+	if (numBirthed > 1)
+	{
+		output("A while later, after much gasping, moaning and cumming, " + numBirthed + " eggs are lying, soaking behind the collapsed broodmother, in a puddle of her juices. ");
+	}
+	else 
+	{
+		output("At this, the Broodmother collapses. The sole egg lies behind her, strings of her cum connecting the two. ");
+	}
+	
+	if (flags["PREG_RASK_RETURNED_NURSEBABIES"] == true)
+	{
+		output("You'd congratulate her but she's unable to respond. Her tongue dangles from her mouth idly and her eyes are rolled back in her head in ecstasy. You draw your codex from your pocket and flip it open, tapping it a few times, calling " + (numBirthed > 1 ? "nursery drones" : "a nursery drone") + " to your location. ");
+		
+		if (flags["PREG_RASK_RETURNED_DOORLESS"] == true) output("Not a minute later, " + (numBirthed > 1 ? "they fly through" : "it flies through") +" the door, taking great care to grab on to the slickened " + (numBirthed > 1 ? "eggs" : "egg") + " before flying your children back out towards the nursery.");
+		else output("You walk over to the control panel and tap away at the controls. The door flies open at your command and not a minute later, " + (numBirthed > 1 ? "they fly through" : "it flies through") +", taking great care to grab on to the slickened " + (numBirthed > 1 ? "eggs" : "egg") + " before flying back out towards the nursery.");
+	}
+	else 
+	{
+		output("You'd congratulate her but she's barely conscious. Her tongue dangles from her mouth idly and her eyes are rolled back in her head in ecstasy. She just barely mumbles <i>“That was soooo good. I'll drag them over to the hatchery in the back in a bit, I just need to rest for a bit.”</i>");
+	}
+	output("\n\nLeaving her to rest, you walk outside.");
+	
+	pc.lust(15); //It was probably pretty hot.
+	processTime(15);	
+	addButton(0, "Next", move, "249");
 }
