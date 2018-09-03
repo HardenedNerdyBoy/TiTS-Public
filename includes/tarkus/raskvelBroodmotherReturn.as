@@ -4364,8 +4364,9 @@ public function denInside():Boolean
 	
 	addButton(1,"Buckets",cumStorageMenu);
 	
-	if (getBroodmotherLevel() == 0){addDisabledButton(13, "Rest", "Probably best not to close your eyes around someone who's only joy in life you've taken away.");}
-	else{addButton(13, "Rest", denRest); }
+	if (getBroodmotherLevel() == 0) addDisabledButton(13, "Rest", "Probably best not to close your eyes around someone who's only joy in life you've taken away."); 
+	else if (getBroodmotherFriendliness() >= 20) addButton(13, "Rest", denRest);
+	else addDisabledButton(13, "Rest", "You're not friendly enough with her yet.");
 	
 	addButton(14, "Leave", denLeave);
 	return true;
@@ -4463,7 +4464,7 @@ public function cumStorageMenu():void
 	
 	if (pc.hasVagina() && !pc.isPregnant() && flags["PREG_RASK_RETURNED_FRIENDLINESS"] >= 35 && pc.hasPerk("Breed Hungry") && getBroodmotherCumStoredVolume() > 0)
 	{
-		if (hours > 4 || hours < 22)
+		if (hours > 4 || hours < 22 && getBroodmotherFriendliness() >= 35)
 		{
 			addButton(0, "Use a bucket", useBucket);
 		}
