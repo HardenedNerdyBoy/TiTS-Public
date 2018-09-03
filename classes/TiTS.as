@@ -1650,6 +1650,10 @@
 		{
 			return chars["ARDIA"];
 		}
+		public function get raskvelBroodmother():RaskvelBroodmother
+		{
+			return chars["RASKVEL_BROODMOTHER"];
+		}
 
 		public function testShipCombat():void
 		{

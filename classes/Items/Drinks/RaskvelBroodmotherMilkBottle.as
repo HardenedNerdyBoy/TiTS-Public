@@ -24,7 +24,7 @@
 			//Used on inventory buttons
 			this.shortName = "B.Milk Bottle";
 			//Regular name
-			this.longName = "Broodmother milk bottle";
+			this.longName = "Broodmother milk bottle x" + this.quantity;
 			
 			TooltipManager.addFullName(this.shortName, StringUtil.toTitleCase(this.longName));
 			
@@ -73,7 +73,7 @@
 				if (inCombat()) output("You grab the bottle of milk it sloshing as you do, and loosen the cap. You tip it towards you and pour the milk down your mouth, fantasizing about the broodmothers big, fuckable nipples as you do, wishing you were drinking the milk right from the source.\nYou feel more energized but the fantasizing that came with it has left you slightly hornier.");
 				else output("You grab the bottle of milk it sloshing as you do, and loosen the cap. You tip it towards you and pour the milk down your throat. As you do, your mind drifts off. Your mind is filled with a vision of you getting the milk straight from the source, sucking the broodmothers big, fuckable nipples. You're not sure if this is your own minds doing, or something in the milk to keep you coming back to her.\nEither way, you feel more energized for drinking it but the fantasizing that came with it has left you hornier.");
 				if (healing > 0) kGAMECLASS.output(" (<b>+" + healing + " Energy</b>)");
-				if(lust > 0) kGAMECLASS.output(" (<b>+" + lust + " Lust</b>)");
+				if (lust > 0) kGAMECLASS.output(" (<b>+" + lust + " Lust</b>)");
 			}
 			//Not player!
 			else
@@ -82,8 +82,9 @@
 				else clearOutput();
 				output((inCombat() ? StringUtil.capitalize(target.getCombatName(), false) : (target.capitalA + target.short)) + " unscrews the cap from the bottle and downs the broodmothers bounty. Their eyes glaze over slightly as they do but they look peppier too!");
 				if (healing > 0) kGAMECLASS.output(" (<b>+" + healing + " Energy</b>)");
-				if(lust > 0) kGAMECLASS.output(" (<b>+" + lust + " Lust</b>)");
+				if (lust > 0) kGAMECLASS.output(" (<b>+" + lust + " Lust</b>)");
 			}
+			target.milkInMouth(kGAMECLASS.chars["RASKVEL_BROODMOTHER"]);
 			target.lust(lust);
 			target.energy(healing);
 			return false;

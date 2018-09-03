@@ -25,7 +25,7 @@
 			//Used on inventory buttons
 			this.shortName = "B.Milk Bucket";
 			//Regular name
-			this.longName = "Broodmother milk bucket";
+			this.longName = "Broodmother milk bucket x" + this.quantity;
 			
 			TooltipManager.addFullName(this.shortName, StringUtil.toTitleCase(this.longName));
 			
@@ -93,6 +93,7 @@
 			itemsToGet.push(bucketsReturned);
 			kGAMECLASS.itemCollect(itemsToGet);
 			
+			target.milkInMouth(kGAMECLASS.chars["RASKVEL_BROODMOTHER"]);
 			target.lust(lust);
 			target.energy(healing);
 			return false;

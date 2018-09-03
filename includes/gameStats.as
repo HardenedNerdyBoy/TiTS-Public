@@ -1128,6 +1128,8 @@ public function statisticsScreen(showID:String = "All"):void
 					output2("\n<b>* Sired, Briha’s Sons:</b> " + StatTracking.getStat("pregnancy/briha sons"));
 				if(StatTracking.getStat("pregnancy/briha daughters") > 0)
 					output2("\n<b>* Sired, Briha’s Daughters:</b> " + StatTracking.getStat("pregnancy/briha daughters"));
+				if(StatTracking.getStat("pregnancy/broodmother sired") > 0)
+					output2("\n<b>* Sired, Broodmother’s Children:</b> " + StatTracking.getStat("pregnancy/broodmother sired"));
 				if(StatTracking.getStat("pregnancy/ellie sired") > 0)
 					output2("\n<b>* Sired, Ellie’s Children:</b> " + StatTracking.getStat("pregnancy/ellie sired"));
 				if(StatTracking.getStat("pregnancy/frostwyrm eggs sired") > 0)

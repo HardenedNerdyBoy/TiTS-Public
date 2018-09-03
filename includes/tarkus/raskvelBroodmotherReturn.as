@@ -1,9 +1,9 @@
 import adobe.utils.CustomActions;
+import classes.Characters.RaskvelBroodmother;
 import classes.ItemSlotClass;
-import classes.Items.Apparel.BusinessClothes;
-import classes.Items.Apparel.ClassySuit;
 import classes.Items.Apparel.FarmersOveralls;
-import classes.Items.Apparel.Harness;
+import classes.Items.Apparel.LeatherStrapHarness;
+import classes.Items.Apparel.MaidOutfit;
 import classes.Items.Apparel.NurseOutfit;
 import classes.Items.Apparel.SchoolgirlOutfit;
 import classes.Items.Apparel.TeacherOutfit;
@@ -19,7 +19,14 @@ public function getPregRaskReturn_BustName():String
 {
 	var bustStr:String = "PREGRASK_";
 	
+	// _LVL
 	bustStr += ("LVL" + getBroodmotherLevel().toString());
+	
+	// _Clothes
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] != undefined)
+	{
+		bustStr += ("_" + flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]);
+	}
 	
 	if (isBroodmotherTreated())
 	{
@@ -29,7 +36,7 @@ public function getPregRaskReturn_BustName():String
 	{
 		bustStr += "_FUTA";
 	}
-	return bustStr;
+	return bustStr.toUpperCase();
 }
 
 public function getPregRaskReturn_Name():String 
@@ -42,6 +49,215 @@ public function getPregRaskReturn_Name():String
 	{
 		return "RASKVEL\nBROODMOTHER";
 	}
+}
+
+public function getWhatWearing():String
+{
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+		return "nurse outfit";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+		return "maid outfit";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+		return "schoolgirl outfit";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+		return "leather harness";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+		return "teacher outfit";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+		return "farmers overall";
+	}
+	else{
+		return null;
+	}
+}
+
+public function getWhatWearing_DressedAs():String
+{
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+		return " nurse ";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+		return " maid ";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+		return " schoolgirl ";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+		return " bound ";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+		return " teacher ";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+		return " farmer ";
+	}
+	else{
+		return " ";
+	}
+}
+
+// The following state what the broodmother is wearing over a particular region of her body. Used for descriptions.
+public function getWhatWearing_Chest():String
+{
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+		return "red and white nurses shirt";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+		return "frilly black blouse";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+		return "red tie";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+		return "tight leather strap";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+		return "white blouse";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+		return "dark blue overall";
+	}
+	else{
+		return null;
+	}
+}
+
+public function getWhatWearing_Behind():String
+{
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+		return null;
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+		return "short frilly skirt";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+		return "short tartan skirt";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+		return null;
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+		return "short black skirt";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+		return "tattered overalls";
+	}
+	else{
+		return null;
+	}
+}
+
+public function getWhatWearing_CrotchPosition():String
+{
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+		return null;
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+		return "under her frilly skirt";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+		return "under her tartan skirt";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+		return "between her bound thighs";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+		return "under her black skirt";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+		return "through her tattered overalls";
+	}
+	else{
+		return null;
+	}
+}
+
+public function getWhatWearing_Thighs():String
+{
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+		return "red stocking";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+		return "frilly white stocking";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+		return null;
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+		return "leather strap";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+		return "black stocking";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+		return null;
+	}
+	else{
+		return null;
+	}
+}
+
+public function getWhatWearing_Neck():String
+{
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+		return "large white collar";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+		return "tight black fabric";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+		return "open white collar";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+		return "leather straps";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+		return "open white collar";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+		return null;
+	}
+	else{
+		return null;
+	}
+}
+
+public function getWhatWearing_Head():String
+{
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+		return "white nurses hat";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+		return "frilly white hat";
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+		return null;
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+		return null;
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+		return null;
+	}
+	else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+		return null;
+	}
+	else{
+		return null;
+	}
+}
+
+public function getWhatWearing_IsArmCovered():Boolean
+{
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+		return true;
+	}
+	return false;
 }
 
 public function showPregRaskReturn():void
@@ -59,10 +275,6 @@ public function approachBroodmother():void
 	
 	var lvl:int = getBroodmotherLevel();
 	var randInt:int = 0;
-	
-	addButton(0, "Appearance", broodMotherAppearance);
-	addButton(1, "Talk", talkBroodmother, undefined, "Talk", "Have a conversation with her..");
-	addButton(14, "Leave", mainGameMenu);
 		
 	if (lvl == 0)
 	{
@@ -74,44 +286,140 @@ public function approachBroodmother():void
 	}
 	else if (lvl == 2)
 	{
-		output("You approach the ballooning, purple broodmother. Clutching her stomach she turns towards you, with a rowdy look on her face.\n");
-		output("<i>“Mmm, I'm doing much better now. How will I ever repay you..”</i> she says, licking her lips.");
+		output("You approach the ballooning, purple broodmother" + (getWhatWearing() != null ? (", who's clad in a " + getWhatWearing()) : "") + ". Clutching her stomach she turns towards you, with a rowdy look on her face.\n");
+		
+		// If clothed she roleplays
+		if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+			output("<i>“Ooh, are you sure you're feeling well?”</i> she asks, licking her lips. <i>“Maybe you should strip off so I can check your heartbeat..”</i>");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+			output("<i>“Ooh, is there anything your maid can clean for you?”</i> she asks, licking her lips. <i>“How about down there..”</i>");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+			output("<i>“Sorry, I've forgotten my homework”</i> she giggles, licking her lips. <i>“Is there some way I can make it up to you?”</i>");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+			output("<i>“Hmm, these straps don't leave much to the imagination..”</i> she says, licking her lips. <i>“What do you think?”</i>");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+			output("<i>“Mmm, I haven't got a plan for todays lesson..”</i> she giggles, licking her lips. <i>“What do you think we should do?”</i>");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+			output("<i>“Hmm, I need to adjust something”</i> she giggles. <i>“I don't suppose you could help a farmgirl like me take these overalls off?”</i>");
+		}
+		else{
+			output("<i>“Mmm, I'm doing much better now. How will I ever repay you..”</i> she says, licking her lips.");
+		}
 	}
 	else if (lvl == 3)
 	{
-		output("You approach the ballooning, purple broodmother. Clutching her stomach she turns towards you, her gargantuan tits flopping to the side as she does. With a rowdy look on her face she moans towards you.\n");
-		output("<i>“Mmm, I'm doing great, I'm so full. I feel like I'm leaking a bit but I can't see past this big belly of mine. You should have a look.”</i>");
+		output("You approach the ballooning, purple broodmother" + (getWhatWearing() != null ? (", who's clad in a " + getWhatWearing()) : "") + ". Clutching her stomach she turns towards you, her gargantuan" + (getWhatWearing_Chest() != null ? " outfit-clad tits wobbling as she does" : " tits flopping to the side as she does") + ". With a rowdy look on her face she moans towards you.\n");
+		// If clothed she roleplays
+		if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+			output("<i>“Ooh, are you sure you're feeling well?”</i> she asks, licking her lips. <i>“Maybe you should strip off so I can check your heartbeat..”</i>");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+			output("<i>“Ooh, is there anything your maid can clean for you?”</i> she asks, licking her lips. <i>“How about down there..”</i>");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+			output("<i>“Sorry, I've forgotten my homework”</i> she giggles, licking her lips. <i>“Is there some way I can make it up to you?”</i>");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+			output("<i>“Hmm, these straps don't leave much to the imagination..”</i> she says, licking her lips. <i>“What do you think?”</i>");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+			output("<i>“Mmm, I haven't got a plan for todays lesson..”</i> she giggles, licking her lips. <i>“What do you think we should do?”</i>");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+			output("<i>“Hmm, I need to adjust something”</i> she giggles. <i>“I don't suppose you could help a farmgirl like me take these overalls off?”</i>");
+		}
+		else{
+			output("<i>“Mmm, I'm doing great, I'm so full. I feel like I'm leaking a bit but I can't see past this big belly of mine. You should have a look.”</i>");
+		}
 	}
 	else if (lvl == 4)
 	{
-		output("You approach the big, purple broodmother. Held to the ground by her ballooning paunch she rotates slightly on the slick ground below her and twists around to face you. She moans at you.\n");
+		output("You approach the big, purple broodmother" + (getWhatWearing() != null ? (", who's clad in a " + getWhatWearing()) : "") + ". Held to the ground by her ballooning paunch she rotates slightly on the slick ground below her and twists around to face you. She moans at you.\n");
 		
 		randInt = rand(1);
 		if (randInt == 0 && isBroodmotherFuta()){
-			output("<i>“I can't reach around, I'm so big. I don't know what I'd do if someone just trotted in and started playing with my cock!”</i>");
+			if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+				output("<i>“Ooh, are you sure you're feeling well?”</i> she asks, presenting her cock. <i>“Maybe we should check your temperature with my... thermometer.”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+				output("<i>“Ooh, is there anything your maid can clean for you?”</i> she asks, presenting her cock. <i>“What about inside? I've got a... brush that can reach.”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+				output("<i>“Oh no”</i> she giggles, her skirt lifting. <i>“Looks like my cocks too big for this skirt. But I don't want the other girls to know, so if someone were to do anything with it, I'd never tell anyone!”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+				output("<i>“These straps are so tight. I don't think I could stop anybody from trotting in and playing with my cock!”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+				output("<i>“Oh no”</i> she giggles, her skirt lifting. <i>“Looks like my cocks too big for this skirt. But if the other teachers find out, I'll be fired! If someone were to do anything with it, I'd never tell anyone!”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+				output("<i>“I think something fell out back there”</i> she giggles as you notice her cock flopping out the underside of her overalls. <i>“I don't suppose you could put it back in?”</i>");
+			}
+			else{
+				output("<i>“I can't reach around, I'm so big. I don't know what I'd do if someone just trotted in and started playing with my cock!”</i>");
+			}
 		}
 		else if (randInt == 1 && isBroodmotherTreated()){
-			output("<i>“I can't reach around, I'm so big. I don't know what I'd do if someone just trotted in and started milking my teats for all they're worth!”</i>");
+			if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+				output("<i>“Ooh, are you sure you're feeling well?”</i> she asks, rubbing her teats. <i>“Maybe some milk would help?”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+				output("<i>“Ooh, is there anything your maid can get for you?”</i> she asks, rubbing her teats. <i>“Perhaps some milk?”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+				output("<i>“Hey, could you help a farmgirl out with the milking?”</i> she giggles, rubbing her teats.");
+			}
+			else{
+				output("<i>“I can't reach around, I'm so big. I don't know what I'd do if someone just trotted in and started milking my teats for all they're worth!”</i>");
+			}
 		}
 		else {
-			output("<i>“I can't reach around, I'm so big. I don't know what I'd do if some brave adventurer just trotted in and started fucking my pussy!”</i>");
+			if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit" || flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit" || flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+				output("<i>“Oh no, looks like my skirts too short! Now everyone can see my pussy..”</i>");
+			}
+			else{
+				output("<i>“I can't reach around, I'm so big. I don't know what I'd do if some brave adventurer just trotted in and started fucking my pussy!”</i>");
+			}
 		}
 	}
 	else if (lvl == 5)
 	{
-		output("You approach the big, purple broodmother. Held to the ground by her gargantuan paunch she rotates slightly on the cum-soaked ground below her and twists around to face you. She flicks her tail around and stretches open her gaping, cum-soaked vagina before moaning at you, tounge hanging from her mouth.\n");
+		output("You approach the big, purple broodmother" + (getWhatWearing() != null ? (", who's clad in a " + getWhatWearing()) : "") + ". Held to the ground by her gargantuan paunch she rotates slightly on the cum-soaked ground below her and twists around to face you. She flicks her tail around and stretches open her gaping, cum-soaked vagina before moaning at you, tounge hanging from her mouth.\n");
 		
 		randInt = rand(2);
 		if (pc.hasCock() && randInt == 0)
 		{
-			output("<i>“I've got room for more. ");
-			if (pc.isCrotchExposed())
-			{
-				output("How about you let " + (pc.hasCocks() ? "those cocks" : "that cock") + " out and fill me with your cum!”</i>");
+			if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+				output("<i>“Ooh, are you sure you're feeling well? Maybe I should drain your fluids”</i>");
 			}
-			else
-			{
-				output("How about you bring " + (pc.hasCocks() ? "those cocks" : "that cock") + " over here and fill me with your cum!”</i>");
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+				output("<i>“Ooh, is there anything your maid can do for you?”</i> she asks, licking her lips. <i>“Maybe some service. I could suck all your cum out if you'd like!”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+				output("<i>“Oh no, I've forgotten my homework again! That's the fourth time this week. I believe the punishment for that is getting fucked over and over, is that right?”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+				output("<i>“Mmm, alright time for todays lesson, I'm going to teach the class how to ride a cock. I'll need a volunteer!”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+				output("<i>“Ahh, that's all the seed spread for today. Apart from, of course, yours.”</i>");
+			}
+			else{
+				output("<i>“I've got room for more. ");
+				if (pc.isCrotchExposed())
+				{
+					output("How about you let " + (pc.hasCocks() ? "those cocks" : "that cock") + " out and fill me with your cum!”</i>");
+				}
+				else
+				{
+					output("How about you bring " + (pc.hasCocks() ? "those cocks" : "that cock") + " over here and fill me with your cum!”</i>");
+				}
 			}
 		}
 		else if (isBroodmotherFuta()  && randInt == 1){
@@ -121,27 +429,93 @@ public function approachBroodmother():void
 			output("<i>“I'm feeling pretty full. How about you come over here and milk my tits dry!”</i>");
 		}
 		else{
-			output("<i>“Mmm, how 'bout you get over here and we have some fun?”</i>")
+			if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+				output("<i>“Ooh, are you sure you're feeling well?”</i> she asks, licking her lips. <i>“Maybe fucking me would help you feel better?”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+				output("<i>“Ooh, is there anything your maid can do for you?”</i> she asks, licking her lips. <i>“How about something fun?”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+				output("<i>“Sorry, I've forgotten my homework You'll have to punish me!”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+				output("<i>“Hmm, all tied up by these tight straps..”</i> she says, licking her lips. <i>“Like a present. For you.”</i>");
+				if (kGAMECLASS.silly) output("\n<i>“Was getting tied up part of your plan?”</i>"); //Silly baneposting
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+				output("<i>“Mmm, alright time for todays lesson.. Time to teach the class how to fuck. I'll need a volunteer!”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+				output("<i>“Ahh, that's all the farming done for the day. Now, time for some fun!”</i>");
+			}
+			else{
+				output("<i>“Mmm, how 'bout you get over here and we have some fun?”</i>")
+			}
 		}
 	}
 	else if (lvl == 6)
 	{
 		randInt = rand(4);
 		
+		output("You approach the writing covered, used broodmother." + (getWhatWearing() != null ? (", who's clad in a " + getWhatWearing()) : "") + ". Held to the ground by her gargantuan paunch she rotates slightly on the cum-covered ground below her and twists around to face you. ");
 		if (pc.hasCock() && randInt == 0){
-			output("You approach the writing covered, used broodmother. Held to the ground by her gargantuan paunch she rotates slightly on the cum-covered ground below her and twists around to face you. She flicks her tail and stretches open her gaping cum-soaked vagina before moaning at you through her plump lips.\n<i>“Oh fuck, you're back! Please, get back there and stuff " + (pc.hasCocks() ? "those cocks" : "that cock") + " in my slutty pussy! Fill me with your cum!”</i>");
+			if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+				output("She flicks her tail and stretches open her gaping cum-soaked vagina before moaning at you through her plump lips.\n<i>“MMm it's time for your treatment! And the treatment is to shove " + (pc.hasCocks() ? "those cocks" : "that cock") + " in my pussy and unload over and over until the symptoms go away!”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+				output("She flicks her tail and stretches open her gaping cum-soaked vagina before moaning at you through her plump lips.\n<i>“Oh " + pc.mf("master","mistress") + ", your cock looks so full! I wouldn't be doing my job if you didn't stuff " + (pc.hasCocks() ? "those cocks" : "that cock") + " in my pussy and unload!”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+				output("She flicks her tail and stretches open her gaping cum-soaked vagina before moaning at you through her plump lips.\n<i>“Oh fuck, I've been such a naughty girl! Please, get back there and punish me! Stuff " + (pc.hasCocks() ? "those cocks" : "that cock") + " in my slutty, schoolgirl pussy! Fuck me every lunchtime until the other girls call me a pregnant whore!”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+				output("She flicks her tail and stretches open her gaping cum-soaked vagina before moaning at you through her plump lips.\n<i>“Mmm, I'm just like your little wrapped up present in this leather! How about you open me up with " + (pc.hasCocks() ? "those cocks" : "that cock") + "!”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+				output("She flicks her tail and stretches open her gaping cum-soaked vagina before moaning at you through her plump lips.\n<i>“Time for todays lesson! Todays lesson is that your teacher's a filthy slut who needs you to stuff " + (pc.hasCocks() ? "those cocks" : "that cock") + " in my slutty pussy! You'll get an A* if you knock me up!”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+				output("She flicks her tail and stretches open her gaping cum-soaked vagina before moaning at you through her plump lips.\n<i>“There's just one more seed that needs planting. It's yours, you need to plant your " + (pc.hasCocks() ? "dibbers" : "dibber") + " in my dirty farmgirl pussy and dig in there until the seeds are sprayed all over my insides!”</i>");
+			}
+			else{
+				output("She flicks her tail and stretches open her gaping cum-soaked vagina before moaning at you through her plump lips.\n<i>“Oh fuck, you're back! Please, get back there and stuff " + (pc.hasCocks() ? "those cocks" : "that cock") + " in my slutty pussy! Fill me with your cum!”</i>");
+			}
 		}
 		else if (pc.hasCock() && randInt == 1){
-			output("You approach the writing covered, used broodmother. Held to the ground by her gargantuan paunch she rotates slightly on the cum-covered ground below her and twists around to face you. Licking her plump lips, she moans.\n<i>“Oh fuck. You're back! How about you get closer and I'll suck ya dick!”</i>");
+			if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+				output("Licking her plump lips, she moans.\n<i>“Oh fuck. I need to drain your fluids, come over 'ere!”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+				output("Licking her plump lips, she moans.\n<i>“Oh fuck, how about you get closer " + pc.mf("master","mistress") + " and I'll service ya dick!”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+				output("Licking her plump lips, she moans.\n<i>“If I suck your dick will ya' give me a good grade?! I'll do it anyway!”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+				output("Licking her plump lips, she moans.\n<i>“If you come over 'ere and let me suck your dick, I'll give you an A!”</i>");
+			}
+			else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+				output("Licking her plump lips, she moans.\n<i>“Oh fuck. We need to plant some seeds, In my mouth! Come over 'ere and I'll suck ya dick!”</i>");
+			}
+			else 
+			{
+				output("Licking her plump lips, she moans.\n<i>“Oh fuck. You're back! How about you get closer and I'll suck ya dick!”</i>");
+			}
 		}
 		else if (isBroodmotherFuta() && randInt == 3){
-			output("You approach the writing covered, used broodmother. Held to the ground by her gargantuan paunch she rotates slightly on the cum-covered ground below her and twists around to face you. Licking her plump lips, she moans.\n<i>“Oh fuck. You're back! It feels so tingley, I need you to get back thee and fuck my slutty dick!”</i>");
+			output("Licking her plump lips, she moans.\n<i>“Oh fuck. You're back! It feels so tingley, I need you to get back there and fuck my slutty dick!”</i>");
 		}
 		else if (isBroodmotherTreated() && randInt == 4){
-			output("You approach the writing covered, used broodmother. Held to the ground by her gargantuan paunch she rotates slightly on the cum-covered ground below her and twists around to face you. Twisting her fat teats in her hand she gasps.\n<i>“Oh fuck. You're back! They're so full! Please, come over and milk my titties before I burst!”</i>");
+			if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+				output("Twisting her fat teats in her hand she gasps.\n<i>“Oh fuck. You're back! There's a big slutty cow that needs milking! Now, come over and milk my titties before I burst!”</i>");
+			}
+			else 
+			{
+				output("Twisting her fat teats in her hand she gasps.\n<i>“Oh fuck. You're back! They're so full! Please, come over and milk my titties before I burst!”</i>");
+			}
 		}
 		else{
-			output("You approach the writing covered, used broodmother. Held to the ground by her gargantuan paunch she rotates slightly on the cum-covered ground below her and twists around to face you. She flicks her tail and stretches open her gaping cum-soaked vagina before moaning at you through her plump lips.\n<i>“Oh fuck, you're back! I need you to play with my pussy, I need it! Use me like the slut I am!”</i>");
+			output("She flicks her tail and stretches open her gaping cum-soaked vagina before moaning at you through her plump lips.\n<i>“Oh fuck, you're back! I need you to play with my pussy, I need it! Use me like the slut I am!”</i>");
 		}
 	}	
 	
@@ -276,6 +650,10 @@ public function approachBroodmother():void
 		output(".");
 	}
 	
+	addButton(0, "Appearance", broodMotherAppearance);
+	addButton(1, "Talk", talkBroodmother, undefined, "Talk", "Have a conversation with her..");
+	addButton(14, "Leave", mainGameMenu);
+	
 	// SEX OPT IF TURNED ON
 	if (pc.lust() >= 33 && lvl > 0)
 	{
@@ -306,7 +684,14 @@ public function approachBroodmother():void
 	
 	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] == 2)
 	{
-		addButton(4, "Dress up", broodmotherDressup)
+		if ((lvl >= 2 && !isBroodmotherPregnant()) || (lvl >= 3 && isBroodmotherPregnant()))
+		{
+			addButton(4, "Dress up", broodmotherDressup)
+		}
+		else 
+		{
+			addDisabledButton(3, "Dress up", "Dress up", "She's genuinely too small to fit your normal-sized clothes.");
+		}
 	}
 	
 	// GIVE ITEMS
@@ -319,22 +704,45 @@ public function broodmotherDressup():void
 	clearMenu();
 	author("HNB");
 	
-	if (pc.isBimbo())
+	if (getWhatWearing() != null)
 	{
-		output("<i>“Okay honey!”</i> you call to her, rummaging in your backpack. <i>“'Member when we talked about dressup? Well, I've got something for youuu!”</i>\n\n");
-	}
-	else if (pc.isBro() || pc.isAss())
-	{
-		output("<i>“Alright slut”</i> you grunt, rummaging in your backpack. <i>“Remember when we talked about dressing you up? Well, I've got a nice little outfit for you”</i>\n\n");
-	}
-	else if (pc.isSubby())
-	{
-		output("<i>“Okay mistress!”</i> you call to her, rummaging in your backpack. <i>“Remember our conversation about getting you all dressed up? Well, I've got something for you”</i>\n\n");
+		if (pc.isBimbo())
+		{
+			output("<i>“Okay honey!”</i> you call to her, rummaging in your backpack. <i>“How about a new outfit?”</i>\n\n");
+		}
+		else if (pc.isBro() || pc.isAss())
+		{
+			output("<i>“Alright slut”</i> you grunt, rummaging in your backpack. <i>“I've got a new little outfit for you”</i>\n\n");
+		}
+		else if (pc.isSubby())
+		{
+			output("<i>“Okay mistress!”</i> you call to her, rummaging in your backpack. <i>“I've brought you a new outfit”</i>\n\n");
+		}
+		else
+		{
+			output("<i>“I've got something for you..”</i>\n\n");
+		}
 	}
 	else
 	{
-		output("<i>“Remember when we were talking about dressing you up?”</i> you ask, rummaging in your backpack. <i>“Well, I've got something for you..”</i>\n\n");
+		if (pc.isBimbo())
+		{
+			output("<i>“Okay honey!”</i> you call to her, rummaging in your backpack. <i>“'Member when we talked about dressup? Well, I've got something for youuu!”</i>\n\n");
+		}
+		else if (pc.isBro() || pc.isAss())
+		{
+			output("<i>“Alright slut”</i> you grunt, rummaging in your backpack. <i>“Remember when we talked about dressing you up? Well, I've got a nice little outfit for you”</i>\n\n");
+		}
+		else if (pc.isSubby())
+		{
+			output("<i>“Okay mistress!”</i> you call to her, rummaging in your backpack. <i>“Remember our conversation about getting you all dressed up? Well, I've got something for you”</i>\n\n");
+		}
+		else
+		{
+			output("<i>“Remember when we were talking about dressing you up?”</i> you ask, rummaging in your backpack. <i>“Well, I've got something for you..”</i>\n\n");
+		}
 	}
+	
 	
 	// Gen item menu
 	var buttonIndex:int = 0;
@@ -342,56 +750,44 @@ public function broodmotherDressup():void
 	var clothesList:Array = new Array();
 	if (pc.hasItemByClass(NurseOutfit)) 
 	{
-		addButton(buttonIndex, "Nurse Outfit", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new NurseOutfit());
+		if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined) addButton(buttonIndex, "Nurse Outfit", broodmotherDressup_Item_2, new NurseOutfit());
+		else addButton(buttonIndex, "Nurse Outfit", broodmotherDressup_Item, new NurseOutfit());
 		buttonIndex++;
 	}
 	if (pc.hasItemByClass(MaidOutfit)) 
 	{
-		addButton(buttonIndex, "Maid Outfit", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new MaidOutfit());
+		if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined) addButton(buttonIndex, "Maid Outfit", broodmotherDressup_Item_2, new MaidOutfit());
+		else addButton(buttonIndex, "Maid Outfit", broodmotherDressup_Item, new MaidOutfit());
 		buttonIndex++;
 	}
 	if (pc.hasItemByClass(SchoolgirlOutfit)) 
 	{
-		addButton(buttonIndex, "Schoolgirl Outfit", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new SchoolgirlOutfit());
+		if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined) addButton(buttonIndex, "Schoolgirl Outfit", broodmotherDressup_Item_2, new SchoolgirlOutfit());
+		else addButton(buttonIndex, "Schoolgirl Outfit", broodmotherDressup_Item, new SchoolgirlOutfit());
 		buttonIndex++;
-	}
-	if (pc.hasItemByClass(Slavesuit)) 
+	}	
+	if (pc.hasItemByClass(LeatherStrapHarness))
 	{
-		addButton(buttonIndex, "Slave uniform", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new Slavesuit());
-		buttonIndex++;
-	}
-	
-	// These two will have the same bust
-	if (pc.hasItemByClass(BusinessClothes)) 
-	{
-		addButton(buttonIndex, "Business Clothes", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new BusinessClothes());
-		buttonIndex++;
-	}
-	else if (pc.hasItemByClass(ClassySuit))
-	{
-		addButton(buttonIndex, "Business Clothes", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new ClassySuit());
-		buttonIndex++;
-	}
-	
-	if (pc.hasItemByClass(Harness))
-	{
-		addButton(buttonIndex, "Harness", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new Harness());
+		if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined) addButton(buttonIndex, "Strap Harness", broodmotherDressup_Item_2, new LeatherStrapHarness());
+		else addButton(buttonIndex, "Strap Harness", broodmotherDressup_Item, new LeatherStrapHarness());
 		buttonIndex++;
 	}
 	if (pc.hasItemByClass(TeacherOutfit))
 	{
-		addButton(buttonIndex, "Teacher Uniform", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new TeacherOutfit());
+		if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined) addButton(buttonIndex, "Teacher Uniform", broodmotherDressup_Item_2, new TeacherOutfit());
+		else addButton(buttonIndex, "Teacher Uniform", broodmotherDressup_Item, new TeacherOutfit());
 		buttonIndex++;
 	}
 	if (pc.hasItemByClass(FarmersOveralls))
 	{
-		addButton(buttonIndex, "Farmer Overalls", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), new FarmersOveralls());
+		if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined) addButton(buttonIndex, "Farmer Overalls", broodmotherDressup_Item_2, new FarmersOveralls());
+		else addButton(buttonIndex, "Farmer Overalls", broodmotherDressup_Item, new FarmersOveralls());
 		buttonIndex++;
 	}
 	
 	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] != undefined)
 	{
-		addButton(13, "Undress", (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] == undefined ? broodmotherDressup_Item_2: broodmotherDressup_Item), null);
+		addButton(13, "Undress", broodmotherDressup_Item, null);
 	}
 	
 	addButton(14, "Back", talkBroodmother);
@@ -404,59 +800,95 @@ public function broodmotherDressup_Item(clothing:ItemSlotClass):void
 	clearMenu();
 	author("HNB");
 	
-	var oldItem:ItemSlotClass = flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"];
+	var oldItem:String = flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"];
+	var lvl:int = getBroodmotherLevel();
+	var item:ItemSlotClass;
 	
 	//Descriptor of taking old item off
-	if (oldItem is NurseOutfit) 
+	if (oldItem == "NurseOutfit") 
 	{
-		output("The broodmother rolls over onto her back for you to unzip her stretched-out red and white nurse outfit and you do. As she rolls back over it, the stephoscope and hat slump to the floor, stretched out to the extent they look less like clothes and more like curtains. You then grasp her jiggling thighs and roll her frilly stockings down, removing them from her.");
+		if (lvl == 2) output("You first unzip the front of her red and white nurses uniform and then take her stephoscope and hat from her. Dropping them to the floor as you kneel down, taking the uniform with you, you roll her bright red stockings down her thighs.");
+		else if (lvl == 3) output("You first unzip the remaining portion of her red and white nurses uniform before taking her stephoscope and hat from her. Dropping them to the floor as you kneel down, taking the uniform with you, you roll her bright red stockings down her thick thighs.");
+		else output("With the zip already completely pushed away, unable to hold her buxom figure, you pull the shirt off over her arms. Taking the stephoscope and hat from her, you then grasp her jiggling thighs and roll her bright red stockings down, removing the outfit from her.");
+		item = new NurseOutfit();		
 	}
-	if (oldItem is MaidOutfit)
+	if (oldItem == "MaidOutfit")
 	{
-		output("The broodmother rolls over onto her back and you untie her apron and undo the buttons of the uniform underneath. As she rolls back over they both slump to the floor, stretched out to the extent they look less like clothes and more like curtains. You then grasp her jiggling thighs and roll her frilly stockings down along with her skirt, and remove them from her.");
+		if (lvl == 2) output("You first untie the broodmothers maid-apron and pull the straps of it over her head, dropping it to the floor. You then undo the buttons of the uniform underneath and pull it back over her shoulders before letting go, the uniform slumping to the floor. You then kneel down and roll her frilly stockings down her thighs.");
+		else if (lvl == 3) output("You first untie the broodmothers maid-apron and pull the straps of it over her head, dropping it to the floor. You then undo the buttons of the uniform underneath and pull it back over her shoulders before letting go, the uniform slumping to the floor. You then kneel down and roll her frilly stockings down her thighs.");
+		else output("The ribbon on the apron has been torn, along with the front portion of the garment as it's been unable to hold the sheer size of the broodmother. You have to slide the chest portion off the remainder of the breasts they're struggling to handle, before pulling the garment off over her head. With this done you then grasp her jiggling thighs and roll her frilly stockings down along with her skirt, and remove them from her. Finally you take the frilly maid hat from her head, removing the outfit from her.");
+		item = new MaidOutfit();
 	}
-	if (oldItem is SchoolgirlOutfit)
+	if (oldItem == "SchoolgirlOutfit")
 	{
-		output("The broodmother rolls over onto her back and you throw aside her low-hanging tie before proceeding to undo her blouse before pulling it off her. As she rolls back over you grab hold of her tartan skirt before pulling it down, removing the outfit from her.");
+		if (lvl == 2) output("You throw aside her low-hanging tie before undoing the buttons on her blouse, freeing her bouncing breasts before pulling it off her. You then pull down her tartan skirt, removing the outfit from her.");
+		else if (lvl == 3) output("You throw aside her low-hanging tie before undoing the remaining buttons on her blouse, several already having been pushed loose by her bulging belly. Freeing her bouncing breasts you pull the blouse over her arms and off of her. You then pull down her tartan skirt, removing the outfit from her.");
+		else output("With the shirt already burst open, unable to hold her buxom figure, you pull the shirt off over her arms. You then move to her rear and grab hold of her tartan skirt before pulling it down, removing the outfit from her.");
+		item = new SchoolgirlOutfit();
 	}
-	if (oldItem is Slavesuit)
+	if (oldItem == "LeatherStrapHarness")
 	{
-		output("The broodmother rolls over onto her back and you unzip the slave bodysuit, pulling it over her arms before rolling it down her torso. She raises her legs in the air and you are able to yank her legs free, removing the outfit from her.");
+		if (lvl == 2) output("Putting your hands close to her warm body, you tug on the steel rings that clasp the harness tight to her body until the straps loosen enough for you to slide the black leather off her body.");
+		else if (lvl == 3) output("Putting your hands close to her warm body, you tug on the steel rings that clasp the harness tight to her body until the straps loosen enough for you to slide the black leather off her buxom body.");
+		else output("Putting your hands close to her warm body, you wedge your hands under rolls of her flesh, grabbing hold of the steel rings that clasp the harness tight to her body. You yank at them until the straps loosen enough for you to unwrap the black leather ribbon from your Raskvel present.");
+		item = new LeatherStrapHarness();
 	}
-	if (oldItem is BusinessClothes)
+	if (oldItem == "TeacherOutfit")
 	{
-		output("The broodmother rolls over onto her back and you undo her suits and blouse before pulling them over her arms freeing her upper body. She raises her legs in the air and you are able to unzip her trousers and yank her legs free, removing the outfit from her.");
+		if (lvl == 2) output("You unbutton the white blouse freeing her bouncing breasts before pulling  it off her. You then grab her professional-looking skirt by the hem, yanking it off her, dragging her stockings with you as you go.");
+		else if (lvl == 3) output("You unbutton the white blouse, which was struggling to hold on against her buxom figure. Her breasts burst forth as you undo the third from the top button and you quickly finish the job, pulling it over her arms and off. You then grab her professional-looking skirt by the hem, wiggling it over her wide hips, before, as it reaches her thighs dragging the stockings with you.");
+		else output("With no buttons left on the blouse, prior to an earlier battle against her body, you are able to pull it over her arms and off. You then grab her scrunched-up skirt by the waist, wiggling it over wide hips and buttocks, before it reaches her thighs where you drag the stockings off with it.");
+		item = new TeacherOutfit();
 	}
-	if (oldItem is ClassySuit)
+	if (oldItem == "FarmersOveralls")
 	{
-		output("The broodmother rolls over onto her back and you undo her suits and blouse before pulling them over her arms freeing her upper body. She raises her legs in the air and you are able to unzip her trousers and yank her legs free, removing the outfit from her.");
+		if (lvl == 2) output("You grab the straps of the overalls and pull them off her shoulders before grabbing the outfit by the sides of the Broodmothers breasts and pulling them down to her hips. You then roll the rest of them down around her motherly curves, until the overalls lie, crumpled on the floor.");
+		else if (lvl == 3) output("You grab the taut straps of the overalls and pull them off her shoulders before grabbing the outfit by the sides of the Broodmothers breasts and pulling them down to her curvaecous hips. You then roll the rest of them down around her motherly curves, until the overalls lie, crumpled on the floor.");
+		else output("You grab the taut straps of the overalls and pull them off her shoulders before yanking away the front of the garment - that's been burst open unable to keep hold of her gigantic paunch. With this done, you are able to roll the remaining part of the overalls down around her motherly curves, until the overalls lie, crumpled on the floor.");
+		item = new FarmersOveralls();
 	}
-	if (oldItem is Harness)
-	{
-		output("You unfasten the black leather harness and the bonds that form the sexy outfit loosen, freeing her.");
-	}
-	if (oldItem is TeacherOutfit)
-	{
-		output("Remove teacher uniform");
-	}
-	if (oldItem is FarmersOveralls)
-	{
-		output("Remove farmer dungarees");
-	}
-	output("\n\n");
 	flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] = undefined;
 	
+	//Push the oldItem here, because destroying it pernamently is SAD
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_SEEN_REPAIR_RASKVEL"] == false || flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_SEEN_REPAIR_RASKVEL"] == undefined) {
+		output("\n\nJust as you draw your attention to her naked body, a shadowy figure darts out from the corner of your eye and grabs the outfit, before scurrying away with it.\n<i>“Hey!”</i> you shout after them ");
+		if (pc.hasRangedWeapon())
+		{
+			output(", grabbing your [pc.rangedWeapon] and aiming it in their direction.");
+		}
+		else if (pc.hasMeleeWeapon())
+		{
+			output(", grabbing your [pc.meleeWeapon] and getting ready to charge off in their direction.");
+		}
+		else 
+		{
+			output(", getting ready to charge off in their direction.");
+		}
+		output("\n<i>“Wait [pc.name]”</i> the Broodmother says, smirking as you draw your attention back to her. <i>“He's one of mine”</i>.\n");
+		output((pc.hasWeapon() ? "Lowering your weapon, y" : "Y") + "ou look back and see the Raskvel returning with the outfit neatly folded. He hands it to you and you realize that it's been repaired.");
+	
+		flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_SEEN_REPAIR_RASKVEL"] == true;
+	}
+	else {
+		output("\n\nAs you draw your attention to her naked body, a figure darts out from the corner of your eye, grabbing the outfit and runs off to repair it. Not a minute later you feel a tab on your shoulder. Drawing your eyes away from the Broodmother, the male Raskvel hands you a folded and fixed outfit.\n<i>“Thanks!”</i> you shout after him as he runs off into the shadows.");
+	}
+	output("\n");
+	var loot:Array = new Array();
+	item.quantity = 1;
+	loot.push(item);
+	itemCollect(loot);
+	output("\n");
+	
+	//Whether we're giving her a new outfit.
 	if (clothing == null)
 	{
-		output("A pile of completely ruined clothes, is left on the floor, stretched out beyond recognision by the broodmothers motherly form. She now lies completely naked, slightly aroused by her exposal.");
 		addButton(0, "Next", approachBroodmother);
 	}
 	else 
 	{
-		output("A pile of completely ruined clothes, is left on the floor, stretched out beyond recognision by the broodmothers motherly form. She now lies naked, ready to don her new outfit.");
+		output("Turning your attention back to the Broodmother - who's aroused at being exposed again, you rummage in your backpack.\n<i>“Now, time for your new outfit..”</i>");
 		addButton(0, "Next", broodmotherDressup_Item_2, clothing);
 	}
-	
 }
 
 public function broodmotherDressup_Item_2(clothing:ItemSlotClass):void
@@ -465,45 +897,51 @@ public function broodmotherDressup_Item_2(clothing:ItemSlotClass):void
 	clearMenu();
 	author("HNB");
 	
+	var lvl:int = getBroodmotherLevel();
+	
 	//New on
 	if (clothing is NurseOutfit) 
 	{
-		output("First you grab the frilly stockings and roll them up her jiggling thighs. Then you place the nurse hat atop her feathery hair and dress her in the main part of the outfit, fastening it before dangling the stephoscope around her neck.");
+		if (lvl == 2) output("First you grab the bright red stockings and roll them up her thighs. Then you place the nurse hat atop her feathery hair and pull the red and white uniform over her arms, zipping it up before dangling the stephoscope around her neck.");
+		else if (lvl == 3) output("First you grab the bright red stockings and roll them up her jiggling thighs. Then you place the nurse hat atop her feathery hair and pull the red and white uniform over her arms, zipping it up taut over her belly before dangling the stephoscope around her neck.");
+		else output("First you grab the bright red stockings and roll them up her jiggling thighs, yanking them at the top to pull them over their full width. Then you place the nurse hat atop her feathery hair and throw the red and white uniform over her back, which she puts her arms through. You try to zip it up but there's just no way the zip is getting past her collosal paunch.");	
 	}
 	if (clothing is MaidOutfit)
 	{
-		output("First you grab the frilly stocking and roll them up her jiggling thighs before equipping her with the skirrt. You them grab the blouse before throwing the apron ontop, fastening it.");
+		if (lvl == 2) output("First you grab the frilly stocking and roll them up her thighs. You then grab the black dress, pulling it over her rounded belly before throwing the apron over and fastening it.");
+		else if (lvl == 3) output("First you grab the frilly stocking and roll them up her jiggling thighs. You then grab the black dress, pulling it over her arms and forcing it around her bugling belly before pulling the apron over and fastening it.");
+		else output("First you grab the frilly stocking and roll them up her thighs as far as they will go, before yanking them up to the widest part of her thighs. You then squeeze the black dress and white apron over her breasts but they get stuck at her belly. You yank them further down but they tear with a loud ripping sound, leaving tattered pieces around the base of her ginormous paunch, but allowing you to pull the dress over her bulging buttocks.");
 	}
 	if (clothing is SchoolgirlOutfit)
 	{
-		output("First you equip her with the skimpy tartan skirt. Then you fasten the blouse around her mountanous rack before hanging the tie around her neck.");
+		if (lvl == 2) output("First you unzip the skimpy tartan skirt before pulling it up around her waist. Then you throw the blouse over her arms and button it up over her torso, before hanging the tie around her neck.");
+		else if (lvl == 3) output("First you unzip the skimpy tartan skirt before pulling it up around her wide hips, just about zipping it up. Then you throw the blouse over her arms and button up the top half - just, over her sizeable rack but give up on fastening the lower buttons, her bulging belly too sizeable. Finally you hang the tie around her neck.");
+		else output("First you unzip the skimpy tartan skirt and force it up around her wide hips, but unable to zip it up. You then throw the blouse over her arms and attempt to button it up but to no avail, her buxom figure too sizeable. Finally you hang the tie around her neck.");
 	}
-	if (clothing is Slavesuit)
+	if (clothing is LeatherStrapHarness)
 	{
-		output("You push the slavesuit over her legs and roll it up her body, making sure to fit everything in.");
-	}
-	if (clothing is BusinessClothes)
-	{
-		output("You equip the broodmother with the suit and blouse.");
-	}
-	if (clothing is ClassySuit)
-	{
-		output("You equip the broodmother with the suit and blouse.");
-	}
-	if (clothing is Harness)
-	{
-		output("You wrap the leather harness around her and fasten it.");
+		if (lvl == 2) output("You carefull lift the straps of the leather harness over her, making sure to position them in the most visually appealing way as well as ensuring the rings sit nicely, before tightening it.");
+		else if (lvl == 3) output("You carefull lift the straps of the leather harness over her, making sure to position them in the most visually appealing way as well as ensuring the rings sit nicely, before tightening it.");
+		else output("You carefull lift wrap the straps of the leather harness around her, making sure to position them in the most visually appealing way as well as ensuring the rings sit nicely, before tightening it.");
 	}
 	if (clothing is TeacherOutfit)
 	{
-		output("Add teacher uniform");
+		if (lvl == 2) output("You first grab the dark stockings and roll them up her legs and over her thighs. Following this you grab the dark colored skirt and pull it over her legs and up to her hips, fastening it at the top. Finally you pull the blouse over her arms, and button it up.");
+		else if (lvl == 3) output("You first grab the dark stockings and roll them up her legs and over her jiggling thighs. Following this you grab the waist of the dark colored skirt and pull it over her legs and up to her hips, barely fastening it at the top against her stomach. Finally you pull the blouse over her arms and button it up as much as you can, her rounded figure causing you to have to miss out a few buttons around her chest and shoulders.");
+		else output("You first grab the dark stockings and roll them up her legs, yanking them over the width of her jiggling thighs. Following this you grab the waist of the dark colored skirt and pull it over her legs and up to her hips, unable to fasten it at the top against her stomach. Finally you pull the blouse over her arms and begin to button it up around her chest but the buttons soon ping off in various directions. She cackles and you decide it's probably best to leave the buttons undone.");
 	}
 	if (clothing is FarmersOveralls)
 	{
-		output("Add farmer overalls");
+		if (lvl == 2) output("You first pull the overalls over her legs, and up to her hips, putting the leg portion of the outfit on. You then pull the rest of the outfit up and over her chest before pulling the straps over her arms and resting them taut on her shoulders.");
+		else if (lvl == 3) output("You first pull the overalls over her legs, and up to her hips, putting the leg portion of the outfit on. You then pull the rest of the outfit up and over her chest with a few ripping sounds along the way as the outfit battles against her sizeable belly. Happy that the outfit is on you pull the straps over her arms and rest them taut on her shoulders.");
+		else output("You first pull the overalls over her legs, and up to her wide hips, squeezing the leg portion of the outfit on. You then attempt to pull the rest of the outfit up and over her stomach but you're soon met with a large ripping sound as her gravid belly is just too large for the outfit. With the ripped portion of the outfit framing her belly you continue to pull as to test the rest of the outfit, managing to cup a few scraps of the outfit over the sides of her bosom. Happy with your work, you pull the straps over her shoulders.");
 	}
-	pc.destroyItemByClass(Class(getDefinitionByName(getQualifiedClassName(clothing)))); //http://www.keendevelopment.ch/getting-the-class-of-an-object-in-as3/ 
-	flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] = clothing;
+	
+	var className:String = getQualifiedClassName(clothing);
+	pc.destroyItemByClass(Class(getDefinitionByName(className)));
+	
+	// Saving classname, but get just the last part from e.g classes.Items.Apparel::LeatherStrapHarness -> LeatherStrapHarness
+	flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] = className.substring((className.lastIndexOf(":")) + 1,className.length);
 	
 	addButton(0, "Next", approachBroodmother);
 }
@@ -575,9 +1013,18 @@ public function broodMotherAppearance():void
 	}
 	output(" blue feathers for hair" + (lvl >= 2 ? ", which flows down her back " : "") + ", huge, pierced, rabbit-like ears extending from beneath it and drooping down all the way to the floor.\n");
 	
-	// Expression + headwear
-	output("She's wearing rounded, green glasses, perhaps from a less sex-focused time in her life - not that they don't look sexy on her. ");
-	if (isBroodmotherTreated()){output("Her head is topped off with two small white, cow-like horns. "); }
+	// Expression + headwear	
+	if (getWhatWearing() != "teacher outfit") output("She's wearing rounded, green glasses, perhaps from a less sex-focused time in her life - not that they don't look sexy on her. ");
+	else output("She's wearing rounded, transparent glasses, that whilst they partially add a look of intelligence to her, with the rest of her outfit they mostly just look hot! ");
+	
+	if (isBroodmotherTreated()){
+		output("Her head is topped off with two small white, cow-like horns");
+		if (getWhatWearing_Head() != null) output("and infront of them sits a " + getWhatWearing_Head() + ".");
+		else output(".");
+	}
+	else{
+		if (getWhatWearing_Head() != null) output("Atop her head sits a " + getWhatWearing_Head() + ".");
+	}
 	
 	switch(lvl)
 	{
@@ -605,7 +1052,9 @@ public function broodMotherAppearance():void
 	}
 	
 	//Tits
-	output("Looking past the golden choker on her neck, you fixate your eyes on her ");
+	if (getWhatWearing_Neck() != null) output("Looking past the " + getWhatWearing_Neck() + " on her neck, you fixate your eyes on her ");
+	else output("Looking past the golden choker on her neck, you fixate your eyes on her ");
+	
 	switch(lvl)
 	{
 		case 0:
@@ -630,6 +1079,7 @@ public function broodMotherAppearance():void
 			output("back-breaking milkers, that battle for space against her belly, ");
 			break;
 	}
+	if (getWhatWearing_Chest() != null) output("framed by a " + getWhatWearing_Chest() + " and");
 	//Nips
 	switch(lvl)
 	{
@@ -739,7 +1189,7 @@ public function broodMotherAppearance():void
 				output("phat ass");
 				break;
 		}
-		output(" is in plain view, even from the front.\n");
+		output(" is in plain view, even from the front" + (getWhatWearing_Behind() != null ? (" even whilst she's wearing a " + getWhatWearing_Behind()) : "") + ".\n");
 	}
 	else 
 	{
@@ -756,7 +1206,7 @@ public function broodMotherAppearance():void
 				break;
 		}
 	}
-	if (lvl < 4){output("You walk back round to the front of her to examine the real goods.\n"); }
+	if (lvl < 4){output("You walk back round to the front of her to examine the rest of the goods.\n"); }
 	
 	//Cock if futa
 	if (isBroodmotherFuta())
@@ -789,7 +1239,7 @@ public function broodMotherAppearance():void
 	}
 	
 	//Puss
-	output("She's also in posession of her favorite asset. Between her thick legs, her ")
+	output("She's also in posession of her favorite asset. Between her thick " + (getWhatWearing_Thighs() != null ? (getWhatWearing_Thighs() + " clad ") : "") + "thighs, her ")
 	switch(lvl)
 	{
 		case 0: 
@@ -864,7 +1314,7 @@ public function giveBroodMotherItem():void
 	}
 	
 	// You'd have to be a slut and like the treatment to risk breaking the law by giving her treatment
-	if (pc.hasItemByClass(Treatment) && !isBroodmotherTreated() && isSlut && pc.isTreated())
+	if (pc.hasItemByClass(Treatment) && !isBroodmotherTreated() && isSlut && pc.isTreated() && getBroodmotherFriendliness() >= 15)
 	{
 		addButton(currentButtonIndex, "Treatment", giveTreatment);
 		currentButtonIndex++;
@@ -873,7 +1323,10 @@ public function giveBroodMotherItem():void
 	{
 		if (!isBroodmotherTreated())
 		{
-			if (!pc.hasItemByClass(Treatment))
+			if (getBroodmotherFriendliness() < 15){
+				addDisabledButton(currentButtonIndex, "Treatment", "You have to be closer to her, for her to trust anything you offer her.");
+			}
+			else if (!pc.hasItemByClass(Treatment))
 			{
 				addDisabledButton(currentButtonIndex, "Treatment", "You don't have any");
 			}
@@ -889,14 +1342,17 @@ public function giveBroodMotherItem():void
 		}
 	}
 	
-	if (pc.hasItemByClass(Throbb) && !isBroodmotherFuta())
+	if (pc.hasItemByClass(Throbb) && !isBroodmotherFuta() && getBroodmotherFriendliness() >= 15)
 	{
 		addButton(currentButtonIndex, "Throbb", giveThrobb);
 		currentButtonIndex++;
 	}
 	else
 	{
-		if (!isBroodmotherFuta())
+		if (getBroodmotherFriendliness() < 15){
+			addDisabledButton(currentButtonIndex, "Treatment", "You have to be closer to her, for her to trust anything you offer her.");
+		}
+		else if (!isBroodmotherFuta())
 		{
 			addDisabledButton(currentButtonIndex, "Throbb", "You don't have any");
 		}
@@ -950,7 +1406,20 @@ public function giveThrobb():void
 		}
 		
 		output("You pass the vial to her and she eagerly downs it. Pleased that she's fallen for your mischief you step back to watch the transformation unfold.\n\n");
-		output("Roughly ten seconds later she cries out <i>“What's happening?! It feels so tingly!”</i> " + (lvl < 4 ? "drawing her hand to just under her bulging belly, trying to figure out what's happening. Her belly wobbles and you notice it shift up slightly as a mound of flesh has grown above her swollen pussy. " : "as she writhes in place and reaches back with her tail, trying to get a feel for what's happening to her. She seems to tilt forward slightly, and you notice that below her awaiting fuck-hole a gap has been created between her and her ginormous paunch. "));
+		if (lvl < 4 && getWhatWearing() != null)
+		{
+			output("Roughly ten seconds later she cries out <i>“What's happening?! It feels so tingly!”</i> drawing her hand to just under her bulging belly, trying to figure out what's happening. Her belly wobbles and you notice it shift up slightly");
+			if (getWhatWearing() == "FarmersOveralls") output(". Unable to contain yourself any longer you dash forward, stand next to her and grab the side of her overalls, peaking at what's happening in her nether-regions. You smirk ");
+			else if (getWhatWearing() == "MaidOutfit") output(". Unable to contain yourself any longer you dash forward, stand infront of her and lift the hem of her skirt, peaking at what's happening in her nether-regions. You smirk ");
+			else if (getWhatWearing() == "SchoolgirlOutfit") output(". Unable to contain yourself any longer you dash forward, stand infront of her and lift the hem of her skirt, peaking at what's happening in her nether-regions. You smirk ");
+			else if (getWhatWearing() == "TeacherOutfit") output(". Unable to contain yourself any longer you dash forward, stand infront of her and lift the hem of her skirt, peaking at what's happening in her nether-regions. You smirk ");
+			else  output(". Unable to contain yourself any longer you dash forward, stand infront of her and lift the hem of her skirt, peaking at what's happening in her nether-regions. You smirk ");
+			output(" as a mound of flesh has grown above her swollen pussy. ");
+		}
+		else 
+		{
+			output("Roughly ten seconds later she cries out <i>“What's happening?! It feels so tingly!”</i> " + (lvl < 4 ? "drawing her hand to just under her bulging belly, trying to figure out what's happening. Her belly wobbles and you notice it shift up slightly as a mound of flesh has grown above her swollen pussy. " : "as she writhes in place and reaches back with her tail, trying to get a feel for what's happening to her. She seems to tilt forward slightly, and you notice that below her awaiting fuck-hole a gap has been created between her and her ginormous paunch. "));
+		}
 		output("The bulge expands and opens up, blooming like a flower, leaving the broodmother with a <b>genital slit</b>. The bottom of the pouch twitches and throbbs, bulging, causing the broodmother to moan and soon, with a gasp, a <b>testicle pouch</b> drops suddenly, " + (lvl < 4 ? "hanging between her legs.\n" : "resting on her undercarriage."));
 		
 		if (lvl < 3)
@@ -961,6 +1430,7 @@ public function giveThrobb():void
 		{
 			output("<i>“Hnghh, what's 'appening”</i> gasps the the broodmother, sweat dripping from her forehead, as she flicks her tail wildy, seemingly unable to get a grasp on the 'situation'. ");
 		}
+		
 		output("She suddenly gasps and lets out a involuntary" + (isBroodmotherTreated() ? " moo" :  "moan") + ", as her new slit is pushed open and a blue clit emerges from it's center. No, not a clit. It continues to grow becomer thicker and longer, curving back on itself. As it passes into the broodmothers view her eyes glaze over. It keeps growing before stopping partway up her belly. She has grown a <b>" + getBroodmotherFutaCockSize() + " blue raskvel cock</b>.");
 		
 		output("As it finishes growing, it throbs and a spurt of cum flies ");
@@ -1019,7 +1489,7 @@ public function giveMotherhusk():void
 	pc.destroyItemByClass(Motherhusk, 8);
 	addButton(0, "Continue", giveBroodMotherItem);
 	flags["PREG_RASK_RETURNED_FRIENDLINESS"] += 10;
-	flags["PREG_RASK_RETURNED_LVLPOINTS"] += 20;
+	addLevelPoints(20);
 	showPregRaskReturn();
 }
 
@@ -1044,13 +1514,13 @@ public function giveTreatment():void
 		
 		if (lvl < 3)
 		{
-			output("<i>“Ooh really?! Gimme then!”</i> she shouts excitedly, grabbing the medipen from your hands and pushing it into her arm.\n");
+			output("<i>“Ooh really?! Gimme then!”</i> she shouts excitedly, grabbing the medipen from your hands" + (getWhatWearing_IsArmCovered() ? ", rolling up her sleeves " : " ") + "and pushing it into her arm.\n");
 		}
 		else 
 		{
 			output("<i>“I'm not sure either of those things can get better”</i>, she says, skeptical.\n");
 			output("<i>“Oh they can!”</i> you respond, very satisfied with your own experience with the treatment.");
-			output("<i>“Ooooh, Gimme then!</i> she shouts excitedly, grabbing the medipen with her tail and pushing it into her right buttock.\n");
+			output("<i>“Ooooh, Gimme then!</i> she shouts excitedly, grabbing the medipen with her tail" + (getWhatWearing_Behind() != null ? (" shifting her " + getWhatWearing_Behind() + " before ") : " and ") + "pushing it into her right buttock.\n");
 		}		
 		
 		output("\n<i>“Well what now?”</i> she says excitedly.");
@@ -1273,11 +1743,11 @@ public function talkBroodmother():void
 	}
 	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] != undefined && flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] == 1)
 	{
-		if (lvl >= 4 && getBroodmotherFriendliness() >= 50)
+		if (lvl >= 2 && getBroodmotherFriendliness() >= 50)
 		{
 			addButton(3, "Talk dressup", talkBroodmother_DressupFantasy);
 		}
-		else if (lvl < 4)
+		else if (lvl < 2)
 		{
 			addDisabledButton(3, "Talk dressup", "Dressup fantasy", "She's not quite big enough for this to be perfect. Yet.");
 		}
@@ -1286,19 +1756,6 @@ public function talkBroodmother():void
 			addDisabledButton(3, "Talk dressup", "Dressup fantasy", "You're not close enough to her yet to reveal this.");
 		}
 	}
-	addButton(4, "TEST", TEST);
-	addButton(14, "Return", approachBroodmother);
-}
-
-public function TEST():void 
-{
-	clearMenu();
-	clearOutput();
-	author("HNB");
-	
-	flags["PREG_RASK_RETURNED_LVLPOINTS"] = 100;
-	flags["PREG_RASK_RETURNED_FRIENDLINESS"] = 100;
-	
 	addButton(14, "Return", approachBroodmother);
 }
 
@@ -1728,7 +2185,7 @@ public function broodMotherSexOpts():void
 	}
 	else 
 	{
-		output("<i>“Mmm yeah! I want ya to fuck me too! What we doin'?”</i>");
+		output("<i>“Mmmm yeah! I want ya' to fuck me too! What were you thinking of?”</i>");
 	}
 	
 	var lvl:int = getBroodmotherLevel();
@@ -1745,7 +2202,7 @@ public function broodMotherSexOpts():void
 		buttonNum++;
 	}
 
-	if (pc.hasCock() && pc.cockThatFits(700) >= 0)
+	if (pc.hasCock() && pc.cockThatFits(220 + (lvl * 120)) >= 0)
 	{
 		addButton(buttonNum, "Pussy fuck", fuckDatRaskipoo_Return, undefined, "Fuck Her", "Fill her with cum, regardless of whether it'll get her pregnant.");
 		buttonNum++;
@@ -1793,19 +2250,28 @@ public function broodMotherSexOpts():void
 	
 	if (isBroodmotherFuta())
 	{
-		if (pc.biggestVaginalCapacity() >= getBroodmotherFutaCockSize())
+		if (pc.hasVagina())
 		{
-			addButton(buttonNum, "Pussy-ride her cock", rideBroodmotherReturnFuta, "vagina");
-			buttonNum++;
+			if (pc.biggestVaginalCapacity() >= getBroodmotherFutaCockSize())
+			{
+				addButton(buttonNum, "Pussy-ride her", rideBroodmotherReturnFuta, "vagina");
+				buttonNum++;
+			}
+			else
+			{
+				addDisabledButton(buttonNum, "Ride her cock", "Ride her cock", "You don't have a vagina she can fit in.");
+				buttonNum++;
+			}
 		}
-		else if (pc.analCapacity() >= getBroodmotherFutaCockSize())
+
+		if (pc.analCapacity() >= getBroodmotherFutaCockSize())
 		{
-			addButton(buttonNum, "Ass-ride her cock", rideBroodmotherReturnFuta, "anus");
+			addButton(buttonNum, "Ass-ride her", rideBroodmotherReturnFuta, "anus");
 			buttonNum++;
 		}
 		else
 		{
-			addDisabledButton(buttonNum, "Ride her cock", "Ride her cock", "You don't have anything she can fit in.");
+			addDisabledButton(buttonNum, "Ride her cock", "Ride her cock", "You don't have a butt she can fit in.");
 			buttonNum++;
 		}
 	}
@@ -1868,33 +2334,33 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 	{
 		if (inWhat == "vagina")
 		{
-			output("hop on my dick so I can fuck your puss!");
+			output("hop on my" + getWhatWearing_DressedAs() + "dick so I can fuck your puss!");
 		}
 		else //anus
 		{
-			output("hop on my dick so I can fuck your butt!");
+			output("hop on my" + getWhatWearing_DressedAs() + "dick so I can fuck your butt!");
 		}
 	}
 	else if (lvl < 5)
 	{
 		if (inWhat == "vagina")
 		{
-			output("hop on ma big meaty cock so I can pound your [pc.vagina " + pc.biggestVaginaIndex() + "] until you're full of my cum");
+			output("hop on ma big meaty" + getWhatWearing_DressedAs() + "cock so I can pound your [pc.vagina " + pc.biggestVaginaIndex() + "] until you're full of my cum");
 		}
 		else //anus
 		{
-			output("hop on ma big meaty cock so I can pound your [pc.asshole] full of my cum");
+			output("hop on ma big meaty" + getWhatWearing_DressedAs() + "cock so I can pound your [pc.asshole] full of my cum");
 		}
 	}
 	else 
 	{
 		if (inWhat == "vagina")
 		{
-			output("fuck my slutty cock. I wanna shove it into your [pc.vagina " + pc.biggestVaginaIndex() + "] and pound it until cum's pourin' from it");
+			output("fuck my slutty" + getWhatWearing_DressedAs() + "cock. I wanna shove it into your [pc.vagina " + pc.biggestVaginaIndex() + "] and pound it until cum's pourin' from it");
 		}
 		else //anus
 		{
-			output("fuck my slutty cock. I wanna shove it into your [pc.asshole] and pound it until cum's pourin' out of it");
+			output("fuck my slutty" + getWhatWearing_DressedAs() + "cock. I wanna shove it into your [pc.asshole] and pound it until cum's pourin' out of it");
 		}
 	}
 	output("”</i>.");
@@ -1905,7 +2371,7 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 	{
 		output("big ");
 	}
-	output("mama whilst looking over your shoulder. You step back towards her whilst wiggling your [pc.hips] as she sits and stares, mesmerized, with her dick in her hands. <i>“Mmmm come to mama”</i>. You saunter backwords towards her,");
+	output("mama whilst looking over your shoulder. You step back towards her whilst wiggling your [pc.hips] as she sits and stares, mesmerized, with her dick in her hands. <i>“Mmmm come to mama”</i>.\nYou saunter backwords towards her,");
 	if (pc.hasTail()){output("swishing your tail from side to side. You begin");}
 	if (inWhat == "vagina")
 	{
@@ -1982,15 +2448,15 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 	
 	if (lvl < 3)
 	{
-		output("fingering her cock-hungry" + (isBroodmotherTreated() ? ", sopping " : " ") + "fuckhole. ");
+		output("fingering her cock-hungry" + (isBroodmotherTreated() ? ", sopping " : " ") + "fuckhole" + (getWhatWearing_CrotchPosition() != null ? (" " + getWhatWearing_CrotchPosition()) : "") + ". ");
 	}
 	else if (lvl < 5)
 	{
-		output("fingering her loose" + (isBroodmotherTreated() ? ", dripping " : " ") + "fuckhole. ");
+		output("fingering her loose" + (isBroodmotherTreated() ? ", dripping " : " ") + "fuckhole" + (getWhatWearing_CrotchPosition() != null ? (" " + getWhatWearing_CrotchPosition()) : "") + ". ");
 	}
 	else 
 	{
-		output("fingering her gaping" + (isBroodmotherTreated() ? ", gushing " : " ") + "fuckhole. ");
+		output("fingering her gaping" + (isBroodmotherTreated() ? ", gushing " : " ") + "fuckhole" + (getWhatWearing_CrotchPosition() != null ? (" " + getWhatWearing_CrotchPosition()) : "") + ". ");
 	}
 	
 	output("The slicking sounds of her self-titiliation stop and scaly hands slap against your [pc.hips]. ");
@@ -2003,7 +2469,7 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 		output("<i>“I'm gonna fuck that butthole of yours and fill you with cum”</i> she groans into your ear. ");
 	}
 	output("\nYou're pulled backwards until " + (lvl >= 3 ? "you bounce against her big soft belly" : "you're flat against her"));
-	output(", the " + (getBroodmotherFutaCockSize() >= 450 ? "thick scimitar-like cock" : "curved raskvel cock") + " level with your entrance. You put your arms behind you and her long fingers clamp around your wrists. You rock backwards");
+	output(", the " + (getBroodmotherFutaCockSize() >= 450 ? "thick banana-like cock" : "curved raskvel cock") + " level with your entrance. You put your arms behind you and her long fingers clamp around your wrists. You rock backwards");
 	if (inWhat == "vagina")
 	{
 		if ((pc.looseness(pc.biggestVaginaIndex()) >= 3))
@@ -2223,12 +2689,13 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 	
 	if (inWhat == "vagina")
 	{
-		pc.loadInCunt(chars["RASKVEL_MALE"],pc.biggestVaginaIndex());
+		pc.loadInCunt(chars["RASKVEL_BROODMOTHER"],pc.biggestVaginaIndex());
 	}
 	else
 	{
-		pc.loadInAss(chars["RASKVEL_MALE"]);
+		pc.loadInAss(chars["RASKVEL_BROODMOTHER"]);
 	}
+	addLevelPoints(2);
 	pc.orgasm(); 
 	flags["PREG_RASK_RETURNED_FRIENDLINESS"] += 1;
 	processTime(30);
@@ -2248,21 +2715,21 @@ public function getBroodmotherFutaCockSize():int
 			return 300;
 			break;
 		case 2:
-			return 450;
+			return 400;
 			break;
 		case 3:
-			return 600;
+			return 500;
 			break;
 		case 4:
 			return 600;
 			break;
 		case 5:
-			return 650;
+			return 800;
 			break;
 		case 6:
-			return 750;
+			return 800;
 			break;
-		default:
+		default: 
 			return 600;
 			break;
 	}
@@ -2375,7 +2842,7 @@ public function milkBroodmotherReturn():void
 		}
 		else 
 		{
-			output("<i>“Mmm, are you going to milk my fat blue cock?”</i> she moans, her cock visibly hardening in anticipation.\n");
+			output("<i>“Mmm, are you going to milk my fat blue" + getWhatWearing_DressedAs() + "cock?”</i> she moans, her cock visibly hardening in anticipation.\n");
 		}
 		
 		if (pc.isSubby())
@@ -2404,7 +2871,10 @@ public function milkBroodmotherReturn():void
 	
 	if (lvl <= 2)
 	{
-		if (pc.isSubby())
+		if (getWhatWearing() == "farmers overall"){
+			output("<i>“Well Mrs.Farmgirl. What would you use a bucket for?”</i> you ask.\nHer eyes widen as she cottons on. <i>“Ah that'd be great!”</i> she responds excitedly. <i>“Go on then!”</i>\n");
+		}
+		else if (pc.isSubby())
 		{
 			output("<i>“They're for your teats, if you'll let me, madam”</i> you beg.\n<i>“Ah that'd be great!”</i> she responds excitedly. <i>“Go ahead!”</i>\n");
 		}
@@ -2427,7 +2897,10 @@ public function milkBroodmotherReturn():void
 	}
 	else if (lvl <= 4)
 	{
-		if (pc.isSubby())
+		if (getWhatWearing() == "farmers overall"){
+			output("<i>“Well Mrs.Farmgirl. What would you use a bucket for?”</i> you ask.\nHer eyes widen as she cottons on. <i>“Ahh, yes please!”</i> she responds excitedly. <i>“Milk me like a cow!”</i>\n");
+		}
+		else if (pc.isSubby())
 		{
 			output("<i>“They're for your milk-filled tits, if you'll let me, madam”</i> you beg.\n<i>“Ahhh they do need relieving, they're 'bout to burst. Very well " + pc.mf("slave","slut") + ", go ahead!”</i> she responds, small beads of milk trickling down her breasts in anticipation.\n");
 		}
@@ -2450,7 +2923,10 @@ public function milkBroodmotherReturn():void
 	}
 	else if (lvl <= 6)
 	{
-		if (pc.isSubby())
+		if (getWhatWearing() == "farmers overall"){
+			output("<i>“Well Mrs.Farmgirl. What would you use a bucket for?”</i> you ask.\n<i>“Ah, that'd be so good, they're about to burst!”</i> she moans, streams of milk preemptively trickling from her" + (lvl >= 6 ? " pierced " : " ") + "teats. <i>“Go on 'den milk my slutty cow tits!”</i>\n");
+		}
+		else if (pc.isSubby())
 		{
 			output("<i>“They're for your milkers ma'm. If you'll allow me, I'd love to relieve you”</i> you beg.\n<i>“Ah, that'd be so good, they're about to burst!”</i> she moans, streams of milk preemptively trickling from her" + (lvl >= 6 ? " pierced " : " ") + "teats. <i>“Go on 'den " + pc.mf("slave","slut") + ", milk me dry!”</i>\n");
 		}
@@ -2715,7 +3191,7 @@ public function milkBroodmotherReturn():void
 		loot.push(bottles);
 	}
 	itemCollect(loot);
-	
+	addLevelPoints(2);
 	// Milked flag
 	flags["PREG_RASK_RETURNED_LASTMILKED"] = int(GetGameTimestamp() / 1440);
 	flags["PREG_RASK_RETURNED_FRIENDLINESS"] += 1;
@@ -2839,8 +3315,52 @@ public function hyperRaskFun_Return():void
 	else output("massively turgid, the veins pumping beneath her spellbound gaze");
 	output(". She " + (lvl >= 3 ? "gasps" : "whimpers") + ", her hands subconsciously squeezing her " + (isBroodmotherFuta() ? "stiffening cock" : (isBroodmotherTreated() ? "breast-mounted teats" : "tits")) + ", her tail wagging back and forth across the cum-soaked floor. ");
 	
-	
-	output("\n\n" + (lvl >= 4 ? "<i>“Oh yeahh, that's what 'mama wants!”</i> the purple-scaled broodmother gasps, licking her lips" : "<i>“W-wow. It’s so big.”</i> the purple-scaled lizard-girl reaches out experimentally, as if she can’t quite believe that it’s real") + ". When she makes contact, a shiver of pleasure runs through you, and it throbs against her armored skin");
+	if (lvl >= 4){
+		if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+			output("\n\n<i>“Woah! Looks like you'll be the one giving the big injections”</i> the purple-scaled broodmother gasps, licking her lips, reaching towards it. When she makes contact, a shiver of pleasure runs through you, and it throbs against her armored skin");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+			output("\n\n<i>“Wow! I'll try my best to clean it " + pc.mf("master","mistress") + ", I might have to get quite hands on though”</i> the purple-scaled broodmother gasps, licking her lips, reaching towards it. When she makes contact, a shiver of pleasure runs through you, and it throbs against her armored skin");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+			output("\n\n<i>“Woah! Forget about boosting my grade, I should have to help you to play with this giant cock!”</i> the purple-scaled broodmother gasps, licking her lips, reaching towards it. When she makes contact, a shiver of pleasure runs through you, and it throbs against her armored skin");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+			output("\n\n<i>“Woah! If you were tying me up for this, you really didn't have to!”</i> the purple-scaled broodmother gasps, licking her lips, reaching towards it. When she makes contact, a shiver of pleasure runs through you, and it throbs against her armored skin");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+			output("\n\n<i>“Woah! Looks like you'll be giving me a lesson! It's so big!”</i> the purple-scaled broodmother gasps, licking her lips, reaching towards it. When she makes contact, a shiver of pleasure runs through you, and it throbs against her armored skin");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+			output("\n\n<i>“Woah! That's quite the crop there!”</i> the purple-scaled broodmother gasps, licking her lips, reaching towards it. When she makes contact, a shiver of pleasure runs through you, and it throbs against her armored skin");
+		}
+		else{
+			output("\n\n<i>“Oh yeahh, that's what 'mama wants!”</i> the purple-scaled broodmother gasps, licking her lips, reaching towards it. When she makes contact, a shiver of pleasure runs through you, and it throbs against her armored skin");
+		}
+	}
+	else{
+		if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+			output("\n\n<i>“W-wow. I've never seen a symptom like this..”</i> the purple-scaled lizard-girl reaches out experimentally, as if she can’t quite believe that it’s real. When she makes contact, a shiver of pleasure runs through you, and it throbs against her armored skin");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+			output("\n\n<i>“W-wow. There's a lot to clean there, I'm not sure if I'll..”</i> the purple-scaled lizard-girl reaches out experimentally, as if she can’t quite believe that it’s real. When she makes contact, a shiver of pleasure runs through you, and it throbs against her armored skin");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+			output("\n\n<i>“W-woah. Are you sure this isn't too big for a little girl like me..”</i> the purple-scaled lizard-girl reaches out experimentally, as if she can’t quite believe that it’s real. When she makes contact, a shiver of pleasure runs through you, and it throbs against her armored skin");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+			output("\n\n<i>“W-woah. I see why you tied me up for this..”</i> the purple-scaled lizard-girl reaches out experimentally, as if she can’t quite believe that it’s real. When she makes contact, a shiver of pleasure runs through you, and it throbs against her armored skin");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+			output("\n\n<i>“W-woah. Looks like I learnt something today..”</i> the purple-scaled lizard-girl reaches out experimentally, as if she can’t quite believe that it’s real. When she makes contact, a shiver of pleasure runs through you, and it throbs against her armored skin");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+			output("\n\n<i>“W-woah. That's quite the crop..”</i> the purple-scaled lizard-girl reaches out experimentally, as if she can’t quite believe that it’s real. When she makes contact, a shiver of pleasure runs through you, and it throbs against her armored skin");
+		}
+		else{
+			output("\n\n<i>“W-wow. It’s so big.”</i> the purple-scaled lizard-girl reaches out experimentally, as if she can’t quite believe that it’s real. When she makes contact, a shiver of pleasure runs through you, and it throbs against her armored skin");
+		}
+	}
 	
 	if(pc.cumQ() >= 40 && pc.cumQ() < 500) output(", leaking a fat drop of pre-cum onto her wrist.");
 	else if (pc.cumQ() >= 500) output(", drooling a stream of pre-cum all over her wrist.");
@@ -2899,10 +3419,10 @@ public function hyperRaskFun_Return():void
 	if(pc.cumQ() >= 500) output(" Your body responds by oozing a steady flow of pre into her maw, feeding her biological proof that she’s a world-class cock-sucker. She savors it with gusto.");
 	else if(pc.cumQ() >= 50) output(" Your body responds by dribbling pre into her maw, providing biological evidence that she’s a world-class cock-sucker.");
 
-	output("\n\nThe raskvel’s hungry eyes pop open abruptly, and she breaks her dick-licking kiss to look up at you. Her hands, fortunately, do not stop their worship. <i>“Can I collect your cum?”</i> Her eyes are eager and earnest. <i>“I... there’s a bucket.”</i>");
+	output("\n\nThe raskvel’s hungry eyes pop open abruptly, and she breaks her dick-licking kiss to look up at you. Her hands, fortunately, do not stop their worship.<i>“Can I collect your cum?”</i> Her eyes are eager and earnest. <i>“I... there’s a bucket.”</i>");
 	if(pc.cumQ() >= 50) output(" She licks stray pre from her lips, though the effect is more to smear it across the bottom one like lip gloss.");
 	else output(" She licks her lips");
-	output(" <i>“And I want to have your babies." + (isBroodmotherPregnant() ? " After these." : " I'm gonna empty your cum-bucket inside of me, filling me with your seed.") + "”</i> She lifts your dick with both hands, grunting with the effort, then feathers kisses along the underside of your shaft");
+	output((isBroodmotherPregnant() ? "<i>“And I want to have your babies. After these." : "<i>“Y'know, I don't think this'll be able to fit, so I'm gonna empty your cum-bucket inside of me later.") + "”</i> She lifts your dick with both hands, grunting with the effort, then feathers kisses along the underside of your shaft");
 	if(pc.cocks[x].cType == GLOBAL.TYPE_FELINE) output(", sucking on the soft, feline \"barbs” one at a time");
 	output(". <i>“You’re the best daddy I’m ever going to meet.”</i>");
 
@@ -2927,7 +3447,7 @@ public function hyperRaskFun_Return():void
 	{
 		output("\n\nThe scaley slut’s hands return to their former place, this time pressing through her sensitive ears. It must feel good, because her eyes roll halfway back, interrupting her attempts to kiss your [pc.cockHead " + x + "], but nothing could stop her from stroking you, pressing her tits together on either side with her forearms and jacking her perfectly textured ears up and down over every inch of cock she can reach. She drools into her cleavage, and her" + (isBroodmotherFuta() ? " three" : "") + " legs twitch with pleasure as she tries to thrust herself against something.");
 		output("<i>“Ughh, I can't take this anymore, I don't want your cum in a bucket, I want it inside of me!”</i> she cries out. You know how she feels. She grabs a hold of your violently throbbing [pc.cock " + x + "] and " + (isBroodmotherFuta() ? "after lifting her throbbing balls out of the way, " : "") + "grinds against it's base before raising her arms and pulling herself up to the tip, leaving a trail of juices along your shaft as she ascends.");
-		output("\n\n Your heart hammers in your chest with alarming rapidly. All you want is to push your cock into her raskvel-pussy and unload all your hot cum into her. You press your large [pc.cockHead " + x + "] against her " + (isBroodmotherTreated() ? "torrenting" : "soaking") + " fuck-hole and pull her down. You feel her slowly roll around your tip, like a condom, letting out cries of pain and enjoyment as her pussy stretches to accomodate what she truly desires, until your girths invasion is stopped by the limits of her frame.");
+		output("\n\n Your heart hammers in your chest with alarming rapidly. All you want is to push your cock into her" + (getWhatWearing_DressedAs() != null ? (getWhatWearing_DressedAs() + "pussy") : " raskvel-pussy") + " and unload all your hot cum into her. You press your large [pc.cockHead " + x + "] against her " + (isBroodmotherTreated() ? "torrenting" : "soaking") + " fuck-hole and pull her down by her" + (getWhatWearing_Thighs() != null ? (" " + getWhatWearing_Thighs() + "s") : " thighs") + ". You feel her slowly roll around your tip, like a condom, letting out cries of pain and enjoyment as her pussy stretches to accomodate what she truly desires, until your girths invasion is stopped by the limits of her frame.");
 		output("\n\nTwo alien feet press down on your [pc.knot " + x + "] from either side with force, precum coating her hands as she thrusts herself back up your tingling tip. Better still, her" + (lvl == 6 ? " writing-covered " : " ") + "thighs straddle you as she trembles atop you like a high-powered vibrator. You groan and thrust forward, slamming your dicktip again as far as it'll go into her gaping hole, and she moans right along with you, her soprano voice tickling already overloaded nerves with another layer of impregnation-obsessed pleasure.");
 		output("\n\nAs her insides grind against your trembling prick, you erupt.");
 
@@ -3096,6 +3616,7 @@ public function hyperRaskFun_Return():void
 		flags["PREG_RASK_RETURNED_FRIENDLINESS"] += 5;
 		addButton(0,"Next",denInside);
 	}
+	addLevelPoints(2);
 }
 
 //Fuck Her
@@ -3106,7 +3627,7 @@ public function fuckDatRaskipoo_Return():void
 	clearMenu();
 	//Unknown author, taken mostly from azraexpeditions.as but there was no author there.
 	
-	var x:int = pc.cockThatFits(700);
+	var x:int = pc.cockThatFits(220 + (lvl * 120));
 	var lvl:int = getBroodmotherLevel();
 	var isSlut:Boolean = ((pc.isTreated() && pc.isBimbo()) || pc.isBimbo() || pc.isBro() || pc.isDependant(Creature.DEPENDANT_CUM) || (pc.libido() >= 50 && pc.lust() >= 33) || pc.lust() > 66);
 	if(!pc.isCrotchExposed()) 
@@ -3127,7 +3648,7 @@ public function fuckDatRaskipoo_Return():void
 	if (lvl <= 2)
 	{
 		output(" She smiles wide eager to take your cock, licking her blue-painted lips. She gets on her knees and crawls around in a circle" + (lvl >= 2 ? ", her swollen belly dragging against the cum-stained floor." : "."));
-		output("\n\n<i>“Well? Lets go!”</i> she shouts eagerly, lifting one leg high into the air");
+		output("\n\n<i>“Well? Lets go!”</i> she shouts eagerly, lifting one" + (getWhatWearing_Thighs() != null ? (getWhatWearing_Thighs() + " covered ") : " ") + "leg high into the air");
 		output(" to reveal her " + (isBroodmotherTreated() ? "feather-framed cunt, flanked by bright pink, golf ball sized clitties. The folds themselves are juicy, eagerly awaiting your gift.":"smooth cunt, flanked by bright pink, golf ball sized clitties. The folds themselves are juicy, eagerly awaiting your gift.") + " They're still fairly tight, having shrunk from her withdrawal from the motherhusks, good for squeezing down on your [pc.cock " + x + "]. <i> “Or are you just teasing me?” </i> She grabs her ankle and pulls her leg higher, spreading her " + (isBroodmotherTreated() ? "moist" : "") + "pussy, to your arousal.");
 	
 		//Very tall.
@@ -3145,7 +3666,7 @@ public function fuckDatRaskipoo_Return():void
 	else if (lvl <= 5)
 	{
 		output(" She smiles wide with licentious intent, licking her blue-painted lips and tossing her downy hair. She rolls on to the floor before turning to look at you.");
-		output("\n\n<i>“You gonna stick it in?”</i> The purple-scaled lizard rolls to the side, lifting one leg high into the air");
+		output("\n\n<i>“You gonna stick it in?”</i> The purple-scaled lizard rolls to the side, lifting one" + (getWhatWearing_Thighs() != null ? (getWhatWearing_Thighs() + " covered ") : " ") + "leg high into the air");
 		output(" to reveal her " + (isBroodmotherTreated() ? "hairy swollen cunt, flanked by bright pink, golf ball sized clitties. The folds themselves are thick and juicy, pouring eager girlcum across the floor.":"smooth swollen cunt, flanked by bright pink, marble-sized clitties. The folds themselves are thick and juicy, dribbling eager pussyjuice across the floor.") + " No matter how many birth’s they’ve passed, they’re plush enough to squeeze down on a pinky, let alone your [pc.cock " + x + "]. <i> “Or are you just teasing poor, ol' me?” </i> She grabs her ankle and pulls her leg higher until her lips part, " + (isBroodmotherTreated() ? "spraying a gush of lube into the air." : "releasing a small gush of lube."));
 	
 		//Very tall.
@@ -3165,7 +3686,7 @@ public function fuckDatRaskipoo_Return():void
 	else if (lvl <= 6)
 	{
 		output(" She smiles wide with licentious intent, licking her plump blue lips and tossing her downy hair. She rolls on to the floor before turning to look at you and shakes her phat writing-covered buttocks in your face.");
-		output("\n\n<i>“Come on, I want you to stick it in my pussy”</i> she moans. The purple-scaled lizard rolls to the side, lifting one thick thigh high into the air");
+		output("\n\n<i>“Come on, I want you to stick it in my pussy”</i> she moans. The purple-scaled lizard rolls to the side, lifting one thick" + (getWhatWearing_Thighs() != null ? (getWhatWearing_Thighs() + " covered ") : " ") + "thigh high into the air");
 		output(" to reveal her " + (isBroodmotherTreated() ? "hairy gaping cunt, flanked by bright pink, golf ball sized clitties. The folds themselves are plump and juicy, dripping eager girlcum across the floor.":"bare gaping cunt, flanked by bright pink, golf ball sized clitties. The folds themselves are plump and juicy, dripping eager girlcum across the floor.") + " Whilst the sheer volume and size of cocks she's been taking and the number of births she's passed have undoubtadly left her used, her masterful pussy could still squeeze down on a pinky, let alone your [pc.cock " + x + "]. <i>“Give me it, now!”</i> She grabs her buttock with one hand and yanks it to one side, presenting her gaping fuck-hole, " + (isBroodmotherTreated() ? "spurting lube into the air as she does." : "releasing a spurt of lube as she does."));
 	
 		if(pc.tallness >= 6*12+6) 
@@ -3176,8 +3697,8 @@ public function fuckDatRaskipoo_Return():void
 	
 	output("\n\nGrabbing her belly to brace yourself, you thrust inside. ");
 	
-	if(pc.cockVolume(x) < (lvl * 100)) output("Her pussy parts easily around your [pc.cock " + x + "]" + (lvl <= 5 ? ", and her diatribe cuts off with a high-pitched squeak of pleasure." : ", and she lets out a moan of pleasure."));
-	else if(pc.cockVolume(x) < ((lvl * 100) + 200)) output("Her pussy reluctantly parts for your [pc.cock " + x + "], clutching it tightly" + (lvl <= 5 ? " as her diatribe cuts off with a high-pitched squeak of pleasure." : " and she lets out a surprised gasp before exhaling slowly in ecstasy."));
+	if(pc.cockVolume(x) < ((220 + (lvl * 120)) - 100)) output("Her pussy parts easily around your [pc.cock " + x + "]" + (lvl <= 5 ? ", and her diatribe cuts off with a high-pitched squeak of pleasure." : ", and she lets out a moan of pleasure."));
+	else if(pc.cockVolume(x) < ((220 + (lvl * 120)) - 50)) output("Her pussy reluctantly parts for your [pc.cock " + x + "], clutching it tightly" + (lvl <= 5 ? " as her diatribe cuts off with a high-pitched squeak of pleasure." : " and she lets out a surprised gasp before exhaling slowly in ecstasy."));
 	else output("Her pussy strains to accept your girthy tool, its thick lips stretched wide enough to pass a" + (lvl <= 4 ? "n egg" : " watermelon") + "." + (lvl <= 5 ? " A high-pitched wail of pleasure interrupts the little slut’s diatribe at the penetration. Evidently she’s a fan of pushing herself to the absolute limit." : " A wail of pleasure echoes around the room at the penetration. Evidently she’s a fan of pushing herself to the absolute limit."));
 	
 	if (lvl >= 3)
@@ -3190,16 +3711,60 @@ public function fuckDatRaskipoo_Return():void
 	}
 	
 	pc.cockChange();
-	var y:int = pc.cockThatFits2(700);
+	var y:int = pc.cockThatFits2(220 + (lvl * 120));
 	//2
 	if(y >= 0 && pc.cockTotal() == 2)
 	{
-		output("\n\nMeanwhile, your second dick rubs against the " + (lvl >= 3 ? "slippery" : "") + "crease of her thigh, pressing its [pc.cockHead " + x + "] up against the underside of her fertile belly." + (lvl >= 3 ? "The mix of sweat and cunt-juice " : "The sweat ") + "coating her soft-scaled skin allows it to glide effortlessly against her, right up until she wraps her fingers around it to give it a tug. <i>“I see you brought extra for the rest of me. How thoughtful...”</i> Her fingers twist and swirl while her cunt clenches.");
+		output("\n\nMeanwhile, your second dick rubs against the " + (lvl >= 3 ? "slippery" : "") + "crease of her thigh, pressing its [pc.cockHead " + x + "] ");
+		if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+			output("between her underside and the rubbery hem of her nurse outfit." + (lvl >= 3 ? "The mix of sweat and cunt - juice " : "The sweat ") + "surrounding it ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+			output("between her underside and the inside of her rough black maid skirt." + (lvl >= 3 ? "The mix of sweat and cunt - juice " : "The sweat ") + "surrounding it ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+			output("between her underside and the inside of her rough tartan skirt." + (lvl >= 3 ? "The mix of sweat and cunt - juice " : "The sweat ") + "surrounding it ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+			output("against a thick leather strap." + (lvl >= 3 ? "The mix of sweat and cunt - juice " : "The sweat ") + "coating the strap ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+			output("between her underside and the inside of her rough black skirt." + (lvl >= 3 ? "The mix of sweat and cunt - juice " : "The sweat ") + "surrounding it ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+			output("between her underside and the inside of her rough overalls." + (lvl >= 3 ? "The mix of sweat and cunt - juice " : "The sweat ") + "surrounding it ");
+		}
+		else{
+			output("up against the underside of her fertile belly." + (lvl >= 3 ? "The mix of sweat and cunt - juice " : "The sweat ") + "coating her soft - scaled skin ");
+		}
+		output("allows it to glide effortlessly against her, right up until she wraps her fingers around it to give it a tug. < i > “I see you brought extra for the rest of me. How thoughtful...” </ i > Her fingers twist and swirl while her cunt clenches.");
 	}
 	//More
 	else if(y >= 0)
 	{
-		output("\n\nMeanwhile, your extra dicks rub against the " + (lvl >= 3 ? "slippery" : "") + "creases of her thighs, pressing their turgid tips up against the underside of her fertile belly." + (lvl >= 3 ? "The mix of sweat and cunt-juice " : "The sweat ") + "coating her soft-scaled skin allows them to glide effortlessly against her, right up until she grabs ");
+		output("\n\nMeanwhile, your extra dicks rub against the " + (lvl >= 3 ? "slippery" : "") + "creases of her thighs, pressing their turgid tips ");
+		if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+			output("between the underside of her fertile belly and the rubbery hem of her nurse outfit." + (lvl >= 3 ? "The mix of sweat and cunt - juice " : "The sweat ") + "surrounding it ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+			output("between the underside of her fertile belly and the inside of her rough black maid skirt." + (lvl >= 3 ? "The mix of sweat and cunt - juice " : "The sweat ") + "surrounding it ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+			output("between the underside of her fertile belly and the inside of her rough tartan skirt." + (lvl >= 3 ? "The mix of sweat and cunt - juice " : "The sweat ") + "surrounding it ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+			output("against a thick leather strap." + (lvl >= 3 ? "The mix of sweat and cunt - juice " : "The sweat ") + "coating the strap ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+			output("between the underside of her fertile belly and the inside of her rough black skirt." + (lvl >= 3 ? "The mix of sweat and cunt - juice " : "The sweat ") + "surrounding it ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+			output("between the underside of her fertile belly and the inside of her rough overalls." + (lvl >= 3 ? "The mix of sweat and cunt - juice " : "The sweat ") + "surrounding it ");
+		}
+		else{
+			output("up against the underside of her fertile belly." + (lvl >= 3 ? "The mix of sweat and cunt - juice " : "The sweat ") + "coating her soft - scaled skin ");
+		}
+		output("allows them to glide effortlessly against her, right up until she grabs ");
 		if(pc.cockTotal() == 3) output("both of them");
 		else output("two of them");
 		output(" to give them a tug. <i>“I see you packed more for the rest of me. How thoughtful...”</i> She pumps both hard. <i>“I could use a facial.”</i>");
@@ -3273,8 +3838,8 @@ public function fuckDatRaskipoo_Return():void
 	
 		output("\n\n");
 		if (isSlut){
-			output("Fuuuck that’s exactly what you want to do. You want to strap her to the wall in your ship and dump endless loads into her, using her as equal parts sex-toy and virility measuring stick. Maybe you might even get her some mods or an exoskeleton to let her get around the ship. In between laying eggs she could dress herself in skimpy slutwear and slowly ruin it as her pregnancy progresses...");
-			flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] = 1;
+			output("Fuuuck that’s exactly what you want to do. You want to strap her to the wall in your ship and dump endless loads into her, using her as equal parts sex-toy and virility measuring stick. Maybe you might even get her some mods or an exoskeleton to let her get around the ship." + (getWhatWearing() == null ? "In between laying eggs she could dress herself in skimpy slutwear and slowly ruin it as her pregnancy progresses..." : "She could stretch the outfit you've given her out and completely ruin it as her pregnancy progresses..."));
+			if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] == 0) flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] = 1;
 		}
 		else 
 		{
@@ -3304,12 +3869,12 @@ public function fuckDatRaskipoo_Return():void
 	
 		output("\n\n");
 		if (isSlut){
-			output("Fuuuck you want that too. You want to dump endless loads into her, using her as equal parts sex-toy and virility measuring stick until she's lying, completely incapacitated in a lake of your cum. Maybe you might even get her some mods or an exoskeleton to get her onto your ship. In between laying eggs she could dress herself in skimpy slutwear and slowly ruin it as her pregnancy progresses...");
-			flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] = 1;
+			output("Fuuuck you want that too. You want to dump endless loads into her, using her as equal parts sex-toy and virility measuring stick until she's lying, completely incapacitated in a lake of your cum. Maybe you might even get her some mods or an exoskeleton to get her onto your ship." + (getWhatWearing() == null ? "In between laying eggs she could dress herself in skimpy slutwear and slowly ruin it as her pregnancy progresses..." : "She could stretch the outfit you've given her out and completely ruin it as her pregnancy progresses..."));
+			if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] == 0) flags["PREG_RASK_RETURNED_DRESSUP_FANTASY"] = 1;
 		}
 		else 
 		{
-			output("You feel like you ought to be a little concerned about breeding giving this alient creature your babies or perhaps even disgusted, but your body isn’t. Your traitorous rod");
+			output("You feel like you ought to be a little concerned about giving this alien creature your babies or perhaps even disgusted, but your body isn’t. Your traitorous rod");
 			if(pc.cockTotal() > 1) output("s love");
 			else output(" loves");
 			output(" the idea of siring a whole clan of horny fuck-lizards. She’s tickled your most basic, unthinking instincts in ways that make your [pc.cockNoun " + x + "] throb and your ");
@@ -3332,6 +3897,7 @@ public function fuckDatRaskipoo_Return():void
 
 	processTime(30);
 	pc.orgasm();
+	addLevelPoints(2);
 	flags["PREG_RASK_RETURNED_FRIENDLINESS"] += 5;
 	addButton(0,"Next",cumInsideBroodmother,cummies);
 }
@@ -3372,15 +3938,69 @@ public function faceRideTheRaskPreg_Return():void
 	
 	if (lvl <= 2)
 	{
-		output("\n\n<i>“Hmmm... usually I don't like pussy that much but...”</i> the " + (isBroodmotherPregnant() ? "pregnant" : "timid") + " raskvel admits. ");
+		if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+			output("\n\n<i>“Hmmm... usually I don't like pussy that much but I suppose a nurse has to look after her patients”</i> the " + (isBroodmotherPregnant() ? "pregnant" : "timid") + " raskvel admits. ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+			output("\n\n<i>“Hmmm... usually I don't like pussy that much but I suppose anything for my " + pc.mf("master","mistress") + "”</i> the " + (isBroodmotherPregnant() ? "pregnant" : "timid") + " raskvel admits. ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+			output("\n\n<i>“Hmmm... usually I don't like pussy that much but I suppose I have been a naughty little schoolgirl”</i> the " + (isBroodmotherPregnant() ? "pregnant" : "timid") + " raskvel admits. ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+			output("\n\n<i>“Hmmm... usually I don't like pussy that much but I suppose with how tight this harness is I can hardly say no. Not that I would want to...”</i> the " + (isBroodmotherPregnant() ? "pregnant" : "timid") + " raskvel admits. ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+			output("\n\n<i>“Hmmm... usually I don't like pussy that much but I suppose It'd be a good lesson for you...”</i> the " + (isBroodmotherPregnant() ? "pregnant" : "timid") + " raskvel admits. ");
+		}
+		else{
+			output("\n\n<i>“Hmmm... usually I don't like pussy that much but you are quite intriguing...”</i> the " + (isBroodmotherPregnant() ? "pregnant" : "timid") + " raskvel admits. ");
+		}
 	}
 	else if (lvl <= 4)
 	{
-		output("\n\n<i>“Mmmm... usually I don't like pussy that much but...”</i> the " + (isBroodmotherPregnant() ? "pregnant" : "bloated") + " raskvel admits. ");
+		if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+			output("\n\n<i>“Mmmm... usually I don't like pussy that much but I suppose a nurse has to look after her patients”</i> the " + (isBroodmotherPregnant() ? "pregnant" : "timid") + " raskvel admits. ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+			output("\n\n<i>“Mmmm... usually I don't like pussy that much but I suppose anything for my " + pc.mf("master","mistress") + "”</i> the " + (isBroodmotherPregnant() ? "pregnant" : "timid") + " raskvel admits. ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+			output("\n\n<i>“Mmmm... usually I don't like pussy that much but I suppose I have been a naughty little schoolgirl”</i> the " + (isBroodmotherPregnant() ? "pregnant" : "timid") + " raskvel admits. ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+			output("\n\n<i>“Mmmm... usually I don't like pussy that much but I suppose with how tight this harness is I can hardly say no. Not that I would want to...”</i> the " + (isBroodmotherPregnant() ? "pregnant" : "timid") + " raskvel admits. ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+			output("\n\n<i>“Mmmm... usually I don't like pussy that much but I suppose It'd be a good lesson for you...”</i> the " + (isBroodmotherPregnant() ? "pregnant" : "timid") + " raskvel admits. ");
+		}
+		else{
+			output("\n\n<i>“Mmmm... usually I don't like pussy that much but you are quite intriguing...”</i> the " + (isBroodmotherPregnant() ? "pregnant" : "timid") + " raskvel admits. ");
+		}
 	}
 	else if (lvl <= 6)
 	{
-		output("\n\n<i>“Mmmm... come here then, I'll eat you out until your juices are dripping off my chin!”</i> ");
+		if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+			output("\n\n<i>“Mmmm... come here then! I'll eat my patients cunt out until your juices are dripping off my chin!”</i> ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+			output("\n\n<i>“Mmmm... come here then" + pc.mf("master","mistress") + "! I'll serve your cunt until your juices are dripping off my chin!”</i> ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+			output("\n\n<i>“Mmmm... come here then! This slutty schoolgirl will eat you out until your juices turn her shirt see-through!”</i> ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+			output("\n\n<i>“Mmmm... come here then, grind on this bound sluts face until my face is soaked!”</i> ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+			output("\n\n<i>“Mmmm... come here then, I'll give you a crash course in eating cunt!”</i> ");
+		}
+		else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+			output("\n\n<i>“Mmmm... come here then, ride this country girls face until it's soaked!”</i> ");
+		}
+		else{
+			output("\n\n<i>“Mmmm... come here then, I'll eat you out until your juices are dripping off my chin!”</i> ");
+		}
 	}
 	
 	output("Her eyes are wide and lustily locked on your slit");
@@ -3440,7 +4060,7 @@ public function faceRideTheRaskPreg_Return():void
 	//Squirter + hugecumQ
 	if(pc.isSquirter() && pc.girlCumQ() >= 2000)
 	{
-		output("\n\nAnd there’s so much [pc.girlCumNoun]. It sprays into the raskvel’s mouth and washes down her cheeks. When she draws back to breathe, it splatters across her nose and forehead. Eventually she gives up and tips her head back, stabbing her tongue into you again and again, making your pressurized pussy spurt its fragrant liquid <i>everywhere</i>: on her tits, on her swollen belly. It even creates puddles on the floor that slowly wind their way toward a well-placed drainage grate.");
+		output("\n\nAnd there’s so much [pc.girlCumNoun]. It sprays into the raskvel’s mouth and washes down her cheeks. When she draws back to breathe, it splatters across her face, to the point that she has to throw off her glasses to see. Eventually she gives up and tips her head back, stabbing her tongue into you again and again, making your pressurized pussy spurt its fragrant liquid <i>everywhere</i>: on her tits, on her swollen belly. It even creates puddles on the floor that slowly wind their way toward a well-placed drainage grate.");
 	}
 	//Squirter
 	else if(pc.isSquirter()) output("\n\nYou pay the soft-scaled slut back in big, wet squirts of [pc.girlCum] that run down her chin and pool in her tits. Her skill as a slit-licker demands it. Your [pc.vaginas] will accept nothing less, not when climax has you in its grip and wrings you for every drop of feminine goo you can give.");
@@ -3457,7 +4077,8 @@ public function faceRideTheRaskPreg_Return():void
 	output("\n\nThe raskvel broodmother, pats her tummy. Did it get bigger? It definitely looks bigger... <i>“Mmm... that was fun. Not as fun as birth, mind you, but fun.”</i> She burps, and the scent of pussy in the air grows a little stronger.");
 	processTime(30);
 	pc.orgasm();
-	
+	addLevelPoints(2);
+
 	addButton(0,"Next",denInside);
 }
 
@@ -4821,6 +5442,11 @@ public function setupBroodmother():void
 	{
 		flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] = null;
 	}
+	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_SEEN_REPAIR_RASKVEL"] == undefined)
+	{
+		flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_SEEN_REPAIR_RASKVEL"] = false;
+	}
+	chars["RASKVEL_BROODMOTHER"] = new RaskvelBroodmother();
 }
 
 public function getBroodmotherFriendliness():int 
@@ -4834,17 +5460,39 @@ public function getBroodmotherLevel():int
 	var lvl:int = Math.floor(flags["PREG_RASK_RETURNED_LVLPOINTS"] / 20);
 	if (lvl > 6) //If above what we've programmed for, return maxlvl
 	{
-		return 6;
+		lvl = 6;
 	}
 	else 
 	{
-		return lvl;
+		if (lvl < 4 && flags["PREG_RASK_RETURNED_ISPREGNANT"] && (flags["PREG_RASK_RETURNED_LASTIMPREGNATED"] < (int(kGAMECLASS.GetGameTimestamp() - (60 * 24))))) //Have her grow 1 lvl from pregnancy temporarily if it's been a day since pregnant
+		{
+			lvl += 1;
+		}
 	}
+	return lvl;
+}
+
+public function addLevelPoints(points:int):void 
+{
+	flags["PREG_RASK_RETURNED_LVLPOINTS"] += points;
+	
+	//Check for creature file. If we're in dev, we might not have it
+	var bm:RaskvelBroodmother = kGAMECLASS.chars["RASKVEL_BROODMOTHER"];
+	if (bm == null){
+		chars["RASKVEL_BROODMOTHER"] = new RaskvelBroodmother();
+		bm = kGAMECLASS.chars["RASKVEL_BROODMOTHER"];
+	}
+	
+	//Update config with new lvl
+	var lvl:int = getBroodmotherLevel();	
+	bm.configLevel(lvl);
+	if (isBroodmotherFuta()) bm.configFuta(lvl);
+	if (isBroodmotherTreated()) bm.configTreated(lvl);
 }
 
 public function impregnateBroodmother(players:Boolean, cumQ:int):Boolean
 {
-	flags["PREG_RASK_RETURNED_LVLPOINTS"] += 2;
+	addLevelPoints(4);
 	
 	if ((getLastImpregnated() < (int(GetGameTimestamp() / 1440) - 4)))
 	{
@@ -4998,12 +5646,39 @@ public function denEntryIntercom():void
 			else if (lvl <= 2)
 			{
 				output((rand(1) == 1 ? "<i>“Guess who's back?”</i> you say into the intercom." : "<i>“I'm back”</i> you state to the intercom."));
-				output("\n<i>“Ahh Steele, come on in”</i> the Broodmother squeaks excitedly back "  + (flags["RASKDOOR_BROKE"] == 1 ? "as you slide the door out the way of the doorway and enter the den." : " as the doorway beeps open and you step inside."));
+				if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+					output("\n<i>“Ahh my Patient's back! Come on in, let's see what I can do with you!”</i> the Broodmother squeaks excitedly back ");
+				}
+				else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+					output("\n<i>“Ahh my " + pc.mf("master","mistress") + " is back! Come on in, let's see what I can do for you!”</i> the Broodmother squeaks excitedly back ");
+				}
+				else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+					output("\n<i>“Ahh Steele, back for another lesson? Come on in”</i> the Broodmother squeaks excitedly back ");
+				}
+				else{
+					output("\n<i>“Ahh Steele, come on in”</i> the Broodmother squeaks excitedly back ");
+				}
+				output(flags["RASKDOOR_BROKE"] == 1 ? "as you slide the door out the way of the doorway and enter the den." : " as the doorway beeps open and you step inside.");
 			}
 			else if (lvl <= 4)
 			{
-				output((rand(1) == 1 ? "<i>“Guess who's back?”</i> you say into the intercom." : "<i>“I'm back”</i> you state to the intercom."));
-				output("\n" + (pc.hasCock() ? " <i>“Ahh Steele, come on in”</i> the Broodmothers lurid voice responds" : " <i>“Ahh Steele, I hope you've brought some cock”</i> the Broodmothers lurid voice responds") + (flags["RASKDOOR_BROKE"] == 1 ? " as you slide the door out the way of the doorway and enter the den." : " as the doorway beeps open and you step inside."));
+				output((rand(1) == 1 ? "<i>“Guess who's back?”</i> you say into the intercom." : "<i>“I'm back”</i> you state to the intercom.\n"));
+				if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+					output(pc.hasCock() ? "<i>“Ahh Steele, come on in. Let's see what I can do for my patient today!”</i> the Broodmothers lurid voice responds" : " <i>“Ahh Steele, haven't grown a cock from some delightful illness have you?”</i> the Broodmothers lurid voice responds");
+				}
+				else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+					output("<i>“Ahh " + pc.mf("master","mistress") + ", come on in. Let's see how I can serve you today..”</i> the Broodmothers lurid voice responds");
+				}
+				else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+					output("<i>“Ahh Steele, I've been such a naughty schoolgirl. You'll have to come on in and punish me”</i> the Broodmothers lurid voice responds");
+				}
+				else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+					output("<i>“Ahh Steele, come on in, I've got something to teach you”</i> the Broodmothers lurid voice responds");
+				}
+				else{
+					output(pc.hasCock() ? " <i>“Ahh Steele, come on in”</i> the Broodmothers lurid voice responds" : " <i>“Ahh Steele, I hope you've brought some cock”</i> the Broodmothers lurid voice responds");
+				}
+				output(flags["RASKDOOR_BROKE"] == 1 ? " as you slide the door out the way of the doorway and enter the den." : " as the doorway beeps open and you step inside.");
 			}
 			else if (lvl <= 6)
 			{
@@ -5017,14 +5692,28 @@ public function denEntryIntercom():void
 					output((rand(1) == 1 ? "<i>“Up for some fun?” you whisper into the intercom</i>" : "<i>“Ready for more?”</i> you announce through the intercom.\n"));
 				}
 				
-				if (pc.hasCock())
-				{
-					output("Hurried begging comes from the intercom,<i>“Fuck me over and over Steele, give me your [pc.cocks]”</i>.\n");
+				if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "NurseOutfit"){
+					output((pc.hasCock() ? "Hurried begging comes from the intercom. <i>“Oh fuck, [pc.name], come in quick, I've got a treatment for your [pc.cocks] that needs to be done urgently!”</i>.\n" : "Exasperated begging comes from the intercom. <i>“Ah [pc.name], please, come in quick, you're very sick and the only treatment for it is to pleasure my gaping birth hole!”</i>.\n"));
 				}
-				else 
-				{
-					output("Exasperated begging comes from the intercom,<i>“Ah Steele, please, pleasure my gaping birth hole”</i>.\n");
+				else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "MaidOutfit"){
+					output((pc.hasCock() ? "Hurried begging comes from the intercom. <i>“Oh fuck, " + pc.mf("master","mistress") + " [pc.name] come in quick! I need to fuck your [pc.cocks] over and over, as a good maid should!”</i>.\n" : "Exasperated begging comes from the intercom. <i>“Oh fuck, " + pc.mf("master","mistress") + " [pc.name] come in quick! I need to fuck you over and over, as a good maid should!”</i>.\n"));
 				}
+				else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "SchoolgirlOutfit"){
+					output((pc.hasCock() ? "Hurried begging comes from the intercom. <i>“Oh fuck, [pc.name], I've been such a bad little girl, you need to punish me over and over with your [pc.cocks]!”</i>.\n" : "Exasperated begging comes from the intercom. <i>“Oh fuck, [pc.name], I've been such a bad little girl, you need to punish me, now!”</i>.\n"));
+				}
+				else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "LeatherStrapHarness"){
+					output((pc.hasCock() ? "Hurried begging comes from the intercom. <i>“Fuck me over and over [pc.name], fill your little bound slut with your [pc.cocks]!”</i>.\n" : "Exasperated begging comes from the intercom. <i>“Ah [pc.name], please, fuck your bound sluts' gaping hole!”</i>.\n"));
+				}
+				else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "TeacherOutfit"){
+					output((pc.hasCock() ? "Hurried begging comes from the intercom. <i>“Oh fuck, [pc.name], come on in quick! I've got an assignment for the class and it's to stuff my pussy with your [pc.cocks]!”</i>.\n" : "Exasperated begging comes from the intercom. <i>“Oh fuck, [pc.name], come on in quick! I've got an assignment for the class and it's to fuck my pussy!”</i>.\n"));
+				}
+				else if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]  == "FarmersOveralls"){
+					output((pc.hasCock() ? "Hurried begging comes from the intercom. <i>“Fuck me over and over [pc.name], give this little country gal' your [pc.cocks]!”</i>.\n" : "Exasperated begging comes from the intercom. <i>“Ah [pc.name], please, pleasure this little country gal's pussy!”</i>.\n"));
+				}
+				else{
+					output((pc.hasCock() ? "Hurried begging comes from the intercom. <i>“Fuck me over and over [pc.name], give me your [pc.cocks]!”</i>.\n" : "Exasperated begging comes from the intercom. <i>“Ah [pc.name], please, fuck my gaping cunt!”</i>.\n"));
+				}
+				
 				if (pc.libido() >= 70 || pc.lust() >= 50 || pc.isBimbo())
 				{
 					output("She doesn't have to tell you twice.\n")
@@ -5073,25 +5762,19 @@ public function denLeave():void
 			output("<i>“Are you sure you want to leave?”</i> the Broodmother slurs from behind, as you look over your shoulder to see her spreading her legs.");
 		}
 		
-		if (lvl >= 4)
+		if (lvl > 2 && pc.lust() >= 50) //Lusts a good way of knowing either whether the PC would fall for it, or whether they did her.
 		{
-			if (pc.libido() >= 70 || pc.lust() >= 50)
-			{
-				output("\n\nYou turn around. <b>You can't turn her down.</b>")
-				clearMenu();
-				addButton(0, "Next", denInside);
-			}
-			else if (pc.isBimbo())
+			if (pc.isBimbo())
 			{
 				output("\n\nYou turn around. <b>You can't turn down a fellow gal in need.</b>")
 				clearMenu();
 				addButton(0, "Next", denInside);	
 			}
-			else 
+			else
 			{
-				output("\n\nYou press the exit button and the door hums open. A second later you step out into the " + ((hours < 4 || hours > 22) ? "moonlight." : "sunlight."));
+				output("\n\nYou turn around. <b>You can't turn her down.</b>")
 				clearMenu();
-				addButton(0, "Next", move, "249");
+				addButton(0, "Next", denInside);
 			}
 		}
 		else 
