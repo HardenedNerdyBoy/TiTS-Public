@@ -217,9 +217,9 @@
 			//How many "normal" orgams worth of jizz your balls can hold.
 			this.ballEfficiency = 200;
 			//Scales from 0 (never produce more) to infinity.
-			this.refractoryRate = 9991;
+			this.refractoryRate = 360;
 			this.timesCum = 0;
-			this.minutesSinceCum = 9999;
+			this.minutesSinceCum = (8 - lvl) * 60;
 		}
 		
 		public function configTreated(lvl:int):void

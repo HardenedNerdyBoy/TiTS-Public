@@ -1321,7 +1321,7 @@ public function buyBuckets():void
 		{
 			if (bought + i <= 15)
 			{
-				if (pc.credits >= (i * 100))
+				if (pc.credits >= (i * EmptyBucket.basePrice))
 				{
 					addButton(i - 1, "Buy x" + i, buyBuckets_Buy, i, "Buy x" + i, "Buy " + i + " bucket" + ((i > 1) ? "s" : "") + ". " + (i * 100) + " credits.");
 				}
@@ -1357,7 +1357,7 @@ public function buyBuckets_Buy(buckets:int):void
 	output("<i>“I'll take " + buckets + ".”</i> you say, handing her the credits.\n");
 	output("<i>“Pleasure, as always”</i> she moans, swinging her giant mammaries as she pulls the bucket" + ((buckets > 1) ? "s" : "") +" from the floor behind her and hands " + ((buckets > 1) ? "them" : "it") + " to you.\n");
 	
-	pc.credits -= (buckets * 100);
+	pc.credits -= (buckets * EmptyBucket.basePrice);
 	var items:EmptyBucket = new EmptyBucket();
 	var loot:Array = new Array();
 	items.quantity = buckets;
