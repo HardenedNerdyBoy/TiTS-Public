@@ -4525,7 +4525,7 @@ public function processRaskvelBroodmotherPregnancy(days:int):void
 	var lvl:int = getBroodmotherLevel();
 	
 	if (lvl <= 3) daysToBirth = 4;
-	else if (lvl <= 4) daysToBirth = 3;
+	else if (lvl == 4) daysToBirth = 3;
 	else daysToBirth = 2;
 	
 	//If pregnant and it's it'd be ready for birth
@@ -4536,11 +4536,8 @@ public function processRaskvelBroodmotherPregnancy(days:int):void
 		{
 			broodBirthMessage();
 		}
-		else
-		{
-			flags["PREG_RASK_RETURNED_BABIES"] += flags["PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN"];
-		}
 		// Flag cleanup
+		flags["PREG_RASK_RETURNED_BABIES"] += flags["PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN"];
 		flags["PREG_RASK_RETURNED_LASTIMPREGNATED_RESTING_UNTIL"] = GetGameTimestamp() + (5 * numBirthed);
 		flags["PREG_RASK_RETURNED_ISPREGNANT"] = false;
 		flags["PREG_RASK_RETURNED_LASTIMPREGNATED_YOURS"] = false;
@@ -4642,7 +4639,7 @@ private function broodBirthMessage():void
 		}
 		else 
 		{
-			AddLogEvent("Your codex beeps. You glance at it to find a message from the Raskvel Broodmother.\n\nAttached is a video which you flick open to find a ship CCTV recording of the Raskval broodmother giving birth. The message reads <i>I've just finished pushing out our bab" + (numBirthed > 1 ? "ies”</i>. <b>The raskvel broodmother has given birth to " + numBirthed + " of your children.</b> <i>“I'll contact that nursery of yours to let them know I'll be getting some good friends of mine to drop them off. Just, make sure to check up on them from time to time. Please.”</i>" : "y”</i>. <b>The raskvel broodmother has given birth to your child. <i>“I'll contact that nursery of yours to let them know I'll be getting some of my boytoys to drop them off. Just, make sure to check up on them from time to time. Please.”</i>"));
+			AddLogEvent("Your codex beeps. You glance at it to find a message from the Raskvel Broodmother.\n\nAttached is a video which you flick open to find a ship CCTV recording of the broodmother giving birth. The message reads <i>I've just finished pushing out our bab" + (numBirthed > 1 ? "ies”</i>. <b>The raskvel broodmother has given birth to " + numBirthed + " of your children.</b> <i>“I'll contact that nursery of yours to let them know I'll be getting some good friends of mine to drop them off. Just, make sure to check up on them from time to time. Please.”</i>" : "y”</i>. <b>The raskvel broodmother has given birth to your child. <i>“I'll contact that nursery of yours to let them know I'll be getting some of my boytoys to drop them off. Just, make sure to check up on them from time to time. Please.”</i>"));
 		}
 	
 		var _childGenderWeights:Genders = new Genders();
@@ -4670,18 +4667,19 @@ private function broodBirthMessage():void
 				_childGenderWeights.Intersex += 5;
 			}
 		}
-				
-		var c:Child = Child.NewChildWeights(
+		
+		for (var x:int = 0; x < numBirthed; x++)
+		{
+			var c:Child = Child.NewChildWeights(
 				GLOBAL.TYPE_RASKVEL,
 				1.0,
 				numBirthed,
 				_childGenderWeights
 			);
-		c.BornTimestamp = GetGameTimestamp();
-		ChildManager.addChild(c);
+			c.BornTimestamp = GetGameTimestamp();
+			ChildManager.addChild(c);
+		}
 		
-		StatTracking.track("pregnancy/broodmother sired", numBirthed);
-		StatTracking.track("pregnancy/total sired", numBirthed);
 		StatTracking.track("pregnancy/total day care", numBirthed);
 	}
 	else 
@@ -4693,14 +4691,12 @@ private function broodBirthMessage():void
 		}
 		else 
 		{
-			AddLogEvent("Your codex beeps. You glance at it to find a message from the Raskvel Broodmother.\n\nAttached is a video which you flick open to find a ship CCTV recording of the Raskval broodmother giving birth. The message reads <i>I've just finished pushing out our bab" + (numBirthed > 1 ? "ies”</i>. <b>The raskvel broodmother has given birth to " + numBirthed + " of your children.</b> <i>“They grow up quite quickly, so if you see any Raskvel out there with big cocks or nice fertile pussys, they're probably ours!”</i>" : "y”</i>. <b>The raskvel broodmother has given birth to your child. <i>“They grow up quite quickly, so if you see any Raskvel out there with big cocks or nice fertile pussys, they're probably ours!”</i>"));
+			AddLogEvent("Your codex beeps. You glance at it to find a message from the Raskvel Broodmother.\n\nAttached is a video which you flick open to find a ship CCTV recording of the broodmother giving birth. The message reads <i>I've just finished pushing out our bab" + (numBirthed > 1 ? "ies”</i>. <b>The raskvel broodmother has given birth to " + numBirthed + " of your children.</b> <i>“They grow up quite quickly, so if you see any Raskvel out there with big cocks or nice fertile pussys, they're probably ours!”</i>" : "y”</i>. <b>The raskvel broodmother has given birth to your child. <i>“They grow up quite quickly, so if you see any Raskvel out there with big cocks or nice fertile pussys, they're probably ours!”</i>"));
 		}
-		
-		StatTracking.track("pregnancy/broodmother sired", numBirthed);
-		StatTracking.track("pregnancy/total sired", numBirthed);
 	}
 	
-	flags["PREG_RASK_RETURNED_LASTIMPREGNATED_YOURS"] = false;
+	StatTracking.track("pregnancy/broodmother sired", numBirthed);
+	StatTracking.track("pregnancy/total sired", numBirthed);
 }
 
 public function processEmmyEvents(deltaT:uint, doOut:Boolean, totalDays:uint):void

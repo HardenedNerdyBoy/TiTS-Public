@@ -4,6 +4,7 @@ package classes.Items.Apparel
 	import classes.GLOBAL;
 	import classes.StringUtil;
 	import classes.GameData.TooltipManager;
+	import classes.kGAMECLASS;
 	
 	/**
 	 * @author HNB
@@ -26,7 +27,7 @@ package classes.Items.Apparel
 			
 			this.description = "a new-texas style pair of farming overalls";
 			
-			this.tooltip = "Blue Overalls from New Texas. The straps can go quite loose to accomodate bustier women or chestier men and end in a pair of shorts!";
+			this.tooltip = "Blue Overalls from New Texas. The straps can go quite loose to accommodate bustier women or chestier men and end in a pair of shorts!";
 			
 			TooltipManager.addTooltip(this.shortName, this.tooltip);
 			
@@ -36,10 +37,10 @@ package classes.Items.Apparel
 			this.attack = 0;
 			this.defense = 0;
 			this.shieldDefense = 0;
-			this.sexiness = 4;
+			this.sexiness = 2;
 			this.critBonus = 0;
-			this.evasion = 4;
-			this.fortification = 0;
+			this.evasion = 1;
+			this.fortification = 1;
 			
 			this.version = this._latestVersion;
 		}

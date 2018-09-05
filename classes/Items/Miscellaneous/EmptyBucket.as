@@ -15,7 +15,7 @@ package classes.Items.Miscellaneous
 			this.quantity = 1;
 			this.stackSize = 15;
 			this.type = GLOBAL.GADGET;
-			this.basePrice = 100;
+			this.basePrice = 100; //Used as 100 in millie.as
 			
 			//Used on inventory buttons
 			this.shortName = "Bucket";

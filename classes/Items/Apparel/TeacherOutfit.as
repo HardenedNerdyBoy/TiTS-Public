@@ -1,9 +1,12 @@
 package classes.Items.Apparel 
 {
+	import classes.Characters.PlayerCharacter;
 	import classes.ItemSlotClass;
 	import classes.GLOBAL;
 	import classes.StringUtil;
 	import classes.GameData.TooltipManager;
+	import classes.Creature;
+	import classes.kGAMECLASS;
 	
 	/**
 	 * @author HNB
@@ -24,9 +27,9 @@ package classes.Items.Apparel
 			
 			TooltipManager.addFullName(this.shortName, StringUtil.toTitleCase(this.longName));
 			
-			this.description = "a slutty teacher outfit";
+			this.description = "a teacher outfit";
 			
-			this.tooltip = "This is a slutty teacher outfit, complete with dark suspended stockings, a tight blouse and a dark jacket. Also comes with glasses (cosmetic only)!";
+			this.tooltip = "This is a teacher outfit, complete with dark stockings and a tight blouse. Also comes with glasses (cosmetic only)!";
 			
 			TooltipManager.addTooltip(this.shortName, this.tooltip);
 			
@@ -36,12 +39,24 @@ package classes.Items.Apparel
 			this.attack = 0;
 			this.defense = 0;
 			this.shieldDefense = 0;
-			this.sexiness = 5;
+			this.sexiness = 3;
 			this.critBonus = 0;
-			this.evasion = 3;
+			this.evasion = 0;
 			this.fortification = 0;
 			
 			this.version = this._latestVersion;
+		}
+		
+		override public function onEquip(targetCreature:Creature, outputText:Boolean = false):void
+		{
+			targetCreature.intelligence(targetCreature.intelligence() + 1);
+			if (targetCreature is PlayerCharacter) kGAMECLASS.output("\nAs you don the teachers uniform, you feel slightly smarter.\n")
+		}
+		
+		override public function onRemove(targetCreature:Creature, outputText:Boolean = false):void
+		{
+			targetCreature.intelligence(targetCreature.intelligence() - 1);
+			if (targetCreature is PlayerCharacter) kGAMECLASS.output("\nAs you take off the teachers outfit, you feel slightly less smart.\n")
 		}
 	}
 }

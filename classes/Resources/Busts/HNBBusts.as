@@ -350,7 +350,7 @@ package classes.Resources.Busts
 		[Embed(source = "../../../assets/images/npcs/HNB/cumbucket/bucket_2_3.png", mimeType = "image/png")]
 		public var Bust_CUMBUCKET_2_3:Class;
 		
-		[Embed(source = "../../../assets/images/npcs/HNB/join_gang_silouhette.png", mimeType = "image/png")]
+		[Embed(source = "../../../assets/images/npcs/HNB/join_gang_silhouette.png", mimeType = "image/png")]
 		public var Bust_JOIN_BROODMOTHER_GANG:Class;
 		
 		public function get PREVIEW():Class { return Bust_PREGRASK_LVL0; }
