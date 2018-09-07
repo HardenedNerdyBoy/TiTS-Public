@@ -2730,11 +2730,11 @@ public function rideBroodmotherReturnFuta(inWhat:String):void
 
 	if (isBroodmotherTreated())
 	{
-		output("\n<i>“MOOOOoo!”</i> she cries. You feel her cock pulse and flare and not a second later, her hot creaminess is firing deep inside you. Spurt after spurt fires into you, splashing against your " + (inWhat == 'vagina' ? "cervix" : "glands") + ". After several long, pleasureable seconds, you slide yourself off of her limpening cock with a squelch, cum drooling from your " + (inWhat == 'vagina' ? "slit" : "ass") + " as you do. ");
+		output("\n<i>“MOOOOoo!”</i> she cries. You feel her cock pulse and flare and not a second later, her hot creaminess is firing deep inside you. Spurt after spurt fires into you, splashing against your insides. After several long, pleasurable seconds, you slide yourself off of her limpening cock with a squelch, cum drooling from your " + (inWhat == 'vagina' ? "slit" : "rear") + " as you do. ");
 	}
 	else
 	{
-		output("\n<i>“A-aah, I'm cumming!”</i> she cries. You feel her cock pulse and flare and not a second later hot creaminess is firing deep inside you. Spurt after spurt fires into you, splashing against your " + (inWhat == 'vagina' ? "cervix" : "glands") + ". After several long, pleasureable seconds, you slide yourself off of her limpening cock with a squelch, cum dripping from your " + (inWhat == 'vagina' ? "slit" : "ass") + " as you do. ");
+		output("\n<i>“A-aah, I'm cumming!”</i> she cries. You feel her cock pulse and flare and not a second later, her hot creaminess is firing deep inside you. Spurt after spurt fires into you, splashing against your insides. After several long, pleasurable seconds, you slide yourself off of her limpening cock with a squelch, cum dripping from your " + (inWhat == 'vagina' ? "slit" : "rear") + " as you do. ");
 	}
 
 	if (pc.inHeat() && inWhat == 'vagina')
@@ -4905,50 +4905,37 @@ public function denRestMistaken():void
 	showName("RASKVEL\nGANG");
 	author("HNB");
 	
-	var consent:Boolean = false;
+	output("You twist your head to see 3 Raskvel standing in front of you, two with their retractable cocks unsheathed in their hands and their hung leader massaging your [pc.belly]. <i>“Hey”</i> he says in a deep voice. <i>“You're who we're here for right?”</i>\n");
+	
+	addButton(0, "Yes", denRestMistaken_Yes);
+	addButton(0, "No", denRestMistaken_No);
+}
+
+public function denRestMistaken_no):void
+{
+	output("<i>“Uhh, no, sorry. Not me.”</i> you respond.");
+	output("<i>“Oh, uhh okay. Sorry!”</i> their leader replies, slumping over and walking away, a look of disappointment on his face, his cronies in tow.");
+	
+	addButton(0, "Next", denInside);
+}
+
+public function denRestMistaken_Yes():void
+{
 	var stretched:Boolean = false;
 	var cummed:Number = pc.cumQ(); //for futa
 	
-	output("You twist your head to see 3 Raskvel standing in front of you, two with their retractable cocks unsheathed in their hands and their hung leader massaging your [pc.belly]. <i>“Hey”</i> he says in a deep voice. <i>“You're who we're here for right?”</i>\n");
 	var isSlut:Boolean = (pc.isTreated() || pc.isBimbo() || pc.isDependant(Creature.DEPENDANT_CUM) || (pc.libido() >= 50 && pc.lust() >= 33) || pc.lust() > 66);
-	if (isSlut) //If there's any reason to do this
-	{
-		output(pc.isBimbo() ? "<i>“Of course”</i> you giggle, wiggling your [pc.hips] in anticipation." : "<i>“Mmmmhmmm”</i> you moan back.");
-		consent = true;
-	}
-	else
-	{
-		output("<i>“Huh? No, I'm just resting here!”</i> you protest as you try to get off the supports but the two smaller Raskvel pull out some rope and quickly bind you to the frame. <i>“That's a shame”</i> the leader says with a smirk, <i>“But we're feeling quite pent up now we're here.”</i>");
-	}
 	
-	output("\nOne of the raskvel runs his hands along your " + (consent ? "" : "rope bound") + "[pc.hips] whilst another grabs your [pc.ass]. The larger one strokes your cheek" + (consent ? " as he looks into your eyes and runs his fingers around your [pc.nipples]." : " in an effort to calm you before moving his hands down to play with your [pc.nipples]."));
+	output(pc.isBimbo() ? "<i>“Of course”</i> you giggle, wiggling your [pc.hips] in anticipation." : "<i>“Mmmmhmmm”</i> you moan back.");
+	output("\nOne of the raskvel runs his hands along your [pc.hips] whilst another grabs your [pc.ass]. The larger one strokes your cheek as he looks into your eyes and runs his fingers around your [pc.nipples].");
 	
-	if (consent)
-	{
-		output("<i>“Ooh, that feels good guys”</i> you moan <i>“but why don't we move things forward.”</i>");
-	}
-	else
-	{
-		if (pc.isBro())
-		{
-			output("You fight again your bindings but they won't budge. <i>“Fuck you guys! When I get out of here, you're all dead!”</i> you shout, breathing heavily as you begin to lose your energy from battling the restraints.");
-		}
-		else if (pc.isMischievous())
-		{
-			output("You fight again your bindings but they won't budge. <i>“Hey come on now, let me go and maybe I can help you guys”</i> you plead, breathing heavily as you begin to lose your energy from battling the restraints.");
-		}
-		else
-		{
-			output("You fight again your bindings but to no avail. <i>“Please, I'm not like her!”</i> you plead, breathing heavily as you begin to lose your energy from battling the restraints.");
-		}
-	}
+	output("<i>“Ooh, that feels good guys”</i> you moan <i>“but why don't we move things forward.”</i>");
 	
 	output("\nAt this they begin to step it up a notch. ");
 	
 	if (!pc.isNude())
 	{
-		if (consent) output("They hurriedly tear off your [pc.gear] with your help and soon your naked body is ready for them. ");
-		else output("They forcefully tear off your [pc.gear], tossing each garment to the floor. ");
+		output("They hurriedly tear off your [pc.gear] with your help and soon your naked body is ready for them. ");
 		pc.removeAll();
 	}
 	
@@ -5007,74 +4994,60 @@ public function denRestMistaken():void
 	output(".\n");
 	
 	output("Their leader follows suit");
-	if (consent)
+	output(" by grabbing " + (pc.hasHair() ? "hold of your [pc.hair]" : "hold of your head") + " and raising his cock to your [pc.lips]. You roll your lips down over his big purple cock");
+	if (pc.canDeepthroat())
 	{
-		output(" by grabbing " + (pc.hasHair() ? "hold of your [pc.hair]" : "hold of your head") + " and raising his cock to your [pc.lips]. You roll your lips down over his big purple cock");
-		if (pc.canDeepthroat())
-		{
-			output(", maintaining eye contact, until your lips reach the base of his lengthening shaft, where you're held, mouth full, until you can barely breath and then yanked back off, a wave of saliva travelling with you. You giggle as your head lies red in his hands, saliva dribbling down your chin until he shoves his huge cock back in.");
-		}
-		else
-		{
-			output(", maintaining eye contact, until the tip of his cock reaches the back of your throat, where you're held, mouth full, until you can barely breath and then yanked back off, a wave of saliva travelling with you. You giggle as your head lies red in his hands, saliva dribbling down your chin until he shoves his huge cock back in.");
-		}
+		output(", maintaining eye contact, until your lips reach the base of his lengthening shaft, where you're held, mouth full, until you can barely breath and then yanked back off, a wave of saliva travelling with you. You giggle as your head lies red in his hands, saliva dribbling down your chin until he shoves his huge cock back in.");
 	}
 	else
 	{
-		output(" by grabbing " + (pc.hasHair() ? "hold of your [pc.hair]" : "hold of your head") + " and jaw , forcing your [pc.lips] open and shoving his enraged purple cock in and out of your wet mouth, slapping your reddening cheeks between repetitions, saliva running down your [pc.face].");
+		output(", maintaining eye contact, until the tip of his cock reaches the back of your throat, where you're held, mouth full, until you can barely breath and then yanked back off, a wave of saliva travelling with you. You giggle as your head lies red in his hands, saliva dribbling down your chin until he shoves his huge cock back in.");
 	}
 	output("\n");
-	
-	if (consent){
-		output("It seems like two of them are ready to go, but the one "); 
-		if (pc.hasTits())
+	output("It seems like two of them are ready to go, but the one "); 
+	if (pc.hasTits())
+	{
+		if (pc.isLactating())
 		{
-			if (pc.isLactating())
-			{
-				output(" sucking at your nipples");
-			}
-			else
-			{
-				output(" licking your nipples");
-			}
-		}
-		else if (pc.hasNipples())
-		{
-			output("licking your nipples");
-		}
-		else  
-		{
-			output(" tonguing your chest");
-		}
-		output(" could do with being bigger. You tap his shoulder and he stands up from his good work, his semi-flaccid penis bouncing against your hand as he does. You tug him closer " + (pc.isBimbo() || pc.isMischievous() ? "and wipe your chin-saliva all over his cock before working" : "before working") + "your hand up and down his shaft, it growing in your hand as you do. ");
-		
-		if (pc.isSubby())
-		{
-			output("Happy with your work, you beg <i>“Now please, use me masters”</i>");
-		}
-		else if (pc.isBimbo())
-		{
-			output("Happy with your work, you giggle <i>“Alright guys, give me those cocks!”</i>");
-		}
-		else if (pc.isBro())
-		{
-			output("Happy with your work, you shout <i>“Alright lads, let's go!”</i>");
-		}
-		else if (pc.isMischievous())
-		{
-			output("Happy with your work, you cackle <i>“Alright now you can really start”</i>");
+			output(" sucking at your nipples");
 		}
 		else
 		{
-			output("Happy with your work, you say <i>“Alright guys, now really give it to me”</i>");
+			output(" licking your nipples");
 		}
+	}
+	else if (pc.hasNipples())
+	{
+		output("licking your nipples");
+	}
+	else  
+	{
+		output(" tonguing your chest");
+	}
+	output(" could do with being bigger. You tap his shoulder and he stands up from his good work, his semi-flaccid penis bouncing against your hand as he does. You tug him closer " + (pc.isBimbo() || pc.isMischievous() ? "and wipe your chin-saliva all over his cock before working" : "before working") + "your hand up and down his shaft, it growing in your hand as you do. ");
+	
+	if (pc.isSubby())
+	{
+		output("Happy with your work, you beg <i>“Now please, use me masters”</i>");
+	}
+	else if (pc.isBimbo())
+	{
+		output("Happy with your work, you giggle <i>“Alright guys, give me those cocks!”</i>");
+	}
+	else if (pc.isBro())
+	{
+		output("Happy with your work, you shout <i>“Alright lads, let's go!”</i>");
+	}
+	else if (pc.isMischievous())
+	{
+		output("Happy with your work, you cackle <i>“Alright now you can really start”</i>");
+	}
+	else
+	{
+		output("Happy with your work, you say <i>“Alright guys, now really give it to me”</i>");
 	}
 
 	output("\nReady to go, the Raskvel reposition themselves. The larger one pulls his now spit-coated cock out of your mouth ")
-	if (!consent)
-	{
-		output(",at which point you murmur abuse at him with what little energy you've got left ");
-	}
 	output("and moves to your ");
 	if (pc.hasVagina())
 	{
@@ -5086,8 +5059,7 @@ public function denRestMistaken():void
 		else
 		{
 			output(" With two fingers he stretches your pussy open and then pushes his cock slowly deeper and deeper into you,");
-			if (!consent) output(" the walls of your insides fighting a battle against his girth but to no avail"); 
-			else output(" the walls of your pussy widening to accommodate him until he's at his depth"); 
+			output(" the walls of your pussy widening to accommodate him until he's at his depth"); 
 			output(", where he begins pulling slightly back out before fucking you, his forearm sized raskvel cock slamming against your cervix.");
 			
 			if (pc.vaginas[pc.biggestVaginaIndex()].looseness() < 3)
@@ -5108,8 +5080,7 @@ public function denRestMistaken():void
 		else
 		{
 			output("With two fingers he stretches your [pc.asshole] open and then thrusts his cock deep into it,");
-			if (!consent) output(" the walls of your ass fighting a battle against his girth but to no avail"); 
-			else output(" the walls of your ass widening to accommodate him until he's at his depth"); 
+			output(" the walls of your ass widening to accommodate him until he's at his depth"); 
 			output(", where he begins pulling slightly back out before fucking you, with his forearm sized raskvel cock.");
 			
 			if (pc.ass.looseness() < 3)
@@ -5120,143 +5091,67 @@ public function denRestMistaken():void
 	}
 	
 	output("\nThe second raskvel swaps to where the first was and ");
-	if (consent)
-	{
-		output("grabs " + (pc.hasHair() ? "hold of your [pc.hair]" : "hold of your head") + ", lifting your head so your lips meet his meat. You wrap your mouth around the tip of it and he pushes your mouth down over his girthy, lavender, dick.");
-	}
-	else
-	{
-		output("grabs " + (pc.hasHair() ? "hold of your [pc.hair]" : "hold of your head") + ", lifting your head so your lips meet his meat before grabbing hold of your jaw, snapping it open, before forcing his fat, purple cock deep into your agape mouth.");
-	}
+	output("grabs " + (pc.hasHair() ? "hold of your [pc.hair]" : "hold of your head") + ", lifting your head so your lips meet his meat. You wrap your mouth around the tip of it and he pushes your mouth down over his girthy, lavender, dick.");
 	output("\n");
 	
 	//Butthole's free, vag in use
 	if (pc.hasVagina())
 	{
-		if (consent)
-		{
-			output("The third, now ready to go, grabs hold of a side of your [pc.belly] and hoists himself up on top of you. You feel his feet shuffling about on top of you before he kneels on your lower back. You angle your posterior slightly and the raskvel pulls apart your [pc.buttcheeks] and thrusts his dick into your ");
-			if (pc.ass.looseness() > 2) output("inviting ");
-			output("backdoor, it tightening around his member as he hits depth.");
-		}
-		else
-		{
-			output("The third, grabs hold of a side of your rope-wrapped [pc.belly] and hoists himself up on top of you. You feel his feet press into you before his knees dig into your lower back like knives. He spreads apart your [pc.buttcheeks] and you feel his cock thrust through your ");
-			output("backdoor. You try to kick him off but your legs have been hogtied and all you manage to do is help him thrust deeper.");
-		}
+		output("The third, now ready to go, grabs hold of a side of your [pc.belly] and hoists himself up on top of you. You feel his feet shuffling about on top of you before he kneels on your lower back. You angle your posterior slightly and the raskvel pulls apart your [pc.buttcheeks] and thrusts his dick into your ");
+		if (pc.ass.looseness() > 2) output("inviting ");
+		output("backdoor, it tightening around his member as he hits depth.");
 	}
 	else //No hole
 	{
-		if (consent)
-		{
-			output("The thirds hard, pulsating cock stays stuck in your grasp as you ramp up your pace, jerking him faster, eager to relieve him of his cum.");
-		}
-		else
-		{
-			output("The third stops slathering his saliva across your [pc.chest] but his eyes stay fixated on your body, as he starts jerking himself off to your struggle against his brethren.");
-		}
+		output("The thirds hard, pulsating cock stays stuck in your grasp as you ramp up your pace, jerking him faster, eager to relieve him of his cum.");
 	}
 	
-	output("\nYou breath fiercely through your nose, " + (consent ? "as things get more intense - the bulging cocks pound you with increasing speed and the big earthy one slides along your tongue, pushing against the the bottom of your mouth." : "struggling to breath between the intensity with which their sand-covered cocks assault you. The cock in your mouth blocks your airway with no respite between assaults."));
+	output("\nYou breath fiercely through your nose, as things get more intense - the bulging cocks pound you with increasing speed and the big earthy one slides along your tongue, pushing against the the bottom of your mouth.");
 	
 	if (pc.hasVagina())
 	{
-		if (consent){
-			output(" The biggest one, " + (stretched ? "having stretched out your insides like a balloon" : "having slid into your accommodating fuck-hole") + ", has been pounding away, his bulging Raskvel cum-pouch slapping against your thighs. <i>“Mmmm, fuck yeah”</i> you moan, feeling the warmth of his rock-hard fuck-rod " + (stretched ? ("pushing against the walls of your " + pc.vaginaDescript(pc.biggestVaginaIndex()))  : (" pushing fast and hard into your " + pc.vaginaDescript(pc.biggestVaginaIndex()))) + ".");
-		}
-		else{
-			output(" The biggest one, " + (stretched ? "having stretched you to his size like a fresh condom, has been slamming his boiling, rock-hard dick into you with force, it burning against the walls of your insides," : "has been slamming his boiling, rock hard cock into you with force, it pounding deep into you with each thrust,") + " his heavy seed-pouch slamming into the back of you with each thrust.");
-		}
+		output(" The biggest one, " + (stretched ? "having stretched out your insides like a balloon" : "having slid into your accommodating fuck-hole") + ", has been pounding away, his bulging Raskvel cum-pouch slapping against your thighs. <i>“Mmmm, fuck yeah”</i> you moan, feeling the warmth of his rock-hard fuck-rod " + (stretched ? ("pushing against the walls of your " + pc.vaginaDescript(pc.biggestVaginaIndex()))  : (" pushing fast and hard into your " + pc.vaginaDescript(pc.biggestVaginaIndex()))) + ".");
 	}
 	else
 	{
-		if (consent){
-			output(" The biggest one, " + (stretched ? "having stretched out the inside of your ass like a balloon" : "having penetrated your accommodating butt-hole") + ", has been pounding away, his bulging Raskvel cum-pouch slapping against your buttocks. <i>“Mmmm, fuck yeah”</i> you moan, feeling the warmth of his rock-hard fuck-rod " + (stretched ? "pushing against the walls of your ass" : "brushing against your asshole") + ".");
-		}
-		else{
-			output(" The biggest one, " + (stretched ? "having stretched you to his size like a fresh condom, has been slamming his boiling, rock-hard dick into you with force, it burning against the walls of your insides," : "has been slamming his boiling, rock hard cock into you with force, ") + " his heavy seed-pouch slamming into the back of you with each thrust.");
-		}
+		output(" The biggest one, " + (stretched ? "having stretched out the inside of your ass like a balloon" : "having penetrated your accommodating butt-hole") + ", has been pounding away, his bulging Raskvel cum-pouch slapping against your buttocks. <i>“Mmmm, fuck yeah”</i> you moan, feeling the warmth of his rock-hard fuck-rod " + (stretched ? "pushing against the walls of your ass" : "brushing against your asshole") + ".");
 	}
 	
 	if (pc.hasVagina())
 	{
-		if (consent){
-			output(" The third one kneels atop you , pounding away, his pouch slapping your behind lightly as he moans <i>“Mmmm, so tight”</i>, his curvy fuck-rod travelling in and out of your anal canal, building and releasing pressure on each thrust as his cock brushing against your butthole.");
-		}
-		else{
-			output(" The third one's knees have been digging into your back as he kneels on top of you. <i>“Mmmm, so tight”</i> he laughs whilst his rock hard cock shoves in and out of your asshole, pressure building inside you as he refuses to give your ass any time to breath.");
-		}
+		output(" The third one kneels atop you , pounding away, his pouch slapping your behind lightly as he moans <i>“Mmmm, yeah, you're so good”</i>, his curvy fuck-rod travelling in and out of your anal canal, building and releasing pressure on each thrust as his cock brushing against your butthole.");
 	}
 	else
 	{
-		if (consent){
-			output(" The third one's thick veiny cock is now burning in your hand, throbbing as you slide your hand along it. <i>“Ooah, you're so good”</i> he gasps , his cock just about ready to burst.");
-		}
-		else{
-			output(" <i>“Mmmm, keep fucking this cumdump”</i> the third one moans, watching you get knocked back and forth by his brethren whilst he beats his reddening, veiny cock to what's unfolding.");
-		}
+		output(" The third one's thick veiny cock is now burning in your hand, throbbing as you slide your hand along it. <i>“Ooah, you're so good”</i> he gasps , his cock just about ready to burst.");
 	}
 	
 	output("\nTheir movements get faster and their cocks bigger. The ");
-	
-	if (consent) output("pleasure you feel from their cocks being buried in your "); 
-	else output("pressure you feel from their cocks being buried in your "); 
-	
+	output("pleasure you feel from their cocks being buried in your "); 
 	output("orrifices is overwhelming");
 	if (pc.hasCock())
 	{
-		if (!consent)
-		{
-			output(". Even though you were initially hating every minute of it"); 
-			
-		}
 		output(", your cock is about to burst from all the fucking they're giving you.");	
 	}
 	else{
-		if (!consent)
-		{
-			output(". Even though you were very against their assault"); 
-			
-		}
-		output(", they've started to feel pretty good, their cocks stimulating your insides to the point where you feel close to the edge.");	
+		output(", their cocks stimulating your insides to the point where you feel close to the edge.");	
 	}
 	
 	output(" But seemingly you're pretty overwhelming too.");
-	if (consent)
+	if (pc.hasVagina())
 	{
-		if (pc.hasVagina())
-		{
-			output("You feel the boiling dicks in your fuck-holes stiffen and throb against each other through the thin wall between your backdoor and asshole. <i>“Mmm come on boys, fill me up!”</i> you cackle as with each pulsation cum flys from their cocks, shooting against your insides, flooding deeper and deeper into you.");
-			output("As they do this, the Raskvel at your front lets out a long moan and his milky cum fires against the back of your throat, flooding your airways, your nose filled with the scent of his cum inside you.");
-		}
-		else
-		{
-			output("You feel the boiling dick in your fuck-hole stiffen and throb against the walls, with each pulsation firing hot cum into the walls of your rectum, filling you with raskvel cum.");
-			output("As this happens, the Raskvel at your front lets out a long moan and his milky cum fires against the back of your throat, flooding your airways, your nose filled with the scent of his cum inside you.");
-			output("The reddened, pre-cum tipped, veiny dick in your hand, finally erupts and fires its hot bounty all over your saliva-drenched face and [pc.chest].");
-		}
-		
-		output("\nContent, you roll onto your back and smile. You swallow the last of the load in your mouth, licking your lips as you do so. <i>“Mmm that was great boys. I hope you come back soon”</i>. <i>“Mmm, we will”</i> the Raskval respond, cocks wiggling and dripping cum as they scurry out the door.");	
-		if (flags["PREG_RASK_RETURNED_RASKGANG_CONSENT"] == undefined) flags["PREG_RASK_RETURNED_RASKGANG_CONSENT"] = true;
+		output("You feel the boiling dicks in your fuck-holes stiffen and throb against each other through the thin wall between your backdoor and asshole. <i>“Mmm come on boys, fill me up!”</i> you cackle as with each pulsation cum flys from their cocks, shooting against your insides, flooding deeper and deeper into you.");
+		output("As they do this, the Raskvel at your front lets out a long moan and his milky cum fires against the back of your throat, flooding your airways, your nose filled with the scent of his cum inside you.");
 	}
 	else
 	{
-		if (pc.hasVagina())
-		{
-			output("You feel the boiling dicks in your passages stiffen and thump against each other through the thin wall between your backdoor and asshole and with each pulsation cum shoots against your insides, flooding you with their unwanted cum.");
-			output("As they do this, the Raskvel at your front lets out a long moan and says <i>“Ooh, I hope you're ready for my cum”</i>. As you squeal in protest, his salty load fires against the back of your throat, blocking your airways, your nose filled with his scent");
-		}
-		else
-		{
-			output("You feel the boiling dick in your ass stiffen and thump against the walls, with each pulsation firing against your insides, filling you with unwanted raskvel cum.");
-			output("As this happens, the Raskvel at your front lets out a long moan and says <i>“Ooh, I hope you're ready for my cum”</i>. As you squeal in protest, his salty load fires against the back of your throat, blocking your airways, your nose filled with his scent");
-			output("As you protest and squeal, the third Raskvel fires his hot load, covering your red spit-covered face and chest.");
-		}
-		
-		output("\nHaving forced themselves upon you to completion, the raskvel gangbangers scamper off out the door, laughing, leaving you tied, demeaned and full of their cum.");
-		if (flags["PREG_RASK_RETURNED_RASKGANG_CONSENT"] == undefined) flags["PREG_RASK_RETURNED_RASKGANG_CONSENT"] = false;
-		soreDebuff(3);
+		output("You feel the boiling dick in your fuck-hole stiffen and throb against the walls, with each pulsation firing hot cum into the walls of your rectum, filling you with raskvel cum.");
+		output("As this happens, the Raskvel at your front lets out a long moan and his milky cum fires against the back of your throat, flooding your airways, your nose filled with the scent of his cum inside you.");
+		output("The reddened, pre-cum tipped, veiny dick in your hand, finally erupts and fires its hot bounty all over your saliva-drenched face and [pc.chest].");
 	}
+	
+	output("\nContent, you roll onto your back and smile. You swallow the last of the load in your mouth, licking your lips as you do so. <i>“Mmm that was great boys. I hope you come back soon”</i>. <i>“Mmm, we will”</i> the Raskval respond, cocks wiggling and dripping cum as they scurry out the door.");	
+	if (flags["PREG_RASK_RETURNED_RASKGANG"] == undefined) flags["PREG_RASK_RETURNED_RASKGANG"] = true;
 	
 	if (pc.hasVagina())
 	{
@@ -5272,21 +5167,6 @@ public function denRestMistaken():void
 	processTime(20);
 	pc.energy(-10);
 	
-	if (consent){addButton(0, "Next", mainGameMenu);}
-	else{addButton(0, "Next", denRestMistaken_Untie);}
-}
-
-public function denRestMistaken_Untie():void
-{
-	processTime(40);
-	clearMenu();
-	clearOutput();
-	showPregRaskReturn();
-	author("HNB");
-	
-	var lvl:int = getBroodmotherLevel();
-	
-	output("After 40 minutes of waiting the Broodmother shoots awake from her slumber and notices you tied up. She " + (lvl <= 3 ? "waddles" : "rolls") + " over and cackles <i>“Ahaha, looks like you got my wakeup call instead. It's a shame but seeing you like this makes it worth it”</i> before freeing you from your binds.");
 	addButton(0, "Next", mainGameMenu);
 }
 
