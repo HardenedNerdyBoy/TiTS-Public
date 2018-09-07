@@ -4911,7 +4911,7 @@ public function denRestMistaken():void
 	addButton(0, "No", denRestMistaken_No);
 }
 
-public function denRestMistaken_no):void
+public function denRestMistaken_No():void
 {
 	output("<i>“Uhh, no, sorry. Not me.”</i> you respond.");
 	output("<i>“Oh, uhh okay. Sorry!”</i> their leader replies, slumping over and walking away, a look of disappointment on his face, his cronies in tow.");

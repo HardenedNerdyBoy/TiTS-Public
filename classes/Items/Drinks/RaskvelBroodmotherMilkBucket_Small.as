@@ -9,6 +9,7 @@
 	import classes.StringUtil;
 	import classes.Engine.Interfaces.*;
 	import classes.Engine.Combat.inCombat;
+	import classes.Items.Miscellaneous.EmptyBucket;
 	
 	public class RaskvelBroodmotherMilkBucket_Small extends ItemSlotClass
 	{
