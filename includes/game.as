@@ -4528,7 +4528,7 @@ public function processRaskvelBroodmotherPregnancy(days:int):void
 	else if (lvl == 4) daysToBirth = 3;
 	else daysToBirth = 2;
 	
-	//If pregnant and it's it'd be ready for birth
+	//If pregnant and ready for birth
 	if (flags["PREG_RASK_RETURNED_ISPREGNANT"] == true && int(flags["PREG_RASK_RETURNED_LASTIMPREGNATED"] + daysToBirth) <= (int(GetGameTimestamp() / 1440) + days))
 	{
 		// Check for her birthing your children

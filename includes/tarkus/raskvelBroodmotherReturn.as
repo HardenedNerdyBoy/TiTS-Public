@@ -17,26 +17,15 @@ import classes.Engine.Utility.rand;
 
 public function getPregRaskReturn_BustName():String 
 {
-	var bustStr:String = "PREGRASK_";
-	
-	// _LVL
-	bustStr += ("LVL" + getBroodmotherLevel().toString());
-	
-	// _Clothes
-	if (flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"] != undefined)
+	var lvl:int = getBroodmotherLevel();
+	if (lvl < 4)
 	{
-		bustStr += ("_" + flags["PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING"]);
+		return "RASKVEL_FEMALE_NUDE";
 	}
-	
-	if (isBroodmotherTreated())
+	else 
 	{
-		bustStr += "_TREATED";
+		return "PREGRASK";
 	}
-	if (isBroodmotherFuta())
-	{
-		bustStr += "_FUTA";
-	}
-	return bustStr.toUpperCase();
 }
 
 public function getPregRaskReturn_Name():String 
@@ -3616,8 +3605,8 @@ public function hyperRaskFun_Return():void
 			output("\n\n<i>“That’s it?”</i> the raskvel says, gesturing wildly. <i>“All that effort and you barely get me half a dozen orgasms, and enough jizz to impregnate an ant? How dafuck am I supposed to get knocked up when ");
 			if(pc.balls > 1) output("your balls are");
 			else if(pc.balls == 1) output("your ball is");
-			else output("your body");
-			output(" is more dried out than sydian’s sense of humor? It’s like you bolted a fucking a giant, discount dildo on your crotch.”</i> She windmills her tiny fists in irritation, screaming, <i>“GET YOUR SHIT AND GET OUT! Fucking... fake-ass dick-having off-world losers!”</i>");
+			else output("your body is");
+			output(" more dried out than sydian’s sense of humor? It’s like you bolted a fucking a giant, discount dildo on your crotch.”</i> She windmills her tiny fists in irritation, screaming, <i>“GET YOUR SHIT AND GET OUT! Fucking... fake-ass dick-having off-world losers!”</i>");
 			output("\n\nMaybe if you had some time to rest, you would’ve had a better load for her. Too late now.");
 		}
 		//<50jizz - spit into bucket, a little disappointed but not mad. Recommends you eat some spunkshrooms.
@@ -4230,7 +4219,7 @@ public function denInside():void
 		switch (lvl)
 		{
 			case 0:
-				output("the Raskvel Broodmother, her expression a mixture of sadness and frustration. Her belly has completely flattened out and all her features that you enjoyed before completely wethered away.");
+				output("the Raskvel Broodmother, her expression a mixture of sadness and frustration. Her belly has completely flattened out and all her features that you enjoyed before completely withered away.");
 				if (flags["PREG_RASK_RETURNED_BEFORE"] == undefined)
 				{
 					output("\nTaking the motherhusks from her has clearly had quite the effect on her. She clearly has not been pregnant for some time and the den looks significantly less used than before too, with no cum-puddles in sight.");
