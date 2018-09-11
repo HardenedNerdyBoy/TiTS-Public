@@ -4524,8 +4524,7 @@ public function processRaskvelBroodmotherPregnancy(days:int):void
 	var daysToBirth:int;
 	var lvl:int = getBroodmotherLevel();
 	
-	if (lvl <= 3) daysToBirth = 4;
-	else if (lvl == 4) daysToBirth = 3;
+	if (lvl == 1) daysToBirth = 3;
 	else daysToBirth = 2;
 	
 	//If pregnant and ready for birth
@@ -4559,8 +4558,8 @@ public function processRaskvelBroodmotherEvents(deltaT:uint, doOut:Boolean, tota
 	}
 	var lvl:int = getBroodmotherLevel();
 	
-	// Her random events every 8-lvl if lvl != 0
-	if (lvl != 0 && ((newHours % (8 - lvl)) == 0))
+	// Her random events every 4/lvl if lvl != 0
+	if (lvl != 0 && ((newHours % (4 / lvl)) == 0))
 	{
 		//Need to check whether it's a new 1 hour session since last time
 		if (flags["PREG_RASK_RETURNED_EVENT_LASTTIME"] != newHours)
@@ -4588,13 +4587,13 @@ public function processRaskvelBroodmotherEvents(deltaT:uint, doOut:Boolean, tota
 				{
 					var cumMap:Object = new Object();
 					cumMap.players = false;
-					if (cumStored + (20 * lvl) >= cap)
+					if (cumStored + (40 * lvl) >= cap)
 					{
 						cumMap.cumQ = (cap - cumStored);
 					}
 					else
 					{
-						cumMap.cumQ = (20 * lvl);
+						cumMap.cumQ = (40 * lvl);
 					}
 					flags["PREG_RASK_RETURNED_CUMSTORAGE"].push(cumMap);
 				}

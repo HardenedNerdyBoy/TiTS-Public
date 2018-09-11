@@ -80,63 +80,12 @@
 					this.bellyRatingRaw = 5;
 					this.vaginas[0].wetnessRaw = 2;
 					this.vaginas[0].loosenessRaw = 2;
-					this.vaginas[0].bonusCapacity = 220 + (lvl * 120);
+					this.vaginas[0].bonusCapacity = 220;
 					this.vaginas[0].vagooFlags = [GLOBAL.FLAG_LUBRICATED];
 					this.ass.wetnessRaw = 0;
 					this.ass.bonusCapacity += 20;
 					this.ass.loosenessRaw = 0;
 				case 1:
-					this.hairLength = 14;
-					this.tone = 12;
-					this.thickness = 25;
-					this.lipMod = 1;
-					this.breastRows[0].breastRatingRaw = 10;
-					this.breastRows[0].nippleType = GLOBAL.NIPPLE_TYPE_NORMAL;
-					this.hipRatingRaw = 10;
-					this.buttRatingRaw = 10;
-					this.bellyRatingRaw = 10;
-					this.vaginas[0].wetnessRaw = 2;
-					this.vaginas[0].loosenessRaw = 2;
-					this.vaginas[0].bonusCapacity = 220 + (lvl * 120);
-					this.vaginas[0].vagooFlags = [GLOBAL.FLAG_LUBRICATED];
-					this.ass.wetnessRaw = 0;
-					this.ass.bonusCapacity += 25;
-					this.ass.loosenessRaw = 1;
-				case 2:
-					this.hairLength = 25;
-					this.tone = 8;
-					this.thickness = 35;
-					this.lipMod = 1;
-					this.breastRows[0].breastRatingRaw = 28;
-					this.breastRows[0].nippleType = GLOBAL.NIPPLE_TYPE_NORMAL;
-					this.hipRatingRaw = 15;
-					this.buttRatingRaw = 13;
-					this.bellyRatingRaw = 24;
-					this.vaginas[0].wetnessRaw = 2;
-					this.vaginas[0].loosenessRaw = 2;
-					this.vaginas[0].bonusCapacity = 220 + (lvl * 120);
-					this.vaginas[0].vagooFlags = [GLOBAL.FLAG_LUBRICATED];
-					this.ass.wetnessRaw = 0;
-					this.ass.bonusCapacity += 30;
-					this.ass.loosenessRaw = 1;
-				case 3:
-					this.hairLength = 28;
-					this.tone = 6;
-					this.thickness = 45;
-					this.lipMod = 1;
-					this.breastRows[0].breastRatingRaw = 40;
-					this.breastRows[0].nippleType = GLOBAL.NIPPLE_TYPE_NORMAL;
-					this.hipRatingRaw = 15;
-					this.buttRatingRaw = 18;
-					this.bellyRatingRaw = 50;
-					this.vaginas[0].wetnessRaw = 3;
-					this.vaginas[0].loosenessRaw = 3;
-					this.vaginas[0].bonusCapacity = 220 + (lvl * 120);
-					this.vaginas[0].vagooFlags = [GLOBAL.FLAG_LUBRICATED];
-					this.ass.wetnessRaw = 1;
-					this.ass.bonusCapacity += 40;
-					this.ass.loosenessRaw = 1;
-				case 4:
 					this.hairLength = 32;
 					this.tone = 5;
 					this.thickness = 96;
@@ -150,32 +99,12 @@
 					this.bellyRatingRaw = 95;
 					this.vaginas[0].wetnessRaw = 3;
 					this.vaginas[0].loosenessRaw = 3;
-					this.vaginas[0].bonusCapacity = 220 + (lvl * 120);
+					this.vaginas[0].bonusCapacity = 700;
 					this.vaginas[0].vagooFlags = [GLOBAL.FLAG_LUBRICATED];
 					this.ass.wetnessRaw = 1;
 					this.ass.bonusCapacity += 50;
 					this.ass.loosenessRaw = 2;
-				case 5:
-					this.hairLength = 35;
-					this.tone = 3;
-					this.thickness = 98;
-					this.lipMod = 2;
-					this.horns = 0;
-					this.hornType = GLOBAL.TYPE_BOVINE;
-					this.breastRows[0].breastRatingRaw = 50;
-					this.breastRows[0].nippleType = GLOBAL.NIPPLE_TYPE_NORMAL;
-					this.hipRatingRaw = 30;
-					this.buttRatingRaw = 20;
-					this.bellyRatingRaw = 95;
-					this.vaginas[0].wetnessRaw = 4;
-					this.vaginas[0].loosenessRaw = 4;
-					this.vaginas[0].bonusCapacity = 220 + (lvl * 120);
-					this.vaginas[0].vagooFlags = [GLOBAL.FLAG_LUBRICATED];
-					this.ass.wetnessRaw = 1;
-					this.ass.bonusCapacity += 55;
-					this.ass.loosenessRaw = 2;
-					this.ass.vagooFlags = [GLOBAL.FLAG_PLUGGED];
-				case 6:
+				case 2:
 					this.hairLength = 35;
 					this.tone = 3;
 					this.thickness = 98;
@@ -189,7 +118,7 @@
 					this.bellyRatingRaw = 95;
 					this.vaginas[0].wetnessRaw = 4;
 					this.vaginas[0].loosenessRaw = 4;
-					this.vaginas[0].bonusCapacity = 220 + (lvl * 120);
+					this.vaginas[0].bonusCapacity = 940;
 					this.vaginas[0].vagooFlags = [GLOBAL.FLAG_LUBRICATED];
 					this.ass.wetnessRaw = 1;
 					this.ass.bonusCapacity += 55;
@@ -202,15 +131,15 @@
 		{						
 			this.cocks = new Array();
 			this.createCock();
-			this.cocks[0].cThicknessRatioRaw = (lvl >= 4 ? 1.5 : 1);
+			this.cocks[0].cThicknessRatioRaw = (lvl > 0 ? 1.5 : 0.5);
 			this.cocks[0].cLengthRaw = (4 + (lvl * 1.5));
 			this.cocks[0].addFlag(GLOBAL.FLAG_TAPERED);
 			this.cocks[0].cType = GLOBAL.TYPE_RASKVEL;
 			this.cocks[0].cockColor = "purple";
 			this.balls = 1;
-			this.cumMultiplierRaw = 5 + (lvl * 5);
+			this.cumMultiplierRaw = 5 + (lvl * 20);
 			//Multiplicative value used for impregnation odds. 0 is infertile. Higher is better.
-			this.cumQualityRaw = 5 + (lvl * 5);
+			this.cumQualityRaw = 5 + (lvl * 20);
 			this.cumType = GLOBAL.FLUID_TYPE_CUM;
 			this.ballSizeRaw = 30;
 			this.ballFullness = 100;
@@ -219,7 +148,7 @@
 			//Scales from 0 (never produce more) to infinity.
 			this.refractoryRate = 360;
 			this.timesCum = 0;
-			this.minutesSinceCum = (8 - lvl) * 60;
+			this.minutesSinceCum = (3 - lvl) * 30;
 		}
 		
 		public function configTreated(lvl:int):void
