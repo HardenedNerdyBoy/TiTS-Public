@@ -1679,7 +1679,6 @@
 		public function get emstormdragon():EMStormDragon
 		{
 			return chars["STORMDRAGON"];
->>>>>>> master
 		}
 
 		public function testShipCombat():void
