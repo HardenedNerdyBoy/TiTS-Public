@@ -564,7 +564,7 @@ public function visitLaneAfterDetoxing():void
 			output("\n\nIt’s not difficult to find Lane, sitting at [lane.hisHer] desk as [lane.heShe] lazily flips through something on [lane.hisHer] codex. [lane.HeShe] looks up, at first to greet a new customer into coming into [lane.hisHer] plane, but [lane.hisHer] emotion washes away the moment [lane.heShe] registers you.");
 
 			output("\n\n<i>“Lane!</i> you shout, trying to sound as aggressive as you can. You march into [lane.hisHer] office,");
-			if (!(pc.meleeWeapon is Rock)) output(" one hand on your [pc.meleeWeapon]");
+			if (pc.hasMeleeWeapon()) output(" one hand on your [pc.meleeWeapon]");
 			else output(" popping the joints in your neck");
 			output(" as you slap down on [lane.hisHer] table. You make it as obvious as you can that [lane.heShe]’s in trouble and that no amount of pleading is going to stop you.");
 
@@ -573,7 +573,7 @@ public function visitLaneAfterDetoxing():void
 			output("\n\nAt the first flash of light from [lane.hisHer] tassels, you feel your strength begin to leave you. Stars begin to fill your vision and the fight starts to drain from your arms... but, with a hard blink and a vigorous head shake, you clear the stuffiness from your senses and start your rampage against [lane.himHer] again. <i>“That’s not going to work on me anymore, you motherfucker!”</i>");
 
 			output("\n\n<i>“How could you break my hold on you?!”</i> [lane.heShe] bellows, backing away from a mighty swing. Your");
-			if (pc.meleeWeapon is Rock) output(" fist");
+			if (!pc.hasMeleeWeapon()) output(" fist");
 			else output(" [pc.meleeWeapon]");
 			output(" collides harmlessly with the curtain separating [lane.hisHer] office into two. You grip onto the fabric and, with a yank, pull it from the tracks keeping it connected to the ceiling. <i>“Nobody’s ever done that before! It should have been impossible!”</i>");
 
@@ -617,14 +617,14 @@ public function visitLaneAfterDetoxing():void
 		output("\n\nIt’s not difficult to find Lane, sitting at [lane.hisHer] desk as [lane.heShe] lazily flips through something on [lane.hisHer] codex. [lane.HeShe] looks up, at first to greet a new customer into coming into [lane.hisHer] plane, but [lane.hisHer] emotion washes away the moment [lane.heShe] registers you.");
 
 		output("\n\n<i>“Lane!</i> you shout, trying to sound as aggressive as you can. You march into [lane.hisHer] office,");
-		if (!(pc.meleeWeapon is Rock)) output(" one hand on your [pc.meleeWeapon]");
+		if (pc.hasMeleeWeapon()) output(" one hand on your [pc.meleeWeapon]");
 		else output(" popping the joints in your neck");
 		output(" as you slap down on [lane.hisHer] table. You make it as obvious as you can that [lane.heShe]’s in trouble and that no amount of pleading is going to stop you.");
 
 		output("\n\nLane leaps from [lane.hisHer] chair in response, fearful for [lane.hisHer] own safety, and instinctively opens [lane.hisHer] tassels to you. The adrenaline coursing through [lane.hisHer] blood speeds up [lane.hisHer] heart rate, making the lights of [lane.hisHer] body pulse brighter. Your first thought is to shield your eyes – but your hands suddenly become rather heavy. Your eyelids, however, are light as could be.");
 
 		output("\n\nYour ‘rampage’ against [lane.himHer] ends as quickly as it starts. Your arms hang limp at your sides");
-		if (!(pc.meleeWeapon is Rock)) output(" and you drop your [pc.meleeWeapon] harmlessly");
+		if (!pc.hasMeleeWeapon()) output(" and you drop your [pc.meleeWeapon] harmlessly");
 		output(" as [lane.heShe] absorbs you once again. [lane.HeShe] still looks afraid, pressed against the far wall, but when [lane.heShe] realizes why you’ve stopped, [lane.heShe] peels [lane.himHer]self away.");
 
 		output("\n\nYour mind’s voice screams at you to move, to thrash [lane.himHer] and take back what belonged to you. You fought so hard to break away from Lane – you should be clean now! [lane.HeShe] should have no power over you anymore! But your body disobeys your every command, and, on its own volition, you drop to your [pc.knees], looking up at Lane helplessly.");
@@ -858,6 +858,7 @@ public function discoverLanesShop():void
 
 public function laneGenderSelect(g:String):void
 {
+	flags["MET_LANE"] = 1;
 	if (g == "male")
 	{
 		lane.configMale();
@@ -872,7 +873,6 @@ public function laneGenderSelect(g:String):void
 	{
 		throw new Error("Invalid gender detected. Wakka wakka.");
 	}
-	flags["MET_LANE"] = 1;
 }
 
 public function meetMaleLane():void
@@ -2038,7 +2038,9 @@ public function fuckedByFemLane():void
 
 	output("Lane roughly shoves you in your chest, knocking you off your [pc.feet] and onto your ass onto her bed. Before you can rub the sore spot she had hit, she has your [pc.hair] in her hand, gripping you tight enough to pay attention. <i>“We’re going to have some fun,”</i> she says. That makes you shiver. <i>“Before we begin, I need some... encouragement. Show me how enthusiastic you are for me.”</i>");
 
-	output("\n\nShe pulls you forward by your hair, until your nose presses hard against the scales of her lower belly. The glowing underneath her thicker skin is less pronounced, but so close, you can practically taste her with her scent. She tilts your head until your lips are pressed against her soft, pliable, sensitive (and more than a little tasty) Daynarian cunt. She’s clearly aroused enough, but she wants you to excite her, so that’s what you want too.");
+	output("\n\nShe pulls you forward");
+	if(pc.hasHair()) output(" by your hair,");
+	output(" until your nose presses hard against the scales of her lower belly. The glowing underneath her thicker skin is less pronounced, but so close, you can practically taste her with her scent. She tilts your head until your lips are pressed against her soft, pliable, sensitive (and more than a little tasty) Daynarian cunt. She’s clearly aroused enough, but she wants you to excite her, so that’s what you want too.");
 
 	output("\n\nShe moans out once you pucker your [pc.lips] and slide them over her own. She sways and swings her hips, putting on a bit of a dance for you as you go down on her. You tentatively raise your hands to grope onto her hips, but she swats both of them away with her free hand. <i>“Just your mouth, pet. I want to feel what you’re capable of.”</i> You moan out and acquiesce.");
 

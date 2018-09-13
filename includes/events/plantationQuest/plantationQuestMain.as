@@ -66,10 +66,27 @@ public function showKane(nude:Boolean = false):void
 }
 public function showQuinn(nude:Boolean = false):void
 {
-	var nudeSuffix:String = "";
-	if(nude) nudeSuffix += "_NUDE";
-	showBust("QUINN" + nudeSuffix);
+	showBust(quinnBustDisplay());
 	showName("\nQUINN");
+}
+public function quinnBustDisplay(nude:Boolean = false):String
+{
+	var sBust:String = "QUINN";
+	var pregDays:int = quinnPregDays();
+	
+	if(pregDays > 30)
+	{
+		if(pregDays <= 80 && flags["QUINN_TOTAL_KIDS"] <= 0) sBust += "_PREG";
+		else if(pregDays <= 130) sBust += "_PREG_TITS";
+		else sBust += "_PREG_HUGE";
+	}
+	else if(flags["QUINN_TOTAL_KIDS"] > 0)
+	{
+		sBust += "_MOMMY";
+	}
+	if(nude) sBust += "_NUDE";
+	
+	return sBust;
 }
 public function showLah(nude:Boolean = false):void
 {
@@ -81,12 +98,12 @@ public function showLah(nude:Boolean = false):void
 public function showLahAndQuinn():void
 {
 	showName("RK LAH\n& QUINN");
-	showBust("LAH","QUINN");
+	showBust("LAH",quinnBustDisplay());
 }
 public function showQuinnAndLah():void
 {
 	showName("RK LAH\n& QUINN");
-	showBust("LAH","QUINN");
+	showBust("LAH",quinnBustDisplay());
 }
 
 public function quinnVaginalCapacity():Number
@@ -631,7 +648,7 @@ public function waterfallPoolBonusSchtuff():Boolean
 	{
 		output("You are on the open, mossy plateau at the bottom of the waterfall. It comes thundering down from many feet above into a deep pool. The vast, ceaseless power of it throws up writhing veils of white vapor that breathe blessings on your hot [pc.skinFurScales]. It is shouldered by sheer, red rock cliffs that climb out of the jungle both to the east and west. It is certainly a daunting prospect - but you can, of course, get some help up to the top with a shout.");
 		output("\n\nBehind you, the pool empties out into a wide brook, which leads steeply downwards to the south.");
-		if(flags["PQ_RESOLUTION"] != -1) addButton(0,"Go Up",goUpZeWaterfall,undefined,"Go Up","Or are you interested in practising your rock climbing?");
+		if(flags["PQ_RESOLUTION"] != -1) addButton(0,"Go Up",goUpZeWaterfall,undefined,"Go Up","Or are you interested in practicing your rock climbing?");
 	}
 	
 	if(flags["WATERFALL_TAXI_RELAY"] != undefined)
@@ -903,9 +920,7 @@ public function loseToKane():void
 	showKane();
 	author("Nonesuch");
 	showName("DEFEAT:\nKANE");
-	IncrementFlag("LOST_TO_KANE");
-	IncrementFlag("KANE_SEXED");
-	IncrementFlag("KANE_BLOWN");
+	
 	if(pc.HP() <= 1) output("The strength departs your [pc.legOrLegs] and you collapse, hands sinking into soft moss. You shake your head urgently and throw your [pc.weapon] down when you hear the deadly whirr of the stone approaching. <i>Anything</i> but getting hit by that again.");
 	else output("Your head swims. Everything seems to drip with honey, you can practically taste and feel it on your [pc.lips] and [pc.tongue], and oh Void the thought of being touched and roughly used when you’re in this state... you barely notice your [pc.weapon] tumbling out of your hand. It’s no longer of any importance.");
 	output("\n\nKane walks across to you slowly, only letting his weapon softly thump down into the moss when it’s completely obvious you aren’t bluffing; when he’s almost on top of you, and the smell of him is billowing thickly over your senses.");
@@ -992,6 +1007,8 @@ public function loseToKane():void
 	CombatManager.genericLoss();
 	
 	IncrementFlag("LOST_TO_KANE");
+	IncrementFlag("KANE_SEXED");
+	IncrementFlag("KANE_BLOWN");
 }
 
 //FOOT OF THE CLIFF
@@ -1095,7 +1112,7 @@ public function topOfTheCliffBonus():Boolean
 	if(silly) output("A flock of bird creatures fly by, conveniently providing a sense of scale. ");
 	output("You think you can make out the gleaming white of Esbeth in the distance - and the gleaming reflection of spacecraft taking off and coming in. You are standing on the bare banks of the river which forms the waterfall. The rapids gurgle and chunter as it hurls itself off the outcropping rocks to make the distant thunder at least a hundred feet down.");
 	output("\n\nAhead, arranged around the river in the squat, lime, cedar-like trees that grow up here, are zil buildings - pale yellow and disc-shaped, almost like giant fungi growing out of the forest.");
-	if(flags["PQ_RESOLUTION"] >= 1) addButton(0,"Go Down",goDownZeCliff,undefined,"Go Down","Or are you interested in practising your rock climbing?");
+	if(flags["PQ_RESOLUTION"] >= 1) addButton(0,"Go Down",goDownZeCliff,undefined,"Go Down","Or are you interested in practicing your rock climbing?");
 	return false;
 }
 
@@ -1692,7 +1709,7 @@ public function chieftansCircleBonusFuckery():Boolean
 	//PC sided with Lah, has not visited Plantation since
 	else if(flags["PQ_RESOLUTION"] == 2)
 	{
-		showBust("QUINN","LAH");
+		showBust(quinnBustDisplay(),"LAH");
 		if(flags["PQ_P_BURNED"] == undefined)
 		{
 			output("You are on the small plateau that stands at the head of the zil village. The top of the promontory is flat, sandy and round, surrounded by the fungus-shaped zil homes, and has a circle of stones in the middle. On the opposite side of the natural terrace there is the ornate, trophy-laden chieftain’s chair, upon which Quinn lounges. She arches her eyebrows in response to your gaze.");
@@ -1723,7 +1740,7 @@ public function chieftansCircleBonusFuckery():Boolean
 	//PC got peaceful resolution
 	else if(flags["PQ_RESOLUTION"] == 1)
 	{
-		showBust("QUINN");
+		showBust(quinnBustDisplay());
 		// Quinn Mom
 		if(flags["QUINN_KID_NAME"] != undefined && quinnBabyAge() >= 365)
 		{
@@ -1769,7 +1786,7 @@ public function fightTheWholeVillageYaMaroon():void
 {
 	clearOutput();
 	showQuinn();
-	showBust("QUINN","ZIL_TRIBE");
+	showBust(quinnBustDisplay(),"ZIL_TRIBE");
 	author("Nonesuch");
 	output("<i>“I came here to bring an escaped convict to justice,”</i> you say, drawing your [pc.weapon], <i>“and that’s exactly what I intend to do.”</i>");
 	output("\n\n<i>“Suffer our wrath then, land-stealer,”</i> Quinn replies coolly. The angry buzz grows into a throbbing snarl that presses upon you from every side, and the entire throng of warrior zil descends on you, torches and flint-blades flashing.");
@@ -1902,7 +1919,19 @@ public function challengeLahToAFight():void
 		output("\n\n<i>“It is fair,”</i> Quinn nods. Amusement is playing with one corner of her mouth; she rearranges herself on her throne, re-crossing her gleaming legs. <i>“Reassert yourself word-wolf, as is our custom. It will be pleasing to me.”</i>");
 		output("\n\nLah clutches at the air in total exasperation - and then, with a reluctant huff, descends to the stone circle. The hum around you is now one of excited anticipation, and the crowd of zil close in around you. Several of them gather around Lah, and he emerges from them armed with a short stabbing spear.");
 		output("\n\n<i>“Lay down your weapons and take off your armor,”</i> he growls, glaring at the sandy ground in front of you. <i>“I know - pigs - have no knowledge of the concept, but this is supposed to be - yes, a fair fight.”</i>");
-		output("\n\nThere’s no backing down now, unless you intend to start firing into the crowd. You throw your [pc.meleeWeapon] and [pc.rangedWeapon] to the ground");
+		output("\n\nThere’s no backing down now, unless you intend to start firing into the crowd. ");
+		if(pc.hasEquippedWeapon()){
+			if(pc.hasMeleeWeapon()){
+				output("You throw your [pc.meleeWeapon]");
+				if(pc.hasRangedWeapon()){
+					output(" and [pc.rangedWeapon] to the ground");
+				}else{
+					output(" to the ground");
+				}
+			} else {
+				output("You throw your [pc.rangedWeapon] to the ground");
+			}
+		}	
 		if(!(pc.armor is EmptySlot)) 
 		{
 			output(" before taking off your [pc.armor]");
@@ -2182,7 +2211,7 @@ public function pcBeatsUpAWholeTribeNewsAt11():void
 	flags["PQ_SECURED_LAH"] = 1;
 	output("\n\n(<b>Key Item Gained:</b> RK Lah - Captured)");
 	pc.createKeyItem("RK Lah - Captured");
-
+	
 	//[Fuck Her] [Let Her Go]
 	if(pc.hasCock() && pc.cockThatFits(quinnVaginalCapacity()) >= 0) addButton(0,"Use Dick",putItInQuinnYaCunt,undefined,"Use Dick","To the victor go the spoils...");
 	else addDisabledButton(0,"Use Dick","Use Dick","You need a dick that will fit inside Quinn for this.");
@@ -2450,7 +2479,7 @@ public function acceptQuinnsJudgimentos():void
 public function insistOnBeingADickbag():void
 {
 	clearOutput();
-	showBust("QUINN","ZIL_TRIBE");
+	showBust(quinnBustDisplay(),"ZIL_TRIBE");
 	author("Nonesuch");
 	output("<i>“Sorry lady, that isn’t going to happen,”</i> you say, meaningfully reaching for your [pc.weapon]. <i>“Lah is coming with me.”</i>");
 	output("\n\n<i>“That’s a shame,”</i> replies Quinn coolly. <i>“I had formed quite a high opinion of you. But it turns out the word-wolf was right about another thing - you follow your orders mindlessly. And so you must die.”</i>");
@@ -2549,8 +2578,8 @@ public function leaveZeLovelyQuinnBeeeeeehind():void
 	if(inCombat())
 	{
 		output(" <i>“You have easily done enough to be treated as an honored guest in our village. ");
-		if(!pc.canFly()) output("Call at the bottom, and a ladder will be provided.");
-		else output("I can see you have no need for ladders. My people will not molest you when you fly up here, now that you have defeated the cliffs.");
+	if(!pc.canFly()) output("Call at the bottom, and a ladder will be provided.");
+	else output("I can see you have no need for ladders. My people will not molest you when you fly up here, now that you have defeated the cliffs.");
 		output("”</i>");
 	}
 	output(" She takes you in from tip to tail with those heavy-lidded, appraising " + (inCombat() ? "pits" : "rings") + " of gold again. <i>“You should visit often. Your Quinn requires much attention, after all.”</i>");
@@ -2579,8 +2608,8 @@ public function quinnAppearance():void
 	}
 	output("\n\n");
 	
-	clearMenu();
-	peacefulQuinnMenu();
+	//clearMenu();
+	//peacefulQuinnMenu();
 	addDisabledButton(1,"Appearance","Appearance","You’re looking at her right now.");
 }
 
@@ -2605,7 +2634,11 @@ public function peacefulQuinnMenu():void
 	quinnFestivalButton(4);
 	
 	// Add [Myne / Owers] option to [Quinn] main menu
-	if(flags["QUINN_KID_NAME"] != undefined && quinnBabyAge() >= 365) addButton(5, quinnBabyName(), approachQuinnBaby);
+	if(flags["QUINN_KID_NAME"] != undefined && quinnBabyAge() >= 365)
+	{
+		if(flags["QUINN_KID_PLAY_DAY"] == days) addDisabledButton(5, quinnBabyName(), ("Play with" + quinnBabyName()), "You’ve already played with Quinn’s kid today!");
+		else addButton(5, quinnBabyName(), approachQuinnBaby, undefined, ("Play with" + quinnBabyName()), "Spend some time with Quinn’s kid.");
+	}
 	
 	addButton(14,"Leave",leaveZeLovelyQuinnBeeeeeehind);
 }
@@ -3078,10 +3111,10 @@ public function approachQuinn():void
 		flags["MET_QUINN"] = 1;
 		//[Sex] [No] [Appearance]
 		clearMenu();
-		if(pc.hasVagina() || pc.cockThatFits(quinnVaginalCapacity()) >= 0) addButton(0,"Sex",sexWithQuinnOmnigenderWHYYYY);
-		else addDisabledButton(0,"Sex","Sex","You are not suitably endowed for sex with Quinn.");
 		addButton(1,"Appearance",quinnAppearance);
-		addButton(2,"No",noGiveMeMens);
+		if(pc.hasVagina() || pc.cockThatFits(quinnVaginalCapacity()) >= 0) addButton(2,"Sex",sexWithQuinnOmnigenderWHYYYY);
+		else addDisabledButton(2,"Sex","Sex","You are not suitably endowed for sex with Quinn.");
+		addButton(3,"No",noGiveMeMens);
 	}
 	//Repeat
 	else
@@ -3505,6 +3538,7 @@ public function talkToQuinnAboutHerself():void
 	}
 	processTime(4);
 	
+	talkedToQuinn();
 	flags["QUINN_TALK_HERSELF"] = 1;
 	
 	clearMenu();
@@ -3539,6 +3573,7 @@ public function quinnsEsbethTalk():void
 	}
 	processTime(3);
 	
+	talkedToQuinn();
 	flags["QUINN_TALK_ESBETH"] = 1;
 	
 	clearMenu();
@@ -3570,12 +3605,18 @@ public function askQuinnAboutTheNaleen():void
 	output("\n\n<i>“If you are that interested in them, feel free to go down there and experience the naleen mating ritual for yourself. Every tribute contributes to the accord we all enjoy, after all...”</i>");
 	processTime(5);
 	
+	talkedToQuinn();
 	flags["QUINN_TALK_NALEEN"] = 1;
 	
 	clearMenu();
 	addButton(0,"Next",talkToQuinnStuffGogogogogogogogogogo);
 }
 
+public function talkedToQuinn():void
+{
+	pc.createStatusEffect("Quinn Talk Cooldown", 0, 0, 0, 0, true, "", "", false, 0);
+	pc.setStatusMinutes("Quinn Talk Cooldown", 1440);
+}
 public function talkToQuinnStuffGogogogogogogogogogo():void
 {
 	if(canQuinnTalkPollenDance())
@@ -3616,7 +3657,7 @@ public function talkToQuinnStuffGogogogogogogogogogo():void
 	}
 	addButton(1,"Herself",talkToQuinnAboutHerself,undefined,"Herself","Ask how she became “Quinn”.");
 
-	if(flags["PQ_NALEENED"] == undefined) addButton(2,"Naleen",askQuinnAboutTheNaleen,undefined,"Naleen","Ask about the naleen you were unfortunate enough to encounter beneath the falls.");
+	if(flags["PQ_NALEENED"] != undefined) addButton(2,"Naleen",askQuinnAboutTheNaleen,undefined,"Naleen","Ask about the naleen you were unfortunate enough to encounter beneath the falls.");
 	else addButton(2,"Naleen",askQuinnAboutTheNaleen,undefined,"Naleen","Ask about the hissing you heard underneath the falls.");
 	
 	// Add [Herbs?] to talk options

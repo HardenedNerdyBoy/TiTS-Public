@@ -211,7 +211,7 @@ public function createLetterFromShade():String
 		{
 			msg = "Hey kid, welcome to the snowy little iceball I call home. Glad you could find the time off on your big important mission to come by.";
 			msg += "\n\nConsider my house... and bed... your home away from home while you’re here. It’s the first little hut between the Mead Hall and the temple, up in northern Irestead. Can’t miss it. Don’t worry, it’s bigger than it looks!";
-			msg += "\n\nGive me a re: before you stop by some evening, and I’ll have dinner cooking. Something to warm your bones up before I jump ’em. ;) Looking forward to seeing you!";
+			msg += "\n\nGive me a re: before you stop by some evening, and I’ll have dinner cooking. Something to warm your bones up before I jump ‘em. ;) Looking forward to seeing you!";
 			msg += "\n\nLove,";
 			msg += "\nShade";
 			
@@ -740,12 +740,12 @@ public function approachShadeAtHouse(response:String = "intro"):void
 			output("\n\nYou hear a snort from the other room. <i>“Get your head out of the gutter, kiddo. Can’t exactly control the way my heart goes... and besides, we’ve got a lot more in common than... that.”</i>");
 			output("\n\n<i>“Sorry,”</i> you laugh, glancing around the pictures of Astra on the walls. She is cute, that’s for sure. Glad you found out now, otherwise you might have ended up flirting with her had you ever met. Speaking of which, <i>“Where’s she now?”</i>");
 			// KQ2 done, beat Amara w/o seeing Shade:
-			if(flags["KQ2_QUEST_FINISHED"] != undefined && flags["KQ2_SHADE_ENCOUNTERED"] == undefined)
+			if(completedKQ2Good() && flags["KQ2_SHADE_ENCOUNTERED"] == undefined)
 			{
 				output("\n\n<i>“Uhh... She’s off in the Cielovia system, right now. Her sire got put in the hospital by some punks, apparently, so she’s off visiting for a bit. Should be home tomorrow, she said. I’ll introduce you, if you’re staying.”</i>");
 			}
 			// KQ2 done, beat Amara, saw Shade:
-			else if(flags["KQ2_QUEST_FINISHED"] != undefined)
+			else if(completedKQ2Good())
 			{
 				output("\n\n<i>“Well, her pop’s in the hospital after you got done with her. She’s recovering back in the Cielovia system, and Astra’s off visiting. Should be home tomorrow, I think. I’ll introduce you.”</i>");
 				output("\n\nYou grimace at the sneer Shade gives you when she mentions Amara, but otherwise she doesn’t bring up your... accidental altercation back on Myrellion.");
@@ -970,12 +970,12 @@ public function approachShadeAtHouse(response:String = "intro"):void
 			output("\n\nAny chance of you getting to meet your niece some time? The way she’s kitted up, Astra strikes the appearance of an adventurer like yourself. Considering how you and Shade hit it off, you’d probably get along.");
 			output("\n\nSilently, you add that you’re glad you found out now, otherwise you might have ended up flirting with her had you ever met.");
 			// KQ2 done, beat Amara w/o seeing Shade:
-			if(flags["KQ2_QUEST_FINISHED"] != undefined && flags["KQ2_SHADE_ENCOUNTERED"] == undefined)
+			if(completedKQ2Good() && flags["KQ2_SHADE_ENCOUNTERED"] == undefined)
 			{
 				output("\n\n<i>“Uhh... She’s off in the Cielovia system, right now. Her sire got put in the hospital by some punks, apparently, so she’s off visiting for a bit. Should be home tomorrow, she said. I’ll introduce you, if you’re staying.”</i>");
 			}
 			// KQ2 done, beat Amara, saw Shade:
-			else if(flags["KQ2_QUEST_FINISHED"] != undefined)
+			else if(completedKQ2Good())
 			{
 				output("\n\n<i>“Well, her pop’s in the hospital after you got done with her. She’s recovering back in the Cielovia system, and Astra’s off visiting. Should be home tomorrow, I think. I’ll introduce you.”</i>");
 				output("\n\nYou grimace at the sneer Shade gives you when she mentions Amara, but otherwise she doesn’t bring up your... accidental altercation back on Myrellion. You guess your sibling revelation has mollified her distrust of you, for now at least.");
