@@ -125,7 +125,7 @@ public function disableExploreEvents():Boolean
 	// Kashima Duration
 	if (flags["KASHIMA_STATE"] > 0 && flags["KASHIMA_STATE"] < 2) return true;
 	// Federation Quest
-	if (flags["FEDERATION_QUEST"] > 0 && flags["FEDERATION_QUEST"] < 3) return true;
+	if (flags["FEDERATION_QUEST"] > 0 && flags["FEDERATION_QUEST_AMBUSH"] != undefined && flags["FEDERATION_QUEST"] < 3) return true;
 	// Syri Quest
 	if (flags["SYRIQUEST_STATE"] >= 4 && flags["SYRIQUEST_STATE"] < 20) return true;
 
@@ -378,8 +378,9 @@ public function shipHangarButton(btnSlot:int = 7):void
 	if(ships.length > 0) 
 	{
 		//Mhenga uses button "7" for going down. Thus an exception!
-		if(shipLocation == "SHIP HANGAR") addButton(0, "Hangar", shipHangarMenu, ships, "Hangar Dock", "Explore other ships that are docked here.");
-		else addButton(7, "Hangar", shipHangarMenu, ships, "Hangar Dock", "Explore other ships that are docked here.");
+		if(shipLocation == "SHIP HANGAR") btnSlot = 0;
+		
+		addButton(btnSlot, "Hangar", shipHangarMenu, ships, "Hangar Dock", "Explore other ships that are docked here.");
 	}
 }
 // Trafficked by spacers
@@ -424,7 +425,7 @@ public function shipHangarShips(dock:String = ""):Array
 	}
 	if(InCollection(dock, publicHangars))
 	{
-		if(majinHere()) ships.push(["Great Majin", shizzyGreatMajinBonus]);
+		if(flags["SHIZZY_MET"] != undefined && majinHere()) ships.push(["Great Majin", shizzyGreatMajinBonus]);
 	}
 	
 	return ships;
@@ -708,13 +709,15 @@ public const CREW_AZRA:int = 12;
 public const CREW_PAIGE:int = 13;
 public const CREW_KASE:int = 14;
 public const CREW_SHEKKA:int = 15;
+public const CREW_SYRI:int = 16;
 
 public function crewRecruited(allcrew:Boolean = false):Array
 {
 	var crewMembers:Array = new Array();
 	
 	// Actual crew members
-	if (!annoNotRecruited()) crewMembers.push(CREW_ANNO);
+	if (annoRecruited()) crewMembers.push(CREW_ANNO);
+	if (syriRecruited()) crewMembers.push(CREW_SYRI);
 	if (azraIsCrew()) crewMembers.push(CREW_AZRA);
 	if (bessIsFollower()) crewMembers.push(CREW_BESS);
 	if (flags["RECRUITED_CELISE"] > 0) crewMembers.push(CREW_CELISE);
@@ -809,6 +812,7 @@ public function getCrewOnShip():Array
 {
 	var c:Array = [];
 	if (annoIsCrew()) c.push(anno);
+	if (syriIsCrew()) c.push(syri);
 	//9999 - not sure what I need to set up for this. Probably just a creature link but none done yet:
 	//if (azraIsCrew()) c.push(azra);
 	//if (paigeIsCrew()) c.push(paige);
@@ -2025,7 +2029,7 @@ public function flyMenu():void
 	if(MailManager.isEntryViewed("breedwell_unlock"))
 	{
 		// PC must not be a taur, infertile or e.g. on Sterilex to choose this option before they’ve been there at all.
-		if(shipLocation == "BREEDWELL_DOCK") addDisabledButton(10, "Breedwell", "Breedwell Centre", "You’re already here.");
+		if(shipLocation == "BREEDWELL_HANGAR") addDisabledButton(10, "Breedwell", "Breedwell Centre", "You’re already here.");
 		else if(!CodexManager.entryViewed("Rahn")) addDisabledButton(10, "Breedwell", "Breedwell Centre", "Maybe you should read up on the rahn before traveling to this location...");
 		else if(!pc.hasGenitals()) addDisabledButton(10, "Breedwell", "Breedwell Centre", "It might be a pointless journey if you have no genitals to make use of this location...");
 		else if((!pc.hasVagina() || pc.fertility() <= 0) && (!pc.hasCock() || pc.virility() <= 0)) addDisabledButton(10, "Breedwell", "Breedwell Centre", "Probably unwise to check this place out whilst you’re infertile. The ad gave you the distinct impression that the Breedwell Centre was counting on you being... fruitful.");
@@ -3533,6 +3537,15 @@ public function variableRoomUpdateCheck():void
 	}
 	//Remove marker after xmas
 	else if(rooms["UVIP T44"].hasFlag(GLOBAL.OBJECTIVE)) rooms["UVIP T44"].removeFlag(GLOBAL.OBJECTIVE);
+	//Vark's cave and stuff
+	rooms[varkCaveRoom].removeFlag(GLOBAL.NPC);
+	rooms[varkCaveRoom].removeFlag(GLOBAL.OBJECTIVE);
+	rooms["UVIP T44"].southExit = varkCaveRoom;
+	if (pc.isTaur() || !pc.hasGenitals())
+		rooms["UVIP T44"].southExit = undefined;
+	if (flags["MET_VARK"] == undefined) rooms[varkCaveRoom].addFlag(GLOBAL.OBJECTIVE);
+	else if (flags["MET_VARK"] == 1) rooms[varkCaveRoom].addFlag(GLOBAL.NPC);
+	else rooms["UVIP T44"].southExit = undefined;
 	
 	/* VESPERIA / CANADIA STATION */
 	/*
@@ -3553,6 +3566,8 @@ public function variableRoomUpdateCheck():void
 	
 	// Kiro's Airlock
 	kirosShipAirlockUpdate();
+	// Phoenix Location
+	phoenixSetMapState();
 	// Phoenix's Rec Room
 	phoenixRecRoomUpdate();
 	// Shizuya's Great Majin
@@ -4591,6 +4606,8 @@ public function emailRoulette(deltaT:uint):void
 		mailList.push("fuckinggooslootsII");
 	if(!MailManager.isEntryUnlocked("cuzfuckball") && flags["TIMES_MET_FEMZIL"] != undefined && flags["BEEN_ON_TARKUS"] != undefined && pc.level >= 2)
 		mailList.push("cuzfuckball");
+	if (!MailManager.isEntryUnlocked("extrameet_invite_email") && extrameetSmutAvail())
+		mailList.push("extrameet_invite_email", "extrameet_invite_email", "extrameet_invite_email");
 	
 	// SPAM: (9999: If does not have spamblocker upgrade toggled on for CODEX.)
 	if(SpamEmailKeys.length > 0 && flags["CODEX_SPAM_BLOCKER"] == undefined)

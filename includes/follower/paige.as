@@ -1290,11 +1290,47 @@ public function paigeSexPrologue2():void
 	}
 	else output("Which you’d know if you hadn’t been skipping classes to buy me Honey Wine. But that’s okay. I’ll make sure we make up for lost time tonight.");
 	output("”</i>\n\n");
-
-	if(!pc.isChestExposed()) output("You finish removing your [pc.upperGarments], exposing your [pc.chest] and [pc.belly] to the warm air of her bedroom, just as ");
+	
+	var i:int = 0;
+	var upperClothesList:Array = [];
+	var lowerClothesList:Array = [];
+	
+	if(!pc.isChestExposedByArmor()) upperClothesList.push(pc.armor.longName);
+	if(!pc.isChestExposedByUpperUndergarment()) upperClothesList.push(pc.upperUndergarment.longName);
+	
+	if(upperClothesList.indexOf(pc.armor.longName) == -1 && (!pc.isCrotchExposedByArmor() || !pc.isAssExposedByArmor())) lowerClothesList.push(pc.armor.longName);
+	if(!pc.isCrotchExposedByLowerUndergarment() || !pc.isAssExposedByLowerUndergarment()) lowerClothesList.push(pc.lowerUndergarment.longName);
+	
+	if(upperClothesList.length > 0)
+	{
+		output("You finish removing your");
+		for(i = 0; i < upperClothesList.length; i++)
+		{
+			if(i > 0)
+			{
+				if(i + 1 == upperClothesList.length) output(" and");
+				else output(",");
+			}
+			output(" " + upperClothesList[i]);
+		}
+		output(", exposing your [pc.chest] and [pc.belly] to the warm air of her bedroom, just as ");
+	}
 	output("Paige is ");
 	//if {the PC is wearing lower garments}
-	if(!pc.isCrotchExposed() || !pc.isAssExposed()) output("done removing your [pc.crotchCovers], revealing your naked [pc.crotch] to her. She’s ");
+	if(lowerClothesList.length > 0)
+	{
+		output("done removing your");
+		for(i = 0; i < lowerClothesList.length; i++)
+		{
+			if(i > 0)
+			{
+				if(i + 1 == lowerClothesList.length) output(" and");
+				else output(",");
+			}
+			output(" " + lowerClothesList[i]);
+		}
+		output(", revealing your naked [pc.crotch] to her. She’s ");
+	}
 	output("finished talking – knowing there’s nothing between her and all of you, she stalks her way forward to claim you for herself.");
 
 	processTime(20);
@@ -1634,6 +1670,7 @@ public function mediumModeEndingInApartment():void
 	output("\n\nYour muscles are still quaking from the exercise, and it takes a bit more effort to put your things back on. You’re in no rush anyway. Paige fills the air with talking about how well you’ve been doing and how excited she is for some future poses she could try with you, if you’re willing to push yourself a bit harder. <i>“We still have some time to kill, sweet thing,”</i> she says lovingly, wrapping her arms around your left one and hugging it tight. <i>“Anything else you want to do today?”</i>");
 	// end scene (scene: Medium Mode Ending 2); advance time by one hour; increase Physique by 2; increase Tone by 7; deduct 40 energy
 	processTime(50);
+	IncrementFlag("YOGA_MEDIUM");
 	yogaToning(7);
 	pc.energy(-40);
 	paigeMenu();

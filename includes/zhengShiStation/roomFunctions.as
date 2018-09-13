@@ -41,6 +41,15 @@ public function takeZhengShiSpacesuit():void
 	quickLoot(new SpacesuitIncomplete())
 }
 
+public function zhengMinesSpaceBonus():Boolean
+{
+	// Stranded load Hotfix
+	addButton(0,"Airlock",move,"ZSM YY18");
+	addButton(1,"Hangar",fastSpacewalkToHangar);
+	
+	return zhengMinesEncounterBonus();
+}
+
 public function zhengMinesEncounterBonus():Boolean
 {
 	IncrementFlag("ZS_MINE_STEP");
@@ -52,9 +61,24 @@ public function zhengMinesEncounterBonus():Boolean
 		IncrementFlag("ZS_MINE_ENCOUNTERS");
 
 		if(flags["ZS_MINE_ENCOUNTERS"] > 7 && !pc.hasStatusEffect("DisabledRoz") && flags["ROZ_ARMOR_STOLEN"] == undefined && flags["ROZ_CORED_4_GUD"] == undefined) encounters.push(encounterRoz);
-		encounters.push(miningRobotAttack);
-		encounters.push(boredJumperAttackProc);
-		encounters.push(boredJumperAttackProc);
+		
+		if(flags["MAIKE_SLAVES_RELEASED"] == 1 || flags["MAIKE_SLAVES_RELEASED"] == 2) 
+		{
+			encounters.push(encounterSlyverenSlavebreaker);
+			encounters.push(encounterSlyverenSlavebreaker);
+			encounters.push(boredJumperAttackProc);
+			encounters.push(boredJumperGangbangProc);
+			//Robots become a very rare encounter
+			if(rand(5) == 0) encounters.push(miningRobotAttack);
+		}
+		//No more robot
+		else
+		{
+			encounters.push(miningRobotAttack);
+			encounters.push(miningRobotAttack);
+			encounters.push(boredJumperAttackProc);
+			encounters.push(boredJumperAttackProc);
+		}
 	}
 	if(encounters.length > 0) 
 	{
@@ -96,9 +120,9 @@ public function zsmyy18AirlockBonus():Boolean
 	//Haven't found replacement helmet:
 	if(flags["ZHENG_SPACESUIT_TAKEN"] == undefined)
 	{
-		output("\n\nThere's a bulky black space suit next to you, the only one hanging up on the racks. Somebody's stenciled in a white skull and crossbones on the shoulders, and a smiley face smoking a cigar on the chest.");
+		output("\n\nThere’s a bulky black space suit next to you, the only one hanging up on the racks. Somebody’s stenciled in a white skull and crossbones on the shoulders, and a smiley face smoking a cigar on the chest.");
 		if(!pc.hasItemByClass(SpacesuitHelmet)) output(" Unfortunately for you, the helmet hanging on the peg next to the space suit has a great big hole smashed through the glass bubble. Looks like somebody had a headbutt contest with a rocket hammer and lost.");
-		else output(" You've got a replacement helmet for the broken one hanging on the peg; nothing would stop you from combining the two and taking a walk in the black, were you so inclined.");
+		else output(" You’ve got a replacement helmet for the broken one hanging on the peg; nothing would stop you from combining the two and taking a walk in the black, were you so inclined.");
 		addButton(0,"Take Suit",takeZhengShiSpacesuit);
 		return false;
 	}
@@ -108,26 +132,26 @@ public function zsmyy18AirlockBonus():Boolean
 	{
 		if(pc.hasAirtightSuit() && !(pc.armor is SpacesuitComplete)) 
 		{
-			output("\n\nWhile your current choice of armor is airtight, without magnetic boots or thrusters, you'll be helpless in the void.");
+			output("\n\nWhile your current choice of armor is airtight, without magnetic boots or thrusters, you’ll be helpless in the void.");
 			addDisabledButton(0,"Spacewalk","Spacewalk","Bad idea.");
 		}
 		else if(pc.armor is SpacesuitComplete) 
 		{
-			output("\n\n<b>You're all ready to go for a spacewalk!</b>");
+			output("\n\n<b>You’re all ready to go for a spacewalk!</b>");
 			addButton(0,"Spacewalk",spacewalkGoooo,undefined,"Spacewalk","Take a walk on the surface of the asteroid.");
 		}
 		else
 		{	
-			addDisabledButton(0,"Spacewalk","Spacewalk","Stepping into space without protection is a one-way ticket to a real quick death. You aren't feeling particularly suicidal today.");
+			addDisabledButton(0,"Spacewalk","Spacewalk","Stepping into space without protection is a one-way ticket to a real quick death. You aren’t feeling particularly suicidal today.");
 		}
 	}
 	else 
 	{
 		if(flags["ZHENG_SHI_SLAVE_SNUCK"] != undefined) output(" <b>With the elevator getting power again, you have no need to perform a repair out in the void.</b>");
-		else output(" <b>Good thing you've already repaired the power outside.</b>");
+		else output(" <b>Good thing you’ve already repaired the power outside.</b>");
 		if(pc.hasAirtightSuit() && !(pc.armor is SpacesuitComplete)) 
 		{
-			output(" While your current choice of armor is airtight, without magnetic boots or thrusters, you'll be helpless in the void.");
+			output(" While your current choice of armor is airtight, without magnetic boots or thrusters, you’ll be helpless in the void.");
 			addDisabledButton(0,"Spacewalk","Spacewalk","Bad idea.");
 		}
 		else if(pc.armor is SpacesuitComplete) 
@@ -137,7 +161,7 @@ public function zsmyy18AirlockBonus():Boolean
 		}
 		else
 		{	
-			addDisabledButton(0,"Spacewalk","Spacewalk","Stepping into space without protection is a one-way ticket to a real quick death. You aren't feeling particularly suicidal today.");
+			addDisabledButton(0,"Spacewalk","Spacewalk","Stepping into space without protection is a one-way ticket to a real quick death. You aren’t feeling particularly suicidal today.");
 		}
 	}
 	return false;
@@ -147,7 +171,7 @@ public function fastSpacewalkToHangar():void
 {
 	clearOutput();
 	showName("\nSPAAAAACE!");
-	output("Walking along the outside of Zheng Shi is beautiful but slow. Fortunately, there's nobody around to bother a lone astronaut going for a stroll. Ships float by, loaded with illicit cargo and inattentive crews. You may as well not exist.\n\nThere's the hangar! And you have plenty of oxygen to spare.");
+	output("Walking along the outside of Zheng Shi is beautiful but slow. Fortunately, there’s nobody around to bother a lone astronaut going for a stroll. Ships float by, loaded with illicit cargo and inattentive crews. You may as well not exist.\n\nThere’s the hangar! And you have plenty of oxygen to spare.");
 	processTime(30);
 	clearMenu();
 	currentLocation = "ZS L50";
@@ -158,7 +182,7 @@ public function fastSpacewalkToAirlock():void
 {
 	clearOutput();
 	showName("\nSPAAAAAACE");
-	output("The trip back into the raw void should be fraught with peril... but it's safer than bumbling around in the mines. You walk carefully for what feels like a half hour until you reach the airlock door. The trip barely put a dent in your oxygen reserves!");
+	output("The trip back into the raw void should be fraught with peril... but it’s safer than bumbling around in the mines. You walk carefully for what feels like a half hour until you reach the airlock door. The trip barely put a dent in your oxygen reserves!");
 	processTime(30);
 	clearMenu();
 	currentLocation = "ZSM YY18";
@@ -188,7 +212,7 @@ public function slavePensBonus():Boolean
 		output("\n\nIndeed, you can see several dozen shadowy figures shuffling around inside, trying to avoid your sight.");
 		output("\n\nYou can’t get inside thanks to a massive metal bar running across the door. It’s electronically locked and hardened against hacking; you can’t even see a seam or a plug to abuse. You’ll have to find the right keycard for this one.");
 		if(pc.hasKeyItem("Maike’s Keycard") || pc.hasItemByClass(MaikesKeycard)) addButton(0,"Free Slaves",unlockTheSlavePen,undefined,"Free Slaves","Throw open the doors and let loose the men and women held captive by the pirates. Cry havoc, and let loose the slaves of... a giant rebellion!");
-		else addDisabledButton(0,"Free Slaves","Free Slaves","You don't have any way to get the door open right now.");
+		else addDisabledButton(0,"Free Slaves","Free Slaves","You don’t have any way to get the door open right now.");
 	}
 	else
 	{
@@ -202,6 +226,7 @@ public function miningRobotAttack():Boolean
 	showName("MINING\n‘BOT");
 	showBust("MINING_ROBOT");
 	output("\n\nAs you wander through the byzantine sprawl of mine tunnels, you hear a thunderous <i>stomp... stomp... stomp...</i> coming towards you from one of the side passages. You turn to face it, just in time to see a lumbering black mass of metal, cables, and flickering digital readouts. A robot, shoddily built and probably a thousand years out of date besides... but it’s got a massive drill in place of one of its arms, and you can see where several lasers have been bolted onto the droid’s head and shoulders.");
+	IncrementFlag("MINING_ROBOT_ENCOUNTERS");
 	//player has RFID card
 	if(pc.hasKeyItem("9999")) output("\n\nThe droid passes you by, however, stomping away towards a deposit it’s allowed to mine.");
 	//else:
@@ -302,6 +327,7 @@ public function maikesOfficeBonus():Boolean
 		generateMap();
 		//Maike's door has a lock puzzle the PC must bypass to enter, or have her access card.
 		output("You try to open the door to Overseer Maike’s quarters, but find the door locked down tight. There’s a security lock in place next to it with a card reader in place. Looks like the Overseer values her privacy.");
+		
 		clearMenu();
 		//[Use Card] [Bypass]
 		if(pc.hasKeyItem("Maike’s Keycard") || pc.hasItemByClass(MaikesKeycard)) addButton(0,"Use Card",useMaikesCard,undefined,"Use Card","You already have the overseer’s access card. Go ahead and use it.");
@@ -317,7 +343,7 @@ public function maikesOfficeBonus():Boolean
 	//Hasn't freed slaves:
 	if(flags["MAIKE_SLAVES_RELEASED"] != undefined)
 	{
-		output("Tivf is lounging on the bed, and perks up at your approach.");
+		output("\n\nTivf is lounging on the bed, and perks up at your approach.");
 		//[Tivf]
 		//Go talk to the zil boy slave.
 		//Slaves must not have been freed.
@@ -491,11 +517,11 @@ public function firstTimeZhengApproach():void
 	showName("ZHENG\nSHI");
 	author("Savin");
 	output("<b>Several hours later...</b>");
-	output("\n\nYour snap to wakefulness to a rhythmic beeping from your ship’s sensor suite. You don’t remember having fallen asleep, only the passage of hours waiting for your sensors to fully scan an entire solar system.");
-	output("\n\nIt hasn’t found the probe, but as you wipe the sleep from your eyes, you see that your sensors have locked onto a ship puttering through the debris field on impulse power. She’s a big girl, too, practically bursting at the seams with hemispherical laser batteries and grappling cannons. She’s not flying any colors and her ID’s not pinging any databases you can access, so if you had to take a wild guess, you’d say she’s a pirate ship.");
+	output("\n\nYou’re snapped to wakefulness by a rhythmic beeping from your ship’s sensor suite. You don’t remember having fallen asleep, only the passage of hours waiting for your sensors to fully scan an entire solar system.");
+	output("\n\nThey haven’t found the probe, but as you wipe the sleep from your eyes, you see that your sensors have locked onto a ship puttering through the debris field on impulse power. She’s a big girl, too, practically bursting at the seams with hemispherical laser batteries and grappling cannons. She’s not flying any colors and her ID’s not pinging any databases you can access, so if you had to take a wild guess, you’d say she’s a pirate ship.");
 	output("\n\nAnd she’s making good speed somewhere. Curious, you ease yourself into the field after her, taking it nice and slow to avoid detection. ");
 	if(pc.characterClass == GLOBAL.CLASS_SMUGGLER) output("It’s no sweat for you, given you previous occupation. You know all the tricks a ship like this might use to cover her tracks; following her is child’s play.");
-	else if(pc.characterClass == GLOBAL.CLASS_ENGINEER) output("You man the sensors closely, refusing to let any amount of interference from the massive debris field around you to distract you from your quarry.");
+	else if(pc.characterClass == GLOBAL.CLASS_ENGINEER) output("You monitor the sensors closely, refusing to let any amount of interference from the massive debris field around you distract you from your quarry.");
 	else output("You’ve flown more dangerous combat missions than this. It’s easy to pretend the asteroids are big, slow missiles, and you dodge and weave between then while staying just out of view.");
 
 	output("\n\nAfter about an hour, the ship seems confident it isn’t being followed and takes a sharp turn towards one of the largest asteroids - indeed, <i>the</i> largest - in the field. You follow from a safe distance, watching the ship approach a structure you instantly recognize: a spacedock! The same kind as back on Tavros, with a huge metal opening, wide enough for a cruiser to slip through, projecting a permeable force field to keep the air in.");
@@ -642,4 +668,26 @@ public function submitThePiratePassword():void
 		clearMenu();
 		addButton(0,"Next",mainGameMenu);
 	}
+}
+
+public function foundryLounge2Bonus():Boolean
+{
+	output("With a couch and plenty of nearby cushions, it’s clear that this quiet corner of the break room provides the pirate officers with a quiet place to rest, relax, and cuddle with their pleasure-slave of choice. A squat box with an onahole-like entrance lends further credence to that theory. The stained nameplate labels it as a TamaniCorp Hora Series 69 Dong Designer.");
+	if(flags["LOOTED_COCKBOX"] != undefined) output(" You know all too well about such devices. Maybe you could give it a spin?");
+	else output(" A quick extranet search reveals that it does exactly what the name suggests. Just stick a penis inside, and the magic box will change it into any crazy alien dong your mind might dream up.");
+	output("\n\nUnfortunately it’s bolted to the floor");
+	if(flags["LOOTED_COCKBOX"] != undefined) output(", but nothing’s stopping you from snagging a copy of the updated firmware to install on your personal box. Custom pigmentation selection seems like quite the upgrade!");
+	else output(".");
+	addButton(0,"DongDesigner",useInstalledDickBox,undefined,"Dong Designer","Take a closer look a this dick-customizing box!");
+	//Gunna need to update the dong designer
+	return false;
+}
+
+public function prefabDeadEndBonus():Boolean
+{
+	output("A square white wall stops this hallway dead in its eastward tracks. You’re free to walk through the sterile alabaster passage westward instead, or step through the unlocked door to the north. The placard labels it as the Robotics Lab.");
+	if(flags["MINING_ROBOT_ENCOUNTERS"] != undefined) output(" This is probably where they put together those horrible mining robots you ran into down below.");
+	else output(" This is probably where they put together all the different kit-bashed robots they have all over the station.");
+	output(" Leave it to pirates to eschew the tried and true off-the-shelf models!");
+	return zhengFoundryF1EncounterBonus();
 }

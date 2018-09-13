@@ -78,6 +78,7 @@ public function boredJumperAttackProc():Boolean
 //Win to Bunny
 public function winVsBoredJumper():void
 {
+	flags["BORED_JUMPER_CONSECUTIVE_LOSSES"] = 0;
 	//HP
 	if(enemy.HP() <= 1)
 	{
@@ -142,7 +143,7 @@ public function winVsBoredJumper():void
 		else addDisabledButton(8,"Heat Sex","Heat Sex","You’ll need some ‘breeding inducers’ to get ruined with the lusty laquine. " + (pc.inHeat() ? "One":"Two") + " Breeder’s Bliss ought to do...");
 	}
 	else addDisabledButton(8,"Heat Sex","Heat Sex","You’ll need a vagina for this.");
-	
+	addButton(9,"Blow Her",blowZatJumpah,undefined,"Blow Her","he jumper’s cock is bulging so temptingly against the latex. You could teach the libidinous lapine a very <i>blue</i> lesson… or immerse yourself. She does smell good...");
 	addButton(14,"Leave",leaveTheBoredJumperAfterWinning);
 }
 
@@ -159,8 +160,15 @@ public function leaveTheBoredJumperAfterWinning():void
 
 //Lose to Bunny
 public function loseToBoredJumperRouting():void
-{	
-	if(pc.hasStatusEffect("Cum Soaked") || pc.hasStatusEffect("Pussy Drenched")) cumCumCoverLossForSweatquine();
+{	IncrementFlag("BORED_JUMPER_CONSECUTIVE_LOSSES");
+	if(flags["BORED_JUMPER_CONSECUTIVE_LOSSES"] == 3) loseToJumpersStartBadEndsByWill();
+	else if(flags["BORED_JUMPER_CONSECUTIVE_LOSSES"] == 4) fourthLossToBoredJumperBadEndProggo();
+	else if(flags["BORED_JUMPER_CONSECUTIVE_LOSSES"] >= 5) badEndToThatJumperFinally();
+	else if(pc.hasStatusEffect("Cum Soaked") || pc.hasStatusEffect("Pussy Drenched")) 
+	{
+		cumCumCoverLossForSweatquine();
+		flags["BORED_JUMPER_CONSECUTIVE_LOSSES"]--;
+	}
 	else if(pc.isTaur()) taursLoseToSweatLaquineByWsan();
 	else if(pc.biggestTitSize() >= 11 && rand(2) == 0) sweatBunSlickyslickTitbang();
 	else if(pc.biggestCockLength() >= 36 && rand(3) <= 1) sweatBunHyperCockDock();
@@ -536,7 +544,7 @@ public function sweatBunSlickyslickTitbang():void
 	if(pc.isLactating())
 	{
 		output("\n\nAll the attention on those lovely nubs has certainly had an effect. [pc.MilkGem] droplets appear at the very tips, rolling off the sides in perfectly curved lines along the edges of your soon-to-be-fucked swells. With all the squeezing and pressing and sucking, you can’t be blamed for your body deciding to let down. Those droplets were just the beginning. With the proverbial cork popped, your [pc.chest] are free to trickle [pc.milkColor] fluid to their heart’s content.");
-		output("\n\n<i>“Ohhh, somebody’s a milky momma, aren’t they?”</i> The lop-eared rabbit grabs one and squeezes, shooting thin arcs of [pc.milkNoun] into the air. <i>“Wow! Your eyes nearly rolled back the whole way! Do you need milked real bad?”</i> Her other hand falls on {your/a} spare tit and joins in on abusing your sensitive teats, alternating firm tugs until you’re painted [pc.milkColor]. <i>“Or maybe you figured you’d make a few bucks on the side, getting off on being a sopping wet slut. But then you didn’t figure on how good it would feel puddling in your cleavage. How weak it would make you to a big, fat, pirate-cock.”</i>");
+		output("\n\n<i>“Ohhh, somebody’s a milky momma, aren’t they?”</i> The lop-eared rabbit grabs one and squeezes, shooting thin arcs of [pc.milkNoun] into the air. <i>“Wow! Your eyes nearly rolled back the whole way! Do you need milked real bad?”</i> Her other hand falls on " + (pc.totalBreasts() == 2 ? "your" : "a" ) + " spare tit and joins in on abusing your sensitive teats, alternating firm tugs until you’re painted [pc.milkColor]. <i>“Or maybe you figured you’d make a few bucks on the side, getting off on being a sopping wet slut. But then you didn’t figure on how good it would feel puddling in your cleavage. How weak it would make you to a big, fat, pirate-cock.”</i>");
 		output("\n\nWarm, wet bunny ears slide through the puddle while the laquine tenderly samples of your boobies’ bounty. <i>“That’s okay though, you can make my dick nice and slippery, and we can squeeze out all that silly juice together, can’t we, cow-[pc.boyGirl]?”</i>");
 		output("\n\nFeeling horny and almost too compliant, you nod.");
 		output("\n\n<i>“That’s good, ‘cause I won our fight fair and square. Just ‘cause you’re a walking snack stop doesn’t mean you get relief first.”</i>");
@@ -662,7 +670,9 @@ public function sweatBunSlickyslickTitbang2():void
 	output("\n\nYou smell her cum too, the musky odor filling your nostrils");
 	if(pc.isBimbo()) output(" - too-yummy!");
 	else output(".");
-	output(" It’s everywhere, sliding into your hair, spurting onto your face while the playful laquine teasingly pulls your tits wide to shoot a rope onto your [pc.lips]. Pearly goo sloughs into your simmering crotch, mixing with sweat on its way down to your [pc.legOrLegs].");
+	output(" It’s everywhere");
+	if(pc.hasHair()) output(", sliding into your hair");
+	output(", spurting onto your face while the playful laquine teasingly pulls your tits wide to shoot a rope onto your [pc.lips]. Pearly goo sloughs into your simmering crotch, mixing with sweat on its way down to your [pc.legOrLegs].");
 	if(pc.hasDickNipples() || pc.hasFuckableNipples() || pc.isLactating()) output(" And you don’t care in the slightest. Your tit-based climax makes it all worth it. You’d let her fuck her way to another orgasm if she wanted to, so long as she could make your boobs glow with molten bliss like this once more.");
 	else if(pc.isBimbo()) output(" And you don’t care in the slightest. You love cum! You’d take a bath in if you could, let her fuck you in a tub until bunny-spunk is sloughing over the edge.");
 	else 
@@ -763,7 +773,7 @@ public function bunslutPussFuck2():void
 	clearOutput();
 	showBoredJumper(true);
 	var x:int = pc.cockThatFits(enemy.vaginalCapacity(0) * 2);
-	if(x < 0) pc.smallestCockIndex();
+	if(x < 0) x = pc.smallestCockIndex();
 	author("QuestyRobo");
 	output("You press your face between her beefy bun thighs, barely an inch from her entrance. Stars, you thought it was hot before; just being this close to her overheated form is like going into a sauna! You swear the juices coating her lips are actually steaming, but that’s far down your list of priorities.");
 	output("\n\nYou stick your [pc.tongue] into her cunt, recoiling slightly at first as the almost inhuman temperature near-singes your tongue. Once you’ve battered through the heat you dive as far into her as possible");
@@ -778,7 +788,7 @@ public function bunslutPussFuck2():void
 	output("\n\n<i>“Fuuuuuuuuck, do that again!”</i> You do so, grabbing the base of your member and mightily slapping her womanhood. There’s so much padding from her outer lips that it feels like beating your meat against a lavish pillow rather than a slut’s pelvis. You go and go until she screaming out in pleasure, her voice echoing off the walls as you pound on her. Eventually you tire of the teasing and rear back to start fucking her in ernest.");
 	output("\n\n<i>“Hell yeah hot stuff! Don’t even think about that slow shit, we laquines like it <b>rough</b>!”</i>");
 	if(pc.cockVolume(x) > enemy.vaginalCapacity(0)) output(" You get the feeling she <i>might</i> not know exactly what she’s getting into here, but you press on anyway.");
-	else output("That’s an invitation if you ever heard one, and you press on!");
+	else output(" That’s an invitation if you ever heard one, and you press on!");
 
 	if(pc.cockVolume(x) > enemy.vaginalCapacity(0) * 1.5) 
 	{
@@ -1153,7 +1163,7 @@ public function taursLoseToSweatLaquineByWsan():void
 		output("\n\nWhen all is finally said and done, she pulls her now-behemoth cock out of you with a happy moan and inspects your rump.");
 		output("\n\n<i>“Yikes! I don’t think that’s gonna close up for a while,”</i> she says, whistling low. <i>“Oh well! This is gonna be a fun story for both of us! Pity I don’t have a camera on me...”</i>");
 		output("\n\nShe daintily wipes herself off on your underside, carefully zipping herself back up before she inspects your belongings. Helpless to stop her, you watch her make off with ");
-		//{gems/your credits/whatever}
+		// {gems/your credits/whatever}
 		if(pc.credits > 1)
 		{
 			stolenCreds = pc.credits;
@@ -1310,7 +1320,7 @@ public function frottageVictoryVsBoredJumperByB():void
 			if(pc.hasVagina()) output(". Still, from the way your own [pc.vagina] clenches sympathetically to the laquine’s, you’re not sure your cunt will ever forgive you for refusing to give another one what it wants");
 			output(".");
 		}
-		output("\n\nYou respond that, the next time she loses the fight, she can decide how you to fuck. You’re taking your prize the way you want it, and if that means she doesn’t get a cock in a pussy, then she doesn’t get a cock in her pussy.");
+		output("\n\nYou respond that, the next time she wins the fight, she can decide how to fuck you. You’re taking your prize the way you want it, and if that means she doesn’t get a cock in a pussy, then she doesn’t get a cock in her pussy.");
 		output("\n\nShe grunts in defeat and lies there, face-down in the dirt, one hand masturbating her turgid length and her hips moving and pressing against yours to eke out whatever pleasure she can from you. You decide to throw her a bone (but not the bone she wants).");
 		output("\n\nYour hands roam over the meaty globes of her ass, your fingers coursing through the wet, sweaty fur. Whenever you squeeze down, you can hear the sweat audibly squish and collect between your fingers, soaking the fluid into your palms. One hand stays on the fat of her butt, groping and squeezing for your mutual pleasure, while the other reaches inward, your thumb finding the star of her anus and pressing in swiftly.");
 		output("\n\nShe ‘eep!’s in surprise and her body straightens and stiffens, but then relaxes after a few cursory pumps into her anus. She starts to mouth something at you, but gives up and submits to the pleasures she’s feeling: a thumb in her ass; her own hand on her dick; and a stranger’s dick teasing her cunt relentlessly and refusing to give her the satisfaction of some penetration.");
@@ -1350,7 +1360,7 @@ public function frottageVictoryVsBoredJumperByB():void
 		}
 		output("\n\nYou glance beneath the bunny’s body, and you see that the hand on her cock has kept still");
 		if(enemy.hasKnot(0)) output(", wrapped around her beating knot");
-		output("); her legs shiver and strain, and there’s a growing pool of white beneath her pelvis, an obvious sign that she enjoyed the time between you two more than she’d apparently like to admit. Her bouncing balls have bunched up against her, squirting out every drop she has into a growing puddle.");
+		output(" her legs shiver and strain, and there’s a growing pool of white beneath her pelvis, an obvious sign that she enjoyed the time between you two more than she’d apparently like to admit. Her bouncing balls have bunched up against her, squirting out every drop she has into a growing puddle.");
 	}
 	// Merge here
 	output("\n\nIt takes you both a moment to wind down, between the animalistic rutting and the constant, sweaty musk the laquine is giving off threatening to make you rowdy for a round two. By the time you’ve caught your breath and you’ve remembered where you are and what you were doing before you ran into this lady in a latex jumpsuit, you’ve mostly come down from your lust-addled high.");
@@ -1446,14 +1456,12 @@ public function meanHandySuitBurster():void
 		output("body, equipped with everything you might need to sate a crossed-up hermaphrodite like yourself. You feel the heat of her cock pound against your palm and its cum splash onto your hand, and you can pick out the familiar tang of a fertile, willing cunt clenching in orgasm mingling with the masculine musk of a proper cock shooting its load. Your body clenches and flinches at the sensory overload, and it takes everything you have to not roll over the laquine and start properly fucking it with everything you have: to plough that cute, hungry cunt and, when you’re done, you pop a squat of your own on that rock-hard piece of delectable meat");
 	}
 	output(".");
-
-
-	output("\n\n");
+	
 	var cummies:Boolean = false;
 	if(pc.lust() >= 50) 
 	{
 		cummies = true;
-		output("The fantasies start to get a little carried away, and you struggle with yourself to remain in control of not just yourself, but the both of you: you’re both in a pretty vulnerable position, and one slip-up could mean that the roles would be reversed between you. Nonetheless, you can’t help but grind your body against hers throughout it all, and ultimately, you bring yourself to your own wet, sticky orgasm, ");
+		output("\n\nThe fantasies start to get a little carried away, and you struggle with yourself to remain in control of not just yourself, but the both of you: you’re both in a pretty vulnerable position, and one slip-up could mean that the roles would be reversed between you. Nonetheless, you can’t help but grind your body against hers throughout it all, and ultimately, you bring yourself to your own wet, sticky orgasm, ");
 		if(pc.hasCock()) output("[pc.eachCock] flexing and billowing against the laquine’s thigh as you soak her body from the stomach down");
 		if(pc.isHerm()) output(", followed by ");
 		if(pc.hasVagina()) 
@@ -1840,7 +1848,7 @@ public function takeTheBunnyDick():void
 	output(" as such an image appears in your lust addled mind.");
 
 	output("\n\nYou blow hotly on your descent down her length and suck loudly on your ascent. ");
-	if(pc.tailCount > 0) output("Despite how debasing her comments are, you can’t help but wag your [pc.tails] in response. ");
+	if(pc.hasTail()) output("Despite how debasing her comments are, you can’t help but wag your [pc.tails] in response. ");
 	output("She giggles as she grabs your head again, moving her hips in tune with your jaw, grinding the [enemy.cockHead] against your inner cheeks as she pets you. <i>“Mmmm you’re so soft and wet, I love it! If I knew you were gonna be a good, cock hungry " + pc.mf("boy","girl") + " I’d have just showed you the goods to start with! I’m gonna have to remember - unnhh! - for next time I see you! Ohyes, keep swallowing that dick!”</i>");
 
 	output("\n\nYou ");
@@ -1962,8 +1970,10 @@ public function vaginallyFilledByJumperWiNSceneByWilliam():void
 	// Merge
 	output("\n\n<i>“You got it!”</i> The bunny quips, and her [enemy.cockType] rod rams into your pussy with the speed of runner who just heard the starting gunshot. She batters the entrance to your womb in that sprinting thrust, already hilted in you before you can figure out what just happened. So shocked by the simultaneous ease and force of her skewering penetration, your [pc.vagina " + x + "] constricts around her invading member and floods her thick tool with fresh [pc.girlCum]. You, on the other hand, lose control of your [pc.legOrLegs] and howl emptily into the air as she watches your shaking body with an indulging expression.");
 
+	//if suula/aphrodisiac cunt
+	if (pc.vaginas[x].type == GLOBAL.TYPE_SIREN || pc.vaginas[x].type == GLOBAL.TYPE_ANEMONE) output("\n\nHaving lost control of your alien biology in the aftershock, the tentacles and venom-laced cilia in your vagina sting the jumper's cock, making her keel over with a surprised look on her face. <i>“Oh gosh, you've got <i>that</i> kind of pussy, huh? Bet I know why, you just want the hardest dick imaginable in 'ya !”</i> She smiles, righting herself with a ragged groan.");
 	// PC Looseness 1-2
-	if(pc.vaginas[x].looseness() <= 2) output("\n\n<i>“Nice and tight, but that’ll change. I’m gonna make your pussy a cock sock just for me!”</i> The jumper declares, gripping your hips.");
+	else if(pc.vaginas[x].looseness() <= 2) output("\n\n<i>“Nice and tight, but that’ll change. I’m gonna make your pussy a cock sock just for me!”</i> The jumper declares, gripping your hips.");
 	// PC Looseness 3-5
 	else output("\n\n<i>“Been taking a lot of cock down here? Mmm, good thing I’m so big, bet you wouldn’t feel a lesser cock.”</i> The jumper muses, gripping your hips.");
 	// Merge
@@ -1979,6 +1989,9 @@ public function vaginallyFilledByJumperWiNSceneByWilliam():void
 	output("\n\nThe futa bunny pulls out slowly, letting you savor every inch of the cock that’s about to mercilessly plow your cunny. <i>“Can’t believe how lucky I am,”</i> she sultrily intones as her [enemy.cockHead] is barely inside you, <i>“thought I’d find a cute slave to fuck today and I find you instead. Was gonna get you all horny and fuck your face...”</i> She thrusts back in slowly, swiveling her hips to grind against every side of your inner walls. <i>“But you let me take charge anyway. Now here we are, two hot, sweaty bitches fucking in a dark cave, dripping all over each other while who knows who or what’s listening! ...But who cares... this is what good sex is aaalll about! A good bitch on the end of a nice dick, begging for more!”</i>");
 
 	output("\n\nYou quickly lose the ability to form meaningful vocabulary as the rabbit works her legs the way they were meant to be used, only able to act as she said: <i>“Harder, please!”</i> Soon, she’s humping you with the primal strength and speed of an oversexed animal, her [enemy.cock] filling every nook and cranny of your creaming cunny. All you hear now are her moans seasoned with the wet claps of her crotch and balls against your own. You grip at your her jumpsuit underneath you as she varies her movements, sometimes rubbing that huge dick of hers against your cervix, other times stopping short to fill you with copious amounts of pre that drizzle out with your [pc.girlCum].");
+
+	//Pheromone Sweat
+	if (pc.hasPerk("Pheromone Sweat")) output("\n\nThe jumper sniffs at the air purposely, her eyes unfocusing for a moment. <i>“Damn, how do you smell so fucking good?”</i> She leans down and licks at your glistening body, a gleeful moan following. <i>“You got modded sweat or something?! That's awesome, best taste ever!”</i> She licks a few more times just to get that flavor down. <i>“Wish everyone had that, but then... mmmm... Nobody else'd taste as good as you!”</i>");
 
 	output("\n\nOne of her furry hands moves to your heaving chest, brazenly groping at your [pc.breasts], pinching the bulging [pc.nipples] on each of your ");
 	if(pc.biggestTitSize() >= 1)
@@ -2012,8 +2025,13 @@ public function vaginallyFilledByJumperWiNSceneByWilliam():void
 		if(pc.cockTotal() > 1) output("are stimulated to their boiling points");
 		else output("is stimulated to its boiling point");
 		output(", erupting all over your [pc.skinFurScales] and her [enemy.furColor] coat of fur.");
-	}
-	output("\n\n<i>“Ffffuckkk! Cumming!”</i> The rabbit screams. With one last mighty thrust of her hips, she pushes her dick as far as it will go into your [pc.vagina " + x + "] and lets your shameless body take it from there. Heat blossoms in your nethers and your body flushes; she’s slathered, squeezed, and caressed by your abused pussy, soon bellowing a near feral roar of dominance. Her backed up sperm smashes you like a club, your eyes roll back as she pins you under her weight and cums hard.");
+	}	
+	output("\n\n<i>“Ffffuckkk! Cumming!”</i> The rabbit screams. With one last mighty thrust of her hips, she pushes her dick as far as it will go into your [pc.vagina " + x + "] and lets your shameless body take it from there.");
+	//jumper dog
+	if (enemy.hasCock(GLOBAL.TYPE_CANINE)) output(" After an eye widening grind, the laquine slams her bulging knot into your cunt, dragging a pained moan from you as she buries her bone. <i>“Ah-ohh! There we go... Bet this is why you wanted my cock, you just wanted a chance to get impregnated by a pirate! Maybe you'll have twins!”</i> she moans, whipping her lop-ears in the shock of ejaculation.");
+	output(" Heat blossoms in your nethers and your body flushes; she’s slathered, squeezed, and caressed by your abused pussy, soon bellowing a near feral roar of dominance. Her backed up sperm smashes you like a club, your eyes roll back as she pins you under her weight and cums hard.");
+
+
 	output("\n\nThe jumper’s smooth, rhythmic thrusts splatter and paint your canal white. Her voluminous load soon spills out, splattering all over your crotch with every repetition. You hold tight to her as her churning balls empty what must be a few day’s worth of seed into and around you. Hyperventilating now, you lose what little strength you had, your limbs slumping to the ground unmoving. The rabbit falls face first into your [pc.chest] just before you’re lulled into unconsciousness.");
 	processTime(45);
 	for(var y:int = 0; y < 3; y++) { pc.orgasm(); }
@@ -2084,7 +2102,7 @@ public function getTheBunnyPirateToTakeYourBootyByWilliam():void
 	if(pc.buttRating() >= 12) output("engulfing");
 	else output("massaging");
 	output(" her musky member, it spurting pre all over your butt");
-	if(pc.tailCount > 0) output(" and [pc.tails]");
+	if(pc.hasTail()) output(" and [pc.tails]");
 	output(", like you’re " + indefiniteArticle(pc.race()) + " toy that exists solely for her pleasure. Her alien fingers casually spread your hole, mixing sweat and femlube for an easy entrance, preparing you to take 13 inches of indomitable dick. It all feels just right.");
 
 	output("\n\nWarmth born of that submissive notion and the arousal stirring within your pores floods through your body. You shiver as she says <i>“Too bad I can’t have you spreading whenever I want”</i>, the weight of her [enemy.cock] draped on your back ");
@@ -2160,12 +2178,17 @@ public function getTheBunnyPirateToTakeYourBootyByWilliam():void
 	else output("encourage her");
 	output(", feeling her [enemy.cockHead] brushing softly against your sensitive walls. Just as she wanted, you squirm in the pirate’s grasp as her bestial member plumbs your depths, sparing no inviolable inch as your insides are painted white with overflowing pre. <i>“Unhh... I’m glad you worked me up, can’t tell you how <b>hard</b> it is to hold back screwing you like this. Are you the type of person who likes to pretend they’re in charge by fighting but you really just love getting pounded? Coulda skipped the fighting but, damn... feels good working out all my kinks in you.”</i>");
 	output("\n\nBlushing, you purse your lips at the question, staying silent as the horny herm picks up the pace, her [enemy.cock] jackhammering into your abused anus on those energetic leaper’s legs of hers. She babbles incoherently as her nuts clap against your skin, spraying cum and sweat every which way. Your whole body rocks in tune with hers, sometimes you involuntarily push back into her lap to magnify the mighty tremors that rattle your entire frame. You cum again, splattering whatever’s in the way with another ample helping of sexual effluence.");
+	//Pheromone Sweat
+	if (pc.hasPerk("Pheromone Sweat")) output("\n\nThe jumper sniffs the air purposely, her eyes unfocusing for a moment. <i>“Damn, how do you smell so fucking good?”</i> She leans down and licks at your glistening body, a gleeful moan following. <i>“You got modded sweat or something?! That's awesome, best taste ever!”</i> She licks a few more times just to get that flavor down. <i>“Wish everyone had that, but then... mmmm... Nobody else'd taste as good as you!”</i>");
 
 	output("\n\nShe slaps you on the ass and you look back in half shock, seeing her ears dripping with a deluge of sweat as a result of her sexual workout. The jumper leans down until her tits are pressing into your shoulder blades, her upper half contouring to the curves of your back. Her whiskers tickle your skin as she nibbles and licks wherever her aimless tongue can travel, often on your [pc.face]. Her movements may have slowed down a bit in this position, but they’re no less simulating... It’s like everything is being rearranged down there...");
 	output("\n\n<i>“This is fun, but you really fucked me up, edging me earlier... I’m gonna need a little more outta ‘ya.”</i> The herm whispers in your [pc.ear], then suddenly hooks her arms under yours. Yelping in surprise, you find yourself yanked up, her [enemy.cock] still in your ass, and ushered to the nearest wall. Her hands firmly on your [pc.ass], she rails you with unparalleled speed until all your brain comprehends are the sounds of bitches moaning in overwhelming pleasure.");
 	output("\n\n<i>“Fuck yeah! This is what a butt slut is for!!”</i> The jumper cries, a relishing hand running through her soaking wet hair before grabbing your arm, <i>“Coming down here and sticking your butt out at the first girl with a dick, what’d ya think would happen?”</i> She eventually grabs both of your wrists together and holds them behind your back in one paw, her other slithering around to your [pc.breasts].");
 	output("\n\nShe doesn’t wait for an answer, she merely slams into you faster, scraping you against the rock wall, but not harmfully. She roughly squeezes your [pc.nipple], doing whatever she can to stimulate you further even as your body still recovers in the aftermath of another minor orgasm. You can feel her building you up to the big one, and thank goodness she is, because her incoherent moaning is sounding more like grieving sobs! You squeeze her paw and shout that you’re about to cum!");
-	output("\n\nHer [enemy.cock] pulls back only to spear you one last, powerful time. You shriek; your body implodes, fingers and toes spasming in the aftershock. Her slippery hands press on your ass, squeezing as much of you around her erupting rod as possible. And erupt she does, thick ropes of jism flow through your intestine, fast distending your belly. Each jet of cum forces out the previous all around her ejaculating dick. Every load is precluded by a noticeable churn of her furry balls against your butt, soon depositing what must have been a few day’s worth of pent up seed right where it belongs.");
+	output("\n\nHer [enemy.cock] pulls back only to spear you one last, powerful time. You shriek; your body implodes, fingers and toes spasming in the aftershock.");
+	//jumper dog
+	if (enemy.hasCock(GLOBAL.TYPE_CANINE)) output(" Her swelling, lumpy knot grinds against your [pc.asshole], stars explode in your eyes when it rams in, ensuring no drop of cum is wasted. <i>“Here you go, all the cum you want!”</i> she cries, lop-ears whipping back and forth in the shock of her turgid ejaculation.");
+	output(" Her slippery hands press on your ass, squeezing as much of you around her erupting rod as possible. And erupt she does, thick ropes of jism flow through your intestine, fast distending your belly. Each jet of cum forces out the previous all around her ejaculating dick. Every load is precluded by a noticeable churn of her furry balls against your butt, soon depositing what must have been a few day’s worth of pent up seed right where it belongs.");
 	output("\n\nThe laquine thrusts in and out of you slowly, making sure you take every last drop one way or the other. You slump against the walls ");
 	if(pc.hasVagina() && pc.hasKnees()) output("when your pussy’s orgasmic contractions weaken your knees");
 	output(", your fingers slowly losing strength");
@@ -2174,6 +2197,7 @@ public function getTheBunnyPirateToTakeYourBootyByWilliam():void
 
 	processTime(40);
 	for(var y:int = 0; y < 3 ; y++) { pc.orgasm(); }
+	pc.loadInAss(enemy);
 	clearMenu();
 	addButton(0,"Next",winAndGetButtPoundedByBunEpilogue);
 }
@@ -2248,8 +2272,10 @@ public function boredJumperCowgirlWinByWilliam():void
 	if(pc.cockTotal() > 1) output(" Despite being pinned, she manages to attend your extra " + (pc.cockTotal() > 2 ? "[pc.cocksLight]":"member") + ", jerking them with her free hands.");
 
 	output("\n\nYou’re sure you’ve heard a few people passing by down the passages, and you’re definitely sure they can hear the sounds of your dominant lovemaking. The jumper on your cock, if anything, is doing what she can to make sure the sounds of tongue and throat against dick are heard for as far as they’ll carry. For how she acted earlier, it makes you wonder why you even had to fight her. She must enjoy taking as much as giving, the slut!");
+	//suula cock
+	if (pc.cocks[x].cType == GLOBAL.TYPE_SIREN || pc.cocks[x].cType == GLOBAL.TYPE_ANEMONE) output("\n\nThe alien tentacles lining the head and shaft of your cock brush against the horny jumper's throat and lips. You decide to let your venomous biology have its way there, stinging her sensitive face in and out with a healthy dose of chemical lust. She mewls and groans all around your [pc.cockNounSimple " + x + "], spittle flowing like a river from her maw. Guess she appreciated the gesture!");
 	output("\n\nBending your knees and leaning over the laquine’s head, you let out a hot, tickling breath on her ears. You grab onto those floppy appendages of hers, bending them a bit to keep your grip in the swamp. You’re not even sure she would feel you scratching her ears! In response to your fondling, the cock-hungry pirate gives ");
-	if(pc.hasVagina()) output("your [pc.vagina] a little teasing, pinching your erect [pc.oneClit].");
+	if(pc.hasVagina()) output("your [pc.vagina] a little teasing, pinching " + (pc.totalClits() == 1 ? "your erect [pc.clitNoun]" : "[pc.oneClit]") + ".");
 	else if(pc.balls > 0) output("your [pc.balls] a little attention, squeezing the weighty orb" + (pc.balls > 1 ? "s":"") + " with a unique tenderness.");
 	else output("you a wake up call, whipping your cumslit with her tongue.");
 
@@ -2318,7 +2344,7 @@ public function boredJumperCowgirlWinByWilliamII():void
 	// PC Cock <=6
 	if(pc.cocks[x].cLength() <= 6) output("\n\n<i>“Aww, you look like you could use a little more down there.”</i> The lusty laquine engulfs your [pc.cock " + x + "] in her hand. <i>“Don’t fret! I’m gonna fuck ‘ya good, then I’ll give you a little something to help with that.”</i>");
 	// PC Cock >=7
-	else if(pc.cocks[x].cLength() < 12) output("\n\nThe horny herm rings the tip of your [pc.cock " + x + "] with her delicate digits, rubbing your shaft against her own. <i>“Nice package, sexy”</i> She smiles, <i>“Gonna teach this nasty pirate a lesson she won’t soon forget?”</i> You nod smoothly, telling her that’s just what’s about to happen.");
+	else if(pc.cocks[x].cLength() < 12) output("\n\nThe horny herm rings the tip of your [pc.cock " + x + "] with her delicate digits, rubbing your shaft against her own. <i>“Nice package, sexy.”</i> She smiles. <i>“Gonna teach this nasty pirate a lesson she won’t soon forget?”</i> You nod smoothly, telling her that’s just what’s about to happen.");
 	// PC Cock >=12
 	else if(pc.cocks[x].cLength() < 18) output("\n\n<i>“F-fuck... It’s gonna be like I’m fucking myself!”</i> She moans, albeit happily, at the size of your imposing [pc.cockNounSimple " + x + "] <i>“Aww yeah, this is gonna be <b>good</b>.”</i> You smirk, pinching her huge nipples as she loses herself in temporary excess again.");
 	// PC Cock >=18:
@@ -2332,7 +2358,8 @@ public function boredJumperCowgirlWinByWilliamII():void
 	if(pc.cockTotal() > 1) output(" and your extra equipment");
 	output(", masturbating furiously as shriek-like moans escape her mouth. While her hands pump, her strong legs carry her athletic body up and down like a piston, and both of you are soon washed well away down the rivers of lust.");
 	pc.cockChange();
-
+	//suula cock
+	if (pc.cocks[x].cType == GLOBAL.TYPE_SIREN || pc.cocks[x].cType == GLOBAL.TYPE_ANEMONE) output("\n\nYou can't hold back your venomous payload - the tentacles protruding from your alien dick sting at the jumper's horse cunt, forcing her to struggle with a fierce chemical rush the likes of which she was hardly prepared for. <i>“Holy ffffuck!”</i> she croaks. <i>“You've got that kind of dick? I need to get one of those, the machine doesn't output something like that!”</i>");
 	output("\n\nHer tongue lolling now, she uses your stomach as support for her thumping crotch, slamming into you with uncontained sexual aggression. <i>“Fuckmefuckme yessss!”</i> she moans, ");
 	if(pc.cocks[x].cLength() <= 12) output("your dick giving her wonderfully tight pocket the spreading it needs.");
 	else output("your dick bulging noticeably through her abdomen just above her twirling [enemy.cock].");
@@ -2355,7 +2382,7 @@ public function boredJumperCowgirlWinByWilliamII():void
 		output("\n\nYou grin and carry her over to the wall, your body heat making it easy to ignore the too-hot jagged ground, pinning her against the rocks. She licks at your face as you start thrusting with renewed strength, looking straight into her [enemy.eyeColor] eyes and growling as your arousal boils out of your pores. You clench her bubbly butt tight and hammer into her like you’re striking metal on an anvil, your lower half floating numb in a fiery ball of libidinous need. <i>“Ohhhwaa... I’m gonna cum if you keep that up, cutie! You’re gonna cum inside, right?”</i>");
 		output("\n\n<i>“Were you about to tell me not to?”</i> You ask.");
 		output("\n\nThe jumper licks your cheek, <i>“Not a chance!”</i>");
-		output("\n\nGasping a breath so thick it could be cut, you shiver and piston in and out of her faster than ever, your senses being overwhelmed by her constricting cunt and shrill, pleasured moans. No longer able to hold back, you bellow deeply and cum <b>hard</b>. Her hands clench around you, forced to scream as jets of hot [pc.cum] assail her wanton womb. Her head jerks backward, ears dragging across the wall, as your [pc.cumVisc] [pc.cumFlavor] spills from her creaming, spasming pussy.");
+		output("\n\nGasping a breath so thick it could be cut, you shiver and piston in and out of her faster than ever, your senses being overwhelmed by her constricting cunt and shrill, pleasured moans. No longer able to hold back, you bellow deeply and cum <b>hard</b>. Her hands clench around you, forced to scream as jets of hot [pc.cum] assail her wanton womb. Her head jerks backward, ears dragging across the wall, as your [pc.cumVisc] [pc.cumNoun] spills from her creaming, spasming pussy.");
 		output("\n\nThe rabbit creams your dick one last time and herself - one of her hand’s aims her cum-erupting dick up her torso, making sure to lather herself in the basking warmth of an incredible orgasm.");
 		output("\n\nHer licentious body wrings out every drop in your straining ");
 		if(pc.balls == 0) output("cock");
@@ -2414,7 +2441,7 @@ public function boredJumperCowgirlWinByWilliamIII(y:int):void
 	author("William");
 	output("The laquine jumper stirs in your lap, yawning and stretching out before she realizes you’re still in her. She leans back into your shoulder and kisses you on the cheek. <i>“Hey,”</i> she nuzzles, <i>“You stayed for me? Awwhh...”</i>");
 	output("\n\nShe licks you again with a wide yet dopey smile. <i>“Best way to ditch work <b>ever</b>. I loved it! You’ll be coming around again, right?”</i>");
-	output("\n\nMore than likely, assuming she’s around ready to get fucked again. Giggling, she lifts herself off you only to have your [pc.cumVisc] [pc.cumFlavor] drip from ");
+	output("\n\nMore than likely, assuming she’s around ready to get fucked again. Giggling, she lifts herself off you only to have your [pc.cumVisc] [pc.cumNoun] drip from ");
 	if(y >= 0) output("both ");
 	output("her hole");
 	if(y >= 0) output("s");
@@ -2434,8 +2461,8 @@ public function boredJumperCowgirlWinByWilliamIII(y:int):void
 }
 
 //[HeatSex]
-// Tooltip: It's as hot as any layer of Hell already, but you could really cook that bun until every sense but sex in her billowing brain melts away…
-// Tooltip, no B.Bliss: You'll need some 'evolutionary inducers' to get ruined with the lusty laquine. Two Breeder's Bliss ought to do…
+// Tooltip: It's as hot as any layer of Hell already, but you could really cook that bun until every sense but sex in her billowing brain melts away...
+// Tooltip, no B.Bliss: You'll need some 'evolutionary inducers' to get ruined with the lusty laquine. Two Breeder's Bliss ought to do...
 // Tooltip, no vagina: You'll need a vagina for this.
 // PC must be carrying two Breeder's Bliss pills.
 // PC must have a Vagina to initiate this scene.
@@ -2448,9 +2475,11 @@ public function heatSexLaquineJumper():void
 	clearOutput();
 	showBoredJumper(true);
 	author("William");
+	
+	output("Looking down at the defeated rabbit, you briefly consider the situation. A hot, horny bunny all to yourself to use as you see fit... But maybe there’s something more you can do? Something... unique. You fold your arms as she furiously masturbates herself, still looking up to you with pleading [enemy.eyeColor] eyes. The laquine’s a fully capable breeder, able to take and give at a moment’s notice, how could you make this all the better?");
+	
 	if(!pc.inHeat())
 	{
-		output("Looking down at the defeated rabbit, you briefly consider the situation. A hot, horny bunny all to yourself to use as you see fit... But maybe there’s something more you can do? Something... unique. You fold your arms as she furiously masturbates herself, still looking up to you with pleading [enemy.eyeColor] eyes. The laquine’s a fully capable breeder, able to take and give at a moment’s notice, how could you make this all the better?");
 		output("\n\nAch, it’s fucking hot down here, and yet she looks just fine and dandy even in that sexy jumpsuit of hers. Wait... it’s hot... That’s it! You look into your bag and dig out a set of colorless pills - two very special capsules rest in your palm as you regard her with a devious mind. Before you continue, the question ‘why’ comes to mind, like your body or some foreign entity is telling you to <i>really</i> consider what you’re doing. Why <i>are</i> you thinking of this? Giving a lust-addled hermaphroditic laquine an extremely potent fertility pill and taking one yourself? You must be crazy. <b>Sex crazy.</b> Purposely inflicting breeding season on yourself and someone from a race of gifted breeders, what are they gonna say about you? Wait, who’s they?");
 		output("\n\nNevermind. Whatever doubts you have wash away with the next emerging layer of sweat as you tell her to get up and hold out her hand. Warmth and pheromones both pour from every part of your body as you simply imagine the mind-blowing sex to come. Just how will the both of you end up when all’s fucked and bred in this dark, miserably hot cave? This... Oh <i>this</i> oughta be fun.");
 		output("\n\nThe somewhat delirious rabbit eyes your madly blushing face curiously, then the pills in your [pc.hand], wondering what you’re up to. She says nothing, only able to guess at what lewd thoughts swim behind your [pc.eyes]. You take one pill between your thumb and finger and hold it out to her. Still confused, the stewing slut takes it, but seems... worried now.");
@@ -2477,7 +2506,7 @@ public function heatSexLaquineJumper():void
 		output("\n\nAs for that randy pirate, she hasn’t succeeded in her goal of ripping that jumpsuit off, only managing to expose her tits and stomach. Instead, her dick, veins rippling and hard as diamonds, has thrust right through the sealed zipper line, rending it apart and making her look very silly... and very horny. She’s positively <i>frothing</i> at the fuzzy mouth, her face twisting in something between existential dread and mind-numbing bliss. If you thought her [enemy.cock] would have been wet before, the entire shaft is utterly lubricated in a ludicrous amount of pre. The sweat and strands of premature ejaculation splattering everywhere notwithstanding.");
 		output("\n\nWails that are surely carrying to the higher levels of this station reverberate through the mines as the laquine falls to her knees and clasps both furry hands around her rigid rod, her entire body wracked with what look to be uncomfortable aches and shakes. <i>“Fff-fffffffffff...”</i> She tries to speak, <i>“Fuck!!! Fuckfuckfuck oh goooooooood I wasnnntttt....”</i> She hoarsely screams, <i>“I wasn’t ready for that...! Urghh... Well, cutie, you’re not gonna... leave me like this are you?”</i>");
 		output("\n\nIt’s far too late to back out, and your evolutionary impulses will <b>absolutely not</b> let you walk away from a dick that raw and ready. You think you can even hear your ovaries <i>crying</i> out for cum. You don’t even realize that your posture has changed - you instinctively raise your bare [pc.ass] into the air as you fall to your knees in front of her twitching tool");
-		if(pc.tailCount > 0) output(", [pc.tails] wagging to a blur as you prepare to fellate her");
+		if(pc.hasTail()) output(", [pc.tails] wagging to a blur as you prepare to fellate her");
 		output(". There was a distinctive scent about this laquine before, a spicy musk mixed with a brew of sweat and feminine quim. But now, that scent has turned into a literal haze of horniness that’s effectively brainwashed you as you can’t bear, for even a split second, to take your eyes off that magnificent [enemy.cock]. Even when this is over, you’ll be thinking about that smell for hours, maybe days... maybe weeks...");
 		output("\n\nThe rutting rabbit, as well, can’t possibly shake the ultra-fertile scent of the ripe bitch in heat who fed her such a powerful pill in the first place. And you wouldn’t have it any other way.");
 		//Add the "Heat" status, status duration 1 week or until pregnant in all wombs.
@@ -2493,7 +2522,7 @@ public function heatSexLaquineJumper():void
 	else
 	{
 		// PC in Heat
-		output("A... fully capable breeder... That’s it! You dig into your bag quickly, your body only now realizing how close it is to a potentially perfect mate. Smiling deviously with a <i>very</i> special capsule in hand, you eye the rabbit’s delicious bulge as you think about inflicting breeding season on her. You’ll be filled in every hole so many times! First you’ll be ruined for marriage, then you’ll be ruined with her cum and then you’ll be weighed down by so many children you’ll need assistance to even stand up again holy shit why isn’t she fucking you right now wait what’s this pill-");
+		output("\n\nA... fully capable breeder... That’s it! You dig into your bag quickly, your body only now realizing how close it is to a potentially perfect mate. Smiling deviously with a <i>very</i> special capsule in hand, you eye the rabbit’s delicious bulge as you think about inflicting breeding season on her. You’ll be filled in every hole so many times! First you’ll be ruined for marriage, then you’ll be ruined with her cum and then you’ll be weighed down by so many children you’ll need assistance to even stand up again holy shit why isn’t she fucking you right now wait what’s this pill-");
 		output("\n\nShaking your head, drool flying onto hers, you order the laquine to her feet. You hand her the featureless pill without delay, struggling to resist the urge to shove her down and ride her until the wheels fall off. Although she can no doubt sense the need to fuck and breed in your thick scent alone, she seems understandably worried about accepting candy from strangers.");
 
 		// PC Bimbo
@@ -2510,7 +2539,9 @@ public function heatSexLaquineJumper():void
 		output("\n\nFor a hot minute, nothing happens. Until you see her suffer the same kick you did. The laquine clutches her stomach and paws furiously at the squeaky latex, her fingers gliding right off every time they try to set down roots. An animalistic scream breaks the low volume as your laquine assailant clutches her neck and desperately tries to <i>tear</i> that zipper off. Panting all the while, she begins to shudder and collapse into an oversexualized wreck.");
 		output("\n\nYou dive into her crotch, unable to contain yourself any longer, and help her undo that damn suit, yanking the zipper off until her [enemy.cock] busts free of its musk pocket. She’s positively <i>frothing</i> at the fuzzy mouth, her face twisting in something between existential dread and mind-numbing bliss. If you thought her [enemy.cock] would have been wet before, the entire shaft is utterly lubricated in a ludicrous amount of pre. The sweat and strands of premature ejaculation splattering everywhere notwithstanding.");
 		output("\n\nWails that are surely carrying to the higher levels of this station reverberate through the mines as the laquine falls to her knees and clasps both furry hands around her rigid rod, her entire body wracked with what look to be uncomfortable aches and shakes. <i>“Fff-fffffffffff...”</i> She tries to speak, <i>“Fuck!!! Fuckfuckfuck oh goooooooood I wasnnntttt....”</i> She hoarsely screams, <i>“I wasn’t ready for that...! Urghh... Well, cutie, you’re not gonna... leave me like this are you?”</i>");
-		output("\n\nIt’s far too late to back out, and your evolutionary impulses will <b>absolutely not</b> let you walk away from a dick that raw and ready. You think you can even hear your ovaries <i>crying</i> out for cum. You don’t even realize that your posture has changed - you instinctively raise your bare [pc.ass] into the air as you fall to your knees in front of her twitching tool{, [pc.tails] wagging to a blur as you prepare to fellate her}. There was a distinctive scent about this laquine before, a spicy musk mixed with a brew of sweat and feminine quim. But now, that scent has turned into a literal haze of horniness that’s effectively brainwashed you as you can’t bear, for even a split second, to take your eyes off that magnificent [enemy.cock]. Even when this is over, you’ll be thinking about that smell for hours, maybe days... maybe weeks...");
+		output("\n\nIt’s far too late to back out, and your evolutionary impulses will <b>absolutely not</b> let you walk away from a dick that raw and ready. You think you can even hear your ovaries <i>crying</i> out for cum. You don’t even realize that your posture has changed - you instinctively raise your bare [pc.ass] into the air as you fall to your knees in front of her twitching tool");
+		if(pc.hasTail()) output(", [pc.tails] wagging to a blur as you prepare to fellate her");
+		output(". There was a distinctive scent about this laquine before, a spicy musk mixed with a brew of sweat and feminine quim. But now, that scent has turned into a literal haze of horniness that’s effectively brainwashed you as you can’t bear, for even a split second, to take your eyes off that magnificent [enemy.cock]. Even when this is over, you’ll be thinking about that smell for hours, maybe days... maybe weeks...");
 		output("\n\nThe rutting rabbit, as well, can’t possibly shake the ultra-fertile scent of the ripe bitch in heat who fed her such a powerful pill in the first place. And you wouldn’t have it any other way.");
 		pc.destroyItemByClass(BreedersBliss,1);
 	}
@@ -2529,7 +2560,10 @@ public function boredJumperHeatSexII():void
 
 	output("\n\nGosh, she must be in pain from how much blood has flowed to her nethers. She’s so <i>hot</i>, so <i>tasty</i>... The raw musk in her lubricant alone squeezes copious amounts of fem slime from your [pc.vagina]");
 	if(pc.hasCock()) output(", even stimulating your [pc.cocks] to add their own to the air");
-	output(". Your [pc.hips] grind together, [pc.oneClit] afflicting you with an inch only your hands can tend. You brazenly finger yourself, a task made all to easy by the torrential downpour of femlube oozing from your hot and ready cunt, moaning all over the bunny’s cock you suck so diligently.");
+	output(". Your [pc.hips] grind together, your erect [pc.clitNoun] afflicting you with an inch only your hands can tend. You brazenly finger yourself, a task made all to easy by the torrential downpour of syrup oozing from your hot and ready cunt, moaning all over the bunny’s cock you suck so diligently.");
+	
+	output(". Your [pc.hips] grind together, your erect [pc.clit] afflicting you with an itch only your hands can tend. You brazenly finger yourself, a task made all to easy by the torrential downpour of syrup oozing from your hot and ready cunt, moaning all over the bunny’s cock you suck so diligently.");
+	
 	output("\n\n<i>“D-damn...”</i> The laquine grabs your head. <i>“I feel so hard I bet my dick could replace the mining bots down here..! Just what do you think I’m gonna do to you for this?”</i> She half-taunts. In all honesty, you can’t quite tell where her tone of voice is, all that matters is that she’s going to ravish, no, <b>ruin</b> you with her gorgeous [enemy.cock], that she’s going to do her very best to impregnate you with every ounce of cum churning in her fuzzy nuts.");
 	output("\n\nShe yanks you down all the way on her cock so hard that tears form at the edges of your [pc.eyes], but you aren’t in pain. No, you understand, this is where you <i>need</i> to be right now, taking care of this studly specimen, your rightful mate. She uses your mouth like an onahole, and you’re all too happy to reciprocate, squeezing your cheeks around her shaft and lashing her mast with your [pc.tongue]. You coil around her [enemy.cockHead] and suck at her cumslit directly, hoping you’ll get a fresh batch before too long.");
 	output("\n\nFor once, hope was not a step on the road to disappointment, and you moan in whorish glee as her dick throbs in your mouth. Her legs thump against the ground and her balls smack into your chin. One of many climaxes to come is precluded by the hypnotic rhythms of her pounding heart, its beating rapid, working in harmony with the rest of her body. Your eyes shut as you gag on the puddles of virile cum she fires straight into your gurgling gut. If only you could taste it...");
@@ -2539,7 +2573,7 @@ public function boredJumperHeatSexII():void
 	output("\n\nYou babble incoherently, her bulging urethra pressing into you from the underside of her rock-hard prick. All you can think about is taking it into your womb, the risk... <i>chance</i> of procreation is all that keeps you going right now. The lusty laquine’s grin widens as she jerks upwards, planting her fuzzy balls on your face, right over your eyes. Unbidden, your [pc.tongue] darts out to massage her straining, churning nuts. It knows its place just like the rest of your body.");
 	output("\n\n<i>“Fuck yeah! Just like that, keep it up you little ball-slut!”</i> She paws her cock with one hand as you tend her testes. <i>“Wandering around caves just giving drugs to nasty pirates so they’ll fuck you into another reality, what kind of slut are you? Not like any slave... A shame I won’t be able to keep you around. I’m gonna be screaming this story to anyone who’ll listen, just like you’ll be screaming when I screw your brain wrong and all you think of is my dick!”</i>");
 	output("\n\nYou suckle and kiss at her heavy, sweat-slicked balls, at the laquine’s mercy. You hope that she’ll bend you over and fuck you soon");
-	if(pc.tailCount > 0) output(", your wagging [pc.tails] must have caught her attention by now");
+	if(pc.hasTail()) output(", your wagging [pc.tails] must have caught her attention by now");
 	output(". Every drop of fluid, sweat, cum, pre... whatever the tip of your tongue laps up is another drop of fuel for the fire burning within you. Submissive, libidinous warmth suffuses your entire being just being able to worship her manhood, to prostrate yourself beneath what will quench the thirst that threatens to drain you of life. You groan into her sack, exhaling hotly, <i>“Pleeasee...”</i>");
 	output("\n\nThat word was all you could muster in your oversexed stupor. To your joy, she pulls off your face and pushes you down, falling on top of you. Belly up, your legs are locked to either side of the roiled rabbit’s curvy hips, squirming and grinding against her for any kind of stimulation or release. Her [enemy.cock] flops on your crotch");
 	if(!pc.hasCock()) output(", dragging against your abdomen");
@@ -2550,7 +2584,7 @@ public function boredJumperHeatSexII():void
 
 	output("\n\nHer hands are all over you, roughly groping at whatever erogenous zone she can lay her aimless molestations at. You join her in this masturbatory affectation, but she doesn’t linger long. Soon, you’re flipped over on all fours, [pc.ass] pointed upwards and head down on the ground. Appropriately, your posture after the fact wasn’t her doing, but your eager body’s attempt to bring - and keep - her cum where it needs to go. You push back against her shaft, grinding your [pc.vagina] against her [enemy.cock] in the hopes you’ll insert it yourself.");
 	output("\n\nA sharp slap echoes out through the cave, her hand swatting your [pc.butt] a few more times for good measure, to remind you of who’s dick is pointed at who’s leaking twat. <i>“All right slut, let’s see how you fare. I’m really curious myself how you’re gonna look ruined with my cum.”</i>");
-	output("\n\nYou feel the laquine pirate rubbing her [enemy.cockHead] against your [pc.vagina], soaking it in your [pc.girlCumVisc] [pc.girlCumFlavor]. She detours, perhaps intentionally, from your pussy and fucks your [pc.thighs] with an animalistic groan. You can’t take it anymore, you start screaming for her to fuck you already, <i>“I’m your sluuut! I’m a dumb girl that wanted to get bred by a mean pirate! Fuck meeeee!”</i>");
+	output("\n\nYou feel the laquine pirate rubbing her [enemy.cockHead] against your [pc.vagina], soaking it in your [pc.girlCumVisc] [pc.girlCumNoun]. She detours, perhaps intentionally, from your pussy and fucks your [pc.thighs] with an animalistic groan. You can’t take it anymore, you start screaming for her to fuck you already, <i>“I’m your sluuut! I’m a dumb girl that wanted to get bred by a mean pirate! Fuck meeeee!”</i>");
 	output("\n\nAnticipation soars as you feel two latex-covered hands take hold of you, her [enemy.cockHead] perfectly aligned with your waiting pussy, you’re readier than ever!");
 	if(silly) output(" You won’t tire if she’ll take you higher!");
 	processTime(20);
@@ -2565,12 +2599,12 @@ public function boredJumperHeatSexIII():void
 	clearOutput();
 	showBoredJumper(true);
 	author("William");
-	output("You needn’t wait long. The jumper spears you in one mighty thrust, battering your smoldering womb after a dash through the scorching tunnel of your [pc.pussy]. Your tongue falls from your slack mouth as your eyes nearly roll back into your head, your body unable to comprehend the penetration it just experienced, its only response to constrict around the invader and slather it with more [pc.girlCumVisc] [pc.girlCumFlavor] to make its future visits easier. You pant in half-gasps, fists clenched, gritting your teeth just to not lose consciousness.");
+	output("You needn’t wait long. The jumper spears you in one mighty thrust, battering your smoldering womb after a dash through the scorching tunnel of your [pc.pussy]. Your tongue falls from your slack mouth as your eyes nearly roll back into your head, your body unable to comprehend the penetration it just experienced, its only response to constrict around the invader and slather it with more [pc.girlCumVisc] [pc.girlCumNoun] to make its future visits easier. You pant in half-gasps, fists clenched, gritting your teeth just to not lose consciousness.");
 	pc.cuntChange(0,enemy.cockVolume(0));
 	output("\n\n<i>“That’s right!”</i> The laquine coos, swatting your tush again. <i>“I don’t even need to move, your body’ll do it all for me if I want!”</i> She’s not wrong, your wanton body is doing everything it can to satisfy its subjugator.");
-	output("\n\nJust when you thought the worst of it was over, she starts moving in earnest. You can feel her ligaments stressing as they settle into her rapid pace, helping her hump your pussy with the strength and skill of a rapacious rabbit. You cry out deliriously, happy to have your cunny filled with [enemy.cock], happier that it’s a capable breeder like this pirate who tends your [pc.oneClit] while she rails you. Could she actually impregnate you? What kind of kids would you have? Ahh... It doesn’t matter. As long as you aren’t expected to leave without a belly full of cum, you don’t care at all what happens.");
-	output("\n\nYour moans join her own melody, your [pc.pussy] being filled to the brim with laquine love. You’ve already cum three times, and the fourth is approaching. Despite how turned on you’ve gotten, despite how inescapable the haze of pheromone-laced heat is, you manage to stay awake. Her hips smack into yours with the booming strength of an erupting volcano, each backblast splattering sweat and strands of natural lube in every direction. All the while, your cunny massages and tightens around the laquine’s cock, desperate to make it cum.");
-	output("\n\n<i>“Urk... I’m gonna cum!”</i> The jumper howls. While the words tumble out of her mouth, you already feel cum striking your cervix. Ropes as thick as what went down your throat, your nails scrape against the rocks below as you cry out once again. Despite cumming twice, and despite <i>still</i> cumming, her relentless pace doesn’t falter. Her fuzzy balls have plenty to give thanks to the pill you convinced her to take. Soon enough, you feel a veritable waterfall of cum spill out of your pussy all around her hilted [enemy.cock], painting your [pc.legOrLegs] white.");
+	output("\n\nJust when you thought the worst of it was over, she starts moving in earnest. You can feel her ligaments stressing as they settle into her rapid pace, helping her hump your pussy with the strength and skill of a rapacious rabbit. You cry out deliriously, happy to have your cunny filled with bunny, happier that it’s a capable breeder like this pirate who tends your [pc.oneClit] while she rails you. Could she actually impregnate you? What kind of kids would you have? Ahh... It doesn’t matter. As long as you aren’t expected to leave without a belly full of cum, you don’t care at all what happens.");
+	output("\n\nYour moans join her own melody, your [pc.pussy] being filled to the brim with laquine love. You’ve already cum three times, and the fourth is approaching. Despite how turned on you’ve gotten, despite how inescapable the haze of pheromone-laced heat is, you manage to stay awake. Her hips smack into yours with the booming strength of an erupting volcano, each backblast splattering sweat and strands of natural lube in every direction. All the while, your muff massages and tightens around the laquine’s cock, desperate to make it cum.");
+	output("\n\n<i>“Urk... I’m gonna cum!”</i> The jumper howls. While the words tumble out of her mouth, you already feel cum striking your cervix: Ropes as thick as what went down your throat. Your nails scrape against the rocks below as you cry out once again. Despite cumming twice, and despite <i>still</i> cumming, her relentless pace doesn’t falter. Her fuzzy balls have plenty to give thanks to the pill you convinced her to take. Soon enough, you feel a veritable waterfall of cum spill out of your pussy all around her hilted [enemy.cock], painting your [pc.legOrLegs] white.");
 	if(pc.hasCock()) output(" Not to be left out, your lonely [pc.cocksLight] sputter all over your [pc.knees] and [pc.chest], your [pc.cum] forming a debauched puddle for you to simmer in.");
 
 	output("\n\nYour legs go limp and your whole body numbs in the aftershock, but the laquine isn’t done. No, she’s far from finished with you. <i>“I think we should make sure I have the best chance, right? You’re not the type satisfied with one go, I bet.”</i> You gasp again as she resumes her previous pace, her dick still as hard as it ever was and ever so close to actually piercing your now cum-flooded womb. You whine and whimper just hearing the sloppy sounds coming from your crotch.");
@@ -2579,7 +2613,7 @@ public function boredJumperHeatSexIII():void
 
 	output("\n\nA loud groan later, you feel the laquine jumper pull free from your gaping pussy now perfectly molded to her shape. Her cum follows as you slump on the ground, tongue lolling, breathing heavily. Geez, it’s still so hot... You haven’t calmed down at all with just having your pussy filled. Fortunately, neither has the pirate, rubbing out another load on your butt as she wonders how next to take you. Judging by her fatuous laughter and loud movements, she must have decided.");
 
-	output("\n\nYou’re flipped back over to your back, face to face with the lapine herm. She tears yanks her suit apart before picking you up off the ground. You soon find yourself pinned against the nearest wall. She spreads your legs by the thigh, leaning you forward a bit until her [enemy.cockHead] slips past your [pc.clit] Is she...? Oh no...");
+	output("\n\nYou’re flipped onto your back, face to face with the lapine herm. She tears yanks her suit apart before picking you up off the ground. You soon find yourself pinned against the nearest wall. She spreads your legs by the thigh, leaning you forward a bit until her [enemy.cockHead] slips past your [pc.clit] Is she...? Oh no...");
 	processTime(30);
 	pc.orgasm();
 	pc.loadInCunt(enemy,0);
@@ -2627,8 +2661,8 @@ public function boredJumperHeatSexV():void
 		output("\n\nOpening your [pc.eyes] with some serious effort, you see the furry futa lowering herself over your tenting [pc.cock " + x + "], twitching out of unfulfilled need just beneath her fat cuntlips. The feeling of her ambrosial honey drizzling from her horse-pussy invigorates you just in time as she brings the [pc.cockHead " + x + "] to her puffy vulva, ready to impale herself on you and return the favor.");
 		output("\n\nUnlike her, you still have air left in your lungs for displaying pleasure, albeit exhausted pleasure. Your hips soon unite, and she bounces up and down wordlessly with a slack smile on her face. Even after your previous sexcapades, you admit it’s rather nice to see her attending to your unmet need. There’s no way she’s going to be standing after getting filled with [pc.cum].");
 		output("\n\nOne would think in your listless state you were incapable of enjoying this, but you manage to sit up and touch her. Although you don’t have much strength in your hands, you caress her thighs as her sweat-drenched legs carry her weight up and down your [pc.cock " + x + "]. In much the same way you felt her inside of you, you can feel your [pc.cockHead " + x + "] brushing against the rabbit’s womb and drowning in a downpour of laquine femlube.");
-		output("\n\nShe idly jerks her sore, spent [enemy.cock] whilst riding you, soon bringing herself to one final climax ");
-		if(pc.cockTotal() > 1 && pc.biggestCockIndex() != 0) output("by rubbing it against your [pc.cock " + x + "]");
+		output("\n\nShe idly jerks her sore, spent [enemy.cock] whilst riding you, soon bringing herself to one final climax");
+		if(pc.cockTotal() > 1 && pc.biggestCockIndex() != 0) output(" by rubbing it against your [pc.cock " + x + "]");
 		output(". Her orgasm contains more water than protein, but you on the other hand have plenty left. She moans in a gruff voice, her nails digging into your [pc.skinFurScales], as you cum inside her");
 		if(pc.cockTotal() > 1) output(" and deposit yet another load of [pc.cum] on each other");
 		output(". The jumper rocks her hips back and forth, bending your rod like it’s a mere dildo.");
@@ -2668,7 +2702,7 @@ public function boredJumperHeatSexVI():void
 	output("\n\n<i>“Oh fuck!”</i> The laquine shoots upward, cursing. <i>“Ughhh...”</i> She clutches her head and shakes wildly before settling her [enemy.eyeColor] eyes on you. <i>“Mmmh... Look at us, all dirty from the best sex for light years.”</i>");
 	output("\n\nYou smirk, slowly standing with regards to your overstuffed belly. She’s already grabbed her suit and is ready to go well before you. <i>“That was fuckin’ fun, cutie. Let me know if I’m a dad, would ‘ya?”</i>");
 	if(pc.hasCock() && pc.cockThatFits(enemy.vaginalCapacity(0)) >= 0) output("\n\nOr to let <i>you</i> know she’s a mother, you suggest.");
-	output("\n\nShe waves at you as she hurries off around a dimly lit corner, still trailing cum all the way. Now, to get the hell out of here and take a shower or three... Maybe get a massage too, you’re feeling");
+	output("\n\nShe waves at you as she hurries off around a dimly lit corner, still trailing cum all the way. Now, to get the hell out of here and take a shower or three... Maybe get a massage too, you’re feeling awfully sore...");
 	processTime(55);
 	pc.applyCumSoaked();
 	pc.orgasm();
