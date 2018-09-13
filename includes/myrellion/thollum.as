@@ -768,8 +768,60 @@ public function yarastaTalkMenu():void
 	//Her Secrets
 	//unlocked after 3 sex
 	if(flags["SEXED_YARASTA"] >= 3 && flags["SEXED_YARASTA"] != undefined) addButton(4,"Her Secrets",herSecretsYarasta,undefined,"Her Secrets","You’ve noticed that Yarasta doesn’t talk about her own past much....");
-	else addDisabledButton(4,"Her Secrets","Her Secrets","Yarasta always heads off conversations before they get to her past. You could ask directly, but you’d need to be quite intimate with her.");
+	else addDisabledButton(4, "Her Secrets", "Her Secrets", "Yarasta always heads off conversations before they get to her past. You could ask directly, but you’d need to be quite intimate with her.");
+	
+	// School outfit
+	if (flags["YARASTA_SPARE_OUTFIT_TAKEN"] == undefined) addButton(5,"Her Outfit",herOutfitYarasta,undefined,"Her Outfit","You can think of a few uses for a teacher outfit..");
+	
 	addButton(14,"Back",yarastaMainMenu);
+}
+
+//Her outfit
+//tooltop: You can think of a few uses for a teacher outfit..
+public function herOutfitYarasta():void 
+{
+	clearOutput();
+	clearMenu();
+	showYarasta();
+	author("HNB");
+	
+	if (pc.isBimbo() || pc.isBro())
+	{
+		output("<i>“Heyy about that outfit. Do you have many spares?”</i> you ask.\n\n");
+		output("<i>“Oh. Of course”</i> she responds, shyly. <i>“Why?”</i>\n\n");
+		output("<i>“Welll, it's pretty hot don't 'cha think? So I want one!”</i> you announce.\n\n");
+		output("<i>“Oh!”</i> she gasps, taken aback. <i>“Well I suppose you can. There's one in this closet”</i>. At this she reaches into a nearby closet and pulls out a spare uniform on a hanger. <i>“I usually keep this for spillages - got to remain professional. But here, just look after it and don't tell anyone!”</i> she responds, smiling.\n\n");
+	}
+	else if (pc.isNice())
+	{
+		output("<i>“Not to intrude, but your uniform. Do you have many spares?”</i> you ask.\n\n");
+		output("<i>“Oh. Of course”</i> she responds, shyly. <i>“Why?”</i>\n\n");
+		output("<i>“Oh, I was just wondering if I could have one”</i> you announce. <i>“Y'know, for various reasons.”</i>\n\n");
+		output("<i>“Oh! Well I suppose you can. There's one in this closet”</i>. At this she reaches into a nearby closet and pulls out a spare uniform on a hanger. <i>“I usually keep this for spillages - got to remain professional. But here, just look after it and don't tell anyone!”</i> she responds, smiling.\n\n");
+	}
+	else{
+		output("<i>“Do you have many spare uniforms?”</i> you ask.\n\n");
+		output("<i>“Oh. Of course”</i> she responds, shyly. <i>“Why?”</i>\n\n");
+		output("<i>“Oh, I was just wondering if I could have one”</i> you announce. <i>“Y'know, for various reasons.”</i>\n\n");
+		output("<i>“Oh! Well I suppose you can. There's one in this closet”</i>. At this she reaches into a nearby closet and pulls out a spare uniform on a hanger. <i>“I usually keep this for spillages - got to remain professional. But here, just look after it and don't tell anyone!”</i> she responds, smiling.\n\n");
+	}
+	
+	if (pc.inventory.length + 1 <= pc.inventorySlots())
+	{
+		var item:TeacherOutfit = new TeacherOutfit();
+		var loot:Array = new Array();
+		loot.push(item);
+		itemCollect(loot);
+		flags["YARASTA_SPARE_OUTFIT_TAKEN"] = true;
+	}
+	else 
+	{
+		output("<i>“Oh!”</i> you gasp. <i>“Actually I can't hold that right now. Maybe another time?”</i>\n\n");
+		output("<i>“Oh. Okay.”</i>");
+	}
+	
+	processTime(1);
+	addButton(0,"Next",mainGameMenu);
 }
 
 //The Thollum
