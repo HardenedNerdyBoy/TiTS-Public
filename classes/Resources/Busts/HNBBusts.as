@@ -8,10 +8,20 @@ package classes.Resources.Busts
 		
 		[Embed(source = "../../../assets/images/npcs/HNB/broodmother/Broodmother_Normal.png", mimeType = "image/png")]
 		public var Bust_RASKVEL_BROODMOTHER_NORMAL:Class;
+		[Embed(source = "../../../assets/images/npcs/HNB/broodmother/Broodmother_Normal_Futa.png", mimeType = "image/png")]
+		public var Bust_RASKVEL_BROODMOTHER_NORMAL_FUTA:Class;
+		[Embed(source = "../../../assets/images/npcs/HNB/broodmother/Broodmother_Normal_Treated.png", mimeType = "image/png")]
+		public var Bust_RASKVEL_BROODMOTHER_NORMAL_TREATED:Class;
+		[Embed(source = "../../../assets/images/npcs/HNB/broodmother/Broodmother_Normal_Futa_Treated.png", mimeType = "image/png")]
+		public var Bust_RASKVEL_BROODMOTHER_NORMAL_FUTA_TREATED:Class;
 		[Embed(source = "../../../assets/images/npcs/HNB/broodmother/Broodmother_Slutty.png", mimeType = "image/png")]
 		public var Bust_RASKVEL_BROODMOTHER_SLUTTY:Class;
-		[Embed(source = "../../../assets/images/npcs/HNB/broodmother/Broodmother_Slutty_Preg.png", mimeType = "image/png")]
-		public var Bust_RASKVEL_BROODMOTHER_SLUTTY_PREG:Class;
+		[Embed(source = "../../../assets/images/npcs/HNB/broodmother/Broodmother_Slutty_Futa.png", mimeType = "image/png")]
+		public var Bust_RASKVEL_BROODMOTHER_SLUTTY_FUTA:Class;
+		[Embed(source = "../../../assets/images/npcs/HNB/broodmother/Broodmother_Slutty_Treated.png", mimeType = "image/png")]
+		public var Bust_RASKVEL_BROODMOTHER_SLUTTY_TREATED:Class;
+		[Embed(source = "../../../assets/images/npcs/HNB/broodmother/Broodmother_Slutty_Futa_Treated.png", mimeType = "image/png")]
+		public var Bust_RASKVEL_BROODMOTHER_SLUTTY_FUTA_TREATED:Class;
 		
 		//CUMBUCKETS-------------------------------------------------------------------------------------------------------------------------------------------==========================//		
 		[Embed(source = "../../../assets/images/npcs/HNB/cumbucket/bucket_1_1.png", mimeType = "image/png")]

@@ -17,21 +17,32 @@ public function getPregRaskReturn_BustName():String
 {
 	var lvl:int = getBroodmotherLevel();
 	var isPreg:Boolean = isBroodmotherPregnant();
+	var bustStr:String;
 	
 	if (lvl == 0)
 	{
-		return "RASKVEL_FEMALE_NUDE";
+		bustStr = "RASKVEL_FEMALE_NUDE";
 	}
 	else if (lvl == 1) 
 	{
-		if (isPreg) return "PREGRASK";
-		else return "RASKVEL_BROODMOTHER_NORMAL";
+		if (isPreg) bustStr = "PREGRASK"; //Should be changed out to account for futa and treated if those edits are made
+		else{
+			bustStr = "RASKVEL_BROODMOTHER_NORMAL";
+			if (isBroodmotherFuta()) bustStr += "_FUTA";
+			if (isBroodmotherTreated()) bustStr += "_TREATED";
+		}
 	}
 	else 
 	{
-		if (iisPreg) return "RASKVEL_BROODMOTHER_SLUTTY_PREG";
-		else return "RASKVEL_BROODMOTHER_SLUTTY";
+		if (isPreg) bustStr = "PREGRASK"; //Should be changed out for new busts when done
+		else{
+			bustStr = "RASKVEL_BROODMOTHER_SLUTTY";
+			if (isBroodmotherFuta()) bustStr += "_FUTA";
+			if (isBroodmotherTreated()) bustStr += "_TREATED";
+		}
 	}
+	
+	return bustStr;
 }
 
 public function getPregRaskReturn_Name():String 
