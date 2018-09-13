@@ -1644,11 +1644,10 @@
 		{
 			return chars["ARDIA"];
 		}
-<<<<<<< HEAD
 		public function get raskvelBroodmother():RaskvelBroodmother
 		{
 			return chars["RASKVEL_BROODMOTHER"];
-=======
+		}
 		public function get emmrfox():EMMrFox
 		{
 			return chars["MRFOX"];
