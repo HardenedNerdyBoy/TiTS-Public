@@ -539,7 +539,8 @@ public function initTarkusRooms():void
 	rooms["234"].addFlag(GLOBAL.OUTDOOR);
 	rooms["234"].addFlag(GLOBAL.HAZARD);
 	rooms["234"].addFlag(GLOBAL.DESERT);
-
+	
+	
 	//#35 RUST\nPATH
 	rooms["235"] = new RoomClass(this);
 	rooms["235"].roomName = "RUST\nPATH";
@@ -757,17 +758,28 @@ public function initTarkusRooms():void
 	rooms["249"].addFlag(GLOBAL.HAZARD);
 	rooms["249"].addFlag(GLOBAL.DESERT);
 
-	//#50 IRON\nVALLEY
+	//#50 DEN EXTERIOR (RAVSKAL BROODMOTHER)
 	rooms["250"] = new RoomClass(this);
-	rooms["250"].roomName = "IRON\nVALLEY";
-	rooms["250"].description = "The light is dim but still sufficient for you to navigate against some of the smaller protrusions in the area. Rough orange walls pen you in to the east and west, curved in enough to remind you of bloodied waves frozen in time. You battle down the fleeting claustrophobia that rears its ugly head and consider your options. There’s too many chunks of metal to the south to allow you any further into this metallic ravine. North is the only passable direction.";
-	rooms["250"].runOnEnter = rustRidgesEncounters;
+	rooms["250"].roomName = "DEN\nEXTERIOR";
+	rooms["250"].description = "The light is dim but still sufficient for you to navigate against some of the smaller protrusions in the area. Rough orange walls pen you in to the east and west, curved in enough to remind you of bloodied waves frozen in time. Walking between the imposing walls you spot a makeshift structure ahead, composed of hastily-welded starship hulls. A squat, raskvel-sized security door is placed in the very center, flanked by what looks like a simple intercom.";
+	rooms["250"].runOnEnter = denEntry;
 	rooms["250"].northExit = "249";
 	rooms["250"].planet = "PLANET: TARKUS";
 	rooms["250"].system = "SYSTEM: REDACTED";
 	rooms["250"].addFlag(GLOBAL.OUTDOOR);
-	rooms["250"].addFlag(GLOBAL.HAZARD);
 	rooms["250"].addFlag(GLOBAL.DESERT);
+	rooms["250"].moveMinutes = 1;
+	
+	//#BROOD_DEN - DEN INTERIOR (RAVSKAL BROODMOTHER)
+	rooms["BROOD_DEN"] = new RoomClass(this);
+	rooms["BROOD_DEN"].roomName = "BROOD\nDEN";
+	rooms["BROOD_DEN"].description = "";
+	rooms["BROOD_DEN"].runOnEnter = denInside;
+	rooms["BROOD_DEN"].planet = "PLANET: TARKUS";
+	rooms["BROOD_DEN"].system = "SYSTEM: REDACTED";
+	rooms["BROOD_DEN"].moveMinutes = 2;
+	rooms["BROOD_DEN"].addFlag(GLOBAL.NPC);
+	rooms["BROOD_DEN"].addFlag(GLOBAL.INDOOR);
 
 	//#51 IRON\nRIDGES
 	rooms["251"] = new RoomClass(this);

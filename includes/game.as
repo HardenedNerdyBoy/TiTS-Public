@@ -1,4 +1,5 @@
 ﻿import classes.BreastRowClass;
+import classes.Characters.LapinaraFemale;
 import classes.Characters.PlayerCharacter;
 import classes.Creature;
 import classes.GameData.EventContainer;
@@ -3666,7 +3667,7 @@ public function processTime(deltaT:uint, doOut:Boolean = true):void
 	processHardlightAGThongBlurbs(deltaT, doOut);
 	processGastigothPregEvents(deltaT, doOut, totalDays);
 	processFrostwyrmPregEvents(deltaT, doOut, totalDays);
-	
+	processRaskvelBroodmotherEvents(deltaT, doOut, totalDays);	
 	
 	// Per-day events
 	if (totalDays >= 1)
@@ -3692,6 +3693,7 @@ public function processTime(deltaT:uint, doOut:Boolean = true):void
 		processQuinnPregEvents(deltaT, doOut, totalDays);
 		processUlaPregEvents(deltaT, doOut, totalDays);
 		processBothriocQuadommeEvents(deltaT, doOut, totalDays);
+		processRaskvelBroodmotherPregnancy(totalDays);
 		//9999 processQuaellePregEvents(deltaT, doOut, totalDays);
 	}
 	
@@ -4526,6 +4528,189 @@ public function processMyrPregEvents(deltaT:uint, doOut:Boolean, totalDays:uint)
 	if(flags["BRIHA_LATEST_SPAWN_AGE"] != undefined) flags["BRIHA_LATEST_SPAWN_AGE"] += totalDays;
 	if(flags["BRIHA_SECOND_OLDEST_SPAWN_AGE"] != undefined) flags["BRIHA_SECOND_OLDEST_SPAWN_AGE"] += totalDays;
 	if(flags["BRIHA_OLDEST_SPAWN_AGE"] != undefined) flags["BRIHA_OLDEST_SPAWN_AGE"] += totalDays;
+}
+
+public function processRaskvelBroodmotherPregnancy(days:int):void
+{
+	//PREGNANCY
+	//Calc days for birth based on lvl. Aware this could decrease if lvl'd during pregnancy, this is intended.
+	var numBirthed:int = flags["PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN"]
+	
+	var daysToBirth:int;
+	var lvl:int = getBroodmotherLevel();
+	
+	if (lvl == 1) daysToBirth = 3;
+	else daysToBirth = 2;
+	
+	//If pregnant and ready for birth
+	if (flags["PREG_RASK_RETURNED_ISPREGNANT"] == true && int(flags["PREG_RASK_RETURNED_LASTIMPREGNATED"] + daysToBirth) <= (int(GetGameTimestamp() / 1440) + days))
+	{
+		// Check for her birthing your children
+		if(flags["PREG_RASK_RETURNED_LASTIMPREGNATED_YOURS"] == true)
+		{
+			broodBirthMessage();
+		}
+		// Flag cleanup
+		flags["PREG_RASK_RETURNED_BABIES"] += flags["PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN"];
+		flags["PREG_RASK_RETURNED_LASTIMPREGNATED_RESTING_UNTIL"] = GetGameTimestamp() + (5 * numBirthed);
+		flags["PREG_RASK_RETURNED_ISPREGNANT"] = false;
+		flags["PREG_RASK_RETURNED_LASTIMPREGNATED_YOURS"] = false;
+	}
+}
+
+public function processRaskvelBroodmotherEvents(deltaT:uint, doOut:Boolean, totalDays:uint):void
+{
+	const EVENT_USINGSTORAGE:Number = 1;
+	const EVENT_JACKING_OFF:Number = 2;
+	const EVENT_FUCKING_RASKVEL:Number = 3;
+	const EVENT_FUCKING_LAPINARA:Number = 4;
+	
+	var newHours:uint = hours + Math.floor(deltaT / 60);
+	// Support for wrapping round to the next day, literally just want the hours in the day.
+	if (newHours >= 24)
+	{
+		newHours -= 24;
+	}
+	var lvl:int = getBroodmotherLevel();
+	
+	// Her random events every 4/lvl if lvl != 0
+	if (lvl != 0 && ((newHours % (4 / lvl)) == 0))
+	{
+		//Need to check whether it's a new 1 hour session since last time
+		if (flags["PREG_RASK_RETURNED_EVENT_LASTTIME"] != newHours)
+		{			
+			// If not pregnant and has spare cum and rand chance
+			if (!isBroodmotherPregnant() && flags["PREG_RASK_RETURNED_CUMSTORAGE"].length > 0 && rand(1))
+			{
+				var cumStorage:Array = flags["PREG_RASK_RETURNED_CUMSTORAGE"];
+				while ((flags["PREG_RASK_RETURNED_LASTIMPREGNATED"] != (GetGameTimestamp() / 1440)) && (cumStorage.length != 0))
+				{
+					var cum:Object = cumStorage.shift();
+					var players:Boolean = cum.players;
+					var cumQ:int = cum.cumQ;
+					impregnateBroodmother(players, cumQ);
+				}
+				flags["PREG_RASK_RETURNED_CUMSTORAGE"] = cumStorage;
+				flags["PREG_RASK_RETURNED_EVENT_TYPE"] = EVENT_USINGSTORAGE;
+			}
+			// Jacking off
+			else if (isBroodmotherFuta() && rand(4))
+			{
+				var cumStored:int = getBroodmotherCumStoredVolume();
+				var cap:int = getBroodmotherCumCap();
+				if (cumStored < cap)
+				{
+					var cumMap:Object = new Object();
+					cumMap.players = false;
+					if (cumStored + (40 * lvl) >= cap)
+					{
+						cumMap.cumQ = (cap - cumStored);
+					}
+					else
+					{
+						cumMap.cumQ = (40 * lvl);
+					}
+					flags["PREG_RASK_RETURNED_CUMSTORAGE"].push(cumMap);
+				}
+				flags["PREG_RASK_RETURNED_EVENT_TYPE"] = EVENT_JACKING_OFF;
+			}
+			// Random fucking , put other creatures and flags in though
+			else
+			{
+				var creature:Creature = null;
+				var creatureRand:int = rand(1);
+				if (creatureRand == 0)
+				{
+					creature = new RaskvelMale();
+					impregnateBroodmother(false, creature.cumQualityRaw);
+					flags["PREG_RASK_RETURNED_EVENT_TYPE"] = EVENT_FUCKING_RASKVEL;
+				}
+				else if (creatureRand == 1)
+				{
+					// Random fucking , put other creatures and flags in though
+					creature = new LapinaraFemale();
+					impregnateBroodmother(false, creature.cumQualityRaw);
+					flags["PREG_RASK_RETURNED_EVENT_TYPE"] = EVENT_FUCKING_LAPINARA;
+				}
+			}
+			//Update the eventtime flag
+			flags["PREG_RASK_RETURNED_EVENT_LASTTIME"] = newHours;
+		}
+	}
+}
+
+private function broodBirthMessage():void
+{
+	var numBirthed:int = flags["PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN"];
+	flags["PREG_RASK_RETURNED_BABIES"] += numBirthed;
+	
+	if (flags["PREG_RASK_RETURNED_NURSEBABIES"] == true)
+	{
+		if (currentLocation == "BROOD_DEN")
+		{
+			// Actual scene as player is in den
+			broodmotherBirthScene(numBirthed);
+		}
+		else 
+		{
+			AddLogEvent("Your codex beeps. You glance at it to find a message from the Raskvel Broodmother.\n\nAttached is a video which you flick open to find a ship CCTV recording of the broodmother giving birth. The message reads <i>I've just finished pushing out our bab" + (numBirthed > 1 ? "ies”</i>. <b>The raskvel broodmother has given birth to " + numBirthed + " of your children.</b> <i>“I'll contact that nursery of yours to let them know I'll be getting some good friends of mine to drop them off. Just, make sure to check up on them from time to time. Please.”</i>" : "y”</i>. <b>The raskvel broodmother has given birth to your child. <i>“I'll contact that nursery of yours to let them know I'll be getting some of my boytoys to drop them off. Just, make sure to check up on them from time to time. Please.”</i>"));
+		}
+	
+		var _childGenderWeights:Genders = new Genders();
+		_childGenderWeights.Male = 0;
+		_childGenderWeights.Female = 10;
+		_childGenderWeights.Intersex = 0;
+		_childGenderWeights.Neuter = 0;
+		if (isBroodmotherFuta())
+		{
+			_childGenderWeights.Intersex += 5;
+		}
+		if (pc.isMale())
+		{
+			_childGenderWeights.Male += 10;
+			if (pc.hasVagina())
+			{
+				_childGenderWeights.Intersex += 5;
+			}
+		}
+		else if (pc.isFemale())
+		{
+			_childGenderWeights.Female += 10;
+			if (pc.hasCock())
+			{
+				_childGenderWeights.Intersex += 5;
+			}
+		}
+		
+		for (var x:int = 0; x < numBirthed; x++)
+		{
+			var c:Child = Child.NewChildWeights(
+				GLOBAL.TYPE_RASKVEL,
+				1.0,
+				numBirthed,
+				_childGenderWeights
+			);
+			c.BornTimestamp = GetGameTimestamp();
+			ChildManager.addChild(c);
+		}
+		
+		StatTracking.track("pregnancy/total day care", numBirthed);
+	}
+	else 
+	{
+		if (currentLocation == "BROOD_DEN")
+		{
+			// Actual scene as player is in den
+			broodmotherBirthScene(numBirthed);
+		}
+		else 
+		{
+			AddLogEvent("Your codex beeps. You glance at it to find a message from the Raskvel Broodmother.\n\nAttached is a video which you flick open to find a ship CCTV recording of the broodmother giving birth. The message reads <i>I've just finished pushing out our bab" + (numBirthed > 1 ? "ies”</i>. <b>The raskvel broodmother has given birth to " + numBirthed + " of your children.</b> <i>“They grow up quite quickly, so if you see any Raskvel out there with big cocks or nice fertile pussys, they're probably ours!”</i>" : "y”</i>. <b>The raskvel broodmother has given birth to your child. <i>“They grow up quite quickly, so if you see any Raskvel out there with big cocks or nice fertile pussys, they're probably ours!”</i>"));
+		}
+	}
+	
+	StatTracking.track("pregnancy/broodmother sired", numBirthed);
+	StatTracking.track("pregnancy/total sired", numBirthed);
 }
 
 public function processEmmyEvents(deltaT:uint, doOut:Boolean, totalDays:uint):void

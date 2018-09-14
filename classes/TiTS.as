@@ -313,6 +313,7 @@
 		include "../includes/tarkus/lane.as";
 		include "../includes/tarkus/lapinara.as";
 		include "../includes/tarkus/mindwashVisor.as";
+		include "../includes/tarkus/raskvelBroodmotherReturn.as";
 		include "../includes/tarkus/raskvelFemaleFight.as";
 		include "../includes/tarkus/raskvelMaleFight.as";
 		include "../includes/tarkus/rooms.as";
@@ -1642,6 +1643,10 @@
 		public function get ardia():Ardia
 		{
 			return chars["ARDIA"];
+		}
+		public function get raskvelBroodmother():RaskvelBroodmother
+		{
+			return chars["RASKVEL_BROODMOTHER"];
 		}
 		public function get emmrfox():EMMrFox
 		{
