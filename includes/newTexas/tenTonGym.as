@@ -695,8 +695,18 @@ public function swimmingPoolBonus():Boolean
 	}
 	output("Tile covers the floor in this long room, and the whole place has a pleasant yet unfamiliar smell. A pool stretches nearly the entire length of the room, with black lines crossing its floor to designate swimming lanes. A sloping ramp leads down into the shallow end.");
 	output("\n\nThis place seems more popular with the local cows than the other rooms, as there are groups of them swimming together. Many are clad in holstein-print swimsuits, while others – cow and bull alike – go naked. One naked cowgirl floats on her back, pink nipples pointing toward the ceiling, pushing herself along in a lazy backstroke.");
+	
+	// Lilly
+	if (hours % 2 == 0)
+	{
+		if (flags["MET_LILLY"]) output(" Lilly is swimming at great pace from one end of the pool to the other. It's probably best not to disturb her.");
+		else if (CodexManager.entryUnlocked("Kerokoras")) output("A female Kerokoras is swimming at great pace from one end of the pool to the other. It's probably best not to disturb her.");
+		else output("A white and green frog-girl is swimming at great pace from one end of the pool to the other. It's probably best not to disturb her.");
+	}
+	
 	output("\n\nYou wonder why it doesn’t smell like chlorine; surely they can’t go without something to keep the pool clean, with this many people in it. You dip two fingers into the pool water to test it, and find it smooth, almost slippery, the sign of a synthetic decontaminant. That explains the unfamiliar smell, and it’s probably a safer choice here, as you’re sure more than a few people have had sex in this pool.");
 	output("\n\nA bubbling spa sits in one corner, big enough to hold fifteen to twenty people. It looks to be very popular; about a dozen cows and bulls sit in it, some on each others’ laps. You’re not sure if the motion in the water is entirely from the jets, or if there’s something going on beneath the bubbles. Probably both.");
+	output("\n\nIn another corner sits a glass door, which would be transparent if it wasn't for the steam crawling up the other side.");
 	
 	if(pc.inSwimwear(true) || pc.isNude())
 	{
@@ -711,13 +721,16 @@ public function swimmingPoolBonus():Boolean
 		addButton(4,"Spa",spaTimesFunStuff,undefined,"Spa","Relax in the spa and recover some energy.");
 		//[Swimmer] Go to Lola
 		if(flags["MET_LOLA"] == undefined) addButton(3,"Swimmer",lolaPoolApproach,undefined,"Swimmer","A naked cowgirl floats about here.");
-		else addButton(3,"Lola",lolaPoolApproach,undefined,"Lola","Have some floaty fun with the cowgirl.");
+		else addButton(3, "Lola", lolaPoolApproach, undefined, "Lola", "Have some floaty fun with the cowgirl.");
+		//[Sauna] Go to sauna
+		addButton(7,"Steam Room",steamRoomEnter,undefined,"Sauna","Relax in the hot and steamy sauna.");
 	}
 	else
 	{
 		addDisabledButton(0,"Quick Swim","Quick Swim","You’ll need to get yourself swim-ready before stepping into the pool.");
 		addDisabledButton(1,"Swim Laps","Swim Laps","You’ll need to get yourself swim-ready before stepping into the pool.");
-		addDisabledButton(4,"Spa","Spa","You’ll need to get yourself ready before stepping into the spa.");
+		addDisabledButton(4, "Spa", "Spa", "You’ll need to get yourself ready before stepping into the spa.");
+		addDisabledButton(7,"Steam Room","Steam Room","You’ll need to get yourself ready before stepping into the steam room.");
 	}
 	if(isSwimChanged)
 	{
@@ -837,6 +850,102 @@ public function spaTimesFunStuff():void
 	pc.lust(15+rand(5));
 	clearMenu();
 	addButton(0,"Next",mainGameMenu);
+}
+
+//Sauna
+public function steamRoomEnter():void
+{
+	clearOutput();
+	author("HNB");
+	showName("STEAM\nROOM");
+	clearMenu();
+	
+	output("You walk over to the corner of the room and pull open the glass door. As it swings open, a wave of heat blasts you in the face and steam clouds your vision. Raising an arm to shield your eyes from the heat, you clamber your way to the seat lining the walls and sit down.\n");
+	output("As you get used to the steam you lean back and relax against the hot wall. Opening your eyes, you take a look around.\n");
+	
+	flags["TEN_TON_STEAM_ROOM_INSIDE"] = true;
+	processTime(1);
+	addButton(0,"Next",steamRoomInside);
+}
+
+public function steamRoomInside():void
+{
+	clearOutput();
+	author("HNB");
+	showName("STEAM\nROOM");
+	clearMenu();
+	
+	output("You're lounging back on a seat in the steam room, taking in the nice, hot air.\n");
+	
+	if (hours % 2 == 1)
+	{
+		// Other users of the steam room
+		if (flags["MET_LILLY"]){
+			output("Lilly is also sitting across from you, resting her muscles.\n");
+			addButton(1,"Lilly",approachLilly);
+		}
+		else if (CodexManager.entryUnlocked("Kerokoras")){
+			output("A white and green, female Kerokoras is sitting across from you, resting.\n");
+			addButton(1,"Kerokoras",approachLilly);
+		}
+		else{
+			output("A white and green frog-girl is is sitting across from you, resting.\n");
+			addButton(1,"Frog girl",approachLilly);
+		}
+	}
+	
+	addButton(0,"Relax",relaxSteamRoom);
+	addButton(14,"Leave",leaveSteamRoom);
+}
+
+public function relaxSteamRoom():void
+{
+	clearOutput();
+	author("HNB");
+	showName("SAUNA");
+	clearMenu();
+	
+	output("You decide to lean back and just relax. The warm, steamy air hugs your body,");
+	switch (pc.skinType)
+	{
+		case GLOBAL.SKIN_TYPE_SKIN:
+			output("opening your pores and soothing your muscles.");
+			break;
+		default:
+			output("warming your [pc.skinFurScales] and soothing your muscles.");
+			break;
+	}
+	
+	output("You close your eyes and let the heat envelop you.\n\n");
+	
+	sweatyDebuff();
+	if (flags["STEAMROOM_LASTRELAXED"] != undefined && flags["STEAMROOM_LASTRELAXED"] != kGAMECLASS.days)
+	{
+		output("30 minutes later, you decide to get up, your muscles feeling more relaxed. Although you have been left a little sweaty and out of breath.\n");
+		pc.createStatusEffect("Relaxed muscles", 0, 0, 0, 0, false, "Icon_Rotate", "The steam room has improved your circulation and relaxed your muscles. You probably wont feel sore from your next workout.", false, 60, 0xFF8080);
+		flags["STEAMROOM_LASTRELAXED"] = kGAMECLASS.days;
+	}
+	else 
+	{
+		output("30 minutes later, you decide to get up, feeling a little sweaty and out of breath.\n");
+	}
+	
+	processTime(30);
+	addButton(0,"Next",steamRoomInside);
+}
+
+public function leaveSteamRoom():void 
+{
+	clearOutput();
+	author("HNB");
+	showName("SAUNA");
+	clearMenu();
+	
+	output("You get up from your perch and walk through the thick steam before arriving at the door and swinging it open, stepping out into the cold non-steamy air.");
+	
+	flags["TEN_TON_STEAM_ROOM_INSIDE"] = false;	
+	processTime(1);
+	addButton(0,"Next",swimmingPoolBonus);	
 }
 
 //Locker Room and Showers
@@ -2354,7 +2463,15 @@ All stacks of [Sore] can be removed by sleeping.
 
 public function soreDebuff(arg:int = 0):Number
 {
-	soreChange(arg);
+	// Relaxed muscles buff
+	if (pc.hasStatusEffect("Relaxed muscles"))
+	{
+		pc.removeStatusEffect("Relaxed muscles");
+	}
+	else 
+	{
+		soreChange(arg);
+	}
 	
 	return pc.statusEffectv1("Sore Counter");
 }

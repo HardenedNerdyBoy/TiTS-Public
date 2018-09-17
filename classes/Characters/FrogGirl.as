@@ -97,8 +97,8 @@
 			//2 - Between last legs or at end of long tail.
 			//3 - On underside of a tail, used for driders and the like, maybe?
 			this.genitalSpot = 0;
-			this.tailType = GLOBAL.TYPE_HUMAN;
-			this.tailCount = 0;
+			this.tailType = GLOBAL.TYPE_FROG;
+			this.tailCount = 1;
 			this.tailFlags = new Array();
 			//Used to set cunt or dick type for cunt/dick tails!
 			this.tailGenitalArg = 0;

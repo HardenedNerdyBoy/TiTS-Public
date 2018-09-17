@@ -3666,7 +3666,7 @@ public function processTime(deltaT:uint, doOut:Boolean = true):void
 	processHardlightAGThongBlurbs(deltaT, doOut);
 	processGastigothPregEvents(deltaT, doOut, totalDays);
 	processFrostwyrmPregEvents(deltaT, doOut, totalDays);
-	
+	processTenTonSteamRoomTime(deltaT, doOut);	
 	
 	// Per-day events
 	if (totalDays >= 1)
@@ -4533,6 +4533,23 @@ public function processEmmyEvents(deltaT:uint, doOut:Boolean, totalDays:uint):vo
 	if (totalDays >= 1)
 	{
 		flags["EMMY_SPECIAL"] = undefined;
+	}
+}
+
+public function processTenTonSteamRoomTime(deltaT:uint, doOut:Boolean):void 
+{
+	if (flags["TEN_TON_STEAM_ROOM_INSIDE"] == true && hours % 2 == 1) //If Lilly's in the steam room
+	{
+		// Get how many mins past the hour it was.
+		var minsPastHour:int = minutes % 60;
+		if (minsPastHour + deltaT > 60)
+		{
+			pc.lust(deltaT - minsPastHour);
+		}
+		else 
+		{
+			pc.lust(deltaT);
+		}
 	}
 }
 
