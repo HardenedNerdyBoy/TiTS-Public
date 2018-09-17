@@ -1,3 +1,26 @@
+//Available Flags
+//"PREG_RASK_RETURNED" - Whether the player has returned to her den after the expedition.
+//"PREG_RASK_RETURNED_LVLPOINTS" - The number of level points the player has. Every 20 is a new level.
+//"PREG_RASK_RETURNED_ISTREATED" - Whether she's treated
+//"PREG_RASK_RETURNED_ISTHROBBED" - Whether she's throbbed
+//"PREG_RASK_RETURNED_LASTIMPREGNATED" - When the broodmother was last impregnated. Used for counting until her due date.
+//"PREG_RASK_RETURNED_ISPREGNANT" - Whether the broodmother is pregnant
+//"PREG_RASK_RETURNED_LASTIMPREGNATED_YOURS" - Whether her current baby is yours.
+//"PREG_RASK_RETURNED_LASTIMPREGNATED_CHILDREN" - How many eggs she's carrying.
+//"PREG_RASK_RETURNED_LASTIMPREGNATED_RESTING_UNTIL" - The time she's resting until after birth
+//"PREG_RASK_RETURNED_LASTMILKED" - When she was last milked (Treated).
+//"PREG_RASK_RETURNED_HAVEIMPREGNATED" - Whether the player has ever knocked her up.
+//"PREG_RASK_RETURNED_FRIENDLINESS" - Her friendliness points.
+//"PREG_RASK_RETURNED_BABIES" - Counts how many babies she's had since being returned to. Not necessarily the players.
+//"PREG_RASK_RETURNED_NURSEBABIES" - Whether sired babies are going to the nursery.
+//"PREG_RASK_RETURNED_CUMSTORAGE" - How much cum the broodmother is storing. Is a list of cum quantities, to make bucket storage more accurate and so that we can have the players load separate from others. 
+//"PREG_RASK_RETURNED_CUMSTORAGE_VOLUMECAP" - How much she can store. 1000*Buckets starting at 1000.
+//"PREG_RASK_RETURNED_EVENT_LASTTIME"  - Stores a time at the start of an hour so that random events for her are always consistent.
+//"PREG_RASK_RETURNED_EVENT_TYPE" - The type of random event she's in i.e. fucking a raskvel, jacking off etc.
+//"PREG_RASK_RETURNED_DRESSUP_FANTASY" - The state of dress up fantasy. 0 if you haven't had it, 1 if you have and need to talk about it with her and 2 if you've discussed it with her, so you're ready to dress her up.
+//"PREG_RASK_RETURNED_DRESSUP_FANTASY_WEARING" - What she's wearing. Stores an outfit classname.
+//"PREG_RASK_RETURNED_DRESSUP_FANTASY_SEEN_REPAIR_RASKVEL" - Whether you've seen the repair raskvel before at the end of undressing her. Changes the scene where you undress her.
+
 import adobe.utils.CustomActions;
 import classes.Characters.RaskvelBroodmother;
 import classes.ItemSlotClass;
@@ -1224,7 +1247,7 @@ public function giveThrobb():void
 		}
 		
 		output("The broodmother lets out a long " + (isBroodmotherTreated() ? "moo " : "moan ") + "as this happens before giggling.\n <i>“I see what you mean now by helping me get cock. You better take responsibility for this though”</i>.");
-		flags["PREG_RASK_RETURNED_BODYTYPE"].push("FUTA");
+		flags["PREG_RASK_RETURNED_ISTHROBBED"] = true;
 		showPregRaskReturn();
 		addButton(0,"Continue",giveBroodMotherItem);
 	}
@@ -1388,7 +1411,7 @@ public function giveTreatment_3():void
 	
 	pc.lust(10);
 	pc.destroyItemByClass(Treatment, 1);
-	flags["PREG_RASK_RETURNED_BODYTYPE"].push("TREATED");
+	flags["PREG_RASK_RETURNED_ISTREATED"] = true;
 	showPregRaskReturn();
 	
 	if (pc.hasCock())
@@ -4487,9 +4510,13 @@ public function setupBroodmother():void
 	{
 		flags["PREG_RASK_RETURNED_LVLPOINTS"] = 0;
 	}
-	if (flags["PREG_RASK_RETURNED_BODYTYPE"] == undefined)
+	if (flags["PREG_RASK_RETURNED_ISTREATED"] == undefined)
 	{
-		flags["PREG_RASK_RETURNED_BODYTYPE"] = []; // Can add FUTA, TREATED
+		flags["PREG_RASK_RETURNED_ISTREATED"] = false;
+	}
+	if (flags["PREG_RASK_RETURNED_ISTHROBBED"] == undefined)
+	{
+		flags["PREG_RASK_RETURNED_ISTHROBBED"] = false;
 	}
 	if (flags["PREG_RASK_RETURNED_LASTIMPREGNATED"] == undefined)
 	{
@@ -4700,12 +4727,12 @@ public function impregnateBroodmother(players:Boolean, cumQ:int):Boolean
 
 public function isBroodmotherFuta():Boolean
 {
-	return flags["PREG_RASK_RETURNED_BODYTYPE"].indexOf("FUTA") != -1;
+	return flags["PREG_RASK_RETURNED_ISTHROBBED"];
 }
 
 public function isBroodmotherTreated():Boolean
 {
-	return flags["PREG_RASK_RETURNED_BODYTYPE"].indexOf("TREATED") != -1;
+	return flags["PREG_RASK_RETURNED_ISTREATED"];
 }
 
 public function denEntry():void
