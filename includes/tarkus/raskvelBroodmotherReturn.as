@@ -4756,7 +4756,7 @@ public function denEntryIntercom():void
 
 	var lvl:int = getBroodmotherLevel();
 	
-	output("You approach the glowing breen button and hold it down.\n");
+	output("You approach the glowing green button and hold it down.\n");
 	
 	if (hours <= 4 || hours >= 22 || (lvl != 0 && ((hours % (4 / lvl)) == 0)) || (flags["PREG_RASK_RETURNED_LASTIMPREGNATED_RESTING_UNTIL"] > GetGameTimestamp())) 
 	{
