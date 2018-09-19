@@ -1,7 +1,10 @@
 package classes.Resources.Busts 
 {
 	import flash.geom.Rectangle;
-
+	/**
+	 * ...
+	 * @author HNB
+	 */
 	public class HNBBusts 
 	{
 		//Lilly

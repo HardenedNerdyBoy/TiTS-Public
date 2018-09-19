@@ -11,8 +11,8 @@ public function showLilly(nude:Boolean = false):void
 	else if (CodexManager.entryUnlocked("Kerokoras")) showName("KEROKORAS\nSWIMMER");
 	else showName("FROG-LIKE\nSWIMMER");
 	
-	/*if (nude) null;
-	else null;*/
+	if (nude) showBust("LILLY_NUDE");
+	else showBust("LILLY");
 	
 	author("HNB");
 }
@@ -35,7 +35,7 @@ public function approachLilly():void
 	{
 		if (flags["LILLY_MET"] == undefined)
 		{
-			output("You face the " + (CodexManager.entryUnlocked("Kerokoras") ? "Kerokoras girl" : "frog girl") + " opposite you. Her smooth skin is a mixture of white and green and she's wearing a swimsuit. Makes sense, she has an athletic build, with powerful legs and slender features.\n");
+			output("You face the " + (CodexManager.entryUnlocked("Kerokoras") ? "Kerokoras girl" : "frog girl") + " opposite you. Her shiny, smooth skin is a mixture of white and green, with dark green markings and freckles. She's wearing a swimsuit, which makes sense, she has an athletic build, with powerful legs and slender features which does make her look like a swimmer.\n");
 			output("She notices you looking in her direction and looks back at you.\n");
 			output("<i>“Uhhh, hi?”</i> she says. <i>“You okay there?”\n\n");
 			
@@ -43,6 +43,12 @@ public function approachLilly():void
 				output("<i>“Haha, yeah, I'm doing great. You come here often?”</i> you reply, continuing to eye her up.\n\n");
 				output("She giggles. <i>“Aha, yeah. I come here quite a lot.”</i> She puts a hand out. <i>“The name's Lilly”</i>\n\n");
 				output("<i>“[pc.name] Steele.”</i> you respond shaking her hand.");
+			}
+			else if (pc.isBimbo())
+			{
+				output("<i>“Oh, hey! Yeah, I'm fabulous!”</i> you reply continuing to eye her up.");
+				output("She giggles. <i>“Aha, yeah, me too!”</i> She puts a hand out. <i>“The name's Lilly”</i>");
+				output("<i>“[pc.name] Steele.”</i> you respond, smiling widely, completely oblivious to her attempt to shake your hand.");
 			}
 			else{
 				output("<i>“Oh, yeah, sorry. Just haven't seen you before”</i> you reply, adjusting your eyes to meet hers.\n\n");
@@ -54,7 +60,20 @@ public function approachLilly():void
 		else 
 		{
 			output("<i>“Hey Lilly”</i> you call over. Lilly turns to face you as you do. <i>“How's the swimming today?”</i>\n\n");
-			output("<i>“Pretty good”</i> she responds. <i>“Just got to rest for a bit before getting back to it.”</i>");
+			output("<i>“Pretty good”</i> she responds. <i>“Just got to rest for a bit before getting back to it.");
+			if (flags["LILLY_SEX_AVAILABLE"])
+			{
+				var randInt:int = rand(1);
+				switch (randInt)
+				{
+					case 0: output(" Maybe you could help me relax?”</i>");
+					case 1: output(" It's a bit too hot in here to rest though, don't ya think?”</i>");
+				}
+			}
+			else 
+			{
+				output("”</i>");
+			}
 		}
 		
 		addButton(14, "Back", steamRoomInside);
@@ -78,8 +97,8 @@ public function appearanceLilly():void
 	if (CodexManager.entryUnlocked("Kerokoras")) output("Kerokoras");
 	else output("frog girl");
 	
-	output(" sitting across from you. She's wearing a swimsuit that perfectly compliments her athletic figure, with her body being flat and streamlined. Her shiny, smooth skin is a mixture of green and white and muscles push lightly against it, gained through years of swimming.");
-	output("\nLilly's hairless human-like head is just as smooth, decorated with sky blue, reptilian eyes and slits for nostrils. Her long arms end in webbed hands, great for scooping water behind her. Looking down you notice her powerful legs and the noticeable behind that she's perched on, only just small enough to not slow down her swimming and a stubby, frog-like tail poking out from behind her.");
+	output(" sitting across from you. She's wearing a swimsuit that perfectly compliments her athletic figure. Her shiny, smooth skin is a mixture of green and white, with dark green markings across her muscular back and arms, gained through years of swimming.");
+	output("\nLilly's hairless human-like head is just as smooth, decorated with sky blue, reptilian eyes and slits for nostrils. The same dark green marks are also on her cheeks, but they're small and freckle-like. Her long arms end in webbed hands, great for scooping water behind her. Looking down you notice her powerful legs and the noticeable behind that she's perched on, only just small enough to not slow down her swimming. Above that, a stubby, frog-like tail pokes out.");
 	
 	addDisabledButton(0, "Appearance");
 }
@@ -114,8 +133,16 @@ public function talkLilly_Herself():void
 	else 
 	{
 		output("<i>“Ahah, you've asked this before. Don't you remember?”</i> she asks, giggling.\n\n");
-		output("<i>“Sure I do. I just want to hear it again!”</i> you retort.\n\n");
-		output("<i>“Haha, fine. I'm a Kerokoras from the forest on Mhenga. I liked swimming and I didn't get on with the others, so when I grew up I decided to leave. I saw some professional swimmers on a TV in a bar and came here to train to be one. ");
+		if (pc.intelligence() >= 15)
+		{
+			output("<i>“Sure I do. I just want to hear it again!”</i> you retort.\n\n");
+		}
+		else 
+		{
+			output("<i>“Uhhh...”</i> you reply.");
+		}
+		
+		output("<i>“Haha, fine. I'm a Kerokoras from the forest on Mhen'ga. I liked swimming and I didn't get on with the others, so when I grew up I decided to leave. I saw some professional swimmers on a TV in a bar and came here to train to be one. ");
 		output("Since then I've been living here, training as much as possible and competing against other athletes for a living.”</i>");
 	}
 	
@@ -140,8 +167,15 @@ public function talkLilly_NT():void
 	output("<i>“You live here, right?”</i> you ask.\n\n");
 	output("<i>“On New Texas? Yeah, I have a room above the bar. It's quite cheap, so I can afford it with a decent amount to spare with my competition winnings.”</i>\n\n");
 	output("<i>“Oh, nice. Sounds like things are going okay financially”</i> you say, smiling. <i>“Do you like it here?”</i>\n\n");
-	output("<i>“Well, I'm mainly here for the pool. I'm sure there's other planets with better one's but the rent here is cheap enough and it's not toooo busy. The temperature's quite nice here too, not too far below what I grew up in.”</i>\n\n");
-	output("<i>“And the locals?”</i> you ask.\n\n");
+	output("<i>“Well, I'm mainly here for the pool. I'm sure there's other planets with uhhh, cleaner one's but the rent here is cheap enough and it's not toooo busy. The temperature's quite nice here too, not too far below what I grew up in.”</i>\n\n");
+	if (pc.isBimbo() || pc.isTreated())
+	{
+		output("<i>“And the locals are a big bonus too, right?”</i> you ask.\n\n");
+	}
+	else 
+	{
+		output("<i>“And the locals?”</i> you ask.\n\n");
+	}	
 	output("<i>“Well - uh, they're a bit rowdy”</i> she stammers, her cheeks reddening. <i>“But I guess so are my kind, aha”</i>\n\n");
 	output("You try your best to suppress a smirk at her reaction.\n\n");
 	
@@ -163,53 +197,48 @@ public function talkLilly_LikeOtherKerokoras():void
 		clearMenu();
 		showLilly();
 		
-		output("<i>“So you're not that different to other Kerokoras right?”</i> you remark.\n\n");
-		output("<i>“Uhh, well, I suppose not really that much”</i> she responds, unsure as to what extent you mean.\n\n");
+		output("<i>“So, even though you left the forest, you're still similar to the other Kerokoras' right?”</i> you ask.\n\n");
+		output("<i>“Uhh, yeah I guess so!”</i> she responds.\n\n");
 		output("<i>“I thought as much. I mean, unless this steam's much hotter than I thought it was, your sweat's the same right?”</i>\n\n")
-		output("<i>“OH, shoot! I hadn't thought of that! Sorry!”</i> she gasps. However there's no hint of surprise to her voice.\n\n");
+		output("<i>“OH, shoot! I hadn't thought of that! Sorry!”</i> she gasps. However she doesn't sound all that surprised.\n\n");
 		if (pc.isAss() || pc.isBro())
 		{
 			output("<i>“Yeah you had”</i> you grunt, walking towards her as you pick up on the complete lack of surprise in her voice. <i>“You're not a very good liar, Lilly.”</i>\n\n");
-			output("<i>“Huh!”</i> she squeaks <i>“Alright you caught me! I'm sorry!”</i>\n\n");
-			output("<i>“Oh it's quite alright”</i> you moan as you stop in front of her. <i>“I'm going to make sure you get what you want”</i>.\n\n");
-			if (!pc.isCrotchExposed())
-			{
-				output("You pull down your [pc.CrotchCovers] and lean over the frog girl.");
-			}
-			else if (pc.hasCock())
-			{
-				output("You lean over her and grab hold of your [pc.cocks " + pc.biggestCockIndex() + "].");
-			}
-			else 
-			{
-				output("You lean over the frog girl and lick your [pc.lips].");
-			}
+			output("<i>“Huh!”</i> she squeaks before breaking into a fit of giggles. <i>“Alright you caught me! It worked though didn't it?”</i>\n\n");
+			output("<i>“Yeah, it worked”</i> you moan as you stop in front of her. ");
+		}
+		else if (pc.isBimbo())
+		{
+			output("<i>“Don't be shy!”</i> you giggle, walking towards her as you pick up on the complete lack of surprise in her voice. <i>“I'm sure the locals around these parts don't mind anyway!”</i>\n\n");
+			output("<i>“Huh!”</i> she squeaks before breaking into a fit of giggles. <i>“Yeah you're right, they usually like it. You do too, right?”</i>\n\n");
+			output("<i>“Totally!”</i> you moan as you stop in front of her ");
 		}
 		else 
 		{
 			output("<i>“Don't be”</i> you laugh, secretly pondering on the lack of surprise in her voice. <i>“It's okay. As long as that wasn't your intention of course.”</i>\n\n");
 			output("<i>“Huh?!”</i> she gasps, her cheeks turning red. <i>“Why?!”</i>\n\n");
 			output("<i>“Well, there's two reasons. One, it says in my codex that your species are quite the opportunists when it comes to sex”</i> you reply, smugly. <i>“And secondly, you're living on New Texas. There's no way you're an angel, living here.”</i>\n\n");
-			output("<i>“Well, um, maybe.”</i> she responds sheepishly, her face turning bright red. <i>“The bulls here are so scary! I find it hard to talk directly to them! But I need it! So what are you going to do about it!”</i> she blurts out.\n\n");
-			output("You walk towards her and stop in front of the timid frog girl. <i>“Well Lilly. I'm going to give you what you need”</i> you moan ");
-			if (!pc.isCrotchExposed())
-			{
-				output("before pulling down your [pc.CrotchCovers] and leaning over her.\n\n");
-			}
-			else if (pc.hasCock())
-			{
-				output("before leaning over her and grabbing hold of your [pc.cocks " + pc.biggestCockIndex() + "].\n\n");
-			}
-			else 
-			{
-				output("before leaning over her and licking your [pc.lips].\n\n");
-			}
+			output("<i>“Well, um, maybe.”</i> she responds sheepishly, her face turning bright red before breaking into a fit of giggles. <i>“Alright you caught me! It worked though didn't it?”</i>\n\n");
+			output("You walk towards her and stop in front of the timid frog girl. <i>“Yeah, it worked”</i> you moan ");
+		}
+		
+		if (!pc.isCrotchExposed())
+		{
+			output("before pulling down your [pc.CrotchCovers] and leaning over her.\n\n");
+		}
+		else if (pc.hasCock())
+		{
+			output("before leaning over her and wave your [pc.cocks " + pc.biggestCockIndex() + "] at her.\n\n");
+		}
+		else 
+		{
+			output("before leaning over her and licking your [pc.lips].\n\n");
 		}
 		
 		if (pc.hasCock())
 		{
-			output("<i>“Wait!”</i> she shouts. <i>“I can't afford to get pregnant, it'd ruin my career. So umm, if you're going to use that, please put it in here!”</i> she says, turning around and shifting her swimsuit to reveal, nested between her noticeable buttocks, a sizeable, doughnut-shaped butthole.\n\n");
-			output("<i>“Sure thing”</i> you reply, fixated on her entrance.\n\n");
+			output("<i>“Wait!”</i> she shouts. <i>“There's one rule! I can't afford to get pregnant, it'd ruin my career. So, if you're going to use that, you're going to have to use this!”</i> she says, turning around and shifting her swimsuit to reveal, nested between her noticeable buttocks, a sizeable, doughnut-shaped butthole.\n\n");
+			output("<i>“Sure thing”</i> you reply, fixated on her back entrance.\n\n");
 		}
 		
 		if (flags["LILLY_SEX_AVAILABLE"] == undefined) flags["LILLY_SEX_AVAILABLE"] = true;
