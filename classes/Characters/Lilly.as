@@ -55,7 +55,7 @@ package classes.Characters
 			this.beardLength = 0;
 			this.beardStyle = 0;
 			this.skinType = GLOBAL.SKIN_TYPE_SKIN;
-			this.skinTone = "green and white";
+			this.skinTone = "light and dark green";
 			this.skinFlags = [GLOBAL.FLAG_SMOOTH];
 			
 			this.faceType = GLOBAL.TYPE_HUMAN;
@@ -157,12 +157,6 @@ package classes.Characters
 			this.ass.loosenessRaw = 5;
 			this.ass.bonusCapacity = 10;
 			this.ass.hasFlag(GLOBAL.FLAG_SLIGHTLY_PUMPED);
-			
-			this.createStatusEffect("Disarm Immune");
-
-			this.inventory.push(new KerokorasVenom());
-			isUniqueInFight = true;
-			btnTargetText = "Lilly";
 			
 			this.sexualPreferences.setPref(GLOBAL.SEXPREF_MASCULINE, GLOBAL.REALLY_LIKES_SEXPREF);
 			this.sexualPreferences.setPref(GLOBAL.SEXPREF_BIG_MALEBITS,	GLOBAL.REALLY_LIKES_SEXPREF);
