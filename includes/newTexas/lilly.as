@@ -3,6 +3,7 @@
 //LILLY_TALKED_HERSELF: If the player has talked to her about herself
 //LILLY_TALKED_NEWTEXAS: If the player has talked to her about new texas
 //LILLY_SEX_AVAILABLE: If the player has unlocked sex-opts
+//LILLY_SEEN_BUTTHOLE: If the player has seen her butthole before
 
 
 public function showLilly(nude:Boolean = false):void
@@ -46,8 +47,8 @@ public function approachLilly():void
 			}
 			else if (pc.isBimbo())
 			{
-				output("<i>“Oh, hey! Yeah, I'm fabulous!”</i> you reply continuing to eye her up.");
-				output("She giggles. <i>“Aha, yeah, me too!”</i> She puts a hand out. <i>“The name's Lilly”</i>");
+				output("<i>“Oh, hey! Yeah, I'm fabulous!”</i> you reply continuing to eye her up.\n\n");
+				output("She giggles. <i>“Aha, yeah, me too!”</i> She puts a hand out. <i>“The name's Lilly”</i>\n\n");
 				output("<i>“[pc.name] Steele.”</i> you respond, smiling widely, completely oblivious to her attempt to shake your hand.");
 			}
 			else{
@@ -278,13 +279,13 @@ public function sexLilly(dialogue:Boolean = true):void
 	
 	addButton(0, "Eat her out", sexLilly_EatHerOut, undefined, "Eat her out", "She never said you couldn't put her tongue in there!");	
 	
-	if (pc.hasCock() || pc.hasHardLightEquipped())
+	if (pc.hasCock())
 	{
-		addDisabledButton(1,"Get ridden","Get ridden","Not implemented");
+		addButton(1,"Ass fuck",sexLilly_AssFuck, undefined,"Fuck her butt","Well, if she insists on her butt being used, who are you to refuse?");
 	}
 	else 
 	{
-		addDisabledButton(1,"Get ridden","Get ridden","You don't have anything for her to ride.");
+		addDisabledButton(1,"Ass fuck","Fuck her butt","You don't have anything to put in there.");
 	}
 	
 	addButton(14, "Back", approachLilly);
@@ -294,7 +295,7 @@ public function sexLilly_EatHerOut():void
 {
 	clearOutput();
 	clearMenu();
-	showLilly();
+	showLilly(true);
 	
 	output("<i>“You said no dicks in your pussy right?”</i> you ask, as you look down at her.\n\n");
 	output("<i>“Uh-huh! Why?”</i> she replies as you begin " + (pc.hasKnees() ? "kneeling down" : "lowering yourself") + " in front of her.\n\n");
@@ -352,4 +353,231 @@ public function sexLilly_EatHerOut():void
 	pc.applyPussyDrenched();
 	pc.exhibitionism(2);
 	addButton(0, "Next", approachLilly);
+}
+
+public function sexLilly_AssFuck():void 
+{
+	clearOutput();
+	clearMenu();
+	showLilly(true);
+	
+	if (pc.isAss())
+	{
+		output("<i>“Alright, slut, let's see that butthole of yours”</i> you demand, leaning over her.\n\n")
+	}
+	else if (pc.isBro())
+	{
+		output("<i>“Alright then, let me tap that ass”</i> you grunt, leaning over her.\n\n")
+	}
+	else if (pc.isBimbo())
+	{
+		output("<i>“Alright, show me that Lilly-butt!”</i> you giggle, leaning over her.\n\n")
+	}
+	else
+	{
+		output("<i>“Alright, let's see that ass”</i> you demand, leaning over her.\n\n")
+	}
+	
+	output("Lilly stands up, bumping into your [pc.chest], pushing you backwards, before turning around. Looking over her shoulder at you, she brings one claw to the top portion of her swimsuit and pulls it over her shoulder, pulling her arms out of it, revealing one side of her bare, muscular back. She proceeds to the other shoulder, pulling the swimsuit over it, dropping it off her upper body before leaning forward and shaking her hips, erotically, from side to side, steam flowing around her half naked body. You watch as her noticeable buttocks sway like pendulums before your eyes.\n\n");
+	output("<i>“Should I take the rest off?”</i> Lilly teases.\n\n");
+	if (pc.isAss() || pc.isBro())
+	{
+		output("<i>“Fuck yeah”</i> you respond.\n\n")
+	}
+	else if (pc.isBimbo())
+	{
+		output("<i>“Totally. Right now.”</i> you respond.\n\n")
+	}
+	else if (pc.isMischievous())
+	{
+		output("<i>“Well, if you want me to see your ass you should”</i> you respond.\n\n")
+	}
+	else
+	{
+		output("<i>“Mmm, definitely”</i> you respond.\n\n")
+	}
+	
+	output("She twists her head back around, facing the wall and leans forward, placing her hands on the back of the bench before reaching back and pulling the swimsuit down and slowly over her buttocks, presenting her flesh to you inch by inch. As it slips over the bottom of her buttocks with a slight jiggle, she stands up and pushes the swimsuit down her hamstrings and pulls the swimsuit off, leaving it on the floor.\n\n");
+	
+	if (flags["LILLY_SEEN_BUTTHOLE"] == undefined)
+	{
+		output("Lilly then leans back forward, placing her arms yet again on the bench and spreads her buttocks. You're taken by surprise. Clearly, her insistence on her backdoor being used on a planet like New Texas has had quite the effect. Her butthole is surrounded by plush black flesh, dribbling with streams of ass-lube, as it's adapted to being the main hole. It's also fairly gapey and if what you know about her race is correct, it can get gapier.\n\n");
+		flags["LILLY_SEEN_BUTTHOLE"] = true;
+	}
+	else 
+	{
+		output("Lilly then leans back forward, placing her arms yet again on the bench and spreads her buttocks, presenting her wet, puffy, black butthole. You watch as her eager flesh pulsates, ready for whatever you have to offer.\n\n");
+	}
+	
+	output("<i>“You done staring?”</i> Lilly asks, patting her ass and smirking in your direction, over her shoulder. <i>“Go on, I'm ready”</i>\n\n");
+
+	if (pc.isTaur())
+	{
+		output("You don't need to be told twice. You trot forward and stand up on your hindquarters, mounting her. You then lean forward, ");
+	}
+	else if (pc.isNaga())
+	{
+		output("You don't need to be told twice. You slither forward and grab hold of her hips. You then lean forward, ");
+	}
+	else 
+	{
+		output("You don't need to be told twice. You walk a step forward and grab hold of Lilly's firm hips. You then lean forward ");
+	}
+	output("and with one [pc.hand] ");
+	if (pc.isCrotchGarbed()) output("you undo your [pc.crotchcovers], then ");
+	output("you grab hold of ");
+	
+	if (pc.hasCocks())
+	{
+		output("the base of your [pc.cocks], presenting them to her.\n\n");	
+		output("<i>“Could you put them all in?”</i> Lilly suddenly asks. <i>“I'm pretty flexible inside”</i>.\n\n");
+		output("<i>“Uhh, if you think so”</i> you respond.\n\n");
+	}
+	else 
+	{
+		output("your [pc.cock], presenting it to her.\n\n");	
+		if (pc.biggestCockLength() >= 15) 
+		{
+			output("<i>“Don't worry, you can definitely fit that big boy in”</i> Lilly begs, noticing the size of your member. <i>“I'm pretty flexible inside”</i>.\n\n");
+			output("<i>“Uhh, if you think so”</i> you respond.\n\n");
+		}
+		else 
+		{
+			output("<i>“Go on, put it in”</i> Lilly begs, wiggling her behind.");
+		}
+	}
+	
+	output("As you line up your " + (pc.hasCocks() ? "tips" : "tip") + " with Lilly's sloppy behind, it pulses and her warm, plush butt-flesh wraps itself around the " + (pc.hasCocks() ? "ends" : "end") + " of your " + (pc.hasCocks() ? "members" : "member") + ", inviting you in.\n\n");
+	output("Her plush insides keep pulling you in, not that you're not helping.\n\n");
+	
+	if (pc.hasCocks())
+	{
+		output("Your dicks sit side by side inside her, pushing into her. Her elasticated insides part around their widths, accepting them.\n\n");
+	}
+	else if (pc.biggestCockLength() >= 15) 
+	{
+		output("You've pushed your sizeable dick partly into her, parting her elasticated walls with its width.\n\n");
+	}
+	else if (pc.biggestCockLength() >= 4)
+	{
+		output("Her pliable insides fit snugly around your width, accepting you.\n\n");
+	}
+	else 
+	{
+		output("Her elasticated insides clamp down snugly on your meager shaft, as to make the most of it.\n\n");
+	}
+	
+	output("You keep going.");
+	if (pc.hasKnot())
+	{
+		output(" Lilly gasps, as her insides curve around your [pc.knot].");
+	}
+	output("\n\n");
+	if (pc.biggestCockLength() >= 15)
+	{
+		output("You're not nearly at your depth yet. Far from it, your lengthy " + (pc.hasCocks() ? "tools" : "tool") + " crawls further through her comfortable insides and you feel flesh push against yours as you hit her depth.\n\n");
+		output("<i>“Keep going”</i> Lilly begs. <i>“I don't just stretch widthways”</i>.\n\n");
+		output("You thrust carefully against her limit and find that it stretches gently as you do. With a gasp from Lilly, you continue to gently push into her, her depth expanding gently until you finally reach your depth.\n\n");
+		if (pc.biggestCockLength() >= 20)
+		{
+			output("She's had to stretch out quite a lot for you, to the point that you can see the other end of your dick/dicks bulging against her stomach.\n\n");
+		
+			
+		}
+	}
+	else 
+	{
+		output("Finally, you reach your depth, Lilly's puffy butthole pressing comfortably against your groin.\n\n");
+	}
+	
+	output("With your " + (pc.hasCocks() ? "dicks" : "dick") + " finally in her, you're all set up. You pull your hips back, her insides pushing against your " + (pc.hasCocks() ? "cocks" : "cock") + " as you do before thrusting forward. Her legs bump into the bench as you do but she soon steadies herself and smiles at you.\n\n");
+	output("<i>“Go on. No need to be careful with me!”</i>\n\n");
+	output("You take her word for it and unleash on the swimmer girl. Her damp anus makes it easy to slam your rock-hard " + (pc.hasCocks() ? "rods" : "rod") + " deep into her, accompanied by squelching and moaning as she rocks back and forth in turn along your " + (pc.hasCocks() ? "lengths" : "length") + ". At this pace you find yourself struggling to hold on to the girls sweat-stained skin and the thick steam in the air combined with the effort you're putting into her is making it hard to breath. Sweat runs down your body but for all the exhaustion this is causing you, there's no way you'd ever want to stop. The feeling of her soft, damp insides pressing down on your pulsating " + (pc.hasCocks() ? "members" : "member") + " is incredible and the heat coming off of her growing stronger as you press deep into her exceeds that of the steam room.\n\n");
+	output("You keep thrusting, back and forth, her squelching anus spraying it's warm juices against your crotch with each thrust and she moans every time as you pack her ass full of your cockmeat. Not that Lilly isn't doing just as much work. Her hands are pressed against the bench, thrusting herself along your length, groaning and moaning as her insides try to milk you for all you're worth. Her hamstrings ripple as her strong legs hold her behind upright against your assault. The sound of your " + (pc.hasCocks() ? "cocks" : "cock") + " squishing against her damp insides, echo around the room.\n\n");
+	output("<i>“Fuck! Keep going! Fuck my sloppy asshole!”</i> Lilly cries out, arching her back. She's completely given in to her lusty side, her long tongue dangling idly from her mouth and her eyes rolled back in ecstasy.\n\n");	
+	output("You're not sure how long you can keep going for. Her butt is just too perfect, rippling along your " + (pc.hasCocks() ? "shafts" : "shaft") + " constantly, massaging " + (pc.hasCocks() ? "them" : "it") + " to " + (pc.hasCocks() ? "their limits" : "its limit") + ".\n\n");
+	output("<i>“Hnghh! There's no way I'm lasting much longer in this”</i> you cry out. <i>“I'm gonna cum!”</i>\n\n");
+	output("<i>“Aha, that's just as good”</i> Lilly slurs.\n\n");
+	
+	output("Will you cum <b>inside</b> or <b>outside</b>?");
+	
+	pc.lust(30);
+	addButton(0, "Inside", sexLilly_AssFuck_CumInside);
+	addButton(1, "Outside", sexLilly_AssFuck_CumOutside);
+}
+
+public function sexLilly_AssFuck_CumInside():void 
+{
+	clearOutput();
+	clearMenu();
+	showLilly(true);
+	
+	if (pc.cumQ() == 0)
+	{
+		output("You gasp as [pc.eachCock] throbs against her walls, which clamp down tight on you in reaction, as her body prepares to squeeze every last drop out of you. As this happens, you gasp but all your " + (pc.hasCocks() ? "cocks do" : "cock does") + " is throb anti-climatically. You lose focus on what's happening in pure ecstasy for several seconds before Lilly draws you back to reality.\n\n");
+		output("<i>“Uhh, thanks”</i> she says disgruntledly. <i>“At least it felt good before that.”</i>\n\n");
+		output("You pull out slowly, thanking Lilly for the fun.\n\n");
+	}
+	else if (pc.cumQ() <= 25)
+	{
+		output("You gasp as [pc.eachCock] throbs against her walls, which clamp down tight on you in reaction, as her body prepares to squeeze every last drop out of you. As this happens, you gasp and several short, sharp bursts of [pc.cum] fire from your " + (pc.hasCocks() ? "cocks" : "cock") + ". You lose focus on what's happening in pure ecstasy for several seconds before Lilly draws you back to reality.\n\n");
+		output("<i>“Mmm, thanks”</i> she says, as you feel the last few blobs oozing out.\n\n");
+		output("You pull out slowly, thanking Lilly for the fun.\n\n");
+	}
+	else if (pc.cumQ() <= 75)
+	{
+		output("You gasp as [pc.eachCock] throbs against her walls, which clamp down tight on you in reaction, as her body prepares to squeeze every last drop out of you. As this happens, you gasp and several large, explosive bursts of [pc.cum] fire from your " + (pc.hasCocks() ? "cocks" : "cock") + ". You're lost in pure ecstasy for several seconds as you enjoy this feeling, her plush rectum wrapping around your climaxing " + (pc.hasCocks() ? "tools, egging them on" : "tool, egging it on") + " as you fill her tightened rectum with your warmth. Lilly loves it too, moaning with each burst you fill her with, her body subconsciously milking you until you're completely dry.\n\n");
+		output("<i>“Ahh, thanks. That was great”</i> she slurs, as you pull out slowly.\n\n");
+	}
+	else if (pc.cumQ() <= 150)
+	{
+		output("You gasp as [pc.eachCock] throbs against her walls, which clamp down tight on you in reaction, as her body prepares to squeeze every last drop out of you. But her body doesn't know quite what's coming. At her bodies embrace, you gasp and several huge, streams of [pc.cum] fire from your " + (pc.hasCocks() ? "cocks" : "cock") + ". You're lost in pure ecstasy as you enjoy this feeling, her plush rectum wrapping around your climaxing " + (pc.hasCocks() ? "tools, egging them on" : "tool, egging it on") + " as you fill her tightened rectum with your warmth. Lilly loves it too, moaning with each burst you fill her with, her body subconsciously milking you, eager to receive the full might of your load. Your climax continues and her insides expand further to make room for your prestigious load, ballooning in size to the point that her normally chiselled stomach has bulged to make room for the sheer amount of [pc.cum] you're pumping into her. Lilly's loving it, gasping and giggling as she feels herself ballooning further and further, until the last spurt of splooge you can provide her with has been emptied into her.\n\n");
+		output("<i>“A-ah-a wow”</i> she slurs, as you pull out slowly. <i>“I'm glad walking to the showers full of cum is normal here, there's no way I could swim like this!”</i>\n\n");
+	}
+	else 
+	{
+		output("You gasp as [pc.eachCock] throbs against her walls, which clamp down tight on you in reaction, as her body prepares to squeeze every last drop out of you. But her body doesn't know quite what's coming. At her bodies embrace, you gasp and a ginormous virile, stream of [pc.cum] erupts from your " + (pc.hasCocks() ? "cocks" : "cock") + ". You're lost in pure ecstasy as you enjoy this feeling, her plush rectum wrapping around your climaxing " + (pc.hasCocks() ? "tools, egging them on" : "tool, egging it on") + " as you quickly flood her tightened rectum with your warmth. Lilly gasps in surprise at the sheer size of the bursts you're filling her with and her body quickly reacts, her backdoors grip quickly loosening to make room for the tide of cum pouring into her. Her insides are forced to expand further quickly, as your prestigious load continues to fire into her. She constantly moans and gasps as her normally chiselled stomach balloons in size to the point that she looks pregnant with the sheer amount of [pc.cum] you've pumped into her already. It keeps expanding, now the size of a large exercise ball and you soon find the girl at her limit. Your cum starts firing back, pouring down her puffy, black anus in waves and spilling down her muscular legs and splashing onto the steam room floor.\n\n");
+		output("A short while later you're finally drained of cum and you pull your cum-covered " + (pc.hasCocks() ? "cocks" : "cock") + " out slowly.\n\n");
+		output("<i>“Wow!”</i> Lilly exclaims, clutching her stomach. <i>“I'm going to empty myself in the showers when I can.. There's no way I could swim like this!”</i>\n\n");
+	}
+	
+	processTime(10);
+	pc.exhibitionism(2);
+	pc.orgasm();
+	addButton(0, "End", approachLilly);
+}
+
+public function sexLilly_AssFuck_CumOutside():void 
+{
+	clearOutput();
+	clearMenu();
+	showLilly(true);
+	
+	if (pc.cumQ() == 0)
+	{
+		output("You gasp and pull out, quickly grabbing hold of [pc.eachCock] and aiming " + (pc.hasCocks() ? "them" : "it") + " down her chiselled back. As this happens, you gasp again but all your " + (pc.hasCocks() ? "cocks do" : "cock does") + " is throb anti-climatically. You lose focus on what's happening in pure ecstasy for several seconds before Lilly draws you back to reality.\n\n");
+		output("<i>“Uhh, what are you doing”</i> she laughs. <i>“Guess you're finished. Thanks for the sex before that though!”</i>\n\n");
+	}
+	else if (pc.cumQ() <= 25)
+	{
+		output("You gasp as [pc.eachCock] throbs against her walls, which clamp down tight on you in reaction, as her body prepares to squeeze every last drop out of you. As this happens, you gasp and quickly pull out of her pulsating anus, grasping your " + (pc.hasCocks() ? "cocks" : "cock") + " in your [pc.hands] and aiming " + (pc.hasCocks() ? "them" : "it") + " down her chiselled back. Just in time, several short, sharp streams of [pc.cum] fire from your cock/cocks and you lose focus, focusing on the feeling of your climax. Lilly quickly snaps you back to reality and you look down at her, several long lines of [pc.cumcolor] down her back.");
+		output("<i>“Mmm, thanks”</i> she says, as you feel the last few blobs ooze out onto her butt.\n\n");
+		output("You pat Lilly on the butt, thanking her for the fun.\n\n");
+	}
+	else if (pc.cumQ() <= 75)
+	{
+		output("You gasp as [pc.eachCock] throbs against her walls, which clamp down tight on you in reaction, as her body prepares to squeeze every last drop out of you. As this happens, you gasp and quickly pull out of her pulsating anus, grasping your " + (pc.hasCocks() ? "cocks" : "cock") + " in your [pc.hands] and aiming " + (pc.hasCocks() ? "them" : "it") + " down her chiselled back. Just in time, several large, explosive bursts of [pc.cum] fire from your " + (pc.hasCocks() ? "cocks" : "cock") + ", spraying Lilly's back [pc.cumcolor] with each spasm. Lilly loves it too, moaning as [pc.cum] splashes her, enjoying the reward her incredible butt has earned her. Several shorter, sharp streams fire from your " + (pc.hasCocks() ? "tips" : "tip") + " splashing her more, before dying down to a trickle, dribbling onto her ass.\n\n");
+		output("<i>“Mmm, thanks”</i> she says, as you feel the last few blobs ooze out onto her butt.\n\n");
+		output("You pat Lilly on the butt, thanking her for the fun.\n\n");
+	}
+	else 
+	{
+		output("You gasp as [pc.eachCock] throbs against her walls, which clamp down tight on you in reaction, as her body prepares to squeeze every last drop out of you. As this happens, you gasp and quickly pull out of her pulsating anus, grasping your " + (pc.hasCocks() ? "cocks" : "cock") + " in your [pc.hands] and aiming " + (pc.hasCocks() ? "them" : "it") + " down her chiselled back. Just in time, several huge, streams of [pc.cum] fire from your " + (pc.hasCocks() ? "cocks" : "cock") + ", coating Lilly's back [pc.cumcolor], each spasm splashing sloppily against the previous. Lilly loves it too, moaning as [pc.cum] splashes her, enjoying the prestigious reward her incredible butt has earned her. More streams come, dripping down her sides as they slip right off her already coated back. You aim lower, blasting her buttocks with strong enough loads to make her recoil against the bench. Your streams eventually die down and you finish off by patting your " + (pc.hasCocks() ? "cocks" : "cock") + " between her buttocks, shaking the last few globs of cum onto her.");
+		output("<i>“A-ah wow”</i> she slurs, as she stands up, cum dripping from her behind. <i>“I'm glad it's normal to wash off cum in the shower here, or I'd be getting some odd looks.”</i>\n\n");
+	}
+	
+	processTime(10);
+	pc.exhibitionism(2);
+	pc.orgasm();
+	addButton(0, "End", approachLilly);
 }
