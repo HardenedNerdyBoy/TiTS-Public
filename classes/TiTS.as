@@ -345,6 +345,7 @@
 		include "../includes/newTexas/lilly.as";
 		include "../includes/newTexas/millie.as";
 		include "../includes/newTexas/mirrin.as";
+		include "../includes/newTexas/montanaAndHogan.as";
 		include "../includes/newTexas/rooms.as";
 		include "../includes/newTexas/roomFunctions.as";
 		include "../includes/newTexas/stocks.as";

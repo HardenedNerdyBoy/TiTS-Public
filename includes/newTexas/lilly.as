@@ -4,7 +4,7 @@
 //LILLY_TALKED_NEWTEXAS: If the player has talked to her about new texas
 //LILLY_SEX_AVAILABLE: If the player has unlocked sex-opts
 //LILLY_SEEN_BUTTHOLE: If the player has seen her butthole before
-
+//LILLY_SEXED: If the player has had sex with Lilly
 
 public function showLilly(nude:Boolean = false):void
 {
@@ -24,6 +24,11 @@ public function checkTimeToLeave():void
 	{
 		approachLilly();
 	}
+}
+
+public function markLillySexed():void 
+{
+	if (flags["LILLY_SEXED"] == undefined) flags["LILLY_SEXED"] = true;
 }
 
 public function approachLilly():void
@@ -352,6 +357,7 @@ public function sexLilly_EatHerOut():void
 	chars["LILLY"].orgasm();
 	pc.applyPussyDrenched();
 	pc.exhibitionism(2);
+	markLillySexed();
 	addButton(0, "Next", approachLilly);
 }
 
@@ -544,6 +550,7 @@ public function sexLilly_AssFuck_CumInside():void
 	processTime(10);
 	pc.exhibitionism(2);
 	pc.orgasm();
+	markLillySexed();
 	addButton(0, "End", approachLilly);
 }
 
@@ -579,5 +586,6 @@ public function sexLilly_AssFuck_CumOutside():void
 	processTime(10);
 	pc.exhibitionism(2);
 	pc.orgasm();
+	markLillySexed();
 	addButton(0, "End", approachLilly);
 }

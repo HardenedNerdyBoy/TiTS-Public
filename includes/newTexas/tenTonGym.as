@@ -892,6 +892,41 @@ public function steamRoomInside():void
 			addButton(1,"Frog girl",approachLilly);
 		}
 	}
+	if (hours >= 16 && hours < 19)
+	{
+		output("\n");
+		if (flags["MONTANA_AND_HOGAN_ACCEPTED"] == true)
+		{
+			if (pc.isBro())
+			{
+				output("Your broskis, Montana and Hogan are also here, chatting to each other.\n");
+			}
+			else
+			{
+				output("Montana and Hogan are also here, chatting to each other.\n");
+			}
+		}
+		else if (flags["MONTANA_AND_HOGAN_APPROACHED"] == true)
+		{
+			output("Those two bulls that rejected you before are also here, chatting to each other.\n");
+		}
+		else 
+		{
+			if (pc.isBro())
+			{
+				output("Two cool looking dudes are sat on another side of the room, chatting to each other.\n");
+			}
+			else if (pc.isBimbo())
+			{
+				output("Two hot studs are sat on another side of the room, chatting to each other. You can make out sizeable bulges in their swim shorts.\n");
+			}
+			else
+			{
+				output("Two dude-bro looking bulls are sat on another side of the room, chatting to each other.\n");
+			}
+		}
+		addButton(2,"Bro's",approachMontanaHogan);
+	}
 	
 	addButton(0, "Relax", relaxSteamRoom);
 	//1 is lilly if there
@@ -902,7 +937,7 @@ public function relaxSteamRoom():void
 {
 	clearOutput();
 	author("HNB");
-	showName("SAUNA");
+	showName("STEAM\nROOM");
 	clearMenu();
 	
 	output("You decide to lean back and just relax. The warm, steamy air hugs your body,");
@@ -938,7 +973,7 @@ public function leaveSteamRoom():void
 	clearOutput();
 	clearMenu();
 	author("HNB");
-	showName("SAUNA");
+	showName("STEAM\nROOM");
 	
 	output("You get up from your perch and wander through the thick steam before arriving at the exit and swinging it open, stepping out into the cold non-steamy air.");
 	
