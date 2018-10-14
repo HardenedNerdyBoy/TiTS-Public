@@ -491,7 +491,7 @@ public function sexMontanaHogan():void
 	}
 	else 
 	{
-		output("The two bulls burst out in laughter. <i>“AHaha! Bro, you're so funny. That'd be so gay though”</i>\n\n");
+		output("The two bulls burst out in laughter. <i>“AHaha! Bro, you're so funny. That'd be so gay though!”</i>\n\n");
 		output("You back off, sitting back in your throne of rejection. <i>“Haha, yeah right”</i> you murmur. <i>“Totally joking”</i>\n\n");
 		addButton(14, "Back", mainMontanaHogan);
 	}
