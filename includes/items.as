@@ -539,7 +539,8 @@ public function fixCocksock(x:int):void
 	else output("The cocksock you used to wear on your [pc.cockNoun " + x + "] no longer first around it.\n\n");
 
 	sock.onRemove(pc);
-	
+	pc.removeItemStatusEffects(sock);
+
 	quickLoot(sock);
 }
     
@@ -1694,6 +1695,7 @@ public function actuallyRemoveAPiercing(args:Array):void
 	}
 	var unequippedItems:Array = [];
 	unequippedItems.push(item);
+	pc.removeItemStatusEffects(item);
 	itemCollect(unequippedItems);
 	if(inCombat()) backToCombatInventory(item);
 }
@@ -1763,6 +1765,7 @@ public function actuallyRemoveACocksock(cIdx:int = 0):void
 	
 	var unequippedItems:Array = [];
 	unequippedItems.push(item);
+	pc.removeItemStatusEffects(item);
 	itemCollect(unequippedItems);
 	if(inCombat()) backToCombatInventory(item);
 }
@@ -2183,6 +2186,8 @@ public function unequip(item:ItemSlotClass, override:Boolean = false):void
 	{
 		if(unequippedItems[i].fortification != 0) pc.HP(-1 * unequippedItems[i].fortification);
 		unequippedItems[i].onRemove(pc, true);
+		pc.removeItemStatusEffects(unequippedItems[i]);
+		unequippedItems[i].Owner = null;
 	}
 	
 	itemCollect(unequippedItems);
@@ -2341,7 +2346,11 @@ public function equipItem(arg:ItemSlotClass):void {
 		if(arg.fortification != 0) pc.HP(arg.fortification);
 		
 		removedItem.onRemove(pc, true);
+		pc.removeItemStatusEffects(removedItem);
+		removedItem.Owner = null;
+		arg.Owner = "PC";
 		arg.onEquip(pc, true);
+		pc.applyItemStatusEffects(arg);
 	}
 	
 	//If item to loot after!
@@ -2679,7 +2688,10 @@ public function shipStorageMenuRoot():void
 	}
 	else addDisabledButton(4, "Toys");
 	
-	var btnSlot:int = 5;
+	output(" An advanced washing machine sits idly waiting, ready to clean and repair any damaged clothes you throw its way.");
+	addButton(5, "Washing.M", useWashingMachine);
+
+	var btnSlot:int = 6;
 	
 	if (flags["DONG_DESIGNER_INSTALLED"] == 1)
 	{

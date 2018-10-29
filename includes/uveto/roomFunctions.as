@@ -461,6 +461,8 @@ public function tryApplyUvetoColdDamage(timeExposed:Number):Boolean
 			if (!tPC.hasLowerGarment() || tPC.isCrotchExposed() || tPC.isAssExposed()) nakednessMulti += 0.333;
 			baseDamage *= nakednessMulti;
 		}
+
+		if(pc.hasStatusEffect("Damp Clothing")) baseDamage *= 1.5;
 		
 		var coldDamage:Number = baseDamage * timeExposed;
 		var actualDamage:TypeCollection = new TypeCollection( { freezing: coldDamage }, DamageFlag.BYPASS_SHIELD );

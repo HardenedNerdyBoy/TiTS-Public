@@ -777,7 +777,7 @@ public function gooShiftMenu():void
 	
 	addGhostButton(5, "Cumflation", gooCumflationOptions, undefined, "Cumflation Options", "Adjust whether or not you want to retain the fluids pumped into you or convert them to biomass.");
 	
-	if(pc.hasSkinFlag(GLOBAL.FLAG_ABSORBENT) && (pc.hasStatusEffect("Cum Soaked") || pc.hasStatusEffect("Pussy Drenched"))) addGhostButton(6, "Clean Self", gooCleanSelf, undefined, "Clean Yourself", "Use your absorbant skin to clean off the sex fluids you are covered in.");
+	if(pc.hasSkinFlag(GLOBAL.FLAG_ABSORBENT) && pc.isSexualFluidSplattered()) addGhostButton(6, "Clean Self", gooCleanSelf, undefined, "Clean Yourself", "Use your absorbant skin to clean off the sex fluids you are covered in.");
 	
 	if(flags["GALOMAX_DOSES"] > 2 || (!isGaloMaxxing && flags["GALOMAX_DOSES"] == 2))
 	{
@@ -3335,13 +3335,13 @@ public function gooCleanSelfGo():void
 	
 	output2("With some concentration, you stimulate your [pc.skinNoun] to accept the fluids. Your body soaks it up like a sponge, wicking up the sex juices greedily and leaving you a little more cleansed - and a little more filled in the reserves.");
 	
-	var cumScale:Number = ((pc.statusEffectv1("Cum Soaked") + pc.statusEffectv1("Pussy Drenched")) / 60);
+	var cumScale:Number = ((pc.statusEffectv1("Cum Soaked Counter") + pc.statusEffectv1("Pussy Drenched Counter")) / 60);
 	
 	gooBiomass(Math.round(500 * cumScale));
 	if(pc.hasSkinFlag(GLOBAL.FLAG_LUBRICATED)) gooBiomass(Math.round(500 * cumScale));
 	
-	pc.removeStatusEffect("Cum Soaked");
-	pc.removeStatusEffect("Pussy Drenched");
+	pc.applyPussyDrenched(-5);
+	pc.applyCumSoaked(-5);
 	
 	clearGhostMenu();
 	addGhostButton(0, "Next", gooShiftMenu);

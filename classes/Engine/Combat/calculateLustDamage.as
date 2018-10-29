@@ -46,15 +46,15 @@ package classes.Engine.Combat
 		//Enemies with sexjuice coverings get bonuses against the PC - but not the other way around. PC bonuses handled by PC tease system.
 		if (lustDamage.tease.damageValue > 0 && target is PlayerCharacter)
 		{
-			if(target.hasCock() && attacker != null && attacker.hasStatusEffect("Cum Soaked")) 
+			if(target.hasCock() && attacker != null && (attacker.isCumSplattered() || attacker.wearingCumSoakedClothing())) 
 			{
-				var spunkBonus:Number = attacker.statusEffectv1("Cum Soaked");
+				var spunkBonus:Number = attacker.statusEffectv1("Cum Soaked Counter");
 				if (spunkBonus > 5) spunkBonus = 5;
 				lustDamage.tease.damageValue += spunkBonus;
 			}
-			if (lustDamage.tease.damageValue > 0 && target.hasVagina() && attacker != null && attacker.hasStatusEffect("Pussy Drenched")) 
+			if (lustDamage.tease.damageValue > 0 && target.hasVagina() && attacker != null && attacker.isPussySplattered()) 
 			{
-				var slutsauceBonus:Number = attacker.statusEffectv1("Pussy Drenched");
+				var slutsauceBonus:Number = attacker.statusEffectv1("Pussy Drenched Counter");
 				if (slutsauceBonus > 5) slutsauceBonus = 5;
 				lustDamage.tease.damageValue += slutsauceBonus;
 			}

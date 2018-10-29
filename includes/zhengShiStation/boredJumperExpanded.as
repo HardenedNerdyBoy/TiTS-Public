@@ -471,7 +471,7 @@ public function loseToJumpersStartBadEndsByWill():void
 	output("\n\nYou can hear her rifling through your belongings, tossing this and that aside in nonchalant disinterest. A dual emotion of anger and self-pity course through you, vying for dominance over your blossoming hormones. <i>“Whatever. I’m happy to be part of your plan, hot stuff! Your plan to... I dunno, get a nasty pirate all worked up and ready to fuck you! Especially after she rubs her balls over your face!”</i>");
 
 	// PC cum covered
-	if(pc.hasStatusEffect("Cum Soaked")) output("\n\nA disgruntled inhalation has the rabbit mulling above you. <i>“You might be a bit sticky, but your face looks clean enough. And I haven’t gotten off for a while sooooo...”</i> she muses aloud.");
+	if(pc.isCumSplattered() || pc.wearingCumSoakedClothing()) output("\n\nA disgruntled inhalation has the rabbit mulling above you. <i>“You might be a bit sticky, but your face looks clean enough. And I haven’t gotten off for a while sooooo...”</i> she muses aloud.");
 	// Merge
 
 	if(!pc.isTaur()) output("\n\nYou grimace, thrashing your [pc.legOrLegs] around trying to shake her muscular hips off, only succeeding in getting yourself sweatier.");
@@ -607,7 +607,7 @@ public function fourthLossToBoredJumperBadEndProggo():void
 	output("\n\n<i>“I heard about you,”</i> the jumper’s hot voice tickles your [pc.ear], a light hissing following immediately after. You recoil in shock, realizing she’d been bent over just behind you, and she’d just given you another dose of that lust toxin they carry. Now it’s not just her frisky taste prancing on the tongues of your five senses you have to worry about. Arousal blooms throughout your body; liquid lust relaxes every muscle and quells every resistant urge... and you’re in the same suppressed position as before.");
 
 	// PC cum covered
-	if(pc.hasStatusEffect("Cum Soaked")) output("\n\n<i>“You’re a mess but that’s fine, I think I can overlook that considering who you are,”</i> the rabbit muses with a bit of disgust.");
+	if(pc.isCumSplattered()) output("\n\n<i>“You’re a mess but that’s fine, I think I can overlook that considering who you are,”</i> the rabbit muses with a bit of disgust.");
 	// Merge
 
 	output("\n\nSpinning around, hand on your neck, you look at her twirling something around her rubbery finger. <i>“A slave who pretends they’re not a slave. Or... A slave trying to get attention. I forget...”</i> Your eyes squint and lock on to the black hoop she’s toying with. The faint sound of metal clapping reaches your ears. That stannic sound fills you with dread, and then you see the long chain against the cheap lamp light. She’s holding a leash, or at least, some restraints cobbled together to resemble one.");
@@ -655,7 +655,7 @@ public function fourthLossToBoredJumperBadEndProggo2():void
 	else output("All you hear trudging down the mineral-riching mining tunnels are distant sounds of excavation and, more importantly, the sound of your lop captor’s waxing suit. She’s handcuffed you again for extra measure, using you like a prize pony. Every rubbery squirm on your back reminds you of your unslaked and unquenchable thirst for her. You can’t even see her like this. Though that is upsetting, the drug she’s spiked you with makes sure your only reaction is to get more and more turned on. Right now, this laquine is more than your owner... she’s the carrot on your stick.");
 	// Merge
 	output("\n\nYou pass by two mining bots hard at work on their pre-programmed tasks, carving colorful gems and valuable ores out of the walls. Up ahead, to your impending " + (pc.exhibitionism() < 66 ? "shame":"joy") + ", are a group of figures in orange and dark blue suits. Slaves... and another one of the roving rabbits sauntering around." + (pc.exhibitionism() < 66 ? " The red shade on your face deepens and your heart drops like a rock at the thought of being seen so vulnerable, even by others in a similar position.":" As excruciating as it is, you can’t help but feel a greater excitement at being seen by others in your vulnerable state.") + " You hope, however, more than anything else, that one of these sexy bunnies will fuck you. Every breath you take stings your crotch with another branding dagger of need. You want so badly to be fucked, orally, anally... it doesn’t matter!");
-	output("\n\nWhimpering and panting, caked with sweat" + (pc.hasStatusEffect("Cum Soaked") ? " and sexual effluvium":"") + ", you cry out to your mistress - Wah... wait...");
+	output("\n\nWhimpering and panting, caked with sweat" + (pc.isCumSplattered() ? " and sexual effluvium":"") + ", you cry out to your mistress - Wah... wait...");
 
 	// PC not taur
 	if(!pc.isTaur()) output("\n\nShe turns to you expectantly as a lump forms in your throat. Everything in your sight that isn’t a beautiful, glowing rabbit fades to black until she’s one of the few things left. That’s fine, she’s all that matters. That stupid, sexy, sweat-drenched bunny... Damn it she’s all that matters! You <i>need</i> to touch her, to taste her again! You look at her with that aggressive need in your [pc.eyes]" + (pc.tailCount > 0 && pc.hasTailFlag(GLOBAL.FLAG_LONG) ? ", [pc.tails] wagging behind you with a feverish blur.":""));

@@ -387,7 +387,7 @@ public function emmyRepeatGreetings():void
 		else
 		{
 			output("You walk up to Emmy, noting the way her eyes light up at the sight of you. Her hand drift beneath the bottommost edge of the counter, cupping balls that seem a touch too weighty for how often their owner must be draining them. She licks her lips, polishing the obsidian pillows to a mirror sheen and asks, <i>“What can I do for my");
-			if(pc.hasStatusEffect("Cum Soaked")) output(" spunk-dump of a [pc.boyGirl]friend? Want me to top you off? You’d look good with a fresh layer across that pretty face.”</i>");
+			if(pc.isCumSoaked()) output(" spunk-dump of a [pc.boyGirl]friend? Want me to top you off? You’d look good with a fresh layer across that pretty face.”</i>");
 			else if(pc.isBimbo() && rand(4) == 0) output(" favorite intergalactic bimbo-slut? Did you need to stock up on vitamin E before you go on your next adventure?");
 			else if(pc.isBro() && pc.isTreated() && rand(4) == 0) output(" favorite [pc.boyGirl] friend? Have I ever told you how fucking good you smell?”</i> She sniffs. <i>“One whiff and my cunt practically starts creaming itself. Can I... can I sniff your crotch? If you don’t want to buy anything. Or after. Whatever.”</i>");
 			else if(pc.hasVagina() && rand(5) == 0) output(" dream date?”</i> She giggles as her cock climbs toward her tits like a python hunting its prey. <i>“I’ve been trying to get the Herm Harness to be more like you, but none of the options feel right. Could you let me fuck you before you leave? If you’re not too busy?”</i> She bites a lip idly strokes her nipple. <i>“And then fuck me again? Just to be sure?”</i>");
@@ -2564,8 +2564,8 @@ public function emmy69Epilogue(args:Array):void
 	else output("her spunk");
 	output(". Hopefully no one will notice.");
 	
-	pc.removeStatusEffect("Cum Soaked");
-	pc.removeStatusEffect("Pussy Drenched");
+	pc.applyPussyDrenched(-5);
+	pc.applyCumSoaked(-5);
 	processTime(10);
 	if(flags["EMMY_PRESEX_FUN_TIMER"] == undefined) flags["EMMY_PRESEX_FUN_TIMER"] = GetGameTimestamp();
 
@@ -3405,7 +3405,7 @@ public function getFuckedByEmmyEmmyEms():void
 	output("your [pc.butt]");
 	if(flags["EMMY_QUEST"] > 5) output(" again");
 	output(", Emmy pulls back. You can hear her panting, feel the misty curtain of pheromones pouring off her and rolling over your body.");
-	if(emmy.hasStatusEffect("Cum Soaked") || emmy.hasStatusEffect("Pussy Drenched")) output(" She still stinks like sex from when you banged her not so long ago, and when you close your eyes, it fills your heads with thoughts of sloppy ruts: fucking in the mud or humping in the middle of a club, the more depraved and uncivilized the better.");
+	if(emmy.isCumSoaked() || emmy.isPussySoaked()) output(" She still stinks like sex from when you banged her not so long ago, and when you close your eyes, it fills your heads with thoughts of sloppy ruts: fucking in the mud or humping in the middle of a club, the more depraved and uncivilized the better.");
 	output(" Then her cockhead is kissing [pc.oneVagina], gently spreading the lips. You expected her to thrust right in, not to take her time, gently penetrating you, but that’s exactly what she’s started to do.");
 
 	output("\n\nThe moment the fuck-happy company rep has her cock’s tip inside you, she forgets all about taking her time. She growls loudly, and her dick plows forward. One moment, you’re achingly empty, the next, totally and completely stuffed with cock, all the way up to the edges of Emmy’s musky sheath.");

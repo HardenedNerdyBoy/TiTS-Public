@@ -143,11 +143,11 @@ public function exhibitionismBlurbs():void
 	msgList.push(msg);
 	msg = "";
 	//Only if cum soaked/pussy drenched, the ingame blurbs has different names for cum, //use the same method please
-	if(pc.hasStatusEffect("Cum Soaked") || pc.hasStatusEffect("Pussy Drenched"))
+	if(pc.isSexualFluidSplattered())
 	{
 		msg += "The ";
-		if(pc.hasStatusEffect("Cum Soaked")) msg += pc.fluidNoun(GLOBAL.FLUID_TYPE_CUM);
-		else if(pc.hasStatusEffect("Pussy Drenched")) msg += pc.fluidNoun(GLOBAL.FLUID_TYPE_GIRLCUM);
+		if(pc.isCumSoaked()) msg += pc.fluidNoun(GLOBAL.FLUID_TYPE_CUM);
+		else if(pc.isPussySoaked()) msg += pc.fluidNoun(GLOBAL.FLUID_TYPE_GIRLCUM);
 		else msg += "fluid";
 		msg += " coating you turns you into a painting of sluttery. Anyone who does as little as glance at you will be able to tell what kind of entertainment you enjoy the most. There is no mistaking it, the same way there is no mistaking how horny you currently are.";
 		msgList.push(msg);

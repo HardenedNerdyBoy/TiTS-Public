@@ -3737,7 +3737,7 @@ public function raskPregChainBang():void
 		else output(", leaking [pc.girlCum] everywhere");
 		output(". Your [pc.belly] shifts, and you cum again. You cum again, and again and again.");
 		output("\n\nYou’re a hot, wet, pregnant mess. You cradle your [pc.belly] with one hand, smearing it with pussy-juice while the other fondles your bliss-dispensing folds, more aroused and wanting with each passing second. If a hand feels this good... what would an egg feel like? What would ten eggs feel like? You pant and moan, already tempted to get knocked up again.");
-		pc.applyPussySoaked();
+		pc.applyPussyDrenched();
 		pc.orgasm();
 		pc.orgasm();
 		pc.orgasm();

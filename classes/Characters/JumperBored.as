@@ -285,7 +285,7 @@
 			else if(hasStatusEffect("Queue Stealth Field") && this.energy() >= 20) bunnyStealthField(alliedCreatures,hostileCreatures,target);
 			else if(rand(3) == 0 && this.energy() >= 25) bunnyGasGrenado(alliedCreatures,hostileCreatures,target);
 			else bunnyDarts(target);
-			if(target.hasStatusEffect("Cum Soaked") || target.hasStatusEffect("Pussy Drenched")) cumCoveringSuperRes();
+			if(target.isSexualFluidSplattered()) cumCoveringSuperRes();
 		}
 		//Attacks go here
 		//Shieldbelt with jet boosters, dart gun, gas grenades, and a stealth field. Left her real firepower upstairs and only brought what she’d need to subdue a resisting slave...

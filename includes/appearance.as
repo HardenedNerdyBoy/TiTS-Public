@@ -133,12 +133,83 @@ public function appearance(forTarget:Creature, backTarget:Function = null):void
 	if(target == pc)
 	{
 		outputRouter(" Right now, you’re");
+		
 		if(isNude || target.armor is EmptySlot) outputRouter(" not wearing a single scrap of armor,");
 		else outputRouter(" wearing " + target.armor.description + ",");
 		if(isNude || target.lowerUndergarment is EmptySlot) outputRouter(" going commando down south,");
 		else outputRouter(" using " + target.lowerUndergarment.description + " for underwear,");
 		if(isNude || target.upperUndergarment is EmptySlot) outputRouter(" and letting your torso breathe, unrestricted by any undertop.");
 		else outputRouter(" and girding your upper body with " + target.upperUndergarment.description + ".");
+
+		// Any fluids on armor
+		if(target.hasStatusEffect("Milk-Soaked Clothing") || target.hasStatusEffect("Cum-Soaked Clothing"))
+		{
+			var fluidList:Array = [];
+			var fluidDesc:String = "";
+			var fluidVisc:Array = [];
+			var fluidLayer:int = 0;
+			var fluidLayers:Number = 0;
+			
+			if(target.hasStatusEffect("Milk-Soaked Clothing"))
+			{
+				fluidLayers += target.statusEffectv1("Milk-Soaked Clothing");
+				fluidLayer = Math.ceil(target.statusEffectv1("Milk-Soaked Clothing"));
+				if(fluidLayer > 3) fluidLayer = 3;
+				fluidVisc = ["breastmilk", "tit-juice", "wet lactation", "sopping tit-milk"];
+				fluidList.push(fluidVisc[fluidLayer]);
+			}
+			if(target.hasStatusEffect("Cum-Soaked Clothing"))
+			{
+				fluidLayers += target.statusEffectv1("Cum-Soaked Clothing");
+				fluidLayer = Math.ceil(target.statusEffectv1("Cum-Soaked Clothing"));
+				if(fluidLayer > 3) fluidLayer = 3;
+				fluidVisc = ["cum", "spooge", "gooey semen" , "goopey spunk"];
+				fluidList.push(fluidVisc[fluidLayer]);
+			}
+			if(target.hasStatusEffect("Pussy-Soaked Clothing"))
+			{
+				fluidLayers += target.statusEffectv1("Pussy-Soaked Clothing");
+				fluidLayer = Math.ceil(target.statusEffectv1("Pussy-Soaked Clothing"));
+				if(fluidLayer > 3) fluidLayer = 3;
+				fluidVisc = ["girl-lube", "girl-juice", "slimy girl-cum", "sloppy fem-cum"];
+				fluidList.push(fluidVisc[fluidLayer]);
+			}
+			if(target.hasStatusEffect("Sweat-Soaked Clothing"))
+			{
+				fluidList.push("sweat");
+			}
+			if(target.hasStatusEffect("Damp Clothing"))
+			{
+				fluidList.push("dampness");
+			}
+			for(i = 0; i < fluidList.length; i++)
+			{
+				if(i != 0)
+				{
+					if(i == fluidList.length - 1) fluidDesc += " and";
+					else fluidDesc += ", ";
+				}
+				fluidDesc += " " + fluidList[i];
+			}
+			
+			outputRouter(" Your clothes are soaked");
+			if(fluidLayers <= 1) outputRouter(" in splotches of");
+			else if(fluidLayers <= 2) outputRouter(" in streams of");
+			else if(fluidLayers <= 4) outputRouter(" in large puddles of");
+			else outputRouter(" from top to bottom in");
+			outputRouter(" " + fluidDesc + ", ");
+
+			// Revealing outfit
+			if(!isNude && (showTits || showCrotch || showAss))
+			{
+				outputRouter("further adding to the suggestiveness of the attire.");
+			}
+			else 
+			{
+				outputRouter("making your outfit just as suggestive as something more revealing.");
+			}
+		}
+
 		if(!isNude && (showTits || showCrotch || showAss))
 		{
 			outputRouter(" Your outfit leaves little to the imagination, " + (!allExposed ? "revealing" : "exposing") + " your");
@@ -1407,26 +1478,26 @@ public function appearance(forTarget:Creature, backTarget:Function = null):void
 	}
 	
 	// Cum Splattered!
-	if(target.hasStatusEffect("Cum Soaked") || target.hasStatusEffect("Pussy Drenched") || target.hasStatusEffect("Milk Bathed"))
+	if(target.isSexualFluidSplattered() || target.hasStatusEffect("Milk Bathed"))
 	{
-		var fluidList:Array = [];
-		var fluidDesc:String = "";
-		var fluidVisc:Array = [];
-		var fluidLayer:int = 0;
-		var fluidLayers:Number = 0;
+		fluidList = [];
+		fluidDesc = "";
+		fluidVisc = [];
+		fluidLayer = 0;
+		fluidLayers = 0;
 		
-		if(target.hasStatusEffect("Cum Soaked"))
+		if(target.hasStatusEffect("Cum Soaked Counter"))
 		{
-			fluidLayers += target.statusEffectv1("Cum Soaked");
-			fluidLayer = Math.ceil(target.statusEffectv1("Cum Soaked"));
+			fluidLayers += target.statusEffectv1("Cum Soaked Counter");
+			fluidLayer = Math.ceil(target.statusEffectv1("Cum Soaked Counter"));
 			if(fluidLayer > 3) fluidLayer = 3;
 			fluidVisc = ["cum", "spooge", "gooey semen" , "goopey spunk"];
 			fluidList.push(fluidVisc[fluidLayer]);
 		}
-		if(target.hasStatusEffect("Pussy Drenched"))
+		if(target.hasStatusEffect("Pussy Drenched Counter"))
 		{
-			fluidLayers += target.statusEffectv1("Pussy Drenched");
-			fluidLayer = Math.ceil(target.statusEffectv1("Pussy Drenched"));
+			fluidLayers += target.statusEffectv1("Pussy Drenched Counter");
+			fluidLayer = Math.ceil(target.statusEffectv1("Pussy Drenched Counter"));
 			if(fluidLayer > 3) fluidLayer = 3;
 			fluidVisc = ["girl-lube", "girl-juice", "slimy girl-cum", "sloppy fem-cum"];
 			fluidList.push(fluidVisc[fluidLayer]);

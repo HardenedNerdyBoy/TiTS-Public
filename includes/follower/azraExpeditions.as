@@ -2753,7 +2753,7 @@ public function followAzraForFirstTimeBango():void
 	if(flags["AZRA_SEXED"] == undefined) 
 	{
 		output(", shedding gear as you go. All the moisture in the air makes the caked on grime");
-		if(pc.hasStatusEffect("Cum Soaked") || pc.hasStatusEffect("Pussy Drenched")) output(", cum,");
+		if(pc.isSexualFluidSplattered()) output(", cum,");
 		output(" and rust from the Tarkus wilds cling to your [pc.skin] in an oily slurry. ");
 	}
 	else output(". ");

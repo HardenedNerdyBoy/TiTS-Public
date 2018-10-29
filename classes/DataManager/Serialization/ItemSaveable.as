@@ -1,7 +1,10 @@
 ﻿package classes.DataManager.Serialization 
 {
+	import classes.Creature;
 	import classes.DataManager.Errors.VersionUpgraderError;
 	import classes.DataManager.Serialization.ISaveable;
+	import classes.Ships.IOwned;
+	import classes.Ships.IOwner;
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.describeType;
@@ -18,6 +21,22 @@
 		public function ItemSaveable()
 		{
 			
+		}
+		
+		// For finding who's wearing the item. Use char name such as chars["PC"], we use PC. Works for persistent chars.
+		private var _owner:String;
+		public function get Owner():String { return _owner; }
+		public function set Owner(v:String):void 
+		{
+			_owner = v;
+		}
+		
+		//Putting this in here because it needs to be saved
+		private var _statusEffects:Array;
+		public function get statusEffects():Array { return _statusEffects; }
+		public function set statusEffects(v:Array):void 
+		{
+			_statusEffects = v;
 		}
 		
 		/**
@@ -113,7 +132,6 @@
 									else
 									{
 										dataObject[propName] = this[propName];
-										trace("Potential serialization issue with property: " + propName);
 									}
 								}
 								else
@@ -128,7 +146,6 @@
 							else
 							{
 								dataObject[propName] = this[propName];
-								trace("Potential serialization issue with property: " + propName);
 							}
 						}
 					}
@@ -141,16 +158,51 @@
 				for each (var accs:XML in _da)
 				{
 					var accsName:String = accs.@name.toString();
-					if (_ignoredFields.length > 0)
+					if (_ignoredFields.length > 0 && _ignoredFields.indexOf(accsName) == -1)
 					{
-						if (_ignoredFields.indexOf(accsName) == -1)
+						if (this[accsName] is ISaveable)
+						{
+							dataObject[accsName] = this[accsName].getSaveObject();
+						}
+						else if (this[accsName] is Array)
+						{
+							if (this[accsName].length > 0)
+							{
+								if (this[accsName][0] is ISaveable)
+								{
+									dataObject[accsName] = new Array();
+									for (i = 0; i < this[accsName].length; i++)
+									{
+										dataObject[accsName].push(this[accsName][i].getSaveObject());
+									}
+								}
+								else if (isBasicType(this[accsName][0]))
+								{
+									dataObject[accsName] = new Array();
+									
+									for (i = 0; i < this[accsName].length; i++)
+									{
+										dataObject[accsName].push(this[accsName][i]);
+									}
+								}
+								else
+								{
+									dataObject[accsName] = this[accsName];
+								}
+							}
+							else
+							{
+								dataObject[accsName] = new Array();
+							}
+						}
+						else if (isBasicType(this[accsName]))
 						{
 							dataObject[accsName] = this[accsName];
 						}
-					}
-					else
-					{
-						dataObject[accsName] = this[accsName];
+						else
+						{
+							dataObject[accsName] = this[accsName];
+						}
 					}
 				}
 			}
@@ -159,6 +211,14 @@
 				dataObject.quantity = this.quantity;
 				dataObject.shortName = this.shortName;
 				dataObject.version = this.version;
+				dataObject.Owner = this.Owner;
+				
+				// StatusEffects needs actual data though, as it's an array of a complex type
+				dataObject.statusEffects = new Array();
+				for (i = 0; i < this.statusEffects.length; i++)
+				{
+					dataObject.statusEffects.push(this.statusEffects[i].getSaveObject());
+				}
 			}
 			
 			dataObject.classInstance = getQualifiedClassName(this);
@@ -209,6 +269,40 @@
 								this[tProp] = new classT();
 								this[tProp].loadSaveObject(dataObject[tProp]);
 							}
+							else if (this[tProp] is Array) 
+							{
+								if (dataObject[tProp].length > 0)
+								{
+									var i:int = 0;
+									if (!(dataObject[tProp][0] is Number) && !(dataObject[tProp][0] is String) && dataObject[tProp][0]["classInstance"] !== undefined) //If array of ISaveable, like statusEffects
+									{
+										this[tProp] = new Array();
+										for (i = 0; i < dataObject[tProp].length; i++)
+										{	
+											var itemT:ISaveable = new (getDefinitionByName(dataObject[tProp][i].classInstance) as Class)();
+											itemT.loadSaveObject(dataObject[tProp][i]);
+											this[tProp].push(itemT);
+										}
+									}
+									else if (isBasicType(dataObject[tProp][0]))
+									{
+										this[tProp] = new Array();
+										for (i = 0; i < dataObject[tProp].length; i++)
+										{
+											this[tProp].push(dataObject[tProp][i]);
+										}
+									}
+									else
+									{
+										this[tProp] = dataObject[tProp];
+										trace("Potential serialization issue with property: " + tProp);
+									}
+								}
+								else 
+								{
+									dataObject[tProp] = new Array();
+								}
+							}
 							else
 							{
 								this[tProp] = dataObject[tProp];
@@ -228,7 +322,7 @@
 				}
 			}
 			else
-			{
+			{				
 				var _dl:XMLList = _d..variable;
 				var _da:XMLList = _d..accessor;
 				

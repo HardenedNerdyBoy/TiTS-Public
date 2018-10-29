@@ -736,7 +736,7 @@ public function frostwyrmHomeAtLast():void
 	processTime(60);
 	clearMenu();
 	
-	if (flags["FROSTWYRM_GAVE_BATH"] == undefined && (pc.hasStatusEffect("Cum Soaked") || pc.hasStatusEffect("Pussy Drenched")))
+	if (flags["FROSTWYRM_GAVE_BATH"] == undefined && (pc.isCumSplattered() || pc.isPussySplattered()))
 	{
 		addButton(0, "Next", frostwyrmSteeleIsADirtyGirl);
 		return;

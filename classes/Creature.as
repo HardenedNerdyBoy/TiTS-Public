@@ -3502,8 +3502,8 @@
 			}
 			removeStatusEffect("Sweaty");
 			removeStatusEffect("Mare Musk");
-			removeStatusEffect("Cum Soaked");
-			removeStatusEffect("Pussy Drenched");
+			applyCumSoaked(-5);
+			applyPussyDrenched(-5);
 			removeStatusEffect("Milk Bathed");
 			removeStatusEffect("Oil Warmed");
 			removeStatusEffect("Oil Cooled");
@@ -4011,18 +4011,24 @@
 			if(item == "all" || item == "underwear" || item == "upperUndergarment")
 			{
 				upperUndergarment.onRemove(this);
+				removeItemStatusEffects(upperUndergarment);
+				upperUndergarment.Owner = null;
 				if(!canDropItem(upperUndergarment)) newItems.push(upperUndergarment);
 				upperUndergarment = new EmptySlot();
 			}
 			if(item == "all" || item == "underwear" || item == "lowerUndergarment")
 			{
 				lowerUndergarment.onRemove(this);
+				removeItemStatusEffects(lowerUndergarment);
+				lowerUndergarment.Owner = null;
 				if(!canDropItem(lowerUndergarment)) newItems.push(lowerUndergarment);
 				lowerUndergarment = new EmptySlot();
 			}
 			if(item == "all" || item == "clothing" || item == "armor")
 			{
 				armor.onRemove(this);
+				removeItemStatusEffects(armor);
+				armor.Owner = null;
 				if(!canDropItem(armor)) newItems.push(armor);
 				armor = new EmptySlot();
 			}
@@ -4037,24 +4043,32 @@
 			if(item == "all" || item == "weapons" || item == "meleeWeapon")
 			{
 				meleeWeapon.onRemove(this);
+				removeItemStatusEffects(meleeWeapon);
+				meleeWeapon.Owner = null;
 				if(!canDropItem(meleeWeapon)) newItems.push(meleeWeapon);
 				meleeWeapon = new Rock();
 			}
 			if(item == "all" || item == "weapons" || item == "rangedWeapon")
 			{
 				rangedWeapon.onRemove(this);
+				removeItemStatusEffects(rangedWeapon);
+				rangedWeapon.Owner = null;
 				if(!canDropItem(rangedWeapon)) newItems.push(rangedWeapon);
 				rangedWeapon = new Rock();
 			}
 			if(item == "all" || item == "accessory")
 			{
 				accessory.onRemove(this);
+				removeItemStatusEffects(accessory);
+				accessory.Owner = null;
 				if(!canDropItem(accessory)) newItems.push(accessory);
 				accessory = new EmptySlot();
 			}
 			if(item == "all" || item == "shield")
 			{
 				shield.onRemove(this);
+				removeItemStatusEffects(shield);
+				shield.Owner = null;
 				if(!canDropItem(shield)) newItems.push(shield);
 				shield = new EmptySlot();
 			}
@@ -4084,23 +4098,94 @@
 		
 		public function onEquipClothes(item:String = "all"):void
 		{
-			if(item == "all" || item == "underwear" || item == "upperUndergarment") { upperUndergarment.onEquip(this); }
-			if(item == "all" || item == "underwear" || item == "lowerUndergarment") { lowerUndergarment.onEquip(this); }
-			if(item == "all" || item == "clothing" || item == "armor") { armor.onEquip(this); }
+			if (item == "all" || item == "underwear" || item == "upperUndergarment") { upperUndergarment.onEquip(this); upperUndergarment.Owner = this.Index; applyItemStatusEffects(upperUndergarment); }
+			if (item == "all" || item == "underwear" || item == "lowerUndergarment") { lowerUndergarment.onEquip(this); lowerUndergarment.Owner = this.Index; applyItemStatusEffects(lowerUndergarment); }
+			if (item == "all" || item == "clothing" || item == "armor") { armor.onEquip(this); armor.Owner = this.Index; applyItemStatusEffects(armor); }
 		}
 		public function onEquipEquipment(item:String = "all"):void
 		{
-			if(item == "all" || item == "weapons" || item == "meleeWeapon") { meleeWeapon.onEquip(this); }
-			if(item == "all" || item == "weapons" || item == "rangedWeapon") { rangedWeapon.onEquip(this); }
-			if(item == "all" || item == "accessory") { accessory.onEquip(this); }
-			if(item == "all" || item == "shield") { shield.onEquip(this); }
+			if (item == "all" || item == "weapons" || item == "meleeWeapon") { meleeWeapon.onEquip(this); meleeWeapon.Owner = this.Index; applyItemStatusEffects(meleeWeapon); }
+			if(item == "all" || item == "weapons" || item == "rangedWeapon") { rangedWeapon.onEquip(this); rangedWeapon.Owner = this.Index; applyItemStatusEffects(rangedWeapon); }
+			if(item == "all" || item == "accessory") { accessory.onEquip(this); accessory.Owner = this.Index; applyItemStatusEffects(accessory); }
+			if(item == "all" || item == "shield") { shield.onEquip(this); shield.Owner = this.Index; applyItemStatusEffects(shield); }
 		}
 		public function onEquipAll():void
 		{
 			onEquipClothes();
 			onEquipEquipment();
 		}
-		
+		public function applyItemStatusEffects(item:ItemSlotClass):void
+		{
+			//For all the items effects
+			for (var i:int = 0; i < item.statusEffects.length; i++)
+			{
+				var effect:StorageClass = item.statusEffects[i];
+				
+				// If creature has that effect
+				if (hasStatusEffect(effect.storageName))
+				{
+					//Get the effect that the creature has
+					var existingStatus:StorageClass = getStatusEffect(effect.storageName);
+					//If this item hasn't provided the effect yet, add it to the tooltip and add its values
+					if (existingStatus.tooltip.indexOf(item.longName) == -1)
+					{
+						addStatusValue(existingStatus.storageName, 1, existingStatus.value1);
+						addStatusValue(existingStatus.storageName, 2, existingStatus.value2);
+						addStatusValue(existingStatus.storageName, 3, existingStatus.value3);
+						addStatusValue(existingStatus.storageName, 4, existingStatus.value4);
+						this.setStatusTooltip(existingStatus.storageName, (existingStatus.tooltip + "\n" + item.longName));
+					}
+				}
+				//Otherwise simply create the effect new
+				else 
+				{
+					this.statusEffects.push(effect);
+					this.setStatusTooltip(effect.storageName, (effect.tooltip + "\nGained from:\n" + item.longName));
+				}
+			}
+		}
+		public function removeItemStatusEffects(item:ItemSlotClass):void
+		{
+			for (var i:int = 0; i < item.statusEffects.length; i++)
+			{
+				var effect:StorageClass = item.statusEffects[i];
+				removeItemStatusEffect(item, effect.storageName);
+			}
+		}
+		public function removeItemStatusEffect(item:ItemSlotClass, effectName:String):void 
+		{
+			if (hasStatusEffect(effectName))
+			{
+				var effect:StorageClass = getStatusEffect(effectName);
+				
+				// Check for if any remaining items have the buff
+				var countItemsWithBuff:int = 0;
+				var itemSlots:Array = [meleeWeapon, rangedWeapon, armor, upperUndergarment, lowerUndergarment, accessory, shield];
+				for (var j:int = 0; j < itemSlots.length; j++)
+				{
+					if (itemSlots[j].hasStatusEffect(effect.storageName))
+					{
+						countItemsWithBuff++;
+					}
+				}
+				
+				//If item remains with buff
+				if (countItemsWithBuff > 0)
+				{
+					//Remove any values added by unequiped item
+					addStatusValue(effect.storageName, 1, -effect.value1);
+					addStatusValue(effect.storageName, 2, -effect.value2);
+					addStatusValue(effect.storageName, 3, -effect.value3);
+					addStatusValue(effect.storageName, 4, -effect.value4);
+					//Remove unequipped item name from tooltip
+					setStatusTooltip(effect.storageName, effect.tooltip.replace("\n" + item.longName,""));
+				}
+				else
+				{
+					this.removeStatusEffect(effect.storageName);
+				}
+			}
+		}
 		//STATS!
 		//Personalities!
 		public function isNice(): Boolean {
@@ -20502,6 +20587,7 @@
 		{
 			minutesSinceCum += deltaT;
 			
+			updateInventoryItemStatusEffects(deltaT, doOut);
 			updateStatusEffects(deltaT, doOut);
 			updateAlcoholState(deltaT, doOut);
 			sstdPurgeCheck(deltaT, doOut);
@@ -20741,9 +20827,8 @@
 	 						}
 						}
 						break;
-					case "Cum Soaked":
-					case "Pussy Drenched":
-					case "Milk Bathed":
+					case "Cum Soaked Counter":
+					case "Pussy Drenched Counter":
 						if(hasSkinFlag(GLOBAL.FLAG_ABSORBENT))
 						{
 							var cumScale:Number = Math.min((deltaT / 60), 1);
@@ -20752,7 +20837,23 @@
 								addBiomass(Math.round(500 * cumScale));
 								if(hasSkinFlag(GLOBAL.FLAG_LUBRICATED)) addBiomass(Math.round(500 * cumScale));
 							}
-							thisStatus.value1 -= cumScale;
+
+							if (thisStatus.storageName == "Pussy Drenched Counter") applyPussyDrenched(-cumScale);
+							else if (thisStatus.storageName == "Cum Soaked Counter") applyCumSoaked(-cumScale);
+
+							if(thisStatus.value1 <= 0 && thisStatus.minutesLeft <= 0) thisStatus.minutesLeft = 1;
+						}
+						break;
+					case "Milk Bathed":
+						if(hasSkinFlag(GLOBAL.FLAG_ABSORBENT))
+						{
+							var milkScale:Number = Math.min((deltaT / 60), 1);
+							if(this is PlayerCharacter && hairType == GLOBAL.HAIR_TYPE_GOO)
+							{
+								addBiomass(Math.round(500 * milkScale));
+								if(hasSkinFlag(GLOBAL.FLAG_LUBRICATED)) addBiomass(Math.round(500 * milkScale));
+							}
+							thisStatus.value1 -= milkScale;
 							if(thisStatus.value1 <= 0 && thisStatus.minutesLeft <= 0) thisStatus.minutesLeft = 1;
 						}
 						break;
@@ -21404,6 +21505,66 @@
 				}
 			}
 		}
+		//Any effects are applied to the player, so if the effect need to happen, handle them in the other function. Unless you want to tell the player a creatures clothes have dried out or smth.
+		private function updateInventoryItemStatusEffects(deltaT:uint, doOut:Boolean):void
+		{
+			if (!(this is PlayerCharacter) && !statusSimulate) return;
+			
+			var deferredEvents:Array = [];
+			
+			var i:int = 0;
+			var j:int = 0;
+			
+			for (j = 0; j < this.inventory.length; j++)
+			{
+				var thisItem:ItemSlotClass = this.inventory[j];
+				if (thisItem.statusEffects.length != 0)
+				{
+					for (i = 0; i < thisItem.statusEffects.length; i++)
+					{
+						var thisStatus:StorageClass = thisItem.statusEffects[i];
+						thisStatus.minutesLeft -= deltaT;
+						if (thisStatus.minutesLeft <= 0)
+						{
+							switch (thisStatus.storageName)
+							{
+								case "Milk-Soaked Clothes":
+									thisItem.removeStatusEffect(thisStatus.storageName);
+									if(this is PlayerCharacter) AddLogEvent("The milk on your " + thisItem.longName + " has dried out.", "passive", deltaT);
+									break;
+								case "Damp Clothes":
+									thisItem.removeStatusEffect(thisStatus.storageName);
+									if(this is PlayerCharacter) AddLogEvent("The dampness on your " + thisItem.longName + " has dried out.", "passive", deltaT);
+									break;
+								case "Cum-Soaked Clothes":
+									thisItem.removeStatusEffect(thisStatus.storageName);
+									if(this is PlayerCharacter) AddLogEvent("The cum on your " + thisItem.longName + " has dried out.", "passive", deltaT);
+									break;
+								case "Pussy-Soaked Clothes":
+									thisItem.removeStatusEffect(thisStatus.storageName);
+									if(this is PlayerCharacter) AddLogEvent("The juices on your " + thisItem.longName + " have dried out.", "passive", deltaT);
+									break;
+								case "Sweat-Soaked Clothes":
+									thisItem.removeStatusEffect(thisStatus.storageName);
+									if(this is PlayerCharacter) AddLogEvent("The sweat on your " + thisItem.longName + " has dried out.", "passive", deltaT);
+									break;
+								default:
+									thisItem.removeStatusEffect(thisStatus.storageName);
+									break;
+							}
+						}
+					}
+				}
+			}
+			
+			if (deferredEvents != null && deferredEvents.length > 0)
+			{
+				for (i = 0; i < deferredEvents.length; i++)
+				{
+					deferredEvents[i]();
+				}
+			}
+		}
 		public function analHeatCleanup():void
 		{
 			clearAnalHeat();
@@ -21689,37 +21850,167 @@
 				removeSSTDs();
 			}
 		}
-		public function applyCumSoaked():void
+		public function applyCumSoaked(arg:int = 1):void
 		{
 			var desc:String = "";
 			
-			if(!this.hasStatusEffect("Cum Soaked"))
+			if (arg != 0)
 			{
-				if(this is PlayerCharacter) desc = "You’re drenched in cum! Anyone can tell at a glance what sort of activities you’ve been engaging in!";
-				else desc = this.capitalA + this.short + " " + (!isPlural ? "is" : "are") + " completely covered in cum!";
-				this.createStatusEffect("Cum Soaked",1,0,0,0,false,"Icon_Splatter",desc,false,0,0xB793C4);
+				if (!this.hasStatusEffect("Cum Soaked Counter")) this.createStatusEffect("Cum Soaked Counter",0);
+				this.addStatusValue("Cum Soaked Counter", 1, arg);
 			}
-			else this.addStatusValue("Cum Soaked",1,1);
+			
+			if (arg > 0)
+			{
+				if (this.statusEffectv1("Cum Soaked Counter") >= 5)
+				{
+					this.removeStatusEffect("Cum Splattered");
+					this.removeStatusEffect("Cum Soaked");
+					
+					if(this is PlayerCharacter) desc = "You’re drenched from top to bottom in a thick layer of cum! Anyone in the vicinity could smell what you've been up to, even before they catch sight of you!";
+					else desc = this.capitalA + this.short + " " + (!isPlural ? "is" : "are") + " drenched in a thick layer of cum!";
+					this.createStatusEffect("Cum Drenched", 1, 0, 0, 0, false, "Icon_Splatter", desc, false, 0, 0xF8E5FF);
+					this.setStatusValue("Cum Soaked Counter",1,5);
+				}
+				else if (this.statusEffectv1("Cum Soaked Counter") >= 3)
+				{
+					this.removeStatusEffect("Cum Splattered");
+					this.removeStatusEffect("Cum Drenched");
+					
+					if(this is PlayerCharacter) desc = "You’re soaked in cum! Anyone can tell at a glance what sort of activities you’ve been engaging in!";
+					else desc = this.capitalA + this.short + " " + (!isPlural ? "is" : "are") + " covered in cum!";
+					this.createStatusEffect("Cum Soaked",1,0,0,0,false,"Icon_Splatter",desc,false,0,0xCAA9D6);
+				}
+				else
+				{
+					this.removeStatusEffect("Cum Soaked");
+					this.removeStatusEffect("Cum Drenched");
+					
+					if(this is PlayerCharacter) desc = "You’re splattered in spurts of cum! If anyone saw one of the streaks covering you, they'd immediately know what you've been up to!";
+					else desc = this.capitalA + this.short + " " + (!isPlural ? "is" : "are") + " splattered in spurts of cum!";
+					this.createStatusEffect("Cum Splattered",1,0,0,0,false,"Icon_Splatter",desc,false,0,0xB793C4);
+				}
+			}
+			if (arg < 0)
+			{
+				if (this.statusEffectv1("Cum Soaked Counter") < 1) this.removeStatusEffect("Cum Splattered");
+				if (this.statusEffectv1("Cum Soaked Counter") < 3) this.removeStatusEffect("Cum Soaked");
+				if (this.statusEffectv1("Cum Soaked Counter") < 5) this.removeStatusEffect("Cum Drenched");
+				if (this.statusEffectv1("Cum Soaked Counter") <= 0) this.removeStatusEffect("Cum Soaked Counter");
+			}
 			
 			if(this is PlayerCharacter) kGAMECLASS.mimbraneFeed("all");
 		}
-		public function applyPussyDrenched():void
+		public function applyPussyDrenched(arg:int = 1):void
 		{
 			var desc:String = "";
 			
-			if(!this.hasStatusEffect("Pussy Drenched"))
+			if (arg != 0)
 			{
-				if(this is PlayerCharacter) desc = "You’re drenched in girlcum! Anyone can tell at a glance what sort of activities you’ve been engaging in!";
-				else desc = this.capitalA + this.short + " " + (!isPlural ? "is" : "are") + " completely covered in girlcum!";
-				this.createStatusEffect("Pussy Drenched",1,0,0,0,false,"Icon_Water_Drop",desc,false,0,0xB793C4);
+				if (!this.hasStatusEffect("Pussy Drenched Counter")) this.createStatusEffect("Pussy Drenched Counter",0);
+				this.addStatusValue("Pussy Drenched Counter", 1, arg);
 			}
-			else this.addStatusValue("Pussy Drenched",1,1);
+			
+			if (arg > 0)
+			{
+				if (this.statusEffectv1("Pussy Drenched Counter") >= 5)
+				{
+					this.removeStatusEffect("Pussy Splattered");
+					this.removeStatusEffect("Pussy Soaked");
+					
+					if(this is PlayerCharacter) desc = "You’re drenched in a shiny layer of girlcum! Anyone could smell what you've been up to, even before catching sight of you!";
+					else desc = this.capitalA + this.short + " " + (!isPlural ? "is" : "are") + " completely covered in girlcum!";
+					this.createStatusEffect("Pussy Drenched", 1, 0, 0, 0, false, "Icon_Water_Drop", desc, false, 0, 0xB793C4);
+					this.setStatusValue("Pussy Drenched Counter",1,5);
+				}
+				else if (this.statusEffectv1("Pussy Drenched Counter") >= 3)
+				{
+					this.removeStatusEffect("Pussy Splattered");
+					this.removeStatusEffect("Pussy Drenched");
+					
+					if(this is PlayerCharacter) desc = "You’re soaked in girlcum! Anyone can tell at a glance what sort of activities you’ve been engaging in!";
+					else desc = this.capitalA + this.short + " " + (!isPlural ? "is" : "are") + " covered in girlcum!";
+					this.createStatusEffect("Pussy Soaked",1,0,0,0,false,"Icon_Water_Drop",desc,false,0,0xCAA9D6);
+				}
+				else
+				{
+					this.removeStatusEffect("Pussy Soaked");
+					this.removeStatusEffect("Pussy Drenched");
+					
+					if(this is PlayerCharacter) desc = "You’re splattered in bursts of girlcum! If anyone saw one of the wet streaks covering you, they'd know for certain what you've been up to!";
+					else desc = this.capitalA + this.short + " " + (!isPlural ? "is" : "are") + " splattered in bursts of girlcum!";
+					this.createStatusEffect("Pussy Splattered",1,0,0,0,false,"Icon_Water_Drop",desc,false,0,0xB793C4);
+				}
+			}
+			if (arg < 0)
+			{
+				if (this.statusEffectv1("Pussy Drenched Counter") < 1) this.removeStatusEffect("Pussy Splattered");
+				if (this.statusEffectv1("Pussy Drenched Counter") < 3) this.removeStatusEffect("Pussy Soaked");
+				if (this.statusEffectv1("Pussy Drenched Counter") < 5) this.removeStatusEffect("Pussy Drenched");
+				if (this.statusEffectv1("Pussy Drenched Counter") <= 0) this.removeStatusEffect("Pussy Drenched Counter");
+			}
 			
 			if(this is PlayerCharacter) kGAMECLASS.mimbraneFeed("all");
 		}
-		public function applyPussySoaked():void
+		public function isCumSplattered():Boolean
 		{
-			applyPussyDrenched();
+			return (this.statusEffectv1("Cum Soaked Counter") >= 1);
+		}
+		public function isCumSoaked():Boolean
+		{
+			return (this.statusEffectv1("Cum Soaked Counter") >= 3);
+		}
+		public function isCumDrenched():Boolean
+		{
+			return (this.statusEffectv1("Cum Soaked Counter") >= 5);
+		}
+		public function isPussySplattered():Boolean
+		{
+			return (this.statusEffectv1("Pussy Drenched Counter") >= 1);
+		}
+		public function isPussySoaked():Boolean
+		{
+			return (this.statusEffectv1("Pussy Drenched Counter") >= 3);
+		}
+		public function isPussyDrenched():Boolean
+		{
+			return (this.statusEffectv1("Pussy Drenched Counter") >= 5);
+		}
+		public function isSexualFluidSplattered():Boolean
+		{
+			return (this.statusEffectv1("Cum Soaked Counter") >= 1 || this.statusEffectv1("Pussy Drenched Counter") >= 1);
+		}
+		public function isSexualFluidSoaked():Boolean
+		{
+			return (this.statusEffectv1("Cum Soaked Counter") >= 3 || this.statusEffectv1("Pussy Drenched Counter") >= 3);
+		}
+		public function isSexualFluidDrenched():Boolean
+		{
+			return (this.statusEffectv1("Cum Soaked Counter") >= 5 || this.statusEffectv1("Pussy Drenched Counter") >= 5);
+		}
+		public function wearingDampClothing():Boolean 
+		{
+			return this.hasStatusEffect("Damp Clothing");
+		}
+		public function wearingCumSoakedClothing():Boolean 
+		{
+			return this.hasStatusEffect("Cum-Soaked Clothing");
+		}
+		public function wearingPussySoakedClothing():Boolean 
+		{
+			return this.hasStatusEffect("Pussy-Soaked Clothing");
+		}
+		public function wearingSexSoakedClothing():Boolean 
+		{
+			return (this.hasStatusEffect("Cum-Soaked Clothing") || this.hasStatusEffect("Pussy-Soaked Clothing"));
+		}
+		public function wearingSweatSoakedClothing():Boolean 
+		{
+			return this.hasStatusEffect("Sweat-Soaked Clothing");
+		}
+		public function wearingMilkSoakedClothing():Boolean 
+		{
+			return this.hasStatusEffect("Milk-Soaked Clothing");
 		}
 		public function applyMilkBathed():void
 		{

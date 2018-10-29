@@ -162,7 +162,7 @@ public function loseToBoredJumperRouting():void
 	if(flags["BORED_JUMPER_CONSECUTIVE_LOSSES"] == 3) loseToJumpersStartBadEndsByWill();
 	else if(flags["BORED_JUMPER_CONSECUTIVE_LOSSES"] == 4) fourthLossToBoredJumperBadEndProggo();
 	else if(flags["BORED_JUMPER_CONSECUTIVE_LOSSES"] >= 5) badEndToThatJumperFinally();
-	else if(pc.hasStatusEffect("Cum Soaked") || pc.hasStatusEffect("Pussy Drenched")) 
+	else if(pc.isCumSplattered() || pc.isPussySplattered()) 
 	{
 		cumCumCoverLossForSweatquine();
 		flags["BORED_JUMPER_CONSECUTIVE_LOSSES"]--;

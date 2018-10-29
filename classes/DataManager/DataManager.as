@@ -49,7 +49,7 @@
 		}
 	
 		// Define the current version of save games.
-		public static const LATEST_SAVE_VERSION:int = 31;
+		public static const LATEST_SAVE_VERSION:int = 33;
 		public static const MINIMUM_SAVE_VERSION:int = 30;
 		
 		private var _autoSaveEnabled:Boolean = false;
@@ -104,6 +104,8 @@
 			var sv28:SaveVersionUpgrader28;
 			var sv29:SaveVersionUpgrader29;
 			var sv30:SaveVersionUpgrader30;
+			var sv31:SaveVersionUpgrader31;
+			var sv32:SaveVersionUpgrader32;
 			
 			// I'm putting this fucking thing here for the same reason.
 			var dbgShield:DBGShield;
@@ -1469,6 +1471,7 @@
 					{
 						try
 						{
+							kGAMECLASS.output2("Attemtping upgrade");
 							(new (getDefinitionByName("classes.DataManager.SaveVersionUpgrader" + dataBlob.version) as Class) as ISaveVersionUpgrader).upgrade(dataBlob);
 							trace("Upgraded file to version " + dataBlob.version);
 						}

@@ -10,6 +10,7 @@
 	import flash.utils.getDefinitionByName;
 	import classes.Engine.Combat.DamageTypes.DamageType;
 	import classes.Engine.Combat.DamageTypes.DamageFlag;
+	import classes.kGAMECLASS;
 	
 	public class ItemSlotClass extends ItemSaveable
 	{
@@ -19,7 +20,6 @@
 		
 		//Regular name
 		public var longName:String;
-		
 		
 		//Longass shit, not sure what used for yet.
 		private var _description:String;
@@ -37,7 +37,6 @@
 		//Flags
 		public var itemFlags:Array;
 		
-		//Equipped properties
 		//Bonus tohit
 		public var attack:Number;
 
@@ -95,7 +94,8 @@
 		
 			//itemFlags
 			this.itemFlags = new Array();
-		
+			this.statusEffects = new Array();
+			
 			//Equipped properties
 			this.attack = 0;
 			
@@ -245,6 +245,29 @@
 						else compareString += "\n";
 					}
 					compareString += "Special Flags:\n" + fList;
+				}
+			}
+
+			if (statusEffects.length > 0)
+			{
+				var seList:String = "";
+				
+				for (var sePointer:uint = 0; sePointer < statusEffects.length; sePointer++)
+				{
+					if (!statusEffects[sePointer].hidden)
+					{
+						if (seList.length > 0) seList += ", ";
+						seList += statusEffects[sePointer].storageName;
+					}
+				}
+				if(seList.length > 0)
+				{
+					if (compareString.length > 0) 
+					{
+						if(!short) compareString += "\n\n";
+						else compareString += "\n";
+					}
+					compareString += "Status effects:\n" + seList;
 				}
 			}
 			
@@ -740,6 +763,340 @@
 				return flags;
 			}
 			return "";
+		}
+		
+		//Create a status effect on the item.
+		//Will be applied to anyone that equips it, minutesLeft is handled, and effects are removed on removal.
+		//Buff is removed from the player if no items that they have equipped, have the buff.
+		//Value's are added to any existing buff on the player and are removed from it afterwards.
+		public function createStatusEffect(statusName: String, value1: Number = 0, value2: Number = 0, value3: Number = 0, value4: Number = 0, hidden: Boolean = true, iconName: String = "", tooltip: String = "", combatOnly: Boolean = false, minutesLeft: Number = 0, iconShade:uint = 0xFFFFFF): void {
+			
+			if (hasStatusEffect(statusName)) {
+				trace("Status '" + statusName + "' already present on " + shortName);
+				return;
+			}
+
+			var newStatusEffect:StorageClass = new StorageClass();
+			newStatusEffect.storageName = statusName;
+			newStatusEffect.value1 = value1;
+			newStatusEffect.value2 = value2;
+			newStatusEffect.value3 = value3;
+			newStatusEffect.value4 = value4;
+			newStatusEffect.hidden = hidden;
+			newStatusEffect.iconName = iconName;
+			newStatusEffect.tooltip = tooltip;
+			newStatusEffect.combatOnly = combatOnly;
+			newStatusEffect.minutesLeft = minutesLeft;
+			newStatusEffect.iconShade = iconShade;
+			
+			this.statusEffects.push(newStatusEffect);
+			if (this.Owner != null){
+				kGAMECLASS.chars[this.Owner].applyItemStatusEffects(this);
+			} 
+			
+			trace("New status applied to " + shortName + ": " + statusName);
+		}
+		public function sortStatusEffects(): void 
+		{
+			if(this.statusEffects.length <= 0) return;
+			
+			for(var i:int = 0; i < statusEffects.length; i++)
+			{
+				if(statusEffects[i].tooltip == "< REMOVE >") { this.statusEffects.splice(i, 1); i--; }
+			}
+			
+			this.statusEffects.sortOn("storageName", Array.CASEINSENSITIVE);
+		}
+		public function removeStatusEffect(statusName: String, forQueue: Boolean = false): Boolean {
+			var result:Boolean = removeStorageSlot(this.statusEffects, statusName, forQueue);
+			if (result && this.Owner != null) kGAMECLASS.chars[this.Owner].removeItemStatusEffect(this, statusName);
+			return result;
+		}
+		//statuses
+		public function removeStatuses(): void {
+			if (this.Owner != null) kGAMECLASS.chars[this.Owner].removeStorage(this.statusEffects);
+			removeStorage(this.statusEffects);
+		}
+		public function removeStorageSlot(array:Array, storageName:String, forQueue:Boolean = false): Boolean {
+			trace("Removing storage slot", storageName);
+			//Various Errors preventing action
+			if (array.length <= 0) {
+				trace("Attempted to remove storage slot " + storageName + " on " + shortName + " but chosen array has no members.");
+				return false;
+			}
+			var counter: Number = array.length;
+			while (counter > 0) {
+				counter--;
+				if (array[counter].storageName == storageName) {
+					if(forQueue)
+					{
+						array[counter].hidden = true;
+						array[counter].tooltip = "< REMOVE >";
+						trace("Queued \"" + storageName + "\" for removal on " + shortName + ".");
+					}
+					else
+					{
+						array.splice(counter, 1);
+						trace("Removed \"" + storageName + "\" from a storage array on " + shortName + ".");
+					}
+					//counter = 0;					
+					return true;
+				}
+			}
+			return false;
+		}
+		//remove all of a stored array
+		public function removeStorage(array:Array): void {
+			var counter: Number = array.length;
+			while (counter > 0) {
+				counter--;
+				array.splice(counter, 1);
+			}
+		}
+		public function hasStatusEffect(statusName: String, ignoreHidden:Boolean = false): Boolean {
+			return hasStorageName(this.statusEffects, statusName, ignoreHidden);
+		}
+		public function hasStatusEffectCount(statusName:String):Number
+		{
+			var counter: Number = this.statusEffects.length;
+			var amount:int = 0;
+			if (this.statusEffects.length <= 0) return 0;
+			while (counter > 0) {
+				counter--;
+				if (this.statusEffects[counter].storageName == statusName) amount++;
+			}
+			return amount;
+		}
+		//General function.
+		public function hasStorageName(array:Array, storageName: String, ignoreHidden:Boolean = false): Boolean {
+			var counter: Number = array.length;
+			if (array.length <= 0) return false;
+			while (counter > 0) {
+				counter--;
+				if (array[counter].storageName == storageName && (!ignoreHidden || array[counter].tooltip != "< REMOVE >")) return true;
+			}
+			return false;
+		}
+		//MODIFYING STORAGE VARIABLES WITH SET OR ADD.
+		public function setStatusValue(storageName: String, storageValueNum: int, newValue:*):void {
+			setStorageValue(statusEffects, storageName, storageValueNum, newValue);
+		}
+		public function getStatusMinutes(storageName: String):Number
+		{
+			var counter: Number = statusEffects.length;
+			//Various Errors preventing action
+			if (statusEffects.length <= 0) return -1;
+			while (counter > 0) {
+				counter--;
+				//Find it, report it.
+				if (statusEffects[counter].storageName == storageName) {
+					return statusEffects[counter].minutesLeft;
+				}
+			}
+			return -1;
+		}
+		public function hasCombatStatusEffect(storageName: String):Boolean {
+			var array:Array = statusEffects;
+			var counter: Number = array.length;
+			if (array.length <= 0) return false;
+			while (counter > 0) {
+				counter--;
+				if (array[counter].storageName == storageName && array[counter].combatOnly) return true;
+			}
+			return false;
+		}
+		public function setStatusMinutes(storageName: String, newMinutes:int):void
+		{
+			var counter: Number = statusEffects.length;
+			//Various Errors preventing action
+			if (statusEffects.length <= 0) return;
+			while (counter > 0) {
+				counter--;
+				//Find it, change it, quit out
+				if (statusEffects[counter].storageName == storageName) {
+					if (newMinutes < 0) {
+						trace("ERROR: Change storage value with invalid value for given slot or invalid slot.");
+						return;
+					}
+					statusEffects[counter].minutesLeft = newMinutes;
+					return;
+				}
+			}
+			trace("ERROR: Looking for status '" + storageName + "' to change minutes, and " + this.shortName + " does not have the status affect.");
+			return;
+		}
+		public function setStatusTooltip(storageName: String, newTooltip:String):void
+		{
+			var counter: Number = statusEffects.length;
+			//Various Errors preventing action
+			if (statusEffects.length <= 0) return;
+			while (counter > 0) {
+				counter--;
+				//Find it, change it, quit out
+				if (statusEffects[counter].storageName == storageName) {
+					statusEffects[counter].tooltip = newTooltip;
+					return;
+				}
+			}
+			trace("ERROR: Looking for status '" + storageName + "' to change tooltip but couldn’t find it.");
+			return;
+		}
+		public function getStatusTooltip(storageName: String):String
+		{
+			if (statusEffects.length <= 0) return "";
+			for(var i:int = 0; i < statusEffects.length; i++)
+			{
+				if (statusEffects[i].storageName == storageName)
+				{
+					return statusEffects[i].tooltip;
+				}
+			}
+			trace("ERROR: Unable to find '" + storageName + "' to update icon shade.");
+			return "<b>ERROR: Unable to find '" + storageName + "' to display its tooltip.</b>";
+		}
+		
+		public function setStatusIconShade(storageName:String, iconShade:uint):void
+		{
+			for (var i:int = 0; i < statusEffects.length; i++)
+			{
+				if (statusEffects[i].storageName == storageName)
+				{
+					statusEffects[i].iconShade = iconShade;
+					return;
+				}
+			}
+			trace("ERROR: Unable to find '" + storageName +"' to update icon shade.");
+		}
+		
+		public function addStatusMinutes(storageName: String, newMinutes:int):void
+		{
+			var counter: Number = statusEffects.length;
+			//Various Errors preventing action
+			if (statusEffects.length <= 0) return;
+			while (counter > 0) {
+				counter--;
+				//Find it, change it, quit out
+				if (statusEffects[counter].storageName == storageName) 
+				{
+					statusEffects[counter].minutesLeft += newMinutes;
+					if (statusEffects[counter].minutesLeft < 0) {
+						statusEffects[counter].minutesLeft = 0;
+					}
+					return;
+				}
+			}
+			trace("ERROR: Looking for status '" + storageName + "' to add minutes, and " + this.shortName + " does not have the status affect.");
+			return;
+		}
+		public function setStorageValue(array: Array, storageName: String, storageValueNum: int, newValue:*):void {
+			var counter: Number = array.length;
+			//Various Errors preventing action
+			if (array.length <= 0) return;
+			while (counter > 0) {
+				counter--;
+				//Find it, change it, quit out
+				if (array[counter].storageName == storageName) {
+					if (storageValueNum < 1 || storageValueNum > 5 || (storageValueNum == 5 && !newValue is String) || (storageValueNum > 0 && storageValueNum < 5 && !newValue is Number)) {
+						trace("ERROR: Change storage value with invalid value for given slot or invalid slot.");
+						return;
+					}
+					if (storageValueNum == 1) array[counter].value1 = newValue;
+					else if (storageValueNum == 2) array[counter].value2 = newValue;
+					else if (storageValueNum == 3) array[counter].value3 = newValue;
+					else if (storageValueNum == 4) array[counter].value4 = newValue;
+					else if (storageValueNum == 5) array[counter].tooltip = newValue;
+					else throw new Error("setStorageValue called with an invalid index.");
+					return;
+				}
+			}
+			trace("ERROR: Looking for status '" + storageName + "' to change value " + storageValueNum + ", and " + this.shortName + " does not have the status affect.");
+			return;
+		}
+		public function addStatusValue(statusName: String, statusValueNum:Number, newNum:Number):void {
+			addStorageValue(statusEffects, statusName, statusValueNum, newNum);
+			kGAMECLASS.chars[Owner].addStorageValue(statusEffects, statusName, statusValueNum, newNum);
+		}
+		public function addStorageValue(array:Array, storageName: String, storageValueNum:Number, newNum:Number):void {
+			var counter: Number = array.length;
+			//Various Errors preventing action
+			if (array.length <= 0) {
+				return;
+				//trace("ERROR: Looking for storage '" + storageName + "' to add value " + storageValueNum + ", and " + short + " has no storage in array.");
+			}
+			while (counter > 0) {
+				counter--;
+				//Find it, change it, quit out
+				if (array[counter].storageName == storageName) {
+					if (storageValueNum < 1 || storageValueNum > 4) {
+						trace("ERROR: AddStorageValue called with invalid status value number.");
+						return;
+					}
+					if (storageValueNum == 1) array[counter].value1 += newNum;
+					if (storageValueNum == 2) array[counter].value2 += newNum;
+					if (storageValueNum == 3) array[counter].value3 += newNum;
+					if (storageValueNum == 4) array[counter].value4 += newNum;
+					return;
+				}
+			}
+			trace("ERROR: Looking for status '" + storageName + "' to add value " + storageValueNum + ", and " + this.shortName + " does not have the status affect.");
+			return;
+		}
+		
+		//Helpers for applying specific buffs
+		public function applyMilkSoaked():void
+		{
+			var desc:String = "";
+			
+			if(!this.hasStatusEffect("Milk-Soaked Clothing"))
+			{
+				desc = "Some of your clothes are soaked in breastmilk!\n";
+				this.createStatusEffect("Milk-Soaked Clothing",1,0,0,0,false,"Icon_Rain_Drops",desc,false,0,0xB793C4);
+			}
+			else this.addStatusValue("Milk-Soaked Clothing",1,1);
+		}
+		public function applyCumSoaked():void
+		{
+			var desc:String = "";
+			
+			if(!this.hasStatusEffect("Cum-Soaked Clothing"))
+			{
+				desc = "Some of your clothes are showered in spurts of cum!\n";
+				this.createStatusEffect("Cum-Soaked Clothing",1,0,0,0,false,"Icon_Rain_Drops",desc,false,0,0xB793C4);
+			}
+			else this.addStatusValue("Cum-Soaked Clothing",1,1);
+		}
+		public function applyPussySoaked():void
+		{
+			var desc:String = "";
+			
+			if(!this.hasStatusEffect("Pussy-Soaked Clothing"))
+			{
+				desc = "Some of your clothes are showered in blasts of girlcum!\n";
+				this.createStatusEffect("Pussy-Soaked Clothing",1,0,0,0,false,"Icon_Rain_Drops",desc,false,0,0xB793C4);
+			}
+			else this.addStatusValue("Pussy-Soaked Clothing",1,1);
+		}
+		public function applySweatSoaked():void
+		{
+			var desc:String = "";
+			
+			if(!this.hasStatusEffect("Sweat-Soaked Clothing"))
+			{
+				desc = "Some of your clothes are soaked in sweat!\n";
+				this.createStatusEffect("Sweat-Soaked Clothing",1,0,0,0,false,"Icon_Rain_Drops",desc,false,0,0xB793C4);
+			}
+			else this.addStatusValue("Sweat-Soaked Clothing",1,1);
+		}
+		public function applyDampClothing():void
+		{
+			var desc:String = "";
+			
+			if(!this.hasStatusEffect("Damp Clothing"))
+			{
+				desc = "Some of your clothes are wet!\n";
+				this.createStatusEffect("Damp Clothing",1,0,0,0,false,"Icon_Rain_Drops",desc,false,0,0xB793C4);
+			}
+			else this.addStatusValue("Damp Clothing",1,1);
 		}
 	}
 }

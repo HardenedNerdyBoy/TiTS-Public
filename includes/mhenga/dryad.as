@@ -27,7 +27,7 @@ public function dryadIsActive():Boolean
 
 public function dryadCanSmellPC():Boolean
 {
-	return (pc.hasStatusEffect("Mare Musk") || (pc.hasVagina() && pc.wettestVaginalWetness() >= 4) || pc.hasStatusEffect("Cum Soaked"))
+	return (pc.hasStatusEffect("Mare Musk") || (pc.hasVagina() && pc.wettestVaginalWetness() >= 4) || pc.isPussySoaked() || pc.isCumSoaked())
 }
 
 public function getDryadPregContainer():PregnancyPlaceholder

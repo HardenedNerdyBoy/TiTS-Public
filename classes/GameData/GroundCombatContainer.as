@@ -2678,10 +2678,12 @@ package classes.GameData
 			if(pc.hasHair() && pc.hairLength >= 8 && target.sexualPreferences.getPref(GLOBAL.SEXPREF_LONG_HAIR) > 0)
 				likeAdjustments[likeAdjustments.length] = target.sexualPreferences.getPref(GLOBAL.SEXPREF_LONG_HAIR);
 			//Coatings:
-			if(pc.hasStatusEffect("Sweaty") && target.sexualPreferences.getPref(GLOBAL.SEXPREF_SWEAT) > 0)
+			if((pc.hasStatusEffect("Sweaty") || pc.hasStatusEffect("Sweat-Soaked Clothing")) && target.sexualPreferences.getPref(GLOBAL.SEXPREF_SWEAT) > 0)
 				likeAdjustments[likeAdjustments.length] = target.sexualPreferences.getPref(GLOBAL.SEXPREF_SWEAT);
-			if((pc.hasStatusEffect("Cum Soaked") || pc.hasStatusEffect("Pussy Drenched")) && target.sexualPreferences.getPref(GLOBAL.SEXPREF_CUMMY) > 0)
+			if((pc.isSexualFluidSplattered() || pc.hasStatusEffect("Cum-Soaked Clothing") || pc.hasStatusEffect("Pussy-Soaked Clothing")) && target.sexualPreferences.getPref(GLOBAL.SEXPREF_CUMMY) > 0)
 				likeAdjustments[likeAdjustments.length] = target.sexualPreferences.getPref(GLOBAL.SEXPREF_CUMMY);
+			if((pc.hasStatusEffect("Milk Bathed") || pc.hasStatusEffect("Milk-Soaked Clothing")) && target.sexualPreferences.getPref(GLOBAL.SEXPREF_LACTATION) > 0)
+				likeAdjustments[likeAdjustments.length] = target.sexualPreferences.getPref(GLOBAL.SEXPREF_LACTATION);
 			//Shit 4chan hates:
 			if(pc.hasFur() && target.sexualPreferences.getPref(GLOBAL.SEXPREF_FURRIES) > 0)
 				likeAdjustments[likeAdjustments.length] = target.sexualPreferences.getPref(GLOBAL.SEXPREF_FURRIES);

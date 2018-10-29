@@ -1575,7 +1575,8 @@ public function eatMyCookieDuuuuude3():void
 	output("As you come down from your own blissful high, you open your eyes and notice that his have changed back to their normal glowing red. He grins at you and you smile back before he scoops some of his cum onto one of his fingers before feeding it to you.");
 	output("\n\nHe thoroughly cleans the cum off of you with his hands, and you lick them spotless when he offers them to your lips. <i>“You’re such a dirty little elf, aren’t you?”</i> he teases, his hands finally resting on your stomach as he gazes at you lovingly.");
 	output("\n\nYou agree, sighing happily when he crawls up to cuddle against you, wrapping his strong arms around your middle and pulling you closer before the both of you drift off into a peaceful nap.");
-	pc.removeStatusEffect("Cum Soaked");
+	pc.applyCumSoaked(-5);
+	pc.applyPussyDrenched(-5);
 	processTime(20);
 	pc.loadInMouth(chars["FYN"]);
 	fynSexed(1);
@@ -1640,7 +1641,8 @@ public function ifHermCandySuck3():void
 	output("\n\nHe thoroughly cleans the cum off of you with his hands, and you lick them spotless when he offers them to your lips. <i>“You’re such a dirty little elf, aren’t you?”</i> he teases, his hands finally resting on your stomach as he gazes at you lovingly.");
 	output("\n\nYou agree, sighing happily when he crawls up to cuddle against you, wrapping his strong arms around your middle and pulling you closer before the both of you drift off into a peaceful nap.");
 
-	pc.removeStatusEffect("Cum Soaked");
+	pc.applyCumSoaked(-5);
+	pc.applyPussyDrenched(-5);
 	pc.loadInMouth(chars["FYN"]);
 	processTime(20);
 	fynSexed(1);
