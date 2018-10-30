@@ -22026,6 +22026,10 @@
 			
 			if(this is PlayerCharacter) kGAMECLASS.mimbraneFeed("all");
 		}
+		public function isMilkBathed():void 
+		{
+			return this.hasStatusEffect("Milk Bathed");
+		}
 		public function applyPriapism():void
 		{
 			var desc:String = "";

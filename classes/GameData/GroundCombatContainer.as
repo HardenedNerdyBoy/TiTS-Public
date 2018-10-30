@@ -2682,8 +2682,6 @@ package classes.GameData
 				likeAdjustments[likeAdjustments.length] = target.sexualPreferences.getPref(GLOBAL.SEXPREF_SWEAT);
 			if((pc.isSexualFluidSplattered() || pc.hasStatusEffect("Cum-Soaked Clothing") || pc.hasStatusEffect("Pussy-Soaked Clothing")) && target.sexualPreferences.getPref(GLOBAL.SEXPREF_CUMMY) > 0)
 				likeAdjustments[likeAdjustments.length] = target.sexualPreferences.getPref(GLOBAL.SEXPREF_CUMMY);
-			if((pc.hasStatusEffect("Milk Bathed") || pc.hasStatusEffect("Milk-Soaked Clothing")) && target.sexualPreferences.getPref(GLOBAL.SEXPREF_LACTATION) > 0)
-				likeAdjustments[likeAdjustments.length] = target.sexualPreferences.getPref(GLOBAL.SEXPREF_LACTATION);
 			//Shit 4chan hates:
 			if(pc.hasFur() && target.sexualPreferences.getPref(GLOBAL.SEXPREF_FURRIES) > 0)
 				likeAdjustments[likeAdjustments.length] = target.sexualPreferences.getPref(GLOBAL.SEXPREF_FURRIES);
