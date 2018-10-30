@@ -1,10 +1,7 @@
 ﻿package classes.DataManager.Serialization 
 {
-	import classes.Creature;
 	import classes.DataManager.Errors.VersionUpgraderError;
 	import classes.DataManager.Serialization.ISaveable;
-	import classes.Ships.IOwned;
-	import classes.Ships.IOwner;
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 	import flash.utils.describeType;

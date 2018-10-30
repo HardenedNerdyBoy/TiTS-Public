@@ -22026,7 +22026,7 @@
 			
 			if(this is PlayerCharacter) kGAMECLASS.mimbraneFeed("all");
 		}
-		public function isMilkBathed():void 
+		public function isMilkBathed():Boolean 
 		{
 			return this.hasStatusEffect("Milk Bathed");
 		}
