@@ -142,7 +142,7 @@ public function appearance(forTarget:Creature, backTarget:Function = null):void
 		else outputRouter(" and girding your upper body with " + target.upperUndergarment.description + ".");
 
 		// Any fluids on armor
-		if(target.hasStatusEffect("Milk-Soaked Clothing") || target.hasStatusEffect("Cum-Soaked Clothing"))
+		if(target.hasStatusEffect("Milk-Soaked Clothing") || target.hasStatusEffect("Cum-Soaked Clothing") || target.hasStatusEffect("Pussy-Soaked Clothing") || target.hasStatusEffect("Sweat-Soaked Clothing") || target.hasStatusEffect("Damp Clothing"))
 		{
 			var fluidList:Array = [];
 			var fluidDesc:String = "";
@@ -197,17 +197,26 @@ public function appearance(forTarget:Creature, backTarget:Function = null):void
 			else if(fluidLayers <= 2) outputRouter(" in streams of");
 			else if(fluidLayers <= 4) outputRouter(" in large puddles of");
 			else outputRouter(" from top to bottom in");
-			outputRouter(" " + fluidDesc + ", ");
+			outputRouter(" " + fluidDesc);
 
-			// Revealing outfit
-			if(!isNude && (showTits || showCrotch || showAss))
+			// Revealing outfit and sexy fluid covered
+			if (target.hasStatusEffect("Cum-Soaked Clothing") || target.hasStatusEffect("Pussy-Soaked Clothing"))
 			{
-				outputRouter("further adding to the suggestiveness of the attire.");
+				outputRouter(", ");
+				if(!isNude && (showTits || showCrotch || showAss))
+				{
+					outputRouter("further adding to the suggestiveness of the attire.");
+				}
+				else 
+				{
+					outputRouter("making your outfit just as suggestive as something more revealing.");
+				}
 			}
 			else 
 			{
-				outputRouter("making your outfit just as suggestive as something more revealing.");
+				outputRouter(".");
 			}
+			
 		}
 
 		if(!isNude && (showTits || showCrotch || showAss))
