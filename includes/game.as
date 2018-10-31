@@ -3034,8 +3034,8 @@ public function move(arg:String, goToMainMenu:Boolean = true):void
 		if (pc.hasStatusEffect("Lash Marks")) pc.HP(pc.statusEffectv1("Lash Marks"));
 	}
 	//Fluids on your clothes will also slow you down
-	//if (pc.hasStatusEffect("Damp Clothing")) moveMinutes *= 1.25;
-	//if (pc.hasStatusEffect("Cum-Soaked Clothing") && pc.statusEffectv1("Cum-Soaked Clothing") >= 5) moveMinutes *= 1.25;
+	if (pc.hasStatusEffect("Damp Clothing")) moveMinutes *= 1.25;
+	if (pc.hasStatusEffect("Cum-Soaked Clothing") && pc.statusEffectv1("Cum-Soaked Clothing") >= 5) moveMinutes *= 1.25;
 	//Things that make you go fastah!
 	//Nogwitch is fastest mount atm.
 	if(pc.accessory is NogwichLeash) moveMinutes = (moveMinutes >= 3 ? Math.floor(moveMinutes/3) : moveMinutes-1);

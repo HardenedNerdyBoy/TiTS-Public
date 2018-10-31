@@ -471,7 +471,7 @@ public function loseToJumpersStartBadEndsByWill():void
 	output("\n\nYou can hear her rifling through your belongings, tossing this and that aside in nonchalant disinterest. A dual emotion of anger and self-pity course through you, vying for dominance over your blossoming hormones. <i>“Whatever. I’m happy to be part of your plan, hot stuff! Your plan to... I dunno, get a nasty pirate all worked up and ready to fuck you! Especially after she rubs her balls over your face!”</i>");
 
 	// PC cum covered
-	if(pc.isCumSplattered() || pc.wearingCumSoakedClothing()) output("\n\nA disgruntled inhalation has the rabbit mulling above you. <i>“You might be a bit sticky, but your face looks clean enough. And I haven’t gotten off for a while sooooo...”</i> she muses aloud.");
+	if(pc.isCumSplattered()) output("\n\nA disgruntled inhalation has the rabbit mulling above you. <i>“You might be a bit sticky, but your face looks clean enough. And I haven’t gotten off for a while sooooo...”</i> she muses aloud.");
 	// Merge
 
 	if(!pc.isTaur()) output("\n\nYou grimace, thrashing your [pc.legOrLegs] around trying to shake her muscular hips off, only succeeding in getting yourself sweatier.");
