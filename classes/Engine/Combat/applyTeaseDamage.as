@@ -72,6 +72,11 @@ package classes.Engine.Combat
 			{
 				output("\n\n<i>“An attempt to confuse and overwhelm an enemy with an overt display of sexual dominance,”</i> says So. She sounds genuinely interested. <i>“An unorthodox but effective strategy in many known organic cultures’ approach to war. I was unaware sentients of a human upbringing had any experience of such a thing, however. Perhaps that explains why you are attempting it against a foe that cannot in any way feel desire.”</i>");
 			}
+			else if(target is RaskvelExperiment)
+			{
+				output("\n\nWhilst he seems interested in your display, it only spurs him on!");
+				output(" (<b>0</b>)");
+			}
 			else if(target.isLustImmune == true) 
 			{
 				msg = "\n\n<b>" + StringUtil.capitalize(target.getCombatName(), false);

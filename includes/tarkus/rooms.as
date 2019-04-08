@@ -929,7 +929,7 @@ public function initTarkusRooms():void
 	rooms["262"] = new RoomClass(this);
 	rooms["262"].roomName = "RUST\nFIELDS";
 	rooms["262"].description = "Crusty collections of oxidized granules crunch underneath your every motion as you walk around, vaguely reminding you of the soft crackle of autumn leaves. That illusion is swiftly shattered by the feeling of a bone-dry breeze against your cheek, carried along the length of the Nova by weather systems you don’t have time to study. That once-great capital ship’s hull prevents any movement to the north, and an unsteady drift of dust amidst poorly-stacked machinery stops travel east.";
-	rooms["262"].runOnEnter = rustPlainsEncounters;
+	rooms["262"].runOnEnter = sexperimentHatchFunction;
 	rooms["262"].southExit = "260";
 	rooms["262"].westExit = "263";
 	rooms["262"].planet = "PLANET: TARKUS";
@@ -1768,4 +1768,152 @@ public function initTarkusRooms():void
 	rooms["DECK 13 SECONDARY REACTOR"].southExit = "DECK 13 REACTOR";
 	rooms["DECK 13 SECONDARY REACTOR"].moveMinutes = 1;
 	rooms["DECK 13 SECONDARY REACTOR"].addFlag(GLOBAL.INDOOR);
+	
+	//===============================================
+	//		SEXPERIMENT DUNGEON ROOMS (HNB)
+	//===============================================
+	rooms["SEXPERIMENT_DUNGEON_1_ENTRANCE"] = new RoomClass(this);
+	rooms["SEXPERIMENT_DUNGEON_1_ENTRANCE"].roomName = "DUNGEON\nENTRANCE";
+	rooms["SEXPERIMENT_DUNGEON_1_ENTRANCE"].description = "You find yourself in a tight entryway, surrounded on all four sides by rusty metal, decorated by grains of desert sand that have seemingly blown in each time the hatch has been opened. There's just enough light to see, shining from deeper in.";
+	rooms["SEXPERIMENT_DUNGEON_1_ENTRANCE"].runOnEnter = showSexperimentExitButton;
+	rooms["SEXPERIMENT_DUNGEON_1_ENTRANCE"].northExit = "SEXPERIMENT_DUNGEON_1_1";
+	rooms["SEXPERIMENT_DUNGEON_1_ENTRANCE"].planet = "PLANET: TARKUS";
+	rooms["SEXPERIMENT_DUNGEON_1_ENTRANCE"].system = "SYSTEM: REDACTED";
+	rooms["SEXPERIMENT_DUNGEON_1_ENTRANCE"].addFlag(GLOBAL.INDOOR);
+	rooms["SEXPERIMENT_DUNGEON_1_ENTRANCE"].addFlag(GLOBAL.PRIVATE);
+	
+	rooms["SEXPERIMENT_DUNGEON_1_1"] = new RoomClass(this);
+	rooms["SEXPERIMENT_DUNGEON_1_1"].roomName = "DUNGEON\nENTRY WAY";
+	rooms["SEXPERIMENT_DUNGEON_1_1"].description = "As you walk, the entryway transitions between the Tarkus wastes and the dungeon. Deeper in, sand fades from the walls and so does the rust, transitioning from a patchwork of orange hues to neater grey sheets.";
+	rooms["SEXPERIMENT_DUNGEON_1_1"].runOnEnter = function():void{author("HNB"); addButton(0, "Computer", read_workstation)};
+	rooms["SEXPERIMENT_DUNGEON_1_1"].northExit = "SEXPERIMENT_DUNGEON_1_2";
+	rooms["SEXPERIMENT_DUNGEON_1_1"].southExit = "SEXPERIMENT_DUNGEON_1_ENTRANCE";
+	rooms["SEXPERIMENT_DUNGEON_1_1"].planet = "PLANET: TARKUS";
+	rooms["SEXPERIMENT_DUNGEON_1_1"].system = "SYSTEM: REDACTED";
+	rooms["SEXPERIMENT_DUNGEON_1_1"].addFlag(GLOBAL.INDOOR);
+	rooms["SEXPERIMENT_DUNGEON_1_1"].addFlag(GLOBAL.PRIVATE);
+	
+	rooms["SEXPERIMENT_DUNGEON_1_2"] = new RoomClass(this);
+	rooms["SEXPERIMENT_DUNGEON_1_2"].roomName = "DUNGEON\nHALLWAY";
+	rooms["SEXPERIMENT_DUNGEON_1_2"].description = "You're in a long hallway. White tiles line the floor. Gray, sleek, metal sheets span the walls and fluorescent lights hang from the ceiling. Carts and trolleys can be found scattered about, and on the wall sits a hook, a short, rubber lab coat hanging from it.\n\nTo your east, there's a large reinforced glass window with <i>“Holding Cell”</i> written across it in bold writing. A sliding glass door sits to the side of it for entry.";
+	rooms["SEXPERIMENT_DUNGEON_1_2"].runOnEnter = sexperimentDungeonEncounter_Level1;
+	rooms["SEXPERIMENT_DUNGEON_1_2"].eastExit = "SEXPERIMENT_DUNGEON_1_CELL";
+	rooms["SEXPERIMENT_DUNGEON_1_2"].southExit = "SEXPERIMENT_DUNGEON_1_1";
+	rooms["SEXPERIMENT_DUNGEON_1_2"].northExit = "SEXPERIMENT_DUNGEON_1_3";
+	rooms["SEXPERIMENT_DUNGEON_1_2"].planet = "PLANET: TARKUS";
+	rooms["SEXPERIMENT_DUNGEON_1_2"].system = "SYSTEM: REDACTED";
+	rooms["SEXPERIMENT_DUNGEON_1_2"].addFlag(GLOBAL.INDOOR);
+	rooms["SEXPERIMENT_DUNGEON_1_2"].addFlag(GLOBAL.HAZARD);
+	rooms["SEXPERIMENT_DUNGEON_1_2"].addFlag(GLOBAL.PRIVATE);
+	
+	rooms["SEXPERIMENT_DUNGEON_1_3"] = new RoomClass(this);
+	rooms["SEXPERIMENT_DUNGEON_1_3"].roomName = "DUNGEON\nHALLWAY";
+	rooms["SEXPERIMENT_DUNGEON_1_3"].description = "You're still in the hallway. As you walk, you stop as you see a spillage just ahead. Oh, no. The spillage is a large pool of cum.\nThere's a slightly slimy crate to one side that you could use to cross.";
+	rooms["SEXPERIMENT_DUNGEON_1_3"].runOnEnter = sexperimentDungeonEncounter_Level1;
+	rooms["SEXPERIMENT_DUNGEON_1_3"].runAfterEnter = cumBoxCrossing; 
+	rooms["SEXPERIMENT_DUNGEON_1_3"].southExit = "SEXPERIMENT_DUNGEON_1_2";
+	rooms["SEXPERIMENT_DUNGEON_1_3"].northExit = "SEXPERIMENT_DUNGEON_1_4";
+	rooms["SEXPERIMENT_DUNGEON_1_3"].planet = "PLANET: TARKUS";
+	rooms["SEXPERIMENT_DUNGEON_1_3"].system = "SYSTEM: REDACTED";
+	rooms["SEXPERIMENT_DUNGEON_1_3"].addFlag(GLOBAL.INDOOR);
+	rooms["SEXPERIMENT_DUNGEON_1_3"].addFlag(GLOBAL.HAZARD);
+	rooms["SEXPERIMENT_DUNGEON_1_3"].addFlag(GLOBAL.PRIVATE);
+	
+	rooms["SEXPERIMENT_DUNGEON_1_4"] = new RoomClass(this);
+	rooms["SEXPERIMENT_DUNGEON_1_4"].roomName = "DUNGEON\nHALLWAY";
+	rooms["SEXPERIMENT_DUNGEON_1_4"].description = "You're about halfway down the hallway, with the cum puddle to your south. You can now see a beam of light shining up from the right side at the end of the hallway. Does it go down?";
+	rooms["SEXPERIMENT_DUNGEON_1_4"].runOnEnter = sexperimentDungeonEncounter_Level1;
+	rooms["SEXPERIMENT_DUNGEON_1_4"].runAfterEnter = cumBoxCrossing; 
+	rooms["SEXPERIMENT_DUNGEON_1_4"].southExit = "SEXPERIMENT_DUNGEON_1_3";
+	rooms["SEXPERIMENT_DUNGEON_1_4"].northExit = "SEXPERIMENT_DUNGEON_1_5";
+	rooms["SEXPERIMENT_DUNGEON_1_4"].planet = "PLANET: TARKUS";
+	rooms["SEXPERIMENT_DUNGEON_1_4"].system = "SYSTEM: REDACTED";
+	rooms["SEXPERIMENT_DUNGEON_1_4"].addFlag(GLOBAL.INDOOR);
+	rooms["SEXPERIMENT_DUNGEON_1_4"].addFlag(GLOBAL.HAZARD);
+	rooms["SEXPERIMENT_DUNGEON_1_4"].addFlag(GLOBAL.PRIVATE);
+	
+	rooms["SEXPERIMENT_DUNGEON_1_5"] = new RoomClass(this);
+	rooms["SEXPERIMENT_DUNGEON_1_5"].roomName = "DUNGEON\nHALLWAY";
+	rooms["SEXPERIMENT_DUNGEON_1_5"].description = "You step forward and notice a sharp turn into another short hallway to your west.\n\n";
+	rooms["SEXPERIMENT_DUNGEON_1_5"].runOnEnter = function():Boolean{medicineCabinet(); return sexperimentDungeonEncounter_Level1(); }
+	rooms["SEXPERIMENT_DUNGEON_1_5"].northExit = "SEXPERIMENT_DUNGEON_1_6";	
+	rooms["SEXPERIMENT_DUNGEON_1_5"].southExit = "SEXPERIMENT_DUNGEON_1_4";
+	rooms["SEXPERIMENT_DUNGEON_1_5"].westExit = "SEXPERIMENT_DUNGEON_1_GUARDHALL";
+	rooms["SEXPERIMENT_DUNGEON_1_5"].planet = "PLANET: TARKUS";
+	rooms["SEXPERIMENT_DUNGEON_1_5"].system = "SYSTEM: REDACTED";
+	rooms["SEXPERIMENT_DUNGEON_1_5"].addFlag(GLOBAL.INDOOR);
+	rooms["SEXPERIMENT_DUNGEON_1_5"].addFlag(GLOBAL.HAZARD);
+	rooms["SEXPERIMENT_DUNGEON_1_5"].addFlag(GLOBAL.PRIVATE);
+	
+	rooms["SEXPERIMENT_DUNGEON_1_6"] = new RoomClass(this);
+	rooms["SEXPERIMENT_DUNGEON_1_6"].roomName = "DUNGEON\nHALLWAY";
+	rooms["SEXPERIMENT_DUNGEON_1_6"].description = "You're still in the hallway. There's a turn just ahead.\n\n";
+	rooms["SEXPERIMENT_DUNGEON_1_6"].runOnEnter = sexperimentDungeonEncounter_Level1;
+	rooms["SEXPERIMENT_DUNGEON_1_6"].northExit = "SEXPERIMENT_DUNGEON_1_7";
+	rooms["SEXPERIMENT_DUNGEON_1_6"].southExit = "SEXPERIMENT_DUNGEON_1_5";
+	rooms["SEXPERIMENT_DUNGEON_1_6"].planet = "PLANET: TARKUS";
+	rooms["SEXPERIMENT_DUNGEON_1_6"].system = "SYSTEM: REDACTED";
+	rooms["SEXPERIMENT_DUNGEON_1_6"].addFlag(GLOBAL.INDOOR);
+	rooms["SEXPERIMENT_DUNGEON_1_6"].addFlag(GLOBAL.HAZARD);
+	rooms["SEXPERIMENT_DUNGEON_1_6"].addFlag(GLOBAL.PRIVATE);
+	
+	rooms["SEXPERIMENT_DUNGEON_1_7"] = new RoomClass(this);
+	rooms["SEXPERIMENT_DUNGEON_1_7"].roomName = "DUNGEON\nHALLWAY";
+	rooms["SEXPERIMENT_DUNGEON_1_7"].description = "You're at the end of the hallway. To your east are a short set of stairs with a door at the bottom!\n\n";
+	rooms["SEXPERIMENT_DUNGEON_1_7"].runOnEnter = sexperimentDungeonEncounter_Level1;
+	rooms["SEXPERIMENT_DUNGEON_1_7"].eastExit = "SEXPERIMENT_DUNGEON_1_8";
+	rooms["SEXPERIMENT_DUNGEON_1_7"].southExit = "SEXPERIMENT_DUNGEON_1_6";
+	rooms["SEXPERIMENT_DUNGEON_1_7"].planet = "PLANET: TARKUS";
+	rooms["SEXPERIMENT_DUNGEON_1_7"].system = "SYSTEM: REDACTED";
+	rooms["SEXPERIMENT_DUNGEON_1_7"].addFlag(GLOBAL.INDOOR);
+	rooms["SEXPERIMENT_DUNGEON_1_7"].addFlag(GLOBAL.HAZARD);
+	rooms["SEXPERIMENT_DUNGEON_1_7"].addFlag(GLOBAL.PRIVATE);
+	
+	rooms["SEXPERIMENT_DUNGEON_1_8"] = new RoomClass(this);
+	rooms["SEXPERIMENT_DUNGEON_1_8"].roomName = "DUNGEON\nHALLWAY";
+	rooms["SEXPERIMENT_DUNGEON_1_8"].description = "You're at the end of the hallway. In front of you stands an iron door, with a large bar-shaped handle.\n\n";
+	rooms["SEXPERIMENT_DUNGEON_1_8"].runOnEnter = undefined
+	rooms["SEXPERIMENT_DUNGEON_1_8"].westExit = "SEXPERIMENT_DUNGEON_1_7";
+	rooms["SEXPERIMENT_DUNGEON_1_8"].planet = "PLANET: TARKUS";
+	rooms["SEXPERIMENT_DUNGEON_1_8"].system = "SYSTEM: REDACTED";
+	rooms["SEXPERIMENT_DUNGEON_1_8"].addFlag(GLOBAL.INDOOR);
+	rooms["SEXPERIMENT_DUNGEON_1_8"].addFlag(GLOBAL.PRIVATE);
+	rooms["SEXPERIMENT_DUNGEON_1_8"].runOnEnter = hallwayDoorText;
+	if (flags["SEXPERIMENT_DUNGEON_HALLWAY_DOOR_STATE"] == undefined) rooms["SEXPERIMENT_DUNGEON_1_8"].addFlag(GLOBAL.OBJECTIVE);
+	else rooms["SEXPERIMENT_DUNGEON_1_8"].addFlag(GLOBAL.LIFTDOWN);
+	
+	rooms["SEXPERIMENT_DUNGEON_1_GUARDHALL"] = new RoomClass(this);
+	rooms["SEXPERIMENT_DUNGEON_1_GUARDHALL"].roomName = "DUNGEON\nHALLWAY";
+	rooms["SEXPERIMENT_DUNGEON_1_GUARDHALL"].description = "";
+	rooms["SEXPERIMENT_DUNGEON_1_GUARDHALL"].runOnEnter = securityDoorText;
+	rooms["SEXPERIMENT_DUNGEON_1_GUARDHALL"].eastExit = "SEXPERIMENT_DUNGEON_1_5";
+	rooms["SEXPERIMENT_DUNGEON_1_GUARDHALL"].westExit = "SEXPERIMENT_DUNGEON_1_SECURITYROOM";
+	rooms["SEXPERIMENT_DUNGEON_1_GUARDHALL"].runAfterEnter = function():void{setButtonDisabled(10); }
+	rooms["SEXPERIMENT_DUNGEON_1_GUARDHALL"].planet = "PLANET: TARKUS";
+	rooms["SEXPERIMENT_DUNGEON_1_GUARDHALL"].system = "SYSTEM: REDACTED";
+	rooms["SEXPERIMENT_DUNGEON_1_GUARDHALL"].addFlag(GLOBAL.INDOOR);
+	rooms["SEXPERIMENT_DUNGEON_1_GUARDHALL"].addFlag(GLOBAL.HAZARD);
+	rooms["SEXPERIMENT_DUNGEON_1_GUARDHALL"].addFlag(GLOBAL.PRIVATE);
+	
+	rooms["SEXPERIMENT_DUNGEON_1_SECURITYROOM"] = new RoomClass(this);
+	rooms["SEXPERIMENT_DUNGEON_1_SECURITYROOM"].roomName = "SECURITY\nROOM";
+	rooms["SEXPERIMENT_DUNGEON_1_SECURITYROOM"].description = "";
+	rooms["SEXPERIMENT_DUNGEON_1_SECURITYROOM"].runOnEnter = securityDoorText;
+	rooms["SEXPERIMENT_DUNGEON_1_SECURITYROOM"].runAfterEnter = securityRoomRae;
+	rooms["SEXPERIMENT_DUNGEON_1_SECURITYROOM"].eastExit = "SEXPERIMENT_DUNGEON_1_GUARDHALL";
+	rooms["SEXPERIMENT_DUNGEON_1_SECURITYROOM"].planet = "PLANET: TARKUS";
+	rooms["SEXPERIMENT_DUNGEON_1_SECURITYROOM"].system = "SYSTEM: REDACTED";
+	rooms["SEXPERIMENT_DUNGEON_1_SECURITYROOM"].addFlag(GLOBAL.INDOOR);
+	rooms["SEXPERIMENT_DUNGEON_1_SECURITYROOM"].addFlag(GLOBAL.PRIVATE);
+	if (flags["SEXPERIMENT_DUNGEON_HALLWAY_DOOR_STATE"] == 1) rooms["SEXPERIMENT_DUNGEON_1_SECURITYROOM"].addFlag(GLOBAL.OBJECTIVE);
+	
+	rooms["SEXPERIMENT_DUNGEON_1_CELL"] = new RoomClass(this);
+	rooms["SEXPERIMENT_DUNGEON_1_CELL"].roomName = "DUNGEON\nCELL";
+	rooms["SEXPERIMENT_DUNGEON_1_CELL"].description = "";
+	rooms["SEXPERIMENT_DUNGEON_1_CELL"].runOnEnter = cellRoe;
+	rooms["SEXPERIMENT_DUNGEON_1_CELL"].westExit = "SEXPERIMENT_DUNGEON_1_2";
+	rooms["SEXPERIMENT_DUNGEON_1_CELL"].planet = "PLANET: TARKUS";
+	rooms["SEXPERIMENT_DUNGEON_1_CELL"].system = "SYSTEM: REDACTED";
+	rooms["SEXPERIMENT_DUNGEON_1_CELL"].addFlag(GLOBAL.INDOOR);
+	rooms["SEXPERIMENT_DUNGEON_1_CELL"].addFlag(GLOBAL.PRIVATE);
 }

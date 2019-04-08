@@ -33,6 +33,7 @@
 		public static var FUBMISTRESS:Object = new FubMistressBusts();
 		public static var GATS:Object = new GatsBusts();
 		public static var GATSOLD:Object = new GatsOldBusts();
+		public static var HNB:Object = new HNBBusts();
 		public static var JACQUES:Object = new JacquesBusts();
 		public static var JAMESAB:Object = new JamesABBusts();
 		public static var JAYECHO:Object = new JayEchoBusts();

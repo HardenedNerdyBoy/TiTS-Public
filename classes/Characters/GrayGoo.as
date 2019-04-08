@@ -65,7 +65,7 @@
 
 
 			this.femininity = 100;
-			this.eyeType = GLOBAL.TYPE_HUMAN;
+			this.eyeType = GLOBAL.TYPE_GOOEY;
 			this.eyeColor = "silver";
 			this.tallness = 70;
 			this.thickness = 45;
@@ -74,7 +74,7 @@
 			this.scaleColor = "gray";
 			this.furColor = "gray";
 			this.hairLength = 31;
-			this.hairType = GLOBAL.TYPE_HUMAN;
+			this.hairType = GLOBAL.TYPE_GOOEY;
 			this.beardLength = 0;
 			this.beardStyle = 0;
 			this.skinType = GLOBAL.SKIN_TYPE_GOO;

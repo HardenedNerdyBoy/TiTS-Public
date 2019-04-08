@@ -47,7 +47,7 @@
 			// eh, can always simply change roomsObj.
 			this.roomsObj = roomsObj;
 			this._mapSz = mapSz
-		}
+		}	
 
 		private function allocateMapArray():Vector.<Vector.<Vector.<int>>>
 		{

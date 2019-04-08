@@ -1509,7 +1509,10 @@ public function doctorBimboBadgerMenu():void
 	if(pc.lust() >= 33) addButton(1,"Sex",sexWithBimboBadger,undefined,"Sex","Have your way with your new bimbo.");
 	else addDisabledButton(1,"Sex","Sex","You aren’t turned on enough to have sex right now.");
 	if(pexigaQuestDocChatsAvailable()) addButton(2,"Pexiga Help",talkToBimboBadgerAboutPexiga,undefined,"Pexiga Help","Ask for help with the Pexiga’s situation.");
-	
+	if (flags["TARKUS_DUNGEON_KEY_BOUGHT"] == undefined || flags["TARKUS_DUNGEON_KEY_BOUGHT"] == false)
+	{
+		addButton(3,"Key",takeKeyFromBadger);
+	}
 	addButton(14,"Leave",mainGameMenu);
 }
 

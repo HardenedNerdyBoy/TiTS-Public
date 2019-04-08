@@ -5,6 +5,7 @@
 	import classes.kGAMECLASS;
 	import classes.Items.Miscellaneous.Throbb;
 	import classes.Items.Miscellaneous.Dumbfuck;
+	import classes.Items.Miscellaneous.TarkusDungeonKey;
 	import classes.Items.Transformatives.Gush;
 	import classes.Items.Accessories.BimboleumDefenseSystem;
 	import classes.Items.Guns.SlutRay;

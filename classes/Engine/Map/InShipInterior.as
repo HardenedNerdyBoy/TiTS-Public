@@ -19,7 +19,6 @@ package classes.Engine.Map
 		}
 		
 		if(tLoc == "") return false;
-		
 		//return tLoc == "SHIP INTERIOR";
 		var tRoom:RoomClass = kGAMECLASS.rooms[tLoc];
 		return tRoom.hasFlag(GLOBAL.SHIPINTERIOR);

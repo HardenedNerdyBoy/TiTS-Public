@@ -82,6 +82,11 @@ public function drBadgerBuyMenu():void
 		chars["DRBADGER"].inventory.push(new Throbb());
 		chars["DRBADGER"].inventory.push(new SlutRayAdvanced());
 		CodexManager.unlockEntry("Throbb");
+		
+		if (flags["TARKUS_DUNGEON_KEY_BOUGHT"] == undefined || flags["TARKUS_DUNGEON_KEY_BOUGHT"] == false)
+		{
+			chars["DRBADGER"].inventory.push(new TarkusDungeonKey());
+		}
 	}
 	if(flags["MINDWASH_VISOR_INSTALLED"] == undefined && !pc.hasItemByClass(MindwashVisor) && !pc.hasItemInStorageByClass(MindwashVisor))
 	{

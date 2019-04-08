@@ -1,0 +1,194 @@
+<i>“”</i>
+
+UN-USED SUB IDEAS:
+-More clothing flags. Has sleeves, covers different areas etc.
+	-High heels
+-School on the big station planet 
+-Corruption settlement/planet
+	-Repressed NPC's
+	-Nuns
+	-Likely to get arrested if you go around dicks out 
+	-Corrupt the NPC's
+-Booty thot at tenton
+	-Horse lady, sweaty, has a huge ass, works almost solely it, wears leggings
+	-Takes a fair bit of flirting with because she likes herself a lot
+		-Must have something she wants, be a smooth talker, or just put her on a pedestal
+-Weight gain fetish npc
+		
+WIP SUBS:
+-Tarkus badger dungeon
+	-Get key from Dr.Badger
+		-Literally just add it to her shop, maybe she smirks as she sells you it
+		-If she's a bimbo, you just find it laying on the floor
+		-Only appears if you've sorted penny for her, or bimbo'd her
+	-Opens a dungeon in the Tarkus wastes, full of sex-experiment versions of tarkus creatures
+		-Some edge tile (262) that doesnt have the key option unless youre carrying the key.
+			-Metal hatch
+			-Notice it because youre looking for the keyhole
+			-Do up the writing for this and put it in the doc
+		-Entry moves you to a dungeon part of the map. Metal walls, dark-ish, sparse sand floor
+			-More lab-like look as you move deeper in 
+			-Contains two rows of glass cells and a control room at the end (Has some reward in it)
+			-Map this out
+	-Enemies
+		-Really giant balled fuck-mad Raskvel
+			-Char file 
+			-Fight moves
+				-Bounces gaining momentum for a turn before bashing into you with balls 
+					-Minor lust damage and decent physical (Scales with chars mass), possible reflex dodge
+				-Bounces at you and claws you
+			-Balance fight 
+				-Weight brackets, check char weight files
+					-Anno 637
+					-Badger 687
+					-Frostwyrm 10907
+					-Rival 615
+					-Azra 905
+					-Del 584
+					-Weight brackets based on these effect pin chances and unpin
+				-Trade some of the bounce block into damage rather than lust
+				-Fight length feels reasonable, enemy doesn't seem too dangerous at this level
+			-Improve fight dialogue and add moves if want
+			-Add the updatelong bit
+			-Fix any fighting dialogue
+				-raskvel experiment without the, in fighting line 
+			-Add support for multi-target
+				-Piling on grappled target 
+					-Add value to creature grapple that points to index of one theyre on 
+					-Add custom struggle for combat that removes buff from one that's on (As well as struggle, if none on)
+					-Add attack for if target is grappled but creature doesnt have buff
+					-Fix missing struggle text
+					-Have him remove shield
+					-Maybe chill out with the resists slightly
+					-Reduce hp slightly
+					-Make them intentionally bounce more if target is high weight , to increase odds
+					-Make continuing to bounce lusty
+					-Have Raskvel skip turn if shrugged off
+					-Check newlines
+					-Ensure stripped items are returned
+					-Fix main screen long
+					-Have resist bounce output mention why 
+				-Dialogue improvements
+					-More combatdesc
+					-Multi support
+						-Friend and foe
+							-CM done
+						-The -> A if multi (Use func)
+					-Just general improvements, more diags, better diags
+			-Win rewards 
+				-His ball pouch, allows movement with larger sized immobilizing balls and maybe also gives you his attack
+					-Immobil
+						-Wrote some stuff but it needs to be done better 
+							-Force equip if have on immobilizing DONE
+							-Remove penalty from Egrogriously endowed on wearing DONE
+							-Make unwearable without balls DONE
+							-Cap ballsize for wearing these. Should break if too large (125+ raw?) DONE
+							-Don't let giantballs wear it (Relate to dynamicgrowth) DONE
+							-Warn in description about unequipping if hyperballs DONE
+					-SpecAtk
+						-There's some functions in there, finish them.
+							-Attack funcs are in ballpouch class, see if that works or not
+						-Have bounce cost energy
+						-Effects
+							-Lust dmg to all ball-liking enemies
+							-Phys
+							-Both scale with bounces 
+				-Existing drug that increases cum
+				-Hook up raskexp to rubberballpouch
+			-Update the doc with fight dialogue.
+				-Should just be on the RaskvelExperiment and its fight
+			-Shield combat
+				-70% chance to keep target if non-shielded
+				-Only try claw if shielded 
+					-60 kinetic shield damage
+					-Snatch shield when broken
+			-Updated stealing system 
+				-Need doc 
+			-Add some new SSTD's (1-2 per creature)
+				-Swap for some sexually submissive SSTD:
+					-Submissive haze
+						-Currently feels balanced. Lust numbers make things tense but for players taking current fights correctly isnt hard.
+						-Add in or change anything you want 
+							-Want some transformatives
+								-Random 1-10% based dicks shrinkage if have dicks 
+								-Bigger lips for sucking dick
+							-Willpower decreases
+						-Improve dialogue 
+						-Add dialogue skillchecks like 1st
+			-Finalized fight balancing vs ZengShi (Should be slightly easier physically than bunnies)
+				-Re-review occasionally. Remember the idea that there could be multiple
+			-Fill out doc for submissive haze
+			-Wins
+				-Done assfuck
+				-Done ride
+		-Dom Tentacle fetish grey goo
+			-Dom gear 
+			-Mean looking 
+			-Curvy
+			-Female
+			-Tentacles from back
+			-Second variant, different hairstyle and apparel, slightly different tone, whip instead of collar
+			-Mask as accessory
+			-Rewrite rask bad end to be friendly with new lore from these
+			-Implement into doc 
+				-Lore (Badger recruitment after experiment)
+				-Guards, two unique goos
+				-Average fight alone, abilities work well together
+			-Programmed and wrote fight draft
+			-Write + program loss. Thinking any loss takes you to a 1st floor prison cell, which you can attempt to escape. If not by a certain time, bad end.
+				-Going to put the room in and a button that 100% escapes. Do rest.
+					-Actual escape mechanics and dialogues 
+						-Touch these up of course
+							-Make sure the odds are nice.
+								-Rarer the conditional, higher the odds.
+							-If I've mentioned legs, check for legs. Otherwise, say how legs were free'd
+							-Polish all dialogue. Cell room and EscapeGame
+					-Bad end for failing to escape
+			-They always escape on a win, until after the boss fight where you can capture them and sex them
+		-Set up encounter rates again
+		-Cell room with 2 chains for guards later, near start probably
+		-Cumbox should be a function replacing north/south for a tile transition
+		-First level contains a holding cell and the guards room. Maybe some storage.
+		-Have guard room only enterable after seeing door.
+		-Remove googuard_any and replace with googuardvar != undefined
+		-Guards now have their own room, putting bossfight in 
+			-Done win, need to change the cell output and add options
+			-Disable encounter if defeated
+			
+			-If you lose here they dominate you before capture
+			-SexOpts
+			-Add dialogue checks and opts to win
+		-Document added rooms and bossfight
+		-Room somewhere with a PC with more info about them and other experiments
+			-Probably a little further than the door
+			-PC exists, needs moving to correct place. And filled up.
+		-Bimbo lapinaras?
+		-1f just has some of the basic experiments for enemies, nothing too special
+-Gym Steam room
+	-Steam room NPC's
+		-Two young gymbro male bulls
+			-SexOpts
+				-Get double teamed
+				-Double handjobs
+			-Should be able to work out with them if flags fullfilled, they randomly appear in workout room
+				-Leads to chilling in the steam room afterwards, you'll bring up Lilly if she's there and you've banged her
+			-Scenes with them and Betsy+Victoria
+			-Scenes with them and Lilly and you if you're there
+		-Disable sexopts with Lilly unless foursome's happened or player is exhibitionist, if they there too
+			-They take on a spectator role, adds some dialogue
+	-Muscle group strength stats
+		-Shoulder, legs, chest, arms, core, glutes
+		-Can be used for obstacles and trained by using them
+		-Effects descriptions
+		-Set at start based on choices
+		-Obviously need to convert character file over to have these stats. Probably base on tone.
+	-Strongman and bodybuilding events that use existing stats to calc win. 
+		-Roll round on a set day of year.
+		-Give useful perks. Aesthetic and strength related.
+		-Outcome based on appropriate stats. Leanness and str for bodybuilding, mass+str for strongman
+
+SUBMITTED SUBS:
+-Status effects and soakings
+	-Submitted
+-Broodmother expansion
+	-Submitted

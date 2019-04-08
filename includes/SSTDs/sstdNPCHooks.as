@@ -20,6 +20,11 @@ public function sstdList(filter:String = "all"):Array
 		nameList.push("Undetected Sneezing Tits");
 		nameList.push("Sneezing Tits");
 	}
+	if(filter == "all" || filter == "Submissive Haze")
+	{
+		nameList.push("Undetected Submissive Haze");
+		nameList.push("Submissive Haze");
+	}
 	
 	return nameList;
 };
@@ -42,6 +47,10 @@ public function sstdMaxTime(sstdName:String):Number
 		case "Sneezing Tits":
 			maxTime = 10080;
 			break;
+		case "Undetected Submissive Haze":
+		case "Submissive Haze":
+			maxTime = 8640;
+			break;
 	}
 	
 	return maxTime;
@@ -61,6 +70,17 @@ public function tarkusSSTDChance(arg:Creature):void
 	if(rand(40) == 0) sstdList.push("Undetected Furpies");
 	if((arg.originalRace == "raskvel" || arg.raceShort() == "raskvel") && rand(30) == 0) sstdList.push("Undetected Locofever");
 	if(rand(30) == 0) sstdList.push("Undetected Sneezing Tits");
+	if(sstdList.length > 0) arg.createStatusEffect(sstdList[rand(sstdList.length)]);
+}
+
+public function tarkusSexperimentSSTDChance(arg:Creature):void
+{
+	var sstdList:Array = [];
+	//Standard tarkus
+	if(rand(40) == 0) sstdList.push("Undetected Furpies");
+	if((arg.originalRace == "raskvel" || arg.raceShort() == "raskvel") && rand(30) == 0) sstdList.push("Undetected Locofever");
+	if(rand(30) == 0) sstdList.push("Undetected Sneezing Tits");
+	if(rand(25) == 0) sstdList.push("Undetected Submissive Haze");
 	if(sstdList.length > 0) arg.createStatusEffect(sstdList[rand(sstdList.length)]);
 }
 
@@ -105,6 +125,7 @@ public function induceSSTD():void
 	addButton(btnSlot++, "Furpies", induceSSTDGo, "Undetected Furpies");
 	addButton(btnSlot++, "Locofever", induceSSTDGo, "Undetected Locofever");
 	addButton(btnSlot++, "Sneezing Tits", induceSSTDGo, "Undetected Sneezing Tits");
+	addButton(btnSlot++, "Submissive Haze", induceSSTDGo, "Undetected Submissive Haze");
 	addButton(14, "Back", mainGameMenu);
 }
 public function induceSSTDGo(arg:String = "none"):void

@@ -25,14 +25,14 @@ public function removeImmobilized(deltaT:uint = 0):void
 // 4 levels, each to match the original ball growth stuff:
 // [0] Egregious, [1] Ludicrous, [2] Overwhelming, [3] Immobilized!
 // Length/Size Ratios: (for immobilization comparisons, average 5 ft person) Ex. - 5' person with M-cup for level 1 is [40/60] at position 0.
-private var lvlRatioBalls:Array = [(9/60), (15/60), (25/60), (40/60)];
+private var lvlRatioBalls:Array = [(9/60), (15/60), (25/60), (40/60), (60/60)];
 private var lvlRatioPenis:Array = [(9999/60), (9999/60), (9999/60), (9999/60)]; //[(16/60), (32/60), (64/60), (128/60)];
 private var lvlRatioClits:Array = [(9999/60), (9999/60), (9999/60), (9999/60)]; //[(16/60), (32/60), (64/60), (128/60)];
 private var lvlRatioBoobs:Array = [(9999/60), (9999/60), (9999/60), (9999/60)]; //[(25/60), (50/60), (100/60), (200/60)];
 private var lvlRatioBelly:Array = [(50/20), (70/20), (90/20), (120/20)];
 private var lvlRatioButts:Array = [(20/20), (30/20), (50/20), (80/20)];
 // Threshold percentages for each level:
-private var percentBalls:Array = [10, 25, 50, 100];
+private var percentBalls:Array = [10, 25, 50, 100, 200];
 private var percentPenis:Array = [25, 50, 75, 100];
 private var percentClits:Array = [25, 50, 75, 100];
 private var percentBoobs:Array = [25, 50, 75, 100];
@@ -203,7 +203,14 @@ private function bodyPartUpdates(partName:String = "none", deltaT:uint = 0):void
 					if(pc.balls == 1) msg += " have " + pc.ballsDescript(true, true) + " and it shows";
 					else msg += " have " + pc.ballsDescript(false, true) + " and they show";
 				}
-				msg += " no signs of stopping. The squishy, sensitive mass will definitely slow your movements.";
+
+				if (pc.lowerUndergarment is RubberBallPouch){
+					msg += " no signs of stopping. If it wasn't for your choice of undergarment, you'd definitely be slowed down.";
+				} 
+				else{
+					msg += " no signs of stopping. The squishy, sensitive mass will definitely slow your movements.";
+				} 
+				
 				
 				AddLogEvent(msg, "passive", deltaT);
 				//Status - Egregiously Endowed - Movement between rooms takes twice as long, and fleeing from combat is more difficult.
@@ -239,8 +246,9 @@ private function bodyPartUpdates(partName:String = "none", deltaT:uint = 0):void
 				pc.lust(5);
 			}
 			//hit person size
-			if(weightQ >= percentBalls[3] && heightQ >= lvlRatioBalls[3] && !pc.hasStatusEffect("Endowment Immobilized") && !pc.hasItemByClass(Hoverboard))
+			if(weightQ >= percentBalls[3] && heightQ >= lvlRatioBalls[3] && !pc.hasStatusEffect("Endowment Immobilized") && !pc.hasItemByClass(Hoverboard) && !(pc.lowerUndergarment is RubberBallPouch))
 			{
+				var imm:Boolean = true;
 				msg = "You strain as hard as you can, but there’s just no helping it. You’re immobilized. Your";
 				if(pc.balls == 1) msg += " testicle is";
 				else msg += " balls are";
@@ -249,14 +257,62 @@ private function bodyPartUpdates(partName:String = "none", deltaT:uint = 0):void
 				else msg += " testes";
 				msg += ", and there’s nothing you can do about it.";
 				if(canShrinkNuts()) msg += ".. well, almost nothing. A nice, long orgasm ought to fix this!";
+				else if (pc.hasItemByClass(RubberBallPouch) && (weightQ < percentBalls[4] || heightQ < lvlRatioBalls[4]))
+				{
+					msg += ".. well, almost nothing. You rummage in your inventory and find the rubber ball pouch. You wiggle, squeezing every inch of your [pc.balls] into the pouch before wrapping the end of it around your ";
+				
+					if (pc.hasCock() && pc.biggestCockLength() >= 12){
+						msg += "[pc.cock ";
+						msg += pc.biggestCockIndex();
+						msg += "].";
+					} 
+					else msg += "[pc.waist].";
+
+					msg += " Great, now you can move again!"
+					for(var i:int = 0; i < pc.inventory.length; i++)
+					{
+						if(pc.inventory[i] is RubberBallPouch)
+						{
+							useItem(pc.inventory[i]);
+						}
+					}	
+
+					imm = false;	
+				}
 				else 
 				{
+
 					if(eventQueue.indexOf(bigBallBadEnd) == -1) eventQueue.push(bigBallBadEnd);
+					if (pc.hasItemByClass(RubberBallPouch)) msg += " You even whip out the rubber ball pouch and try to squeeze into that, to allow yourself to move again but your [pc.balls] wont fit in the damn thing!";
 					if(pc.hasPerk("'Nuki Nuts")) msg += " If a quick fap wasn’t illegal here, this would be far simpler. Too bad.";
 				}
 				AddLogEvent(msg, "passive", deltaT);
-				applyEndowmentImmobilized(deltaT);
+				if (imm) applyEndowmentImmobilized(deltaT);
 				pc.lust(5);
+			}
+			//If we got balls this big, through an item (Would usually fail adequately at the previous level)
+			if(weightQ >= percentBalls[4] && heightQ >= lvlRatioBalls[4])
+			{
+				if (pc.lowerUndergarment is RubberBallPouch)
+				{
+					msg = "The pressure you've been feeling against your ";
+					if(pc.balls == 1) msg += " testicle";
+					else msg += " balls";
+					msg += " shows no signs of stopping and you hear a loud pop and look down in alarm. The rubber ball pouch has burst, unable to handle the side of your gargantuan gonads.";
+					pc.lust(5);
+					pc.removeClothes("underwear");
+					pc.destroyItemByClass(RubberBallPouch);
+
+					//Check for bad ends
+					if(canShrinkNuts()) msg += ".. you're really going to need to sort those nuts of yours out now!";
+					else 
+					{
+						if(eventQueue.indexOf(bigBallBadEnd) == -1) eventQueue.push(bigBallBadEnd);
+						if(pc.hasPerk("'Nuki Nuts")) msg += " If a quick fap wasn’t illegal here, this would be far simpler. Too bad.";
+					}
+					AddLogEvent(msg, "passive", deltaT);
+				}
+				applyEndowmentImmobilized(deltaT);
 			}
 		}
 		else if(partName == "penis")

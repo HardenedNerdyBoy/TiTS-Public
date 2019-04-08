@@ -3035,7 +3035,7 @@ public function move(arg:String, goToMainMenu:Boolean = true):void
 	//Moveable immobilization adds more minutes!
 	moveMinutes += immobilizedUpdate(true);
 	//Huge nuts slow you down
-	if(pc.hasStatusEffect("Egregiously Endowed")) moveMinutes *= 2;
+	if(pc.hasStatusEffect("Egregiously Endowed") && !(pc.lowerUndergarment is RubberBallPouch)) moveMinutes *= 2;
 	if(pc.hasItemByClass(DongDesigner)) moveMinutes *= 2;
 	if (pc.hasPowerArmorItem() && !pc.inPowerArmor()) moveMinutes *= 2;
 	//Getting a beat-down from the mafia slows you down too
@@ -3055,6 +3055,9 @@ public function move(arg:String, goToMainMenu:Boolean = true):void
 	//Not sure who put this in, but I hate it. Tentacles aren't an optimal mode of movement. Reducing to -1;
 	else if(pc.legType == GLOBAL.TYPE_TENTACLE && pc.hasLegFlag(GLOBAL.FLAG_AMORPHOUS)) moveMinutes--;
 	
+	//Non MS related movement stuff
+	if (pc.statusEffectv1("Submissive Haze") >= 3 && pc.statusEffectv1("Submissive Haze") < 13 && !pc.isNude()) pc.lust(2);
+
 	if(moveMinutes < 0) moveMinutes = 0;
 	StatTracking.track("movement/time travelled", moveMinutes);
 	processTime(moveMinutes);

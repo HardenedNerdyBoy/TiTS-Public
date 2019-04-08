@@ -14,6 +14,7 @@ import classes.Items.Armor.Unique.OmnisuitCollar;
 import classes.Items.Armor.Unique.StrangeCollar;
 import classes.Items.Melee.Rock;
 import classes.Items.Miscellaneous.EmptySlot;
+import classes.Items.Miscellaneous.TarkusDungeonKey;
 
 // Multi page notice.
 public function multiButtonPageNote():String
@@ -809,7 +810,6 @@ public function buyItemOK(arg:ItemSlotClass):void
 public function buyItemGo(arg:ItemSlotClass):void {
 	clearOutput();
 	var price:Number = getBuyPrice(shopkeep,arg.basePrice);
-	
 	//Special Vendor/Item Overrides
 	if(shopkeep is Colenso && arg is TarkusJokeBook)
 	{
@@ -834,6 +834,11 @@ public function buyItemGo(arg:ItemSlotClass):void {
 			case "XXX": xxxMachineBuyGo(arg); break;
 			case "Amazona": amazonaIcedTeaBuyGo(arg); break;
 		}
+	}
+	else if (shopkeep is DrBadger && arg is TarkusDungeonKey)
+	{
+		buyKeyFromBadger(arg);
+		return;
 	}
 	//Emmy magic!
 	else if(shopkeep is Emmy) flags["PURCHASED_FROM_EMS"] = 1;
@@ -1325,6 +1330,7 @@ public function dropItemGo(arg:ItemSlotClass):void {
 	// Special Events
 	if(arg is GooArmor) output("\n\n" + gooArmorInventoryBlurb(arg, "drop"));
 	if(arg is HorseCock) IncrementFlag("SYNTHSHEATH_LOST");
+	if (arg is TarkusDungeonKey) flags["TARKUS_DUNGEON_KEY_BOUGHT"] = false;
 	
 	arg.quantity--;
 	if (arg.quantity <= 0 && pc.inventory.indexOf(arg) != -1)

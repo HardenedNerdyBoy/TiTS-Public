@@ -4561,6 +4561,7 @@
 			bonus += statusEffectv1("Royal Nectar");
 			bonus += statusEffectv1("Cum High");
 			if(hasPerk("Heroic Reserves")) bonus += 33;
+			if (statusEffectv1("Submissive Haze") >= 8 && statusEffectv1("Submissive Haze") < 12) bonus -= 30;
 			return (energyMod + 100 + bonus);
 		}
 		public function energyMin(): Number {
@@ -5022,6 +5023,7 @@
 			if (hasStatusEffect("Butt Bug (Female)")) bonus += 15;
 			if (perkv1("Dumb4Cum") > 24) bonus += (perkv1("Dumb4Cum") - 24);
 			if (hasStatusEffect("Adorahol")) bonus += (5 * statusEffectv1("Adorahol"));
+			if (statusEffectv1("Submissive Haze") >= 5 && statusEffectv1("Submissive Haze") < 13) bonus += 10;
 			bonus += statusEffectv1("Sexy Costume");
 			bonus += statusEffectv4("Priapin");
 			bonus += statusEffectv2("Heat");
@@ -21490,6 +21492,18 @@
 							}
 						}
 						break;
+					case "Undetected Submissive Haze":
+					case "Submissive Haze":
+						if(this is PlayerCharacter)
+						{
+							kGAMECLASS.hazeProc(deltaT, maxEffectLength, doOut, this, thisStatus);
+							if(requiresRemoval)
+							{
+								kGAMECLASS.hazeFinish(deltaT, maxEffectLength, doOut, this, thisStatus);
+								requiresRemoval = false;
+							}
+						}
+						break;
 				}
 				
 				// Removal check!
@@ -21656,6 +21670,7 @@
 		 */
 		public function isSubby():Boolean
 		{
+			if (statusEffectv1("Submissive Haze") >= 9 && statusEffectv1("Submissive Haze") < 12) return true;
 			return hasPerk("Peace of Mind");
 		}
 		
@@ -21781,6 +21796,10 @@
 				case "Undetected Sneezing Tits":
 					if(victim.hasSSTD("Sneezing Tits", true)) { /* Already have it! */ }
 					else victim.createStatusEffect("Undetected Sneezing Tits", 0, 0, 0, 0, true, "Icon_Boob_Torso", "Hidden Sneezing Tits infection!", false, 10080, 0xFF69B4);
+					break;
+				case "Undetected Submissive Haze":
+					if(victim.hasSSTD("Undetected Submissive Haze", true)) { /* Already have it! */ }
+					else victim.createStatusEffect("Undetected Submissive Haze", 0, 0, 0, 0, false, "Icon_Confused", "Hidden Submissive Haze infection!", false, 8640, 0xFF69B4);
 					break;
 			}
 		}

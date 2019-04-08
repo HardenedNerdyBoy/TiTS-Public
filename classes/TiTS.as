@@ -321,9 +321,11 @@
 		include "../includes/tarkus/goblinPool.as";
 		include "../includes/tarkus/grayGoo.as";
 		include "../includes/tarkus/grayGooArmor.as";
+		include "../includes/tarkus/gooGuardFight.as";
 		include "../includes/tarkus/lane.as";
 		include "../includes/tarkus/lapinara.as";
 		include "../includes/tarkus/mindwashVisor.as";
+		include "../includes/tarkus/raskvelExperimentFight.as";
 		include "../includes/tarkus/raskvelFemaleFight.as";
 		include "../includes/tarkus/raskvelMaleFight.as";
 		include "../includes/tarkus/rooms.as";
@@ -334,6 +336,7 @@
 		include "../includes/tarkus/sydianFemale.as";
 		include "../includes/tarkus/sydianMale.as";
 		include "../includes/tarkus/SydianQueenEnc.as";
+		include "../includes/tarkus/tarkusSexperimentDungeon.as";
 		include "../includes/tarkus/taxi.as";
 		include "../includes/tarkus/theMess.as";
 		include "../includes/tarkus/tessa.as";
@@ -502,6 +505,7 @@
 		include "../includes/SSTDs/furpies.as";
 		include "../includes/SSTDs/locofever.as";
 		include "../includes/SSTDs/sneezingTits.as";
+		include "../includes/SSTDs/submissiveHaze.as";
 		include "../includes/SSTDs/sstdNPCHooks.as";
 		
 		public var chars:Object;

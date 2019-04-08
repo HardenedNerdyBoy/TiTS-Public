@@ -10,6 +10,7 @@ package classes.GameData
 	import classes.Items.Accessories.ShoulderGrunchLeash;
 	import classes.Items.Accessories.GrunchLeash;
 	import classes.Items.Apparel.Harness;
+	import classes.Items.Apparel.RubberBallPouch;
 	import classes.Items.Armor.GooArmor;
 	import classes.Items.Transformatives.ThiccNShake;
 	import classes.ItemSlotClass;
@@ -357,6 +358,22 @@ package classes.GameData
 				var e:Estallia = _hostiles[0];
 				
 				if(!e.hasStatusEffect("Tranq'd") && pc.hasKeyItem("Myr Heavy Tranquilizer Dart")) addButton(10, "UseTranq", e.attemptTranq, undefined, "Use Tranquilizer", "See if the tranquilizer Lieve gave you will have any effect on the War Queen.");
+			}
+
+			if (pc.lowerUndergarment is RubberBallPouch)
+			{
+				if (pc.hasStatusEffect("Ball Bouncing"))
+				{
+					var ballPouch:RubberBallPouch = pc.lowerUndergarment as RubberBallPouch;
+					if (pc.balls > 1)
+					{
+						addButton(0,"B.B.Attack",selectSimpleAttack, { func: ballPouch.ballBounceAttack },"Ball Bounce Attack","Strike the enemy with your bouncing, balls first!");
+					}
+					else 
+					{
+						addButton(0,"B.B.Attack",selectSimpleAttack, { func: ballPouch.ballBounceAttack },"Ball Bounce Attack","Strike the enemy with your bouncing, ball first!");
+					}
+				}
 			}
 		}
 		
@@ -1812,7 +1829,7 @@ package classes.GameData
 			difficulty += (numActiveHostiles - 1);
 			
 			// Endowment penalty
-			if(pc.hasStatusEffect("Egregiously Endowed")) difficulty++;
+			if(pc.hasStatusEffect("Egregiously Endowed") && !(pc.lowerUndergarment is RubberBallPouch)) difficulty++;
 
 			//Raise difficulty for having awkwardly huge genitalia/boobs sometime!
 			if(pc.energy() < (Math.round(pc.energyMax()/3)))
@@ -1934,6 +1951,12 @@ package classes.GameData
 			if (hasEnemyOfClass(AkkadiSecurityRobots))
 			{
 				output("You send a burst of electricity back along the grappling line, right into the offending security bot.");
+			}
+			else if (hasEnemyOfClass(RaskvelExperiment))
+			{
+				output("You release a burst of electricity in an attempt to break free but most of it is absorbed by the rubber!");
+				processCombat();
+				return;
 			}
 			else
 			{
@@ -2256,6 +2279,18 @@ package classes.GameData
 						else if (hasEnemyOfClass(RKLah)) output("You pull him to one side, before delivering a sucker punch hard and low from the other. Lah gasps in pain, and you manage to rip out of his grasp.");
 						else if (hasEnemyOfClass(AkkadiSecurityRobots)) output("You finally manage to tear your way out of the net!");
 						else if (hasEnemyOfClass(Johr)) output("You break free of the zil, narrowly dodging another heavy blow from Johr as you regain your feet and rejoin the fight. The zil circle around you, snarling.");
+						else if (hasEnemyOfClass(RaskvelExperiment))
+						{
+							for (var experimentPointer:int = 0; experimentPointer < _hostiles.length; experimentPointer++)
+							{
+								//If Raskvel experiments are grappling the current target, get a single one off
+								if (_hostiles[experimentPointer] is RaskvelExperiment && _hostiles[experimentPointer].hasStatusEffect("Grappling") && _friendlies[_hostiles[experimentPointer].statusEffectv1("Grappling")] == target)
+								{
+									_hostiles[experimentPointer].struggleBreak(target,_hostiles,_friendlies);
+									break;
+								}
+							}						
+						}
 						else output("With a mighty heave, you tear your way out of the grapple and onto your [pc.feet].");
 						if(panicJack)
 						{
@@ -2369,7 +2404,20 @@ package classes.GameData
 				}
 				bOff = specialsButtonAdjustment(bOff);
 			}
-			
+			if (pc.lowerUndergarment is RubberBallPouch && pc.balls > 0)
+			{
+				var ballPouch:RubberBallPouch = pc.lowerUndergarment as RubberBallPouch;
+				if (pc.balls > 1)
+				{
+					addButton(bOff, "B.Bounce", ballPouch.ballBounceCharge, pc, "Ball Bounce", "Bounce on your balls, ready to strike.");
+					bOff = specialsButtonAdjustment(bOff);
+				}
+				else 
+				{
+					addButton(bOff, "B.Bounce", ballPouch.ballBounceCharge, pc, "Ball Bounce", "Bounce on your ball, ready to strike.");
+					bOff = specialsButtonAdjustment(bOff);
+				}
+			}
 			// TODO sort pages and shit
 			addButton(14, "Back", generateCombatMenu, true);
 		}
